@@ -1,5 +1,13 @@
 import Foundation
 
 class OnboardingViewModel: ObservableObject {
-    let text: String = "Onboarding"
+    var delegate: OnboardingDelegate?
+
+    var text: String {
+        "Onboarding"
+    }
+
+    func didTapEntryButton() {
+        delegate?.navigateToEntry()
+    }
 }
