@@ -35,6 +35,10 @@ class AppViewModel: ObservableObject {
         ChatRoomViewModel()
     }
 
+    var moduleViewModel: ModuleViewModel {
+        ModuleViewModel()
+    }
+
     var homeViewModel: HomeViewModel {
         HomeViewModel()
     }

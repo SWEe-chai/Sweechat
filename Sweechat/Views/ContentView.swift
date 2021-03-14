@@ -5,6 +5,8 @@ struct ContentView: View {
 
     var body: some View {
         switch appViewModel.state {
+        case .module:
+            ModuleView(viewModel: appViewModel.moduleViewModel)
         case .chatRoom:
             ChatRoomView(viewModel: appViewModel.chatRoomViewModel)
         case .entry:
