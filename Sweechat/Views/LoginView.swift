@@ -4,6 +4,11 @@ struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
 
     var body: some View {
-        Text(viewModel.text)
+        VStack {
+            Text(viewModel.text)
+            Button(action: viewModel.didTapHomeButton) {
+                Text("Home")
+            }
+        }
     }
 }

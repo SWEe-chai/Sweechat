@@ -1,3 +1,3 @@
-protocol OnboardingDelegate {
+protocol OnboardingDelegate: AnyObject {
     func navigateToEntry()
 }
