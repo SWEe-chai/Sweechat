@@ -38,7 +38,7 @@ class AppViewModel: ObservableObject {
     var moduleViewModel: ModuleViewModel {
         ModuleViewModel()
     }
-    
+
     var homeViewModel: HomeViewModel {
         HomeViewModel()
     }
