@@ -56,7 +56,7 @@ class AppViewModel: ObservableObject {
     }
 }
 
-// MARK: OnboardingDelegate
+// MARK: LoggedOutDelegate
 extension AppViewModel: LoggedOutDelegate {
     func navigateToEntry() {
         change(state: AppState.entry)
