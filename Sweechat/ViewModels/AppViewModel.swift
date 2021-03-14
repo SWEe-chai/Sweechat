@@ -4,7 +4,8 @@ class AppViewModel: ObservableObject {
     @Published var state: AppState
 
     init() {
-        state = AppState.onboarding
+        //state = AppState.onboarding
+        state = AppState.chatRoom
     }
 
     var onboardingViewModel: OnboardingViewModel {
@@ -28,8 +29,8 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel()
-    }
+        ChatRoomViewModel(id: "1")
+}
 
     private func change(state: AppState) {
         self.state = state
