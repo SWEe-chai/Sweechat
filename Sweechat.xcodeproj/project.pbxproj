@@ -16,6 +16,11 @@
 		45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */; };
 		45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */; };
 		45D6335225FDF30100C94D4F /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335125FDF30100C94D4F /* EntryView.swift */; };
+		45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */; };
+		45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6336425FE011200C94D4F /* RegistrationView.swift */; };
+		45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6336925FE013B00C94D4F /* EntryDelegate.swift */; };
+		45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6336E25FE01E900C94D4F /* LoginView.swift */; };
+		45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6337325FE020000C94D4F /* LoginViewModel.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -59,6 +64,11 @@
 		45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDelegate.swift; sourceTree = "<group>"; };
 		45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		45D6335125FDF30100C94D4F /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
+		45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		45D6336425FE011200C94D4F /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		45D6336925FE013B00C94D4F /* EntryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDelegate.swift; sourceTree = "<group>"; };
+		45D6336E25FE01E900C94D4F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		45D6337325FE020000C94D4F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +131,8 @@
 				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				45D6332825FDE2F500C94D4F /* OnboardingView.swift */,
 				45D6335125FDF30100C94D4F /* EntryView.swift */,
+				45D6336425FE011200C94D4F /* RegistrationView.swift */,
+				45D6336E25FE01E900C94D4F /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -128,9 +140,11 @@
 		45D6332325FDE2AC00C94D4F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */,
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
 				45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */,
+				45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */,
+				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
+				45D6337325FE020000C94D4F /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -158,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
+				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -384,7 +399,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
+				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
+				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
@@ -395,12 +412,15 @@
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
+				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
+				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
+				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

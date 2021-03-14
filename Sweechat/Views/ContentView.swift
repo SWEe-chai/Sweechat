@@ -5,10 +5,14 @@ struct ContentView: View {
 
     var body: some View {
         switch appViewModel.state {
-        case AppState.entry:
+        case .entry:
             EntryView(viewModel: appViewModel.entryViewModel)
-        case AppState.onboarding:
+        case .onboarding:
             OnboardingView(viewModel: appViewModel.onboardingViewModel)
+        case .login:
+            LoginView(viewModel: appViewModel.loginViewModel)
+        case .registration:
+            RegistrationView(viewModel: appViewModel.registrationViewModel)
         }
     }
 }
