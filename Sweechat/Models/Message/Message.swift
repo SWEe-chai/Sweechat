@@ -21,14 +21,14 @@ struct Message: MLMessage {
 //      return .text(content)
 //    }
 //  }
-      
+
       var messageId: String {
-        return id?.uuidString ?? UUID().uuidString
+        id?.uuidString ?? UUID().uuidString
       }
-      
+
       // var image: UIImage? = nil
-      var downloadURL: URL? = nil
-      
+      var downloadURL: URL?
+
       init(user: User, content: String) {
         sender = MLSender(id: user.uid, displayName: "slackers")
         self.content = content
@@ -36,7 +36,7 @@ struct Message: MLMessage {
         id = nil
         type = MLMessageType.text
       }
-  
+
 //  init(user: User, image: UIImage) {
 //    sender = Sender(id: user.uid, displayName: AppSettings.displayName)
 //    self.image = image
@@ -44,7 +44,7 @@ struct Message: MLMessage {
 //    sentDate = Date()
 //    id = nil
 //  }
-  
+
 //  init?(document: QueryDocumentSnapshot) {
 //    let data = document.data()
 //
@@ -73,10 +73,10 @@ struct Message: MLMessage {
 //      return nil
 //    }
 //  }
-  
+
 }
 
-//extension Message: DatabaseRepresentation {
+// extension Message: DatabaseRepresentation {
 //
 //  var representation: [String : Any] {
 //    var rep: [String : Any] = [
@@ -94,16 +94,16 @@ struct Message: MLMessage {
 //    return rep
 //  }
 //
-//}
+// }
 
 extension Message: Comparable {
-  
+
       static func == (lhs: Message, rhs: Message) -> Bool {
-        return lhs.id == rhs.id
+        lhs.id == rhs.id
       }
-      
+
       static func < (lhs: Message, rhs: Message) -> Bool {
-        return lhs.sentDate < rhs.sentDate
+        lhs.sentDate < rhs.sentDate
       }
-  
+
 }

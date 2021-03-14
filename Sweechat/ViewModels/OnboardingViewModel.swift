@@ -1,7 +1,7 @@
 import Foundation
 
 class OnboardingViewModel: ObservableObject {
-    var delegate: OnboardingDelegate?
+    weak var delegate: OnboardingDelegate?
 
     var text: String {
         "Onboarding"

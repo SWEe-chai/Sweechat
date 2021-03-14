@@ -11,6 +11,8 @@ struct ContentView: View {
             ChatRoomView(viewModel: appViewModel.chatRoomViewModel)
         case .entry:
             EntryView(viewModel: appViewModel.entryViewModel)
+        case .home:
+            HomeView(viewModel: appViewModel.homeViewModel)
         case .onboarding:
             OnboardingView(viewModel: appViewModel.onboardingViewModel)
         case .login:

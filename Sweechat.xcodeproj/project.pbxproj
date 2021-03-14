@@ -25,6 +25,9 @@
 		45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6337325FE020000C94D4F /* LoginViewModel.swift */; };
 		45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6337B25FE07A200C94D4F /* ChatRoomView.swift */; };
 		45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */; };
+		45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6338B25FE0AFE00C94D4F /* HomeView.swift */; };
+		45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339025FE0B3400C94D4F /* HomeViewModel.swift */; };
+		45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -77,6 +80,9 @@
 		45D6337325FE020000C94D4F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		45D6337B25FE07A200C94D4F /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		45D6338B25FE0AFE00C94D4F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInDelegate.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 				45D6336E25FE01E900C94D4F /* LoginView.swift */,
 				45D6337B25FE07A200C94D4F /* ChatRoomView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
+				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,6 +164,7 @@
 				45D6337325FE020000C94D4F /* LoginViewModel.swift */,
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
 				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
+				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -185,6 +193,7 @@
 			children = (
 				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
 				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
+				45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -290,6 +299,7 @@
 				778F08AF25FDDA420059C2A0 /* Sources */,
 				778F08B025FDDA420059C2A0 /* Frameworks */,
 				778F08B125FDDA420059C2A0 /* Resources */,
+				45D633A525FE0D1B00C94D4F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -405,6 +415,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		45D633A525FE0D1B00C94D4F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint && swiftlint autocorrect\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		778F08AF25FDDA420059C2A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -421,11 +451,13 @@
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
+				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */,
 				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
+				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
@@ -436,6 +468,7 @@
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
+				45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,6 +4,11 @@ struct RegistrationView: View {
     @ObservedObject var viewModel: RegistrationViewModel
 
     var body: some View {
-        Text(viewModel.text)
+        VStack {
+            Text(viewModel.text)
+            Button(action: viewModel.didTapHomeButton) {
+                Text("Home")
+            }
+        }
     }
 }

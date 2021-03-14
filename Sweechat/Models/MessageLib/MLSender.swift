@@ -10,7 +10,7 @@ import Foundation
 struct MLSender {
     var id: UUID
     var displayName: String
-    
+
     init(id: UUID, displayName: String) {
         self.id = id
         self.displayName = displayName
