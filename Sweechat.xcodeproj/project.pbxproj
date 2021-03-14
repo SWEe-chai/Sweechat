@@ -23,6 +23,11 @@
 		778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */; };
 		778F08D125FDDA470059C2A0 /* SweechatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08D025FDDA470059C2A0 /* SweechatTests.swift */; };
 		778F08DC25FDDA470059C2A0 /* SweechatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */; };
+		778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F025FDEF210059C2A0 /* MLMessage.swift */; };
+		778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F125FDEF210059C2A0 /* MLSender.swift */; };
+		778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F225FDEF210059C2A0 /* MLMessageType.swift */; };
+		778F090125FDEFEE0059C2A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090025FDEFEE0059C2A0 /* Message.swift */; };
+		778F090625FDF06F0059C2A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090525FDF06F0059C2A0 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +70,11 @@
 		778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SweechatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweechatUITests.swift; sourceTree = "<group>"; };
 		778F08DD25FDDA470059C2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		778F08F025FDEF210059C2A0 /* MLMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessage.swift; sourceTree = "<group>"; };
+		778F08F125FDEF210059C2A0 /* MLSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLSender.swift; sourceTree = "<group>"; };
+		778F08F225FDEF210059C2A0 /* MLMessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessageType.swift; sourceTree = "<group>"; };
+		778F090025FDEFEE0059C2A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		778F090525FDF06F0059C2A0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +125,9 @@
 		45D6332425FDE2B100C94D4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				778F090A25FDF07A0059C2A0 /* User */,
+				778F08FF25FDEFCE0059C2A0 /* Message */,
+				778F08EF25FDEF210059C2A0 /* MessageLib */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +211,32 @@
 				778F08DD25FDDA470059C2A0 /* Info.plist */,
 			);
 			path = SweechatUITests;
+			sourceTree = "<group>";
+		};
+		778F08EF25FDEF210059C2A0 /* MessageLib */ = {
+			isa = PBXGroup;
+			children = (
+				778F08F025FDEF210059C2A0 /* MLMessage.swift */,
+				778F08F125FDEF210059C2A0 /* MLSender.swift */,
+				778F08F225FDEF210059C2A0 /* MLMessageType.swift */,
+			);
+			path = MessageLib;
+			sourceTree = "<group>";
+		};
+		778F08FF25FDEFCE0059C2A0 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				778F090025FDEFEE0059C2A0 /* Message.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		778F090A25FDF07A0059C2A0 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				778F090525FDF06F0059C2A0 /* User.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,14 +369,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
+				778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */,
+				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
+				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
+				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
