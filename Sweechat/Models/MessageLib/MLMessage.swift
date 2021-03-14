@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol Message {
-    var sender: Sender {get set}
+protocol MLMessage {
+    var sender: MLSender {get set}
     var id: UUID? { get }
     var sentDate: Date { get }
-    var type: MessageType { get set }
+    var type: MLMessageType { get set }
 }

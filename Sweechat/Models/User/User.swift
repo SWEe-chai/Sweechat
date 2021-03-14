@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class User: NSObject {
+class User {
 
     var uid: UUID
     var username: String?

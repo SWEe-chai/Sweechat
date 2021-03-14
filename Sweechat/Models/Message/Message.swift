@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Message: Message {
+struct Message: MLMessage {
     var id: UUID?
     var content: String
     var sentDate: Date
-    var sender: Sender
-    var type: MessageType
+    var sender: MLSender
+    var type: MLMessageType
 
 //  var data: MessageData {
 //    if let image = image {
@@ -30,11 +30,11 @@ struct Message: Message {
       var downloadURL: URL? = nil
       
       init(user: User, content: String) {
-        sender = Sender(id: user.uid, displayName: "slackers")
+        sender = MLSender(id: user.uid, displayName: "slackers")
         self.content = content
         sentDate = Date()
         id = nil
-        type = MessageType.text
+        type = MLMessageType.text
       }
   
 //  init(user: User, image: UIImage) {

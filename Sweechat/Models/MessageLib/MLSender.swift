@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Sender {
+struct MLSender {
     var id: UUID
     var displayName: String
     
