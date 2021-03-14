@@ -1,0 +1,619 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
+		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
+		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
+		778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BC25FDDA420059C2A0 /* Sweechat.xcdatamodeld */; };
+		778F08C025FDDA470059C2A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778F08BF25FDDA470059C2A0 /* Assets.xcassets */; };
+		778F08C325FDDA470059C2A0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778F08C225FDDA470059C2A0 /* Preview Assets.xcassets */; };
+		778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */; };
+		778F08D125FDDA470059C2A0 /* SweechatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08D025FDDA470059C2A0 /* SweechatTests.swift */; };
+		778F08DC25FDDA470059C2A0 /* SweechatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		778F08CD25FDDA470059C2A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 778F08AB25FDDA420059C2A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 778F08B225FDDA420059C2A0;
+			remoteInfo = Sweechat;
+		};
+		778F08D825FDDA470059C2A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 778F08AB25FDDA420059C2A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 778F08B225FDDA420059C2A0;
+			remoteInfo = Sweechat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		778F08BA25FDDA420059C2A0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		778F08BD25FDDA420059C2A0 /* Sweechat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sweechat.xcdatamodel; sourceTree = "<group>"; };
+		778F08BF25FDDA470059C2A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		778F08C225FDDA470059C2A0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		778F08C525FDDA470059C2A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		778F08C725FDDA470059C2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		778F08CC25FDDA470059C2A0 /* SweechatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SweechatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F08D025FDDA470059C2A0 /* SweechatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweechatTests.swift; sourceTree = "<group>"; };
+		778F08D225FDDA470059C2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SweechatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweechatUITests.swift; sourceTree = "<group>"; };
+		778F08DD25FDDA470059C2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		778F08B025FDDA420059C2A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08C925FDDA470059C2A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08D425FDDA470059C2A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		778F08AA25FDDA420059C2A0 = {
+			isa = PBXGroup;
+			children = (
+				778F08B525FDDA420059C2A0 /* Sweechat */,
+				778F08CF25FDDA470059C2A0 /* SweechatTests */,
+				778F08DA25FDDA470059C2A0 /* SweechatUITests */,
+				778F08B425FDDA420059C2A0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		778F08B425FDDA420059C2A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				778F08B325FDDA420059C2A0 /* Sweechat.app */,
+				778F08CC25FDDA470059C2A0 /* SweechatTests.xctest */,
+				778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		778F08B525FDDA420059C2A0 /* Sweechat */ = {
+			isa = PBXGroup;
+			children = (
+				778F08B625FDDA420059C2A0 /* AppDelegate.swift */,
+				778F08B825FDDA420059C2A0 /* SceneDelegate.swift */,
+				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
+				778F08BF25FDDA470059C2A0 /* Assets.xcassets */,
+				778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */,
+				778F08C725FDDA470059C2A0 /* Info.plist */,
+				778F08BC25FDDA420059C2A0 /* Sweechat.xcdatamodeld */,
+				778F08C125FDDA470059C2A0 /* Preview Content */,
+			);
+			path = Sweechat;
+			sourceTree = "<group>";
+		};
+		778F08C125FDDA470059C2A0 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				778F08C225FDDA470059C2A0 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		778F08CF25FDDA470059C2A0 /* SweechatTests */ = {
+			isa = PBXGroup;
+			children = (
+				778F08D025FDDA470059C2A0 /* SweechatTests.swift */,
+				778F08D225FDDA470059C2A0 /* Info.plist */,
+			);
+			path = SweechatTests;
+			sourceTree = "<group>";
+		};
+		778F08DA25FDDA470059C2A0 /* SweechatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */,
+				778F08DD25FDDA470059C2A0 /* Info.plist */,
+			);
+			path = SweechatUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		778F08B225FDDA420059C2A0 /* Sweechat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 778F08E025FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "Sweechat" */;
+			buildPhases = (
+				778F08AF25FDDA420059C2A0 /* Sources */,
+				778F08B025FDDA420059C2A0 /* Frameworks */,
+				778F08B125FDDA420059C2A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Sweechat;
+			productName = Sweechat;
+			productReference = 778F08B325FDDA420059C2A0 /* Sweechat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		778F08CB25FDDA470059C2A0 /* SweechatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 778F08E325FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "SweechatTests" */;
+			buildPhases = (
+				778F08C825FDDA470059C2A0 /* Sources */,
+				778F08C925FDDA470059C2A0 /* Frameworks */,
+				778F08CA25FDDA470059C2A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				778F08CE25FDDA470059C2A0 /* PBXTargetDependency */,
+			);
+			name = SweechatTests;
+			productName = SweechatTests;
+			productReference = 778F08CC25FDDA470059C2A0 /* SweechatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		778F08D625FDDA470059C2A0 /* SweechatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 778F08E625FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "SweechatUITests" */;
+			buildPhases = (
+				778F08D325FDDA470059C2A0 /* Sources */,
+				778F08D425FDDA470059C2A0 /* Frameworks */,
+				778F08D525FDDA470059C2A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				778F08D925FDDA470059C2A0 /* PBXTargetDependency */,
+			);
+			name = SweechatUITests;
+			productName = SweechatUITests;
+			productReference = 778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		778F08AB25FDDA420059C2A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					778F08B225FDDA420059C2A0 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					778F08CB25FDDA470059C2A0 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 778F08B225FDDA420059C2A0;
+					};
+					778F08D625FDDA470059C2A0 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 778F08B225FDDA420059C2A0;
+					};
+				};
+			};
+			buildConfigurationList = 778F08AE25FDDA420059C2A0 /* Build configuration list for PBXProject "Sweechat" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 778F08AA25FDDA420059C2A0;
+			productRefGroup = 778F08B425FDDA420059C2A0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				778F08B225FDDA420059C2A0 /* Sweechat */,
+				778F08CB25FDDA470059C2A0 /* SweechatTests */,
+				778F08D625FDDA470059C2A0 /* SweechatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		778F08B125FDDA420059C2A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */,
+				778F08C325FDDA470059C2A0 /* Preview Assets.xcassets in Resources */,
+				778F08C025FDDA470059C2A0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08CA25FDDA470059C2A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08D525FDDA470059C2A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		778F08AF25FDDA420059C2A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
+				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
+				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
+				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08C825FDDA470059C2A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				778F08D125FDDA470059C2A0 /* SweechatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F08D325FDDA470059C2A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				778F08DC25FDDA470059C2A0 /* SweechatUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		778F08CE25FDDA470059C2A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 778F08B225FDDA420059C2A0 /* Sweechat */;
+			targetProxy = 778F08CD25FDDA470059C2A0 /* PBXContainerItemProxy */;
+		};
+		778F08D925FDDA470059C2A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 778F08B225FDDA420059C2A0 /* Sweechat */;
+			targetProxy = 778F08D825FDDA470059C2A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				778F08C525FDDA470059C2A0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		778F08DE25FDDA470059C2A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		778F08DF25FDDA470059C2A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		778F08E125FDDA470059C2A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Sweechat/Preview Content\"";
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Sweechat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.Sweechat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		778F08E225FDDA470059C2A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Sweechat/Preview Content\"";
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Sweechat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.Sweechat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		778F08E425FDDA470059C2A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				INFOPLIST_FILE = SweechatTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.SweechatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sweechat.app/Sweechat";
+			};
+			name = Debug;
+		};
+		778F08E525FDDA470059C2A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				INFOPLIST_FILE = SweechatTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.SweechatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sweechat.app/Sweechat";
+			};
+			name = Release;
+		};
+		778F08E725FDDA470059C2A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				INFOPLIST_FILE = SweechatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.SweechatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sweechat;
+			};
+			name = Debug;
+		};
+		778F08E825FDDA470059C2A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				INFOPLIST_FILE = SweechatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.SweechatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sweechat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		778F08AE25FDDA420059C2A0 /* Build configuration list for PBXProject "Sweechat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				778F08DE25FDDA470059C2A0 /* Debug */,
+				778F08DF25FDDA470059C2A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		778F08E025FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "Sweechat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				778F08E125FDDA470059C2A0 /* Debug */,
+				778F08E225FDDA470059C2A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		778F08E325FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "SweechatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				778F08E425FDDA470059C2A0 /* Debug */,
+				778F08E525FDDA470059C2A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		778F08E625FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "SweechatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				778F08E725FDDA470059C2A0 /* Debug */,
+				778F08E825FDDA470059C2A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		778F08BC25FDDA420059C2A0 /* Sweechat.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				778F08BD25FDDA420059C2A0 /* Sweechat.xcdatamodel */,
+			);
+			currentVersion = 778F08BD25FDDA420059C2A0 /* Sweechat.xcdatamodel */;
+			path = Sweechat.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 778F08AB25FDDA420059C2A0 /* Project object */;
+}
