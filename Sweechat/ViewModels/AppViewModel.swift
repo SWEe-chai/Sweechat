@@ -32,12 +32,14 @@ class AppViewModel: ObservableObject {
     }
 }
 
+// MARK: OnboardingDelegate
 extension AppViewModel: OnboardingDelegate {
     func navigateToEntry() {
         change(state: AppState.entry)
     }
 }
 
+// MARK: EntryDelegate
 extension AppViewModel: EntryDelegate {
     func navigateToLogin() {
         change(state: AppState.login)
