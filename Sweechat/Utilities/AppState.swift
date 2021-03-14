@@ -1,4 +1,5 @@
 enum AppState {
+    case module
     case chatRoom
     case entry
     case home
