@@ -31,6 +31,10 @@ class AppViewModel: ObservableObject {
         ChatRoomViewModel()
     }
 
+    var moduleViewModel: ModuleViewModel {
+        ModuleViewModel()
+    }
+
     private func change(state: AppState) {
         self.state = state
     }
