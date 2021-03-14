@@ -1,16 +1,13 @@
-//
-//  ContentView.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 14/3/21.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var appViewModel: AppViewModel
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        switch appViewModel.state {
+        case AppState.onboarding:
+            OnboardingView(onboardingViewModel: appViewModel.onboardingViewModel)
+        }
     }
 }
 
