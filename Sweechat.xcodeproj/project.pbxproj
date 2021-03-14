@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,6 +37,8 @@
 		778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F225FDEF210059C2A0 /* MLMessageType.swift */; };
 		778F090125FDEFEE0059C2A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090025FDEFEE0059C2A0 /* Message.swift */; };
 		778F090625FDF06F0059C2A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090525FDF06F0059C2A0 /* User.swift */; };
+		778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F095925FE12BA0059C2A0 /* MessageAdapter.swift */; };
+		F968728A86DD7AC9ADF4F8B3 /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,10 @@
 		778F08F225FDEF210059C2A0 /* MLMessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessageType.swift; sourceTree = "<group>"; };
 		778F090025FDEFEE0059C2A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		778F090525FDF06F0059C2A0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		778F095925FE12BA0059C2A0 /* MessageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAdapter.swift; sourceTree = "<group>"; };
+		A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
+		DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F968728A86DD7AC9ADF4F8B3 /* Pods_Sweechat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +197,8 @@
 				778F08CF25FDDA470059C2A0 /* SweechatTests */,
 				778F08DA25FDDA470059C2A0 /* SweechatUITests */,
 				778F08B425FDDA420059C2A0 /* Products */,
+				AC8126CBB93F9B8303850DCA /* Pods */,
+				FAFC6943FE8AC75F6FBBFED8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,6 +215,7 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				778F095825FE129A0059C2A0 /* Adapters */,
 				45D6334325FDEEF800C94D4F /* Delegates */,
 				45D6332425FDE2B100C94D4F /* Models */,
 				45D6332225FDE2A700C94D4F /* Views */,
@@ -274,6 +284,31 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		778F095825FE129A0059C2A0 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				778F095925FE12BA0059C2A0 /* MessageAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		AC8126CBB93F9B8303850DCA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */,
+				D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FAFC6943FE8AC75F6FBBFED8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -281,9 +316,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 778F08E025FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "Sweechat" */;
 			buildPhases = (
+				970E3D1E566BDB9FF43166EE /* [CP] Check Pods Manifest.lock */,
 				778F08AF25FDDA420059C2A0 /* Sources */,
 				778F08B025FDDA420059C2A0 /* Frameworks */,
 				778F08B125FDDA420059C2A0 /* Resources */,
+				A39F64DEEA56887834CE3A9B /* [CP] Embed Pods Frameworks */,
+				76842868E3D4326D61BFA922 /* [CP] Copy Pods Resources */,
+				778F095E25FE1C0C0059C2A0 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -399,6 +438,82 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		76842868E3D4326D61BFA922 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		778F095E25FE1C0C0059C2A0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		970E3D1E566BDB9FF43166EE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sweechat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A39F64DEEA56887834CE3A9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		778F08AF25FDDA420059C2A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -409,6 +524,7 @@
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
+				778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */,
 				45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */,
 				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
@@ -593,6 +709,7 @@
 		};
 		778F08E125FDDA470059C2A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -614,6 +731,7 @@
 		};
 		778F08E225FDDA470059C2A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
