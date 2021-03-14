@@ -15,7 +15,7 @@
 		45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
 		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
-		45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */; };
+		45D6334525FDF0EE00C94D4F /* LoggedOutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334425FDF0EE00C94D4F /* LoggedOutDelegate.swift */; };
 		45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */; };
 		45D6335225FDF30100C94D4F /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335125FDF30100C94D4F /* EntryView.swift */; };
 		45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */; };
@@ -73,7 +73,7 @@
 		45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDelegate.swift; sourceTree = "<group>"; };
+		45D6334425FDF0EE00C94D4F /* LoggedOutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutDelegate.swift; sourceTree = "<group>"; };
 		45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		45D6335125FDF30100C94D4F /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 		45D6334325FDEEF800C94D4F /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
+				45D6334425FDF0EE00C94D4F /* LoggedOutDelegate.swift */,
 				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
 				45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */,
 				45D633B925FE158D00C94D4F /* HomeDelegate.swift */,
@@ -465,7 +465,7 @@
 				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
-				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
+				45D6334525FDF0EE00C94D4F /* LoggedOutDelegate.swift in Sources */,
 				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,

@@ -46,7 +46,9 @@ class AppViewModel: ObservableObject {
     }
 
     var settingsViewModel: SettingsViewModel {
-        SettingsViewModel()
+        let viewModel = SettingsViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     private func change(state: AppState) {
@@ -55,7 +57,7 @@ class AppViewModel: ObservableObject {
 }
 
 // MARK: OnboardingDelegate
-extension AppViewModel: OnboardingDelegate {
+extension AppViewModel: LoggedOutDelegate {
     func navigateToEntry() {
         change(state: AppState.entry)
     }

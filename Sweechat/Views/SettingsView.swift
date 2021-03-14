@@ -4,6 +4,11 @@ struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
 
     var body: some View {
-        Text(viewModel.text)
+        VStack {
+            Text(viewModel.text)
+            Button(action: viewModel.didTapLogoutButton) {
+                Text("Logout")
+            }
+        }
     }
 }
