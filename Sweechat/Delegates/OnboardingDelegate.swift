@@ -1,0 +1,3 @@
+protocol OnboardingDelegate {
+    func navigateToEntry()
+}

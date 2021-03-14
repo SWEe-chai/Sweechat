@@ -11,6 +11,9 @@
 		45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
 		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
+		45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */; };
+		45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */; };
+		45D6335225FDF30100C94D4F /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335125FDF30100C94D4F /* EntryView.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -49,6 +52,9 @@
 		45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDelegate.swift; sourceTree = "<group>"; };
+		45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
+		45D6335125FDF30100C94D4F /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +107,7 @@
 			children = (
 				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				45D6332825FDE2F500C94D4F /* OnboardingView.swift */,
+				45D6335125FDF30100C94D4F /* EntryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,6 +117,7 @@
 			children = (
 				45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */,
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
+				45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -130,6 +138,14 @@
 				45D6333825FDE43F00C94D4F /* AppState.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		45D6334325FDEEF800C94D4F /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		778F08AA25FDDA420059C2A0 = {
@@ -155,6 +171,7 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				45D6334325FDEEF800C94D4F /* Delegates */,
 				45D6332425FDE2B100C94D4F /* Models */,
 				45D6332225FDE2A700C94D4F /* Views */,
 				45D6333725FDE42B00C94D4F /* Utilities */,
@@ -354,17 +371,20 @@
 			files = (
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
+				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */,
 				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
+				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
+				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
