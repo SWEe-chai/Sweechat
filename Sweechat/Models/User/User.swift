@@ -1,10 +1,3 @@
-//
-//  User.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 14/3/21.
-//
-
 import Foundation
 
 class User {
@@ -16,7 +9,7 @@ class User {
     var lastName: String?
     var profilePictureURL: String?
 
-    public init(uid: UUID, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
+    init(uid: UUID, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
         self.lastName = lastName
         self.uid = uid

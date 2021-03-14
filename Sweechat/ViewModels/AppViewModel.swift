@@ -20,15 +20,23 @@ class AppViewModel: ObservableObject {
     }
 
     var loginViewModel: LoginViewModel {
-        LoginViewModel()
+        let viewModel = LoginViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     var registrationViewModel: RegistrationViewModel {
-        RegistrationViewModel()
+        let viewModel = RegistrationViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
         ChatRoomViewModel()
+    }
+
+    var homeViewModel: HomeViewModel {
+        HomeViewModel()
     }
 
     private func change(state: AppState) {
@@ -51,5 +59,12 @@ extension AppViewModel: EntryDelegate {
 
     func navigateToRegistration() {
         change(state: AppState.registration)
+    }
+}
+
+// MARK: LoggedInDelegate
+extension AppViewModel: LoggedInDelegate {
+    func navigateToHome() {
+        change(state: AppState.home)
     }
 }

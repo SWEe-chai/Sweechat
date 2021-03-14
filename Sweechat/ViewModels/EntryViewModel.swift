@@ -1,7 +1,7 @@
 import Foundation
 
 class EntryViewModel: ObservableObject {
-    var delegate: EntryDelegate?
+    weak var delegate: EntryDelegate?
 
     var text: String {
         "Entry"
