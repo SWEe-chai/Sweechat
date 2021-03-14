@@ -9,14 +9,14 @@ import Foundation
 
 class User {
 
-    var uid: UUID
+    var uid: String
     var username: String?
     var email: String
     var firstName: String?
     var lastName: String?
     var profilePictureURL: String?
 
-    public init(uid: UUID, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
+    public init(uid: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
         self.lastName = lastName
         self.uid = uid

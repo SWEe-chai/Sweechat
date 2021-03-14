@@ -8,11 +8,12 @@
 import Foundation
 
 struct Message: MLMessage {
-    var id: UUID?
+    var id: String?
     var content: String
-    var sentDate: Date
+    var creationTime: Date
     var sender: MLSender
     var type: MLMessageType
+    var downloadURL: URL? = nil
 
 //  var data: MessageData {
 //    if let image = image {
@@ -21,22 +22,21 @@ struct Message: MLMessage {
 //      return .text(content)
 //    }
 //  }
-      
-      var messageId: String {
-        return id?.uuidString ?? UUID().uuidString
-      }
-      
-      // var image: UIImage? = nil
-      var downloadURL: URL? = nil
-      
-      init(user: User, content: String) {
-        sender = MLSender(id: user.uid, displayName: "slackers")
+    init(user: User, content: String) {
+        self.sender = MLSender(id: user.uid, displayName: "slackers")
         self.content = content
-        sentDate = Date()
-        id = nil
-        type = MLMessageType.text
-      }
-  
+        self.creationTime = Date()
+        self.id = nil
+        self.type = MLMessageType.text
+    }
+
+    init(id: String, sender: MLSender, creationTime: Date, content: String) {
+        self.id = id
+        self.sender = sender
+        self.creationTime = creationTime
+        self.content = content
+        self.type = MLMessageType.text
+    }
 //  init(user: User, image: UIImage) {
 //    sender = Sender(id: user.uid, displayName: AppSettings.displayName)
 //    self.image = image
@@ -103,7 +103,7 @@ extension Message: Comparable {
       }
       
       static func < (lhs: Message, rhs: Message) -> Bool {
-        return lhs.sentDate < rhs.sentDate
+        return lhs.creationTime < rhs.creationTime
       }
   
 }

@@ -9,7 +9,7 @@ import Foundation
 
 protocol MLMessage {
     var sender: MLSender {get set}
-    var id: UUID? { get }
-    var sentDate: Date { get }
+    var id: String? { get }
+    var creationTime: Date { get }
     var type: MLMessageType { get set }
 }
