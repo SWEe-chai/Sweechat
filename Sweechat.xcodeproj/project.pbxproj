@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332825FDE2F500C94D4F /* OnboardingView.swift */; };
+		45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */; };
+		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
+		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -36,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45D6332825FDE2F500C94D4F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +86,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45D6332225FDE2A700C94D4F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
+				45D6332825FDE2F500C94D4F /* OnboardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		45D6332325FDE2AC00C94D4F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */,
+				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		45D6332425FDE2B100C94D4F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		45D6333725FDE42B00C94D4F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				45D6333825FDE43F00C94D4F /* AppState.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		778F08AA25FDDA420059C2A0 = {
 			isa = PBXGroup;
 			children = (
@@ -101,9 +142,12 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				45D6332425FDE2B100C94D4F /* Models */,
+				45D6332225FDE2A700C94D4F /* Views */,
+				45D6333725FDE42B00C94D4F /* Utilities */,
+				45D6332325FDE2AC00C94D4F /* ViewModels */,
 				778F08B625FDDA420059C2A0 /* AppDelegate.swift */,
 				778F08B825FDDA420059C2A0 /* SceneDelegate.swift */,
-				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				778F08BF25FDDA470059C2A0 /* Assets.xcassets */,
 				778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */,
 				778F08C725FDDA470059C2A0 /* Info.plist */,
@@ -270,8 +314,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
+				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
+				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
+				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
+				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

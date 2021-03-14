@@ -1,0 +1,3 @@
+enum AppState {
+    case onboarding
+}
