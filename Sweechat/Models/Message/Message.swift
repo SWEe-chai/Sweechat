@@ -13,7 +13,7 @@ struct Message: MLMessage {
     var creationTime: Date
     var sender: MLSender
     var type: MLMessageType
-    var downloadURL: URL? = nil
+    var downloadURL: URL?
 
 //  var data: MessageData {
 //    if let image = image {
@@ -44,7 +44,7 @@ struct Message: MLMessage {
 //    sentDate = Date()
 //    id = nil
 //  }
-  
+
 //  init?(document: QueryDocumentSnapshot) {
 //    let data = document.data()
 //
@@ -73,10 +73,10 @@ struct Message: MLMessage {
 //      return nil
 //    }
 //  }
-  
+
 }
 
-//extension Message: DatabaseRepresentation {
+// extension Message: DatabaseRepresentation {
 //
 //  var representation: [String : Any] {
 //    var rep: [String : Any] = [
@@ -94,16 +94,16 @@ struct Message: MLMessage {
 //    return rep
 //  }
 //
-//}
+// }
 
 extension Message: Comparable {
-  
-      static func == (lhs: Message, rhs: Message) -> Bool {
-        return lhs.id == rhs.id
-      }
-      
-      static func < (lhs: Message, rhs: Message) -> Bool {
-        return lhs.creationTime < rhs.creationTime
-      }
-  
+
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    static func < (lhs: Message, rhs: Message) -> Bool {
+        lhs.creationTime < rhs.creationTime
+    }
+
 }

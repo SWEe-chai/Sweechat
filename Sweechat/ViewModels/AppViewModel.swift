@@ -4,7 +4,7 @@ class AppViewModel: ObservableObject {
     @Published var state: AppState
 
     init() {
-        //state = AppState.onboarding
+        // state = AppState.onboarding
         state = AppState.chatRoom
     }
 
@@ -21,16 +21,28 @@ class AppViewModel: ObservableObject {
     }
 
     var loginViewModel: LoginViewModel {
-        LoginViewModel()
+        let viewModel = LoginViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     var registrationViewModel: RegistrationViewModel {
-        RegistrationViewModel()
+        let viewModel = RegistrationViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
         ChatRoomViewModel(id: "1")
 }
+
+    var moduleViewModel: ModuleViewModel {
+        ModuleViewModel()
+    }
+
+    var homeViewModel: HomeViewModel {
+        HomeViewModel()
+    }
 
     private func change(state: AppState) {
         self.state = state
@@ -52,5 +64,12 @@ extension AppViewModel: EntryDelegate {
 
     func navigateToRegistration() {
         change(state: AppState.registration)
+    }
+}
+
+// MARK: LoggedInDelegate
+extension AppViewModel: LoggedInDelegate {
+    func navigateToHome() {
+        change(state: AppState.home)
     }
 }

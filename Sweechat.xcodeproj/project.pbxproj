@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
+		3E47F81D25FE0E3200861721 /* ModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E47F81C25FE0E3200861721 /* ModuleView.swift */; };
+		3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */; };
 		3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4525FDFD1100861D74 /* ChatRoom.swift */; };
 		3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */; };
 		45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332825FDE2F500C94D4F /* OnboardingView.swift */; };
@@ -23,6 +26,10 @@
 		45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6337325FE020000C94D4F /* LoginViewModel.swift */; };
 		45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6337B25FE07A200C94D4F /* ChatRoomView.swift */; };
 		45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */; };
+		45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6338B25FE0AFE00C94D4F /* HomeView.swift */; };
+		45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339025FE0B3400C94D4F /* HomeViewModel.swift */; };
+		45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */; };
+		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -59,6 +66,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3E47F81C25FE0E3200861721 /* ModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleView.swift; sourceTree = "<group>"; };
+		3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModel.swift; sourceTree = "<group>"; };
 		3EB99D4525FDFD1100861D74 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermission.swift; sourceTree = "<group>"; };
 		45D6332825FDE2F500C94D4F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -75,6 +85,9 @@
 		45D6337325FE020000C94D4F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		45D6337B25FE07A200C94D4F /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		45D6338B25FE0AFE00C94D4F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInDelegate.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,9 +109,9 @@
 		778F090025FDEFEE0059C2A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		778F090525FDF06F0059C2A0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		778F095925FE12BA0059C2A0 /* MessageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAdapter.swift; sourceTree = "<group>"; };
-		A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
-		DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
+		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
+		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
+		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F968728A86DD7AC9ADF4F8B3 /* Pods_Sweechat.framework in Frameworks */,
+				76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +149,14 @@
 			path = ChatRoom;
 			sourceTree = "<group>";
 		};
+		408D6A2FFB02FFBF2F107B5B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		45D6332225FDE2A700C94D4F /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +166,8 @@
 				45D6336425FE011200C94D4F /* RegistrationView.swift */,
 				45D6336E25FE01E900C94D4F /* LoginView.swift */,
 				45D6337B25FE07A200C94D4F /* ChatRoomView.swift */,
+				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
+				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +181,8 @@
 				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
 				45D6337325FE020000C94D4F /* LoginViewModel.swift */,
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
+				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
+				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -186,8 +211,18 @@
 			children = (
 				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
 				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
+				45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		4EBC4485A6D3D8BBE0CC43DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */,
+				A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		778F08AA25FDDA420059C2A0 = {
@@ -197,8 +232,8 @@
 				778F08CF25FDDA470059C2A0 /* SweechatTests */,
 				778F08DA25FDDA470059C2A0 /* SweechatUITests */,
 				778F08B425FDDA420059C2A0 /* Products */,
-				AC8126CBB93F9B8303850DCA /* Pods */,
-				FAFC6943FE8AC75F6FBBFED8 /* Frameworks */,
+				4EBC4485A6D3D8BBE0CC43DF /* Pods */,
+				408D6A2FFB02FFBF2F107B5B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,6 +261,7 @@
 				778F08BF25FDDA470059C2A0 /* Assets.xcassets */,
 				778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */,
 				778F08C725FDDA470059C2A0 /* Info.plist */,
+				2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */,
 				778F08BC25FDDA420059C2A0 /* Sweechat.xcdatamodeld */,
 				778F08C125FDDA470059C2A0 /* Preview Content */,
 			);
@@ -316,13 +352,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 778F08E025FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "Sweechat" */;
 			buildPhases = (
-				970E3D1E566BDB9FF43166EE /* [CP] Check Pods Manifest.lock */,
+				6E094DE32AD7DCCB8F0ABBE4 /* [CP] Check Pods Manifest.lock */,
 				778F08AF25FDDA420059C2A0 /* Sources */,
 				778F08B025FDDA420059C2A0 /* Frameworks */,
 				778F08B125FDDA420059C2A0 /* Resources */,
-				A39F64DEEA56887834CE3A9B /* [CP] Embed Pods Frameworks */,
-				76842868E3D4326D61BFA922 /* [CP] Copy Pods Resources */,
-				778F095E25FE1C0C0059C2A0 /* ShellScript */,
+				45D633A525FE0D1B00C94D4F /* ShellScript */,
+				A3448E1F0CEDA9C08DD14525 /* [CP] Embed Pods Frameworks */,
+				7FDD8C0D7E6143D8139C0A61 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -419,6 +455,7 @@
 				778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */,
 				778F08C325FDDA470059C2A0 /* Preview Assets.xcassets in Resources */,
 				778F08C025FDDA470059C2A0 /* Assets.xcassets in Resources */,
+				2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,24 +476,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		76842868E3D4326D61BFA922 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		778F095E25FE1C0C0059C2A0 /* ShellScript */ = {
+		45D633A525FE0D1B00C94D4F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -471,9 +491,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint && swiftlint autocorrect\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		970E3D1E566BDB9FF43166EE /* [CP] Check Pods Manifest.lock */ = {
+		6E094DE32AD7DCCB8F0ABBE4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -495,7 +515,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A39F64DEEA56887834CE3A9B /* [CP] Embed Pods Frameworks */ = {
+		7FDD8C0D7E6143D8139C0A61 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sweechat/Pods-Sweechat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A3448E1F0CEDA9C08DD14525 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -519,6 +556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E47F81D25FE0E3200861721 /* ModuleView.swift in Sources */,
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
@@ -530,20 +568,24 @@
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
+				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */,
 				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
+				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
+				3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
+				45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -709,7 +751,7 @@
 		};
 		778F08E125FDDA470059C2A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */;
+			baseConfigurationReference = 9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -718,6 +760,7 @@
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sweechat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -731,7 +774,7 @@
 		};
 		778F08E225FDDA470059C2A0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */;
+			baseConfigurationReference = A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -740,6 +783,7 @@
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sweechat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -759,7 +803,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				INFOPLIST_FILE = SweechatTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -781,7 +825,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				INFOPLIST_FILE = SweechatTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -802,6 +846,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				INFOPLIST_FILE = SweechatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -822,6 +867,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
 				INFOPLIST_FILE = SweechatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
