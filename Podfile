@@ -10,6 +10,10 @@ target 'Sweechat' do
     pod 'Firebase/Analytics'
     pod 'Firebase/Messaging'
     pod 'Firebase/Auth'
+    pod 'Firebase/Firestore'
+
+    # add swift extension
+    pod 'FirebaseFirestoreSwift'
 
     # Google sign in
     pod 'GoogleSignIn'
