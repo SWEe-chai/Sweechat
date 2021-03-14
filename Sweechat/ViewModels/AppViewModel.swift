@@ -38,9 +38,15 @@ class AppViewModel: ObservableObject {
     var moduleViewModel: ModuleViewModel {
         ModuleViewModel()
     }
-    
+
     var homeViewModel: HomeViewModel {
-        HomeViewModel()
+        let viewModel = HomeViewModel()
+        viewModel.delegate = self
+        return viewModel
+    }
+
+    var settingsViewModel: SettingsViewModel {
+        SettingsViewModel()
     }
 
     private func change(state: AppState) {
@@ -70,5 +76,16 @@ extension AppViewModel: EntryDelegate {
 extension AppViewModel: LoggedInDelegate {
     func navigateToHome() {
         change(state: AppState.home)
+    }
+}
+
+// MARK: HomeDelegate
+extension AppViewModel: HomeDelegate {
+    func navigateToModule() {
+        change(state: AppState.module)
+    }
+
+    func navigateToSettings() {
+        change(state: AppState.settings)
     }
 }

@@ -28,6 +28,9 @@
 		45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6338B25FE0AFE00C94D4F /* HomeView.swift */; };
 		45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339025FE0B3400C94D4F /* HomeViewModel.swift */; };
 		45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */; };
+		45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */; };
+		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
+		45D633BA25FE158D00C94D4F /* HomeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B925FE158D00C94D4F /* HomeDelegate.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -83,6 +86,9 @@
 		45D6338B25FE0AFE00C94D4F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInDelegate.swift; sourceTree = "<group>"; };
+		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		45D633B925FE158D00C94D4F /* HomeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelegate.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 				45D6337B25FE07A200C94D4F /* ChatRoomView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
+				45D633B425FE154100C94D4F /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -165,6 +172,7 @@
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
 				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
+				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -194,6 +202,7 @@
 				45D6334425FDF0EE00C94D4F /* OnboardingDelegate.swift */,
 				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
 				45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */,
+				45D633B925FE158D00C94D4F /* HomeDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -458,12 +467,15 @@
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				45D6334525FDF0EE00C94D4F /* OnboardingDelegate.swift in Sources */,
 				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
+				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
+				45D633BA25FE158D00C94D4F /* HomeDelegate.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
+				45D633B525FE154100C94D4F /* SettingsView.swift in Sources */,
 				3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
