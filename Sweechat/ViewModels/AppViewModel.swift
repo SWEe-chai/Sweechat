@@ -27,6 +27,10 @@ class AppViewModel: ObservableObject {
         RegistrationViewModel()
     }
 
+    var chatRoomViewModel: ChatRoomViewModel {
+        ChatRoomViewModel()
+    }
+
     private func change(state: AppState) {
         self.state = state
     }
