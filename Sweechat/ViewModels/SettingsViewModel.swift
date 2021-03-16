@@ -1,13 +1,13 @@
 import Foundation
 
-class OnboardingViewModel: ObservableObject {
+class SettingsViewModel: ObservableObject {
     weak var delegate: LoggedOutDelegate?
 
     var text: String {
-        "Onboarding"
+        "Settings"
     }
 
-    func didTapEntryButton() {
+    func didTapLogoutButton() {
         delegate?.navigateToEntry()
     }
 }
