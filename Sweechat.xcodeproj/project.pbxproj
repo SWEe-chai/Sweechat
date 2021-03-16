@@ -45,7 +45,6 @@
 		778F090125FDEFEE0059C2A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090025FDEFEE0059C2A0 /* Message.swift */; };
 		778F090625FDF06F0059C2A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090525FDF06F0059C2A0 /* User.swift */; };
 		778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F095925FE12BA0059C2A0 /* MessageAdapter.swift */; };
-		F968728A86DD7AC9ADF4F8B3 /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,23 +325,6 @@
 				778F095925FE12BA0059C2A0 /* MessageAdapter.swift */,
 			);
 			path = Adapters;
-			sourceTree = "<group>";
-		};
-		AC8126CBB93F9B8303850DCA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DD148E162CDEADF55297C42F /* Pods-Sweechat.debug.xcconfig */,
-				D8B222184216305584773133 /* Pods-Sweechat.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		FAFC6943FE8AC75F6FBBFED8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A957E4451AF12E5F119A7DF0 /* Pods_Sweechat.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
