@@ -8,7 +8,7 @@
 import Foundation
 
 struct Message: MLMessage {
-    var id: String?
+    var id: String
     var content: String
     var creationTime: Date
     var sender: MLSender
@@ -26,7 +26,7 @@ struct Message: MLMessage {
         self.sender = MLSender(id: user.id, name: user.name)
         self.content = content
         self.creationTime = Date()
-        self.id = nil
+        self.id = UUID().uuidString
         self.type = MLMessageType.text
     }
 

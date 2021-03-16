@@ -15,7 +15,7 @@ struct ChatRoomView: View {
                 .onTapGesture {
                     viewModel.handleSendMessage("hi")
                 }
-            
+
             ScrollView(.vertical) {
 
                 ForEach(viewModel.chatRoom.messages, id: \.self.id) { message in
