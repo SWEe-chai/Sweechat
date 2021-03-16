@@ -9,15 +9,15 @@ import Foundation
 
 struct MLSender {
     var id: String
-    var displayName: String
+    var name: String
 
     init(id: String) {
         self.id = id
-        self.displayName = "sender"
+        self.name = "sender"
     }
 
-    init(id: String, displayName: String) {
+    init(id: String, name: String) {
         self.id = id
-        self.displayName = displayName
+        self.name = name
     }
 }

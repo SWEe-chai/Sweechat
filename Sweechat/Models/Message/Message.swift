@@ -23,7 +23,7 @@ struct Message: MLMessage {
 //    }
 //  }
     init(user: User, content: String) {
-        self.sender = MLSender(id: user.uid, displayName: "slackers")
+        self.sender = MLSender(id: user.id, name: user.name)
         self.content = content
         self.creationTime = Date()
         self.id = nil
