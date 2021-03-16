@@ -9,7 +9,7 @@ class User {
     var lastName: String?
     var profilePictureURL: String?
 
-    public init(uid: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
+    init(uid: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
         self.lastName = lastName
         self.uid = uid

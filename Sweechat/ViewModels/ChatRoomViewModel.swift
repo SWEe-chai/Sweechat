@@ -42,7 +42,7 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     private func handleDocumentChange(_ change: DocumentChange) {
-        guard var message = MessageAdapter.convert(document: change.document) else {
+        guard let message = MessageAdapter.convert(document: change.document) else {
         return
       }
 
