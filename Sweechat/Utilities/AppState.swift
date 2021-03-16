@@ -6,4 +6,5 @@ enum AppState {
     case login
     case onboarding
     case registration
+    case settings
 }

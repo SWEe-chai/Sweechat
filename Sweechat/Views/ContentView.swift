@@ -20,6 +20,8 @@ struct ContentView: View {
             LoginView(viewModel: appViewModel.loginViewModel)
         case .registration:
             RegistrationView(viewModel: appViewModel.registrationViewModel)
+        case .settings:
+            SettingsView(viewModel: appViewModel.settingsViewModel)
         }
     }
 }
