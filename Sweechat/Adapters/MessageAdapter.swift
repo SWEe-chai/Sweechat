@@ -12,8 +12,8 @@ class MessageAdapter {
     static func convert(document: QueryDocumentSnapshot) -> Message? {
         let data = document.data()
 
-        guard let creationTime = data[DatabaseConstant.creationTime] as? Timestamp,
-              let senderId = data[DatabaseConstant.senderId] as? String else {
+        guard let creationTime = data[DatabaseConstant.Message.creationTime] as? Timestamp,
+              let senderId = data[DatabaseConstant.Message.senderId] as? String else {
         return nil
         }
 
@@ -21,7 +21,7 @@ class MessageAdapter {
 
         let sender = MLSender(id: senderId)
 
-        if let content = data[DatabaseConstant.content] as? String {
+        if let content = data[DatabaseConstant.Message.content] as? String {
         return Message(id: id, sender: sender, creationTime: creationTime.dateValue(), content: content)
         }
         return nil
@@ -29,9 +29,9 @@ class MessageAdapter {
 
     static func convert(message: Message) -> [String: Any] {
         [
-            DatabaseConstant.creationTime: message.creationTime,
-            DatabaseConstant.senderId: message.sender.id,
-            DatabaseConstant.content: message.content
+            DatabaseConstant.Message.creationTime: message.creationTime,
+            DatabaseConstant.Message.senderId: message.sender.id,
+            DatabaseConstant.Message.content: message.content
         ]
     }
 }
