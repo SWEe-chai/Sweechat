@@ -21,7 +21,7 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func connectToFirebase(chatRoomId: String?) {
-        reference = db.collection(["chatRooms", chatRoom.id, "messages"].joined(separator: "/"))
+        reference = db.collection([DatabaseConstant.chatRooms, chatRoom.id, DatabaseConstant.messages].joined(separator: "/"))
 
         messageListener = reference?.addSnapshotListener { querySnapshot, error in
           guard let snapshot = querySnapshot else {
