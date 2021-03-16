@@ -8,7 +8,8 @@ struct ContentView: View {
         case .module:
             ModuleView(viewModel: appViewModel.moduleViewModel)
         case .chatRoom:
-            ChatRoomView(viewModel: appViewModel.chatRoomViewModel)
+            ChatRoomView(viewModel: appViewModel.chatRoomViewModel,
+                         id: "1")
         case .entry:
             EntryView(viewModel: appViewModel.entryViewModel)
         case .home:

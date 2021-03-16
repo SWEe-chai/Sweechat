@@ -8,7 +8,19 @@
 import Foundation
 
 struct ChatRoom {
-    let id: UUID?
-    let messages: [Message]
+    var id: String
+    var messages: [Message]
     let permissions: ChatRoomPermissionBitmask
+
+    init() {
+        self.id = UUID().uuidString
+        self.messages = []
+        self.permissions = ChatRoomPermission.none
+    }
+
+    init(id: String) {
+        self.id = id
+        self.messages = []
+        self.permissions = ChatRoomPermission.none
+    }
 }
