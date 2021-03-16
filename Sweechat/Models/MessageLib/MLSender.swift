@@ -8,11 +8,16 @@
 import Foundation
 
 struct MLSender {
-    var id: UUID
-    var displayName: String
+    var id: String
+    var name: String
 
-    init(id: UUID, displayName: String) {
+    init(id: String) {
         self.id = id
-        self.displayName = displayName
+        self.name = "sender"
+    }
+
+    init(id: String, name: String) {
+        self.id = id
+        self.name = name
     }
 }

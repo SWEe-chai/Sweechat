@@ -44,6 +44,7 @@
 		778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F225FDEF210059C2A0 /* MLMessageType.swift */; };
 		778F090125FDEFEE0059C2A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090025FDEFEE0059C2A0 /* Message.swift */; };
 		778F090625FDF06F0059C2A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090525FDF06F0059C2A0 /* User.swift */; };
+		778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F095925FE12BA0059C2A0 /* MessageAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		778F08F225FDEF210059C2A0 /* MLMessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessageType.swift; sourceTree = "<group>"; };
 		778F090025FDEFEE0059C2A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		778F090525FDF06F0059C2A0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		778F095925FE12BA0059C2A0 /* MessageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAdapter.swift; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,6 +249,7 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				778F095825FE129A0059C2A0 /* Adapters */,
 				45D6334325FDEEF800C94D4F /* Delegates */,
 				45D6332425FDE2B100C94D4F /* Models */,
 				45D6332225FDE2A700C94D4F /* Views */,
@@ -314,6 +317,14 @@
 				778F090525FDF06F0059C2A0 /* User.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		778F095825FE129A0059C2A0 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				778F095925FE12BA0059C2A0 /* MessageAdapter.swift */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,6 +544,7 @@
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
+				778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */,
 				45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */,
 				45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,

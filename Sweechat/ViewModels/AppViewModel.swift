@@ -5,6 +5,7 @@ class AppViewModel: ObservableObject {
 
     init() {
         state = AppState.onboarding
+        // state = AppState.chatRoom
     }
 
     var onboardingViewModel: OnboardingViewModel {
@@ -32,8 +33,8 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel()
-    }
+        ChatRoomViewModel(id: "1")
+}
 
     var moduleViewModel: ModuleViewModel {
         ModuleViewModel()
