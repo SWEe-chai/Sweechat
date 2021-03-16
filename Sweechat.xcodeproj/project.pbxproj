@@ -10,6 +10,7 @@
 		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
 		3E47F81D25FE0E3200861721 /* ModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E47F81C25FE0E3200861721 /* ModuleView.swift */; };
 		3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */; };
+		3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */; };
 		3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4525FDFD1100861D74 /* ChatRoom.swift */; };
 		3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */; };
 		45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332825FDE2F500C94D4F /* OnboardingView.swift */; };
@@ -71,6 +72,7 @@
 		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3E47F81C25FE0E3200861721 /* ModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleView.swift; sourceTree = "<group>"; };
 		3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModel.swift; sourceTree = "<group>"; };
+		3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConstant.swift; sourceTree = "<group>"; };
 		3EB99D4525FDFD1100861D74 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermission.swift; sourceTree = "<group>"; };
 		45D6332825FDE2F500C94D4F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E591C4D26008B8200226DC2 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		3EB99D4425FDFD0600861D74 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +268,7 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				3E591C4D26008B8200226DC2 /* Constants */,
 				778F095825FE129A0059C2A0 /* Adapters */,
 				45D6334325FDEEF800C94D4F /* Delegates */,
 				45D6332425FDE2B100C94D4F /* Models */,
@@ -572,6 +583,7 @@
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
 				45D633BA25FE158D00C94D4F /* HomeDelegate.swift in Sources */,
+				3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				45D633B525FE154100C94D4F /* SettingsView.swift in Sources */,
