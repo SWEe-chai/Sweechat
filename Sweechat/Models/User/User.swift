@@ -18,6 +18,6 @@ class User {
     }
 
     var name: String {
-       ( self.firstName ?? "") + (self.lastName ?? "")
+       (self.firstName ?? "") + (self.lastName ?? "")
     }
 }

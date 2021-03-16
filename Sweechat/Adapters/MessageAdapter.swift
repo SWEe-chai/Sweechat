@@ -10,23 +10,20 @@ import FirebaseFirestore
 
 class MessageAdapter {
     static func convert(document: QueryDocumentSnapshot) -> Message? {
-      let data = document.data()
-        print(data)
-        print("Im here")
-      guard let creationTime = data["creationTime"] as? Timestamp,
+        let data = document.data()
+
+        guard let creationTime = data["creationTime"] as? Timestamp,
             let senderId = data["senderId"] as? String else {
         return nil
-      }
-        print("Im not here")
+        }
 
-      let id = document.documentID
+        let id = document.documentID
 
         let sender = MLSender(id: senderId)
 
-      if let content = data["content"] as? String {
-        let content = content
+        if let content = data["content"] as? String {
         return Message(id: id, sender: sender, creationTime: creationTime.dateValue(), content: content)
-      }
+        }
         return nil
     }
 

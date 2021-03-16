@@ -40,11 +40,7 @@ class ChatRoomViewModel: ObservableObject {
         // TODO: Dont hardcode
         let user = User(id: "abc", firstName: "first", lastName: "last")
         let message = Message(user: user, content: text)
-        print("sebelom")
-        print(chatRoom.messages)
-        save(message)
-        print("sesuda")
-        print(chatRoom.messages)
+        self.save(message)
     }
 
     private func save(_ message: Message) {
@@ -57,22 +53,15 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     private func insertNewMessage(_ message: Message) {
-        print("kenapa ga kesini")
-      guard !chatRoom.messages.contains(message) else {
-        return
-      }
+        guard !chatRoom.messages.contains(message) else {
+            return
+        }
 
-      chatRoom.messages.append(message)
-        print("kenapa ga kesini")
-        print(chatRoom.messages)
-      chatRoom.messages.sort()
-
-        print("kenapa ga kesini3")
-}
+        chatRoom.messages.append(message)
+        chatRoom.messages.sort()
+    }
 
     private func handleDocumentChange(_ change: DocumentChange) {
-        print("kesini gaaaa")
-        print(chatRoom.messages)
         guard let message = MessageAdapter.convert(document: change.document) else {
             return
         }
