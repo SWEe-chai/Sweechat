@@ -11,11 +11,13 @@ import FirebaseFirestore
 class MessageAdapter {
     static func convert(document: QueryDocumentSnapshot) -> Message? {
       let data = document.data()
-
-      guard let creationTime = data["created"] as? Date,
-            let senderId = data["senderID"] as? String else {
+        print(data)
+        print("Im here")
+      guard let creationTime = data["creationTime"] as? Timestamp,
+            let senderId = data["senderId"] as? String else {
         return nil
       }
+        print("Im not here")
 
       let id = document.documentID
 
@@ -23,9 +25,16 @@ class MessageAdapter {
 
       if let content = data["content"] as? String {
         let content = content
-        return Message(id: id, sender: sender, creationTime: creationTime, content: content)
+        return Message(id: id, sender: sender, creationTime: creationTime.dateValue(), content: content)
       }
         return nil
     }
 
+    static func convert(message: Message) -> [String: Any] {
+        [
+            "creationTime": message.creationTime,
+            "senderId": message.sender.id,
+            "content": message.content
+        ]
+    }
 }
