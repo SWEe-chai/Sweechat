@@ -12,11 +12,11 @@ import FacebookLogin
 class ALFacebookAuthHandler: ALAuthHandler {
     let publicProfile = "public_profile"
     let email = "email"
-    var delegate: ALAuthHandlerDelegate?
+    weak var delegate: ALAuthHandlerDelegate?
     var manager = LoginManager()
 
     func initiateSignIn() {
-        manager.logIn(permissions: [publicProfile, email], from: nil) { res, err in
+        manager.logIn(permissions: [publicProfile, email], from: nil) { _, err in
             if let err = err {
                 print("Login Error: Unable to login - \(err)")
                 return
@@ -29,6 +29,5 @@ class ALFacebookAuthHandler: ALAuthHandler {
             self.delegate?.signIn(credential: credential)
         }
     }
-
 
 }

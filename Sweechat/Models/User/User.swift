@@ -1,13 +1,13 @@
-import Foundation
+import Combine
 
-class User {
-
-    var id: String
-    var username: String?
-    var email: String
-    var firstName: String?
-    var lastName: String?
-    var profilePictureURL: String?
+class User: ObservableObject {
+    @Published var id: String
+    @Published var username: String?
+    @Published var email: String
+    @Published var firstName: String?
+    @Published var lastName: String?
+    @Published var profilePictureURL: String?
+    @Published var signedIn: Bool = false
 
     init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
@@ -19,5 +19,21 @@ class User {
 
     var name: String {
        (self.firstName ?? "") + (self.lastName ?? "")
+    }
+
+    func subscribeToSignedIn(function: @escaping (Bool) -> Void) -> AnyCancellable {
+        $signedIn.sink(receiveValue: function)
+    }
+}
+
+extension User: ALAuthDelegate {
+    func signIn(uid: String, name: String) {
+        id = uid
+        firstName = name
+        signedIn = true
+    }
+
+    func signOut() {
+        // TODO: Implement signout
     }
 }

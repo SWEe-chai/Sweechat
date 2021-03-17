@@ -164,22 +164,22 @@
 		2787974B2601E24600124FA3 /* AuthenticationLib */ = {
 			isa = PBXGroup;
 			children = (
-				2787974C2601E24600124FA3 /* AuthHandlers */,
-				278797502601E24600124FA3 /* Utils */,
 				278797522601E24600124FA3 /* ALAuth.swift */,
+				2787974C2601E24600124FA3 /* ALAuthHandlers */,
+				278797502601E24600124FA3 /* Utils */,
 				278797532601E24600124FA3 /* Delegates */,
 			);
 			path = AuthenticationLib;
 			sourceTree = "<group>";
 		};
-		2787974C2601E24600124FA3 /* AuthHandlers */ = {
+		2787974C2601E24600124FA3 /* ALAuthHandlers */ = {
 			isa = PBXGroup;
 			children = (
 				2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */,
 				2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */,
 				2787974F2601E24600124FA3 /* ALAuthHandler.swift */,
 			);
-			path = AuthHandlers;
+			path = ALAuthHandlers;
 			sourceTree = "<group>";
 		};
 		278797502601E24600124FA3 /* Utils */ = {
@@ -326,8 +326,8 @@
 				45D6334325FDEEF800C94D4F /* Delegates */,
 				45D6332425FDE2B100C94D4F /* Models */,
 				45D6332225FDE2A700C94D4F /* Views */,
-				45D6333725FDE42B00C94D4F /* Utilities */,
 				45D6332325FDE2AC00C94D4F /* ViewModels */,
+				45D6333725FDE42B00C94D4F /* Utilities */,
 				778F08B625FDDA420059C2A0 /* AppDelegate.swift */,
 				778F08B825FDDA420059C2A0 /* SceneDelegate.swift */,
 				778F08BF25FDDA470059C2A0 /* Assets.xcassets */,

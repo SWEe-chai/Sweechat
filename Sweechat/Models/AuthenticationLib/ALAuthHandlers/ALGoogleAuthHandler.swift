@@ -39,7 +39,10 @@ class ALGoogleAuthHandler: NSObject, GIDSignInDelegate, ALAuthHandler {
             return
         }
 
-        guard let authentication = user.authentication else { return }
+        guard let authentication = user.authentication else {
+            return
+        }
+
         let credential = GoogleAuthProvider
             .credential(withIDToken: authentication.idToken,
                         accessToken: authentication.accessToken)
