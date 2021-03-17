@@ -1,10 +1,3 @@
-//
-//  FacebookAuthHandler.swift
-//  SlackersTest
-//
-//  Created by Hai Nguyen on 17/3/21.
-//
-
 import Foundation
 import Firebase
 import FacebookLogin

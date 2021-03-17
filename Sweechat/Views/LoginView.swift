@@ -12,9 +12,6 @@ struct LoginView: View {
             Button(action: viewModel.didTapFacebookLogin) {
                 Text("Log in with Facebook")
             }
-//            Button(action: viewModel.didTapHomeButton) {
-//                Text("Home")
-//            }
         }
     }
 }
