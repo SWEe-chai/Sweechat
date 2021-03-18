@@ -52,9 +52,12 @@ class ModuleViewModel: ObservableObject {
 
         switch change.type {
         case .added:
+            os_log("handleDocumentChange in ModuleViewModel with type .added")
             insertNewChatRoom(chatRoom)
-        default:
-            print("not added with the change.type: \(change.type)")
+        case .removed:
+            os_log("TODO: Handle removal in ModuleViewModel")
+        case .modified:
+            os_log("TODO: Handle modified in ModuleViewModel")
         }
     }
 
