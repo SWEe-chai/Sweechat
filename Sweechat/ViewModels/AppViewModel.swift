@@ -37,7 +37,7 @@ class AppViewModel: ObservableObject {
 }
 
     var moduleViewModel: ModuleViewModel {
-        ModuleViewModel()
+        ModuleViewModel(id: "1")
     }
 
     var homeViewModel: HomeViewModel {
