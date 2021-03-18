@@ -27,7 +27,7 @@ class ALAuth {
         return handler
     }
 
-    func getExistingLoginDetailsAndLogin(details: ALLoginDetails) {
+    private func getExistingLoginDetailsAndLogin(details: ALLoginDetails) {
         let uid = details.uid
         db.collection("users").document(uid).getDocument { document, _ in
             guard let document = document,
@@ -42,7 +42,7 @@ class ALAuth {
         }
     }
 
-    func addNewUser(withDetails details: ALLoginDetails) {
+    private func addNewUser(withDetails details: ALLoginDetails) {
         db.collection("users").document(details.uid).setData([
             "userid": details.uid,
             "name": details.name,
