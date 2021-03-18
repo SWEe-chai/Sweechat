@@ -11,6 +11,20 @@ struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
 
     var body: some View {
-        Text(viewModel.text)
+        VStack {
+            Text("Module name: \(viewModel.name)")
+            Text("Chatrooms: ")
+            ScrollView(.vertical) {
+                ForEach(viewModel.module.chatRooms, id: \.self.id) { chatRoom in
+                    VStack {
+                        Text("Chatroom with id: \(chatRoom.id)")
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .onAppear {
+            viewModel.connectToFirebase()
+        }
     }
 }

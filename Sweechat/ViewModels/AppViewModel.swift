@@ -4,8 +4,9 @@ class AppViewModel: ObservableObject {
     @Published var state: AppState
 
     init() {
-        state = AppState.onboarding
+        // state = AppState.onboarding
         // state = AppState.chatRoom
+        state = AppState.module
     }
 
     var onboardingViewModel: OnboardingViewModel {

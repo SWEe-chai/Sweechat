@@ -24,3 +24,14 @@ struct ChatRoom {
         self.permissions = ChatRoomPermission.none
     }
 }
+
+// MARK: Comparable
+extension ChatRoom: Comparable {
+    static func == (lhs: ChatRoom, rhs: ChatRoom) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    static func < (lhs: ChatRoom, rhs: ChatRoom) -> Bool {
+        lhs.id < rhs.id
+    }
+}

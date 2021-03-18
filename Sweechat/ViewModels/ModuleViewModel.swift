@@ -46,6 +46,23 @@ class ModuleViewModel: ObservableObject {
     }
 
     private func handleDocumentChange(_ change: DocumentChange) {
-        os_log("handleDocumentChange is not implemented")
+        guard let chatRoom = ChatRoomAdapter.convert(document: change.document) else {
+            return
+        }
+
+        switch change.type {
+        case .added:
+            insertNewChatRoom(chatRoom)
+        default:
+            print("not added with the change.type: \(change.type)")
+        }
+    }
+
+    private func insertNewChatRoom(_ chatRoom: ChatRoom) {
+        guard !module.chatRooms.contains(chatRoom) else {
+            return
+        }
+
+        module.chatRooms.append(chatRoom)
     }
 }
