@@ -14,6 +14,7 @@
 		3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4525FDFD1100861D74 /* ChatRoom.swift */; };
 		3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */; };
 		3ED17EF02602F5DA008C970A /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED17EEF2602F5DA008C970A /* Module.swift */; };
+		3EF88FA3260302420056A702 /* ChatRoomAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF88FA2260302420056A702 /* ChatRoomAdapter.swift */; };
 		45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332825FDE2F500C94D4F /* OnboardingView.swift */; };
 		45D6332E25FDE32200C94D4F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
@@ -77,6 +78,7 @@
 		3EB99D4525FDFD1100861D74 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermission.swift; sourceTree = "<group>"; };
 		3ED17EEF2602F5DA008C970A /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		3EF88FA2260302420056A702 /* ChatRoomAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomAdapter.swift; sourceTree = "<group>"; };
 		45D6332825FDE2F500C94D4F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				778F095925FE12BA0059C2A0 /* MessageAdapter.swift */,
+				3EF88FA2260302420056A702 /* ChatRoomAdapter.swift */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
+				3EF88FA3260302420056A702 /* ChatRoomAdapter.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,

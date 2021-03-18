@@ -23,4 +23,8 @@ struct DatabaseConstant {
     struct Module {
         static let defaultModuleName = "CS3217 (Default)"
     }
+
+    struct ChatRoom {
+        static let id = "id"
+    }
 }
