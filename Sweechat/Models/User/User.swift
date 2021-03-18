@@ -27,9 +27,9 @@ class User: ObservableObject {
 }
 
 extension User: ALAuthDelegate {
-    func signIn(uid: String, name: String) {
-        id = uid
-        firstName = name
+    func signIn(withDetails details: ALLoginDetails) {
+        id = details.uid
+        firstName = details.name
         signedIn = true
     }
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
+		271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
 		278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */; };
 		278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974F2601E24600124FA3 /* ALAuthHandler.swift */; };
@@ -77,6 +78,7 @@
 
 /* Begin PBXFileReference section */
 		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALLoginDetails.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
 		2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALFacebookAuthHandler.swift; sourceTree = "<group>"; };
 		2787974F2601E24600124FA3 /* ALAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandler.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				278797512601E24600124FA3 /* ALAuthHandlerType.swift */,
+				271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -613,6 +616,7 @@
 			files = (
 				3E47F81D25FE0E3200861721 /* ModuleView.swift in Sources */,
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
+				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
