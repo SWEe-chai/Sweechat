@@ -7,7 +7,7 @@ class FirebaseUserFacade: UserFacade {
     private var db = Firestore.firestore()
     private var userId: String!
     private var reference: DocumentReference?
-    private var messageListener: ListenerRegistration?
+    private var userListener: ListenerRegistration?
 
     func loginAsUser(withDetails details: UserDetails) {
         userId = details.id
@@ -33,8 +33,13 @@ class FirebaseUserFacade: UserFacade {
     }
 
     private func setUpConnectionAsUser() {
+        let userDetails = FirebaseUserFacade.getUserDetails(userId: userId)
+        self.delegate?.updateUserData(withDetails: details)
+    }
+    
+    static func getUserDetailsFromFirebase(userId: String) -> UserDetails? {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
-        messageListener = reference?.addSnapshotListener { querySnapshot, error in
+        userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot,
                   let data = snapshot.data() else {
                 print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -46,11 +51,10 @@ class FirebaseUserFacade: UserFacade {
                 print("Error reading data update for user")
                 return
             }
-            let details = UserDetails(id: id,
+            return UserDetails(id: id,
                                       name: name,
                                       profilePictureUrl: profilePictureUrl,
                                       isLoggedIn: true)
-            self.delegate?.updateUserData(withDetails: details)
         }
     }
 }

@@ -2,8 +2,6 @@ import Combine
 
 class User: ObservableObject {
     @Published var id: String
-    @Published var username: String?
-    @Published var email: String
     @Published var name: String?
     @Published var profilePictureUrl: String?
     @Published var signedIn: Bool = false
@@ -20,6 +18,13 @@ class User: ObservableObject {
         self.profilePictureUrl = photoUrl
         self.userFacade = FirebaseUserFacade()
         userFacade.delegate = self
+    }
+    
+    init(details: UserDetails) {
+        self.id = details.id
+        self.name = details.name
+        self.profilePictureUrl = details.profilePictureUrl
+        self.isLoggedIn = isLoggedIn
     }
 
     func subscribeToSignedIn(function: @escaping (Bool) -> Void) -> AnyCancellable {
