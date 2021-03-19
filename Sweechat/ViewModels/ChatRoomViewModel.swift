@@ -40,7 +40,8 @@ class ChatRoomViewModel: ObservableObject {
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        let message = Message(sender: AppConstant.user, content: text)        self.save(message)
+        let message = Message(sender: AppConstant.user, content: text)
+        self.save(message)
     }
 
     private func save(_ message: Message) {

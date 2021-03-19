@@ -4,8 +4,12 @@
 //
 //  Created by Agnes Natasya on 19/3/21.
 //
-import Foundation
+import FirebaseFirestore
+
 class FirebaseMessageFacade: MessageFacade {
+    static var db = Firestore.firestore()
+    static var reference: DocumentReference?
+
     static func convert(document: QueryDocumentSnapshot) -> Message? {
         let data = document.data()
 
@@ -15,22 +19,15 @@ class FirebaseMessageFacade: MessageFacade {
         }
 
         let id = document.documentID
-        guard let sender = UserAdapter.getUserDetails(id: senderId) else {
+        guard let senderDetails = FirebaseUserFacade.getUserDetails(userId: senderId) else {
             return nil
         }
+        let sender = User(details: senderDetails)
 
         if let content = data[DatabaseConstant.Message.content] as? String {
         return Message(id: id, sender: sender, creationTime: creationTime.dateValue(), content: content)
         }
         return nil
-    }
-
-    static func convert(message: Message) -> [String: Any] {
-        [
-            DatabaseConstant.Message.creationTime: message.creationTime,
-            DatabaseConstant.Message.senderId: message.sender.id,
-            DatabaseConstant.Message.content: message.content
-        ]
     }
 
 }

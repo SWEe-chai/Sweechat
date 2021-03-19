@@ -2,9 +2,9 @@ import Combine
 
 class User: ObservableObject {
     @Published var id: String
-    @Published var name: String?
+    @Published var name: String
     @Published var profilePictureUrl: String?
-    @Published var signedIn: Bool = false
+    @Published var isLoggedIn: Bool = false
     private var userFacade: UserFacade
 
     static func createUser() -> User {
@@ -14,7 +14,7 @@ class User: ObservableObject {
     private init(id: String, name: String, profilePictureUrl: String = "", email: String = "") {
         self.name = name
         self.id = id
-        self.profilePictureUrl = photoUrl
+        self.profilePictureUrl = profilePictureUrl
         self.userFacade = FirebaseUserFacade()
         userFacade.delegate = self
     }
@@ -24,10 +24,12 @@ class User: ObservableObject {
         self.name = details.name
         self.profilePictureUrl = details.profilePictureUrl
         self.isLoggedIn = details.isLoggedIn
+        self.userFacade = FirebaseUserFacade()
+        userFacade.delegate = self
     }
 
     func subscribeToSignedIn(function: @escaping (Bool) -> Void) -> AnyCancellable {
-        $signedIn.sink(receiveValue: function)
+        $isLoggedIn.sink(receiveValue: function)
     }
 }
 
@@ -52,6 +54,6 @@ extension User: UserFacadeDelegate {
         self.id = details.id
         self.name = details.name
         self.profilePictureUrl = details.profilePictureUrl
-        self.signedIn = details.isLoggedIn
+        self.isLoggedIn = details.isLoggedIn
     }
 }
