@@ -1,10 +1,3 @@
-//
-//  LoginDetails.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 19/3/21.
-//
-
 import Foundation
 
 struct UserDetails {
