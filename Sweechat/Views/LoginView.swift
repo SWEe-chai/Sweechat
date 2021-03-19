@@ -6,8 +6,11 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-            Button(action: viewModel.didTapHomeButton) {
-                Text("Home")
+            Button(action: viewModel.didTapGoogleLogin) {
+                Text("Log in with Google")
+            }
+            Button(action: viewModel.didTapFacebookLogin) {
+                Text("Log in with Facebook")
             }
         }
     }
