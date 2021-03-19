@@ -37,7 +37,7 @@ class FirebaseUserFacade: UserFacade {
         self.delegate?.updateUserData(withDetails: details)
     }
     
-    static func getUserDetailsFromFirebase(userId: String) -> UserDetails? {
+    static func getUserDetails(userId: String) -> UserDetails? {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot,
