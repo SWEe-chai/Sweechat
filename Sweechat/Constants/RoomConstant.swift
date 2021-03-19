@@ -5,6 +5,7 @@
 //  Created by Agnes Natasya on 18/3/21.
 //
 
+// TODO: Remove dummy
 struct RoomConstant {
-    let receiver = MLUser(id: "user2", firstName: "User", lastName: "2")
+    static let receiver = MLUser(id: "user2", firstName: "User", lastName: "2")
 }
