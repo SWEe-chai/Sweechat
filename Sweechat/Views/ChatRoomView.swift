@@ -20,7 +20,13 @@ struct ChatRoomView: View {
 
                 ForEach(viewModel.chatRoom.messages, id: \.self.id) { message in
                     VStack {
-                        Text("\(message.content) from \(message.sender.name)")
+                        if message.sender.id == AppConstant.user.id {
+                            Text("\(message.sender.name): \(message.content)")
+                                .foregroundColor(Color.green)
+                        } else {
+                            Text("\(message.sender.name): \(message.content)")
+                                .foregroundColor(Color.red)
+                        }
                     }
                 }
             }
