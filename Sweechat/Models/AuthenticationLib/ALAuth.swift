@@ -25,6 +25,7 @@ class ALAuth {
         return handler
     }
 }
+
 // MARK: ALAuthHandlerDelegate
 extension ALAuth: ALAuthHandlerDelegate {
     func signIn(credential: AuthCredential) {

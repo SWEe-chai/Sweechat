@@ -47,6 +47,7 @@ extension User: ALAuthDelegate {
     }
 }
 
+// MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
     func updateUserData(withDetails details: UserDetails) {
         self.id = details.id
