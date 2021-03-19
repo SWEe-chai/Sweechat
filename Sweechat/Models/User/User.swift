@@ -10,7 +10,11 @@ class User: ObservableObject {
     @Published var signedIn: Bool = false
     private var userFacade: UserFacade
 
-    init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
+    static func createUser() -> User {
+        User(id: "abc", firstName: "firtName", lastName: "lastName")
+    }
+
+    private init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
         self.lastName = lastName
         self.id = id

@@ -8,7 +8,7 @@ class AppViewModel: ObservableObject {
 
     init() {
         state = AppState.onboarding
-        user = User(id: "", firstName: "", lastName: "") // Dummy user
+        user = User.createUser()
         authentication = ALAuth()
         authentication.delegate = user
         initialiseSubscribers()

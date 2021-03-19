@@ -40,7 +40,7 @@ class ChatRoomViewModel: ObservableObject {
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        let user = User(id: "abc", firstName: "first", lastName: "last")
+        let user = User.createUser()
         let message = Message(user: user, content: text)
         self.save(message)
     }
