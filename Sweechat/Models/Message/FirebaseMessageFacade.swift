@@ -19,12 +19,6 @@ class FirebaseMessageFacade: MessageFacade {
         }
 
         let id = document.documentID
-
-//        guard let senderDetails = FirebaseUserFacade.getUserDetails(userId: senderId) else {
-//            return nil
-//        }
-//        let sender = User(details: senderDetails)
-
         if let content = data?[DatabaseConstant.Message.content] as? String {
         return MessageRepresentation(
             id: id,

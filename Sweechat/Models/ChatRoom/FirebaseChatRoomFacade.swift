@@ -55,7 +55,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
 
         var senderRep: UserRepresentation?
-        let referenceToSenderDocument = db
+        db
             .collection(DatabaseConstant.Collection.users)
             .document(messageRep.senderId)
             .getDocument(completion: { documentSnapshot, error in

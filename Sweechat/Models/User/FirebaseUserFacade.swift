@@ -33,7 +33,8 @@ class FirebaseUserFacade: UserFacade {
                 FirebaseUserFacade
                     .convert(userDetails: details), completion: { _ in
             self.setUpConnectionAsUser()
-                    })
+                    }
+            )
     }
 
     private func setUpConnectionAsUser() {
@@ -46,8 +47,7 @@ class FirebaseUserFacade: UserFacade {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
         var details: UserRepresentation?
         userListener = reference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot,
-                  let _ = snapshot.data() else {
+            guard let snapshot = querySnapshot else {
                     print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
@@ -65,10 +65,12 @@ class FirebaseUserFacade: UserFacade {
             print("Error reading data update for user")
             return nil
         }
-        details = UserRepresentation(id: id,
-                                  name: name,
-                                  profilePictureUrl: profilePictureUrl,
-                                  isLoggedIn: true)
+        details = UserRepresentation(
+            id: id,
+            name: name,
+            profilePictureUrl: profilePictureUrl,
+            isLoggedIn: true
+        )
 
         return details
     }
