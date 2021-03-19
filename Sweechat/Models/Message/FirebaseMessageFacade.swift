@@ -7,27 +7,38 @@
 import FirebaseFirestore
 
 class FirebaseMessageFacade: MessageFacade {
-    static var db = Firestore.firestore()
-    static var reference: DocumentReference?
+    var db = Firestore.firestore()
+    var reference: DocumentReference?
 
-    static func convert(document: QueryDocumentSnapshot) -> Message? {
+    static func convert(document: DocumentSnapshot) -> MessageRepresentation? {
         let data = document.data()
 
-        guard let creationTime = data[DatabaseConstant.Message.creationTime] as? Timestamp,
-              let senderId = data[DatabaseConstant.Message.senderId] as? String else {
+        guard let creationTime = data?[DatabaseConstant.Message.creationTime] as? Timestamp,
+              let senderId = data?[DatabaseConstant.Message.senderId] as? String else {
             return nil
         }
 
         let id = document.documentID
-        guard let senderDetails = FirebaseUserFacade.getUserDetails(userId: senderId) else {
-            return nil
-        }
-        let sender = User(details: senderDetails)
 
-        if let content = data[DatabaseConstant.Message.content] as? String {
-        return Message(id: id, sender: sender, creationTime: creationTime.dateValue(), content: content)
+//        guard let senderDetails = FirebaseUserFacade.getUserDetails(userId: senderId) else {
+//            return nil
+//        }
+//        let sender = User(details: senderDetails)
+
+        if let content = data?[DatabaseConstant.Message.content] as? String {
+        return MessageRepresentation(
+            id: id,
+            creationTime: creationTime.dateValue(), senderId: senderId,
+            content: content)
         }
         return nil
     }
 
+    static func convert(message: Message) -> [String: Any] {
+        [
+            DatabaseConstant.Message.creationTime: message.creationTime,
+            DatabaseConstant.Message.senderId: message.sender.id,
+            DatabaseConstant.Message.content: message.content
+        ]
+    }
 }
