@@ -4,13 +4,17 @@ class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
     private var userId: String!
 
-    static var db = Firestore.firestore()
-    static var reference: DocumentReference?
-    private static var userListener: ListenerRegistration?
+    var db = Firestore.firestore()
+    var reference: DocumentReference?
+    private var userListener: ListenerRegistration?
 
-    func loginAsUser(withDetails details: UserDetails) {
+    init(userId: String) {
+        self.userId = userId
+    }
+
+    func loginAsUser(withDetails details: UserRepresentation) {
         userId = details.id
-        FirebaseUserFacade.db.collection(DatabaseConstant.Collection.users).document(userId).getDocument { document, _ in
+        self.db.collection(DatabaseConstant.Collection.users).document(userId).getDocument { document, _ in
             guard let document = document,
                   document.exists else {
                 // In this case user is a new user
@@ -21,42 +25,60 @@ class FirebaseUserFacade: UserFacade {
         }
     }
 
-    private func addUser(withDetails details: UserDetails) {
-        FirebaseUserFacade.db.collection(DatabaseConstant.Collection.users).document(details.id).setData([
-                    DatabaseConstant.User.id: details.id,
-                    DatabaseConstant.User.name: details.name,
-                    DatabaseConstant.User.profilePictureUrl: details.profilePictureUrl
-        ], completion: { _ in
+    private func addUser(withDetails details: UserRepresentation) {
+        self.db
+            .collection(DatabaseConstant.Collection.users)
+            .document(details.id)
+            .setData(
+                FirebaseUserFacade
+                    .convert(userDetails: details), completion: { _ in
             self.setUpConnectionAsUser()
-        })
+                    })
     }
 
     private func setUpConnectionAsUser() {
-        if let userDetails = FirebaseUserFacade.getUserDetails(userId: userId) {
+        if let userDetails = self.getLoggedInUserDetails() {
             self.delegate?.updateUserData(withDetails: userDetails)
         }
     }
-    
-    static func getUserDetails(userId: String) -> UserDetails? {
+
+    func getLoggedInUserDetails() -> UserRepresentation? {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
-        var details: UserDetails? = nil
+        var details: UserRepresentation?
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot,
-                  let data = snapshot.data() else {
-                print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                  let _ = snapshot.data() else {
+                    print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            guard let id = data[DatabaseConstant.User.id] as? String,
-                  let name = data[DatabaseConstant.User.name] as? String,
-                  let profilePictureUrl = data[DatabaseConstant.User.profilePictureUrl] as? String else {
-                print("Error reading data update for user")
-                return
-            }
-            details = UserDetails(id: id,
-                                      name: name,
-                                      profilePictureUrl: profilePictureUrl,
-                                      isLoggedIn: true)
+            details = FirebaseUserFacade.convert(document: snapshot)
         }
         return details
+    }
+
+    static func convert(document: DocumentSnapshot) -> UserRepresentation? {
+        let data = document.data()
+        var details: UserRepresentation?
+        guard let id = data?[DatabaseConstant.User.id] as? String,
+              let name = data?[DatabaseConstant.User.name] as? String,
+              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
+            print("Error reading data update for user")
+            return nil
+        }
+        details = UserRepresentation(id: id,
+                                  name: name,
+                                  profilePictureUrl: profilePictureUrl,
+                                  isLoggedIn: true)
+
+        return details
+    }
+
+    static func convert(userDetails: UserRepresentation) -> [String: Any] {
+        [
+            DatabaseConstant.User.id: userDetails.id,
+            DatabaseConstant.User.name: userDetails.name,
+            DatabaseConstant.User.profilePictureUrl: userDetails.profilePictureUrl
+        ]
+
     }
 }

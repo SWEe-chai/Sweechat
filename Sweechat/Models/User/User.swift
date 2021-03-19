@@ -15,16 +15,16 @@ class User: ObservableObject {
         self.name = name
         self.id = id
         self.profilePictureUrl = profilePictureUrl
-        self.userFacade = FirebaseUserFacade()
+        self.userFacade = FirebaseUserFacade(userId: id)
         userFacade.delegate = self
     }
-    
-    init(details: UserDetails) {
+
+    init(details: UserRepresentation) {
         self.id = details.id
         self.name = details.name
         self.profilePictureUrl = details.profilePictureUrl
         self.isLoggedIn = details.isLoggedIn
-        self.userFacade = FirebaseUserFacade()
+        self.userFacade = FirebaseUserFacade(userId: details.id)
         userFacade.delegate = self
     }
 
@@ -37,7 +37,7 @@ class User: ObservableObject {
 extension User: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
         userFacade.loginAsUser(
-            withDetails: UserDetails(
+            withDetails: UserRepresentation(
                 id: details.id,
                 name: details.name,
                 profilePictureUrl: details.profilePictureUrl))
@@ -50,7 +50,7 @@ extension User: ALAuthDelegate {
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
-    func updateUserData(withDetails details: UserDetails) {
+    func updateUserData(withDetails details: UserRepresentation) {
         self.id = details.id
         self.name = details.name
         self.profilePictureUrl = details.profilePictureUrl
