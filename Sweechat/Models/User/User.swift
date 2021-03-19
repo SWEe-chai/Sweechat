@@ -33,6 +33,7 @@ class User: ObservableObject {
     }
 }
 
+// MARK: ALAuthDelegate
 extension User: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
         userFacade.loginAsUser(
