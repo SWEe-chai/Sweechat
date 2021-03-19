@@ -11,7 +11,7 @@ class User: ObservableObject {
     private var userFacade: UserFacade
 
     static func createUser() -> User {
-        User(id: "abc", firstName: "firtName", lastName: "lastName")
+        User(id: "abc", firstName: "firstName", lastName: "lastName")
     }
 
     private init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {

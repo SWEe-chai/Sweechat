@@ -2,13 +2,15 @@ import Firebase
 import FacebookLogin
 
 class ALFacebookAuthHandler: ALAuthHandler {
-    let publicProfile = "public_profile"
-    let email = "email"
     weak var delegate: ALAuthHandlerDelegate?
     var manager = LoginManager()
 
     func initiateSignIn() {
-        manager.logIn(permissions: [publicProfile, email], from: nil) { _, err in
+        manager.logIn(
+            permissions:
+                [ALConstants.Facebook.publicProfile,
+                 ALConstants.Facebook.email],
+            from: nil) { _, err in
             if let err = err {
                 print("Login Error: Unable to login - \(err)")
                 return
