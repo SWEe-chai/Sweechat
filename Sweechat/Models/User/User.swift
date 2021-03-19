@@ -8,6 +8,7 @@ class User: ObservableObject {
     @Published var lastName: String?
     @Published var profilePictureURL: String?
     @Published var signedIn: Bool = false
+    private var userFacade: UserFacade
 
     init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
         self.firstName = firstName
@@ -15,6 +16,8 @@ class User: ObservableObject {
         self.id = id
         self.email = email
         self.profilePictureURL = avatarURL
+        self.userFacade = FirebaseUserFacade()
+        userFacade.delegate = self
     }
 
     var name: String {
@@ -28,12 +31,23 @@ class User: ObservableObject {
 
 extension User: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
-        id = details.id
-        firstName = details.name
-        signedIn = true
+        userFacade.loginAsUser(
+            withDetails: UserDetails(
+                id: details.id,
+                name: details.name,
+                profilePictureURL: details.profilePictureURL))
     }
 
     func signOut() {
         // TODO: Implement signout
+    }
+}
+
+extension User: UserFacadeDelegate {
+    func updateUserData(withDetails details: UserDetails) {
+        self.id = details.id
+        self.firstName = details.name
+        self.profilePictureURL = details.profilePictureURL
+        self.signedIn = details.isLoggedIn
     }
 }

@@ -1,10 +1,8 @@
 import Firebase
-import FirebaseFirestore
 import SwiftUI
 
 class ALAuth {
     private var authHandlers: [ALAuthHandlerType: ALAuthHandler] = [:]
-    private var db = Firestore.firestore()
     weak var delegate: ALAuthDelegate?
     var loginDetails: ALLoginDetails?
 
@@ -26,29 +24,6 @@ class ALAuth {
         }
         return handler
     }
-
-    private func getExistingLoginDetailsAndLogin(details: ALLoginDetails) {
-        let uid = details.id
-        db.collection("users").document(uid).getDocument { document, _ in
-            guard let document = document,
-                  document.exists,
-                  let name = document.data()?["name"] as? String,
-                  let photo = document.data()?["photo"] as? String else {
-                self.addNewUser(withDetails: details)
-                self.delegate?.signIn(withDetails: details)
-                return
-            }
-            self.delegate?.signIn(withDetails: ALLoginDetails(id: uid, name: name, profilePictureURL: photo))
-        }
-    }
-
-    private func addNewUser(withDetails details: ALLoginDetails) {
-        db.collection("users").document(details.id).setData([
-            "userid": details.id,
-            "name": details.name,
-            "photo": details.profilePictureURL
-        ])
-    }
 }
 
 extension ALAuth: ALAuthHandlerDelegate {
@@ -65,7 +40,11 @@ extension ALAuth: ALAuthHandlerDelegate {
             let id: String = user.uid
             let displayName: String = user.displayName ?? ""
             let profilePictureURL: String = user.photoURL?.absoluteString ?? ""
-            self.delegate?.signIn(withDetails: ALLoginDetails(id: id, name: displayName, profilePictureURL: profilePictureURL))
+            self.delegate?.signIn(
+                withDetails: ALLoginDetails(
+                    id: id,
+                    name: displayName,
+                    profilePictureURL: profilePictureURL))
         }
     }
 
