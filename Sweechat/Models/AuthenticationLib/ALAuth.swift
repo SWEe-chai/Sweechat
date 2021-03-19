@@ -28,7 +28,7 @@ class ALAuth {
     }
 
     private func getExistingLoginDetailsAndLogin(details: ALLoginDetails) {
-        let uid = details.uid
+        let uid = details.id
         db.collection("users").document(uid).getDocument { document, _ in
             guard let document = document,
                   document.exists,
@@ -38,15 +38,15 @@ class ALAuth {
                 self.delegate?.signIn(withDetails: details)
                 return
             }
-            self.delegate?.signIn(withDetails: ALLoginDetails(uid: uid, name: name, photo: photo))
+            self.delegate?.signIn(withDetails: ALLoginDetails(id: uid, name: name, profilePictureURL: photo))
         }
     }
 
     private func addNewUser(withDetails details: ALLoginDetails) {
-        db.collection("users").document(details.uid).setData([
-            "userid": details.uid,
+        db.collection("users").document(details.id).setData([
+            "userid": details.id,
             "name": details.name,
-            "photo": details.photo
+            "photo": details.profilePictureURL
         ])
     }
 }
@@ -62,12 +62,10 @@ extension ALAuth: ALAuthHandlerDelegate {
                 print("FIREBASE: Unable to authenticate user.")
                 return
             }
-            let uid: String = user.uid
+            let id: String = user.uid
             let displayName: String = user.displayName ?? ""
-            let photo: String = user.photoURL?.absoluteString ?? ""
-            let loginDetails = ALLoginDetails(uid: uid, name: displayName, photo: photo)
-
-            self.getExistingLoginDetailsAndLogin(details: loginDetails)
+            let profilePictureURL: String = user.photoURL?.absoluteString ?? ""
+            self.delegate?.signIn(withDetails: ALLoginDetails(id: id, name: displayName, profilePictureURL: profilePictureURL))
         }
     }
 

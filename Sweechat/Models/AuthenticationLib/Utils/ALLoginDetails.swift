@@ -1,7 +1,7 @@
 import Foundation
 
 struct ALLoginDetails {
-    let uid: String
+    let id: String
     let name: String
-    let photo: String
+    let profilePictureURL: String
 }
