@@ -9,10 +9,10 @@ import Firebase
 import FirebaseFirestore
 
 class UserAdapter {
-    static func getUserDetails(id: String) -> MLUser? {
+    static func getUserDetails(id: String) -> User? {
         let db = Firestore.firestore()
         let docRef = db.collection("users").document(id)
-        var user = MLUser()
+        var user = User()
         docRef.getDocument { document, _ in
             if let document = document, document.exists {
                 let data = document.data()
@@ -21,7 +21,7 @@ class UserAdapter {
                       let photoUrl = data?[DatabaseConstant.User.photo] as? String else {
                 return
                 }
-                user = MLUser(id: id, firstName: name, lastName: name, photoUrl: photoUrl)
+                user = User(id: id, firstName: name, lastName: name, photoUrl: photoUrl)
             } else {
                 print("Document does not exist")
             }

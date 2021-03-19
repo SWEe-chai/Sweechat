@@ -1,11 +1,29 @@
-import Foundation
+import Combine
 
 class AppViewModel: ObservableObject {
     @Published var state: AppState
+    var user: User
+    var authentication: ALAuth
+    var subscribers: [AnyCancellable]?
 
     init() {
-        // state = AppState.onboarding
-        state = AppState.chatRoom
+        state = AppState.onboarding
+        user = User.createUser()
+        authentication = ALAuth()
+        authentication.delegate = user
+        initialiseSubscribers()
+        // state = AppState.chatRoom
+    }
+
+    func initialiseSubscribers() {
+        subscribers = []
+        let signedInSubscriber = user.subscribeToSignedIn { userIsSignedIn in
+            if !userIsSignedIn {
+                return
+            }
+            self.change(state: .home)
+        }
+        subscribers?.append(signedInSubscriber)
     }
 
     var onboardingViewModel: OnboardingViewModel {
@@ -21,7 +39,7 @@ class AppViewModel: ObservableObject {
     }
 
     var loginViewModel: LoginViewModel {
-        let viewModel = LoginViewModel()
+        let viewModel = LoginViewModel(auth: authentication)
         viewModel.delegate = self
         return viewModel
     }
@@ -34,14 +52,14 @@ class AppViewModel: ObservableObject {
 
     var chatRoomViewModel: ChatRoomViewModel {
         ChatRoomViewModel(id: "1")
-}
+    }
 
     var moduleViewModel: ModuleViewModel {
         ModuleViewModel()
     }
 
     var homeViewModel: HomeViewModel {
-        let viewModel = HomeViewModel()
+        let viewModel = HomeViewModel(user: user)
         viewModel.delegate = self
         return viewModel
     }

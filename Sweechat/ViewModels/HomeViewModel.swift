@@ -2,9 +2,14 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     weak var delegate: HomeDelegate?
+    var user: User
+
+    init(user: User) {
+        self.user = user
+    }
 
     var text: String {
-        "Home"
+        "Welcome home \(user.firstName ?? "")"
     }
 
     func didTapModuleButton() {

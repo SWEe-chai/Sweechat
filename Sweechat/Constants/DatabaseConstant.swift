@@ -9,6 +9,13 @@ struct DatabaseConstant {
     struct Collection {
         static let chatRooms = "chatRooms"
         static let messages = "messages"
+        static let users = "users"
+    }
+
+    struct User {
+        static let id = "id"
+        static let name = "name"
+        static let profilePictureURL = "profilePictureURL"
     }
 
     struct Message {
