@@ -7,9 +7,6 @@ struct ChatRoomView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-                .onAppear {
-                    viewModel.connectToFirebase(chatRoomId: id)
-                }
 
             Text("send something")
                 .onTapGesture {
