@@ -11,7 +11,7 @@ struct Message: MLMessage {
     var id: String
     var content: String
     var creationTime: Date
-    var sender: MLSender
+    var sender: MLUser
     var type: MLMessageType
     var downloadURL: URL?
 
@@ -22,22 +22,22 @@ struct Message: MLMessage {
 //      return .text(content)
 //    }
 //  }
-    init(user: User, content: String) {
-        self.sender = MLSender(id: user.id, name: user.name)
+    init(sender: MLUser, content: String) {
+        self.sender = sender
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
         self.type = MLMessageType.text
     }
 
-    init(id: String, sender: MLSender, creationTime: Date, content: String) {
+    init(id: String, sender: MLUser, creationTime: Date, content: String) {
         self.id = id
         self.sender = sender
         self.creationTime = creationTime
         self.content = content
         self.type = MLMessageType.text
     }
-//  init(user: User, image: UIImage) {
+//  init(user: MLUser, image: UIImage) {
 //    sender = Sender(id: user.uid, displayName: AppSettings.displayName)
 //    self.image = image
 //    content = ""
