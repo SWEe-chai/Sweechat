@@ -47,6 +47,11 @@
 		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
 		45D633BA25FE158D00C94D4F /* HomeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B925FE158D00C94D4F /* HomeDelegate.swift */; };
 		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
+		775B920D2604F80E0040B985 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B920C2604F80E0040B985 /* AppConstant.swift */; };
+		775B92122604F83B0040B985 /* RoomConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92112604F83B0040B985 /* RoomConstant.swift */; };
+		775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92162604F8710040B985 /* FirebaseMessageFacade.swift */; };
+		775B921C2604F8830040B985 /* MessageFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B921B2604F8830040B985 /* MessageFacade.swift */; };
+		775B92212604F8980040B985 /* MessageFacadeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92202604F8980040B985 /* MessageFacadeDelegate.swift */; };
 		778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B625FDDA420059C2A0 /* AppDelegate.swift */; };
 		778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08B825FDDA420059C2A0 /* SceneDelegate.swift */; };
 		778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08BA25FDDA420059C2A0 /* ContentView.swift */; };
@@ -56,9 +61,7 @@
 		778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */; };
 		778F08D125FDDA470059C2A0 /* SweechatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08D025FDDA470059C2A0 /* SweechatTests.swift */; };
 		778F08DC25FDDA470059C2A0 /* SweechatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */; };
-		778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F025FDEF210059C2A0 /* MLMessage.swift */; };
-		778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F125FDEF210059C2A0 /* MLSender.swift */; };
-		778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F225FDEF210059C2A0 /* MLMessageType.swift */; };
+		778F08F525FDEF210059C2A0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F08F225FDEF210059C2A0 /* MessageType.swift */; };
 		778F090125FDEFEE0059C2A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090025FDEFEE0059C2A0 /* Message.swift */; };
 		778F090625FDF06F0059C2A0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F090525FDF06F0059C2A0 /* User.swift */; };
 		778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F095925FE12BA0059C2A0 /* MessageAdapter.swift */; };
@@ -121,6 +124,11 @@
 		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		45D633B925FE158D00C94D4F /* HomeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelegate.swift; sourceTree = "<group>"; };
+		775B920C2604F80E0040B985 /* AppConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
+		775B92112604F83B0040B985 /* RoomConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomConstant.swift; sourceTree = "<group>"; };
+		775B92162604F8710040B985 /* FirebaseMessageFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessageFacade.swift; sourceTree = "<group>"; };
+		775B921B2604F8830040B985 /* MessageFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFacade.swift; sourceTree = "<group>"; };
+		775B92202604F8980040B985 /* MessageFacadeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFacadeDelegate.swift; sourceTree = "<group>"; };
 		778F08B325FDDA420059C2A0 /* Sweechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sweechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08B625FDDA420059C2A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		778F08B825FDDA420059C2A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,9 +144,7 @@
 		778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SweechatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F08DB25FDDA470059C2A0 /* SweechatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweechatUITests.swift; sourceTree = "<group>"; };
 		778F08DD25FDDA470059C2A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		778F08F025FDEF210059C2A0 /* MLMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessage.swift; sourceTree = "<group>"; };
-		778F08F125FDEF210059C2A0 /* MLSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLSender.swift; sourceTree = "<group>"; };
-		778F08F225FDEF210059C2A0 /* MLMessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLMessageType.swift; sourceTree = "<group>"; };
+		778F08F225FDEF210059C2A0 /* MessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		778F090025FDEFEE0059C2A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		778F090525FDF06F0059C2A0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		778F095925FE12BA0059C2A0 /* MessageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAdapter.swift; sourceTree = "<group>"; };
@@ -217,6 +223,8 @@
 			isa = PBXGroup;
 			children = (
 				3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */,
+				775B920C2604F80E0040B985 /* AppConstant.swift */,
+				775B92112604F83B0040B985 /* RoomConstant.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -277,7 +285,6 @@
 				3EB99D4425FDFD0600861D74 /* ChatRoom */,
 				778F090A25FDF07A0059C2A0 /* User */,
 				778F08FF25FDEFCE0059C2A0 /* Message */,
-				778F08EF25FDEF210059C2A0 /* MessageLib */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -380,20 +387,14 @@
 			path = SweechatUITests;
 			sourceTree = "<group>";
 		};
-		778F08EF25FDEF210059C2A0 /* MessageLib */ = {
-			isa = PBXGroup;
-			children = (
-				778F08F025FDEF210059C2A0 /* MLMessage.swift */,
-				778F08F125FDEF210059C2A0 /* MLSender.swift */,
-				778F08F225FDEF210059C2A0 /* MLMessageType.swift */,
-			);
-			path = MessageLib;
-			sourceTree = "<group>";
-		};
 		778F08FF25FDEFCE0059C2A0 /* Message */ = {
 			isa = PBXGroup;
 			children = (
 				778F090025FDEFEE0059C2A0 /* Message.swift */,
+				778F08F225FDEF210059C2A0 /* MessageType.swift */,
+				775B92162604F8710040B985 /* FirebaseMessageFacade.swift */,
+				775B921B2604F8830040B985 /* MessageFacade.swift */,
+				775B92202604F8980040B985 /* MessageFacadeDelegate.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -636,6 +637,7 @@
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
+				775B921C2604F8830040B985 /* MessageFacade.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				778F095A25FE12BA0059C2A0 /* MessageAdapter.swift in Sources */,
@@ -647,17 +649,17 @@
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
 				27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
-				778F08F325FDEF210059C2A0 /* MLMessage.swift in Sources */,
-				778F08F425FDEF210059C2A0 /* MLSender.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
+				775B92122604F83B0040B985 /* RoomConstant.swift in Sources */,
 				45D6334525FDF0EE00C94D4F /* LoggedOutDelegate.swift in Sources */,
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
+				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,
 				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				278797592601E24600124FA3 /* ALAuthHandlerType.swift in Sources */,
 				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
-				778F08F525FDEF210059C2A0 /* MLMessageType.swift in Sources */,
+				778F08F525FDEF210059C2A0 /* MessageType.swift in Sources */,
 				278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
@@ -665,6 +667,7 @@
 				3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */,
+				775B92212604F8980040B985 /* MessageFacadeDelegate.swift in Sources */,
 				45D6332925FDE2F500C94D4F /* OnboardingView.swift in Sources */,
 				45D633B525FE154100C94D4F /* SettingsView.swift in Sources */,
 				3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */,
@@ -673,6 +676,7 @@
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
 				45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */,
+				775B920D2604F80E0040B985 /* AppConstant.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				2787975A2601E24600124FA3 /* ALAuth.swift in Sources */,
 				27A61A6E26046C0C00226600 /* UserDetails.swift in Sources */,
