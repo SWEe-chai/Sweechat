@@ -1,6 +1,6 @@
 import Foundation
 
-class User {
+class MLUser {
 
     var id: String
     var username: String?
