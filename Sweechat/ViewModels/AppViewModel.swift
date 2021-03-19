@@ -7,12 +7,15 @@ class AppViewModel: ObservableObject {
     var subscribers: [AnyCancellable]?
 
     init() {
-        state = AppState.onboarding
+//        state = AppState.onboarding
+//        user = User.createUser()
+//        authentication = ALAuth()
+//        authentication.delegate = user
+//        initialiseSubscribers()
+        state = AppState.chatRoom
         user = User.createUser()
         authentication = ALAuth()
         authentication.delegate = user
-        initialiseSubscribers()
-        // state = AppState.chatRoom
     }
 
     func initialiseSubscribers() {

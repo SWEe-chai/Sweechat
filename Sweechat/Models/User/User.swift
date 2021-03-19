@@ -8,7 +8,7 @@ class User: ObservableObject {
     private var userFacade: UserFacade
 
     static func createUser() -> User {
-        User(id: "abc", name: "name")
+        User(id: "39DI0eqPZabWv3nPLEvmHkeTxoo2", name: "Hello Im Hai")
     }
 
     private init(id: String, name: String, profilePictureUrl: String = "", email: String = "") {

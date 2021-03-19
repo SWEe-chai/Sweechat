@@ -17,15 +17,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
+        loadMessages()
     }
 
     func loadMessages() {
-        reference = db.collection(
-            [
-                DatabaseConstant.Collection.chatRooms,
-                chatRoomId,
-                DatabaseConstant.Collection.messages
-            ].joined(separator: "/"))
+        reference = db.collection(DatabaseConstant.Collection.chatRooms)
+            .document(chatRoomId)
+            .collection(DatabaseConstant.Collection.messages)
 
         messageListener = reference?.addSnapshotListener { querySnapshot, error in
           guard let snapshot = querySnapshot else {
@@ -41,6 +39,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
+        print(reference != nil)
         reference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
             if let e = error {
                 print("Error sending message: \(e.localizedDescription)")
@@ -55,28 +54,28 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
 
         var senderRep: UserRepresentation?
-        db
-            .collection(DatabaseConstant.Collection.users)
-            .document(messageRep.senderId)
-            .getDocument(completion: { documentSnapshot, error in
-                guard let snapshot = documentSnapshot else {
-                    return
-                }
-                if let err = error {
-                    print(err.localizedDescription)
-                    return
-                }
-                senderRep = FirebaseUserFacade.convert(document: snapshot)
-                }
-           )
+//        db
+//            .collection(DatabaseConstant.Collection.users)
+//            .document(messageRep.senderId)
+//            .getDocument(completion: { documentSnapshot, error in
+//                guard let snapshot = documentSnapshot else {
+//                    return
+//                }
+//                if let err = error {
+//                    print(err.localizedDescription)
+//                    return
+//                }
+//                senderRep = FirebaseUserFacade.convert(document: snapshot)
+//                }
+//           )
 
-        if let senderRep = senderRep {
+//        if let senderRep = senderRep {
             switch change.type {
             case .added:
                 self.delegate?.insert(
                     message: Message(
                         id: messageRep.id,
-                        sender: User(details: senderRep),
+                        sender: User.createUser(),
                         creationTime: messageRep.creationTime,
                         content: messageRep.content
                     )
@@ -84,6 +83,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             default:
                 break
             }
-        }
+//        }
     }
 }

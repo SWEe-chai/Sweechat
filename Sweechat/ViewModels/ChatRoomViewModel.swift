@@ -18,13 +18,15 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     init(id: String, user: User) {
-        chatRoom = ChatRoom(id: id)
+        self.chatRoom = ChatRoom(id: id)
         self.user = user
     }
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
+        print(self.chatRoom.messages)
         let message = Message(sender: user, content: text)
-        self.chatRoom.insert(message: message)
+        self.chatRoom.storeMessage(message: message)
+        print(self.chatRoom.messages)
     }
 }

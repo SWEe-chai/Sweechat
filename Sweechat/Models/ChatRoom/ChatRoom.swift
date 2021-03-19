@@ -28,6 +28,10 @@ class ChatRoom {
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
         chatRoomFacade.delegate = self
     }
+
+    func storeMessage(message: Message) {
+        self.chatRoomFacade.save(message)
+    }
 }
 
 // MARK: ChatRoomFacadeDelegate
@@ -36,7 +40,6 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         guard !self.messages.contains(message) else {
             return
         }
-
         self.messages.append(message)
         self.messages.sort()
     }
