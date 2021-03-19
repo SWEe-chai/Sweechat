@@ -7,6 +7,5 @@
 
 // TODO: Connect with Auth
 struct AppConstant {
-    // static let user = User(id: "user1", firstName: "User", lastName: "1")
     static let user = UserAdapter.getUserDetails(id: "jm9bz28b06YV923yN0ydixzcMIm2")!
 }

@@ -26,7 +26,7 @@ class FirebaseUserFacade: UserFacade {
         db.collection(DatabaseConstant.Collection.users).document(details.id).setData([
                     DatabaseConstant.User.id: details.id,
                     DatabaseConstant.User.name: details.name,
-                    DatabaseConstant.User.profilePictureURL: details.profilePictureURL
+                    DatabaseConstant.User.profilePictureUrl: details.profilePictureUrl
         ], completion: { _ in
             self.setUpConnectionAsUser()
         })
@@ -42,13 +42,13 @@ class FirebaseUserFacade: UserFacade {
             }
             guard let id = data[DatabaseConstant.User.id] as? String,
                   let name = data[DatabaseConstant.User.name] as? String,
-                  let profilePictureURL = data[DatabaseConstant.User.profilePictureURL] as? String else {
+                  let profilePictureUrl = data[DatabaseConstant.User.profilePictureUrl] as? String else {
                 print("Error reading data update for user")
                 return
             }
             let details = UserDetails(id: id,
                                       name: name,
-                                      profilePictureURL: profilePictureURL,
+                                      profilePictureUrl: profilePictureUrl,
                                       isLoggedIn: true)
             self.delegate?.updateUserData(withDetails: details)
         }

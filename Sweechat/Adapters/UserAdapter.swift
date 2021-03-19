@@ -21,7 +21,7 @@ class UserAdapter {
                       let photoUrl = data?[DatabaseConstant.User.photo] as? String else {
                 return
                 }
-                user = User(id: id, firstName: name, lastName: name, photoUrl: photoUrl)
+                user = User(id: id, name: name, photoUrl: photoUrl)
             } else {
                 print("Document does not exist")
             }

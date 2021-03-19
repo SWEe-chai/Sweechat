@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Message: MLMessage {
+struct Message {
     var id: String
     var content: String
     var creationTime: Date
     var sender: User
-    var type: MLMessageType
+    var type: MessageType
     var downloadURL: URL?
 
 //  var data: MessageData {
@@ -27,7 +27,7 @@ struct Message: MLMessage {
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
-        self.type = MLMessageType.text
+        self.type = MessageType.text
     }
 
     init(id: String, sender: User, creationTime: Date, content: String) {
@@ -35,7 +35,7 @@ struct Message: MLMessage {
         self.sender = sender
         self.creationTime = creationTime
         self.content = content
-        self.type = MLMessageType.text
+        self.type = MessageType.text
     }
 //  init(user: User, image: UIImage) {
 //    sender = Sender(id: user.uid, displayName: AppSettings.displayName)

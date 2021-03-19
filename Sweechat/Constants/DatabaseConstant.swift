@@ -15,7 +15,7 @@ struct DatabaseConstant {
     struct User {
         static let id = "id"
         static let name = "name"
-        static let profilePictureURL = "profilePictureURL"
+        static let profilePictureUrl = "profilePictureUrl"
     }
 
     struct Message {
