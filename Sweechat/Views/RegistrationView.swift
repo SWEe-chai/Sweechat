@@ -6,9 +6,11 @@ struct RegistrationView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-            Button(action: viewModel.didTapHomeButton) {
-                Text("Home")
+            Text("Registration has not been implemented")
+            Button(action: viewModel.didTapBackButton) {
+                Text("Back")
             }
+            .foregroundColor(.red)
         }
     }
 }

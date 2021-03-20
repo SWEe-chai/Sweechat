@@ -105,6 +105,10 @@ extension AppViewModel: LoggedInDelegate {
     func navigateToHome() {
         change(state: AppState.home)
     }
+
+    func navigateToEntryFromLoggedIn() {
+        change(state: AppState.entry)
+    }
 }
 
 // MARK: HomeDelegate

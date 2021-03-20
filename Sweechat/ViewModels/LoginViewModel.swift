@@ -24,4 +24,8 @@ class LoginViewModel: ObservableObject {
     func didTapFacebookLogin() {
         auth.getHandlerUI(type: .facebook).initiateSignIn()
     }
+
+    func didTapBackButton() {
+        delegate?.navigateToEntryFromLoggedIn()
+    }
 }

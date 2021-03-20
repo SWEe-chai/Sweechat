@@ -10,4 +10,8 @@ class RegistrationViewModel: ObservableObject {
     func didTapHomeButton() {
         delegate?.navigateToHome()
     }
+
+    func didTapBackButton() {
+        delegate?.navigateToEntryFromLoggedIn()
+    }
 }
