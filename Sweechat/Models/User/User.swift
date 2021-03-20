@@ -36,7 +36,7 @@ class User: ObservableObject {
 // MARK: ALAuthDelegate
 extension User: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
-        userFacade.loginAsUser(
+        userFacade.loginAndListenToUser(
             withDetails: UserRepresentation(
                 id: details.id,
                 name: details.name,

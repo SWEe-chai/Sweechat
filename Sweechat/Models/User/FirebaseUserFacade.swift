@@ -12,7 +12,7 @@ class FirebaseUserFacade: UserFacade {
         self.userId = userId
     }
 
-    func loginAsUser(withDetails details: UserRepresentation) {
+    func loginAndListenToUser(withDetails details: UserRepresentation) {
         userId = details.id
         self.db.collection(DatabaseConstant.Collection.users).document(userId).getDocument { document, _ in
             guard let document = document,
@@ -37,23 +37,23 @@ class FirebaseUserFacade: UserFacade {
             )
     }
 
-    private func setUpConnectionAsUser() {
-        if let userDetails = self.getLoggedInUserDetails() {
-            self.delegate?.updateUserData(withDetails: userDetails)
-        }
-    }
-
-    func getLoggedInUserDetails() -> UserRepresentation? {
+//    private func setUpConnectionAsUser() {
+//        if let userDetails = self.getLoggedInUserDetails() {
+//            self.delegate?.updateUserData(withDetails: userDetails)
+//        }
+//    }
+//
+    func setUpConnectionAsUser() {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
-        var details: UserRepresentation?
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                     print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            details = FirebaseUserFacade.convert(document: snapshot)
+            if let details = FirebaseUserFacade.convert(document: snapshot) {
+                self.delegate?.updateUserData(withDetails: details)
+            }
         }
-        return details
     }
 
     static func convert(document: DocumentSnapshot) -> UserRepresentation? {
