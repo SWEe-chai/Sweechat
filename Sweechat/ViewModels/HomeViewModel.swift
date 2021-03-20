@@ -13,10 +13,10 @@ class HomeViewModel: ObservableObject {
     }
 
     func didTapModuleButton() {
-        delegate?.navigateToModule()
+        delegate?.navigateToModuleFromHome()
     }
 
     func didTapSettingsButton() {
-        delegate?.navigateToSettings()
+        delegate?.navigateToSettingsFromHome()
     }
 }
