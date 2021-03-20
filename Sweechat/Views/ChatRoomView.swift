@@ -6,11 +6,14 @@ struct ChatRoomView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Button(action: viewModel.didTapBackButton) {
-                    Text("Back")
+            ZStack {
+                HStack {
+                    Button(action: viewModel.didTapBackButton) {
+                        Text("Back")
+                    }
+                    .padding()
+                    Spacer()
                 }
-                .padding()
                 Text(viewModel.text)
             }
             ScrollView {
