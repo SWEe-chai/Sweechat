@@ -1,32 +1,81 @@
-//
-//  LoginViewModelTests.swift
-//  SweechatTests
-//
-//  Created by Kevin Lim on 20/3/21.
-//
-
 import XCTest
+@testable import Sweechat
 
 class LoginViewModelTests: XCTestCase {
+    private class ALAuthHandlerStub: ALAuthHandler {
+        weak var delegate: ALAuthHandlerDelegate?
+        var didFacebookSignIn = false
+        var didGoogleSignIn = false
+        var type: ALAuthHandlerType
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+        init(type: ALAuthHandlerType) {
+            self.type = type
+        }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        func initiateSignIn() {
+            switch type {
+            case .facebook:
+                didFacebookSignIn = true
+            case .google:
+                didGoogleSignIn = true
+            }
         }
     }
 
+    private class ALAuthStub: ALAuth {
+        var alAuthHandlerStub: ALAuthHandlerStub!
+
+        override func getHandlerUI(type: ALAuthHandlerType) -> ALAuthHandler {
+            alAuthHandlerStub
+        }
+    }
+
+    private class LoggedInDelegateStub: LoggedInDelegate {
+        var didNavigateToHome = false
+
+        func navigateToHome() {
+            didNavigateToHome = true
+        }
+    }
+
+    private var alAuthStub: ALAuthStub!
+    private var delegateStub: LoggedInDelegateStub!
+    private var sut: LoginViewModel!
+
+    override func setUp() {
+        super.setUp()
+        alAuthStub = ALAuthStub()
+        delegateStub = LoggedInDelegateStub()
+        sut = LoginViewModel(auth: alAuthStub)
+        sut.delegate = delegateStub
+    }
+
+    override func tearDown() {
+        sut = nil
+        super.tearDown()
+    }
+
+    func testDidTapHomeButton_callsDelegateHomeMethod() {
+        sut.didTapHomeButton()
+
+        XCTAssertTrue(delegateStub.didNavigateToHome)
+    }
+
+    func testDidGoogleLogin_callsAuthGoogleMethod() {
+        let alAuthHandlerStub = ALAuthHandlerStub(type: .google)
+        alAuthStub.alAuthHandlerStub = alAuthHandlerStub
+
+        sut.didTapGoogleLogin()
+
+        XCTAssertTrue(alAuthHandlerStub.didGoogleSignIn)
+    }
+
+    func testDidTapEntryButton_callsAuthFacebookMethod() {
+        let alAuthHandlerStub = ALAuthHandlerStub(type: .facebook)
+        alAuthStub.alAuthHandlerStub = alAuthHandlerStub
+
+        sut.didTapFacebookLogin()
+
+        XCTAssertTrue(alAuthHandlerStub.didFacebookSignIn)
+    }
 }
