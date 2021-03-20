@@ -3,15 +3,15 @@ import XCTest
 
 class EntryViewModelTests: XCTestCase {
     private class EntryDelegateStub: EntryDelegate {
-        var didLogin = false
-        var didRegister = false
+        var didNavigateToLogin = false
+        var didNavigateToRegistration = false
 
         func navigateToLogin() {
-            didLogin = true
+            didNavigateToLogin = true
         }
 
         func navigateToRegistration() {
-            didRegister = true
+            didNavigateToRegistration = true
         }
     }
 
@@ -33,12 +33,12 @@ class EntryViewModelTests: XCTestCase {
     func testDidTapLoginButton_callsDelegateLoginMethod() {
         sut.didTapLoginButton()
 
-        XCTAssertTrue(delegateStub.didLogin)
+        XCTAssertTrue(delegateStub.didNavigateToLogin)
     }
 
     func testDidTapRegistrationButton_callsDelegateRegistrationMethod() {
         sut.didTapRegistrationButton()
 
-        XCTAssertTrue(delegateStub.didRegister)
+        XCTAssertTrue(delegateStub.didNavigateToRegistration)
     }
 }
