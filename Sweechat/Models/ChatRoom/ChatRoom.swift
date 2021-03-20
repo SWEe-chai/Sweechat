@@ -53,5 +53,6 @@ extension ChatRoom: ChatRoomFacadeDelegate {
             return
         }
         self.messages.append(message)
+        self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }
 }
