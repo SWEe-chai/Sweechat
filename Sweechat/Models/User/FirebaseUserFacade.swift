@@ -3,7 +3,7 @@ import os
 
 class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
-    private var userId: String!
+    private var userId: String
 
     var db = Firestore.firestore()
     var reference: DocumentReference?
@@ -40,7 +40,7 @@ class FirebaseUserFacade: UserFacade {
 
     private func setUpConnectionAsUser() {
         if userId.isEmpty {
-            os_log("User id is empty when attempting set up connection to user")
+            os_log("Error loading user: User id is empty")
             return
         }
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)

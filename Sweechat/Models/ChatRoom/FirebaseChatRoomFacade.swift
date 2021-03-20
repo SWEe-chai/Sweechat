@@ -10,7 +10,7 @@ import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
-    private var chatRoomId: String!
+    private var chatRoomId: String
 
     var db = Firestore.firestore()
     var reference: CollectionReference?
@@ -22,6 +22,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func loadMessages() {
+        if chatRoomId.isEmpty {
+            os_log("Error loading Chat Room: Chat Room id is empty")
+            return
+        }
         reference = db.collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
