@@ -7,15 +7,11 @@ class AppViewModel: ObservableObject {
     var subscribers: [AnyCancellable]?
 
     init() {
-//        state = AppState.login
-//        user = User.createUser()
-//        authentication = ALAuth()
-//        authentication.delegate = user
-//        initialiseSubscribers()
-        state = AppState.chatRoom
+        state = AppState.entry
         user = User.createDummyUser()
         authentication = ALAuth()
         authentication.delegate = user
+        initialiseSubscribers()
     }
 
     func initialiseSubscribers() {
@@ -54,11 +50,13 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel(id: "1", user: user)
+        ChatRoomViewModel(id: "2", user: user)
     }
 
     var moduleViewModel: ModuleViewModel {
-        ModuleViewModel()
+        let viewModel = ModuleViewModel()
+        viewModel.delegate = self
+        return viewModel
     }
 
     var homeViewModel: HomeViewModel {
@@ -95,6 +93,12 @@ extension AppViewModel: EntryDelegate {
         change(state: AppState.registration)
     }
 }
+
+// MARK: ModuleDelegate
+extension AppViewModel: ModuleDelegate {
+    func navigateToChatRoom() {
+        change(state: AppState.chatRoom)
+    }}
 
 // MARK: LoggedInDelegate
 extension AppViewModel: LoggedInDelegate {

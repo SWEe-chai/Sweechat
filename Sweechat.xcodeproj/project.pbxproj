@@ -16,6 +16,7 @@
 		2787975A2601E24600124FA3 /* ALAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797522601E24600124FA3 /* ALAuth.swift */; };
 		2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797542601E24600124FA3 /* ALAuthDelegate.swift */; };
 		2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */; };
+		279503A42605C74A00D3B743 /* ModuleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503A32605C74A00D3B743 /* ModuleDelegate.swift */; };
 		27A61A6426046ACF00226600 /* UserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6326046ACF00226600 /* UserFacade.swift */; };
 		27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */; };
 		27A61A6E26046C0C00226600 /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6D26046C0C00226600 /* UserRepresentation.swift */; };
@@ -96,6 +97,7 @@
 		278797522601E24600124FA3 /* ALAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuth.swift; sourceTree = "<group>"; };
 		278797542601E24600124FA3 /* ALAuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthDelegate.swift; sourceTree = "<group>"; };
 		278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandlerDelegate.swift; sourceTree = "<group>"; };
+		279503A32605C74A00D3B743 /* ModuleDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleDelegate.swift; sourceTree = "<group>"; };
 		27A61A6326046ACF00226600 /* UserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacade.swift; sourceTree = "<group>"; };
 		27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserFacade.swift; sourceTree = "<group>"; };
 		27A61A6D26046C0C00226600 /* UserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepresentation.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				45D6336925FE013B00C94D4F /* EntryDelegate.swift */,
 				45D6339525FE0BFB00C94D4F /* LoggedInDelegate.swift */,
 				45D633B925FE158D00C94D4F /* HomeDelegate.swift */,
+				279503A32605C74A00D3B743 /* ModuleDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				278797592601E24600124FA3 /* ALAuthHandlerType.swift in Sources */,
 				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				45D6336A25FE013B00C94D4F /* EntryDelegate.swift in Sources */,
+				279503A42605C74A00D3B743 /* ModuleDelegate.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MessageType.swift in Sources */,
 				278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
