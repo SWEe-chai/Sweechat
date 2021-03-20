@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
@@ -27,7 +28,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
         messageListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
             snapshot.documentChanges.forEach { change in
@@ -40,7 +41,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     func save(_ message: Message) {
         reference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
             if let e = error {
-                print("Error sending message: \(e.localizedDescription)")
+                os_log("Error sending message: \(e.localizedDescription)")
                 return
             }
         }
@@ -51,7 +52,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return
         }
         guard !messageRep.senderId.isEmpty else {
-            print("Error reading message: Message senderId is empty")
+            os_log("Error reading message: Message senderId is empty")
             return
         }
         db
@@ -62,7 +63,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     return
                 }
                 if let err = error {
-                    print(err.localizedDescription)
+                    os_log("Error getting sender in message: \(err.localizedDescription)")
                     return
                 }
 

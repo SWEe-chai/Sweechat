@@ -5,6 +5,7 @@
 //  Created by Agnes Natasya on 19/3/21.
 //
 import FirebaseFirestore
+import os
 
 class FirebaseMessageFacade: MessageFacade {
     var db = Firestore.firestore()
@@ -12,7 +13,7 @@ class FirebaseMessageFacade: MessageFacade {
 
     static func convert(document: DocumentSnapshot) -> MessageRepresentation? {
         if !document.exists {
-            print("Error: Cannot convert message, message document does not exist")
+            os_log("Error: Cannot convert message, message document does not exist")
             return nil
         }
         let data = document.data()

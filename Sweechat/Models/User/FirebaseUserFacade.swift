@@ -46,7 +46,7 @@ class FirebaseUserFacade: UserFacade {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                    print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
             if let details = FirebaseUserFacade.convert(document: snapshot) {
@@ -57,7 +57,7 @@ class FirebaseUserFacade: UserFacade {
 
     static func convert(document: DocumentSnapshot) -> UserRepresentation? {
         if !document.exists {
-            print("Error: Cannot convert user, user document does not exist")
+            os_log("Error: Cannot convert user, user document does not exist")
             return nil
         }
         let data = document.data()
@@ -65,7 +65,7 @@ class FirebaseUserFacade: UserFacade {
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            print("Error converting data for user")
+            os_log("Error converting data for user")
             return nil
         }
         details = UserRepresentation(
