@@ -10,4 +10,8 @@ class SettingsViewModel: ObservableObject {
     func didTapLogoutButton() {
         delegate?.navigateToEntry()
     }
+
+    func didTapBackButton() {
+        delegate?.navigateToHomeFromLoggedOut()
+    }
 }

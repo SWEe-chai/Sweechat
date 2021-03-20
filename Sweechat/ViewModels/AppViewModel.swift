@@ -81,6 +81,10 @@ extension AppViewModel: LoggedOutDelegate {
     func navigateToEntry() {
         change(state: AppState.entry)
     }
+
+    func navigateToHomeFromLoggedOut() {
+        change(state: AppState.home)
+    }
 }
 
 // MARK: EntryDelegate
