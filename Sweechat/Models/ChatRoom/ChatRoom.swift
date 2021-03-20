@@ -14,7 +14,7 @@ class ChatRoom: ObservableObject {
             objectWillChange.send()
         }
     }
-    var chatRoomFacade: FirebaseChatRoomFacade
+    private var chatRoomFacade: FirebaseChatRoomFacade
     let permissions: ChatRoomPermissionBitmask
 
     init() {
@@ -44,7 +44,6 @@ class ChatRoom: ObservableObject {
     func storeMessage(message: Message) {
         self.chatRoomFacade.save(message)
     }
-
 }
 
 // MARK: ChatRoomFacadeDelegate
