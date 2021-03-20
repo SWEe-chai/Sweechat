@@ -4,19 +4,13 @@ struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
 
-    init(viewModel: ChatRoomViewModel) {
-        self.viewModel = viewModel
-        UIListContentView.appearance()
-        UITableView.appearance().tableFooterView = UIView()
-    }
-
     var body: some View {
         VStack {
             Text(viewModel.text)
-            List {
+            ScrollView {
                 ForEach(viewModel.textMessages) {
                     MessageView(viewModel: $0)
-                }
+                }.padding([.leading, .trailing])
             }
             HStack {
                 TextField("Message...", text: $typingMessage)

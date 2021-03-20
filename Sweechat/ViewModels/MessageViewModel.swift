@@ -14,8 +14,8 @@ class MessageViewModel {
     var isRightAlign: Bool {
         isCurrentUser
     }
-    var title: String {
-        isCurrentUser ? "" : message.sender.name
+    var title: String? {
+        isCurrentUser ? nil : message.sender.name
     }
 
     init(message: Message, isCurrentUser: Bool) {
