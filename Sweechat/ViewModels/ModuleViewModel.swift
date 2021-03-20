@@ -16,4 +16,8 @@ class ModuleViewModel: ObservableObject {
     func didTapChatRoomButton() {
         delegate?.navigateToChatRoom()
     }
+
+    func didTapBackButton() {
+        delegate?.navigateToHomeFromModule()
+    }
 }

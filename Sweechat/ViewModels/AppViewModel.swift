@@ -98,7 +98,12 @@ extension AppViewModel: EntryDelegate {
 extension AppViewModel: ModuleDelegate {
     func navigateToChatRoom() {
         change(state: AppState.chatRoom)
-    }}
+    }
+
+    func navigateToHomeFromModule() {
+        change(state: AppState.home)
+    }
+}
 
 // MARK: LoggedInDelegate
 extension AppViewModel: LoggedInDelegate {
