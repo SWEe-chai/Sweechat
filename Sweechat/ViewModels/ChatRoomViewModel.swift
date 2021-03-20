@@ -4,6 +4,7 @@ class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
     var user: User
     var subscriber: AnyCancellable?
+    weak var delegate: ChatRoomDelegate?
 
     var text: String {
         "Agnes Natasya Wijaya Chatting"
@@ -40,5 +41,9 @@ class ChatRoomViewModel: ObservableObject {
         let message = Message(sender: user, content: text)
         self.chatRoom.storeMessage(message: message)
         print(self.chatRoom.messages.count)
+    }
+
+    func didTapBackButton() {
+        delegate?.navigateToModuleFromChatRoom()
     }
 }

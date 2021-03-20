@@ -7,6 +7,10 @@ struct ChatRoomView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
+            Button(action: viewModel.didTapBackButton) {
+                Text("Back")
+            }
+            .foregroundColor(.red)
 
             Text("send something")
                 .onTapGesture {

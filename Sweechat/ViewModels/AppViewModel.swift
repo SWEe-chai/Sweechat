@@ -50,7 +50,9 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel(id: "2", user: user)
+        let viewModel = ChatRoomViewModel(id: "3", user: user)
+        viewModel.delegate = self
+        return viewModel
     }
 
     var moduleViewModel: ModuleViewModel {
@@ -128,5 +130,12 @@ extension AppViewModel: HomeDelegate {
 
     func navigateToSettings() {
         change(state: AppState.settings)
+    }
+}
+
+// MARK: ChatRoomDelegate
+extension AppViewModel: ChatRoomDelegate {
+    func navigateToModuleFromChatRoom() {
+        change(state: AppState.module)
     }
 }
