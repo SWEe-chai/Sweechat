@@ -1,4 +1,4 @@
 protocol EntryDelegate: AnyObject {
-    func navigateToLogin()
-    func navigateToRegistration()
+    func navigateToLoginFromEntry()
+    func navigateToRegistrationFromEntry()
 }

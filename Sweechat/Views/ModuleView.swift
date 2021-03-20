@@ -15,5 +15,9 @@ struct ModuleView: View {
         Button(action: viewModel.didTapChatRoomButton, label: {
             Text("Chat room")
         })
+        Button(action: viewModel.didTapBackButton) {
+            Text("Back")
+        }
+        .foregroundColor(.red)
     }
 }

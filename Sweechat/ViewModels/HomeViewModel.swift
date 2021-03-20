@@ -9,14 +9,14 @@ class HomeViewModel: ObservableObject {
     }
 
     var text: String {
-        "Welcome home \(user.name )"
+        "Welcome home \(user.name)"
     }
 
     func didTapModuleButton() {
-        delegate?.navigateToModule()
+        delegate?.navigateToModuleFromHome()
     }
 
     func didTapSettingsButton() {
-        delegate?.navigateToSettings()
+        delegate?.navigateToSettingsFromHome()
     }
 }
