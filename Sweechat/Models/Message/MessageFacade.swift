@@ -8,8 +8,5 @@
 import FirebaseFirestore
 
 protocol MessageFacade {
-    var db: Firestore { get }
-    var reference: DocumentReference? { get }
-
     static func convert(document: DocumentSnapshot) -> MessageRepresentation?
 }

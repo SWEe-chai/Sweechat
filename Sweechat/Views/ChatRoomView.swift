@@ -15,10 +15,9 @@ struct ChatRoomView: View {
 
             ScrollView(.vertical) {
                 Text("SDFSDF")
-                Text("\(self.viewModel.chatRoom.messages.count)")
+                Text("\(viewModel.messageCount)")
 
                 ForEach(viewModel.chatRoom.messages, id: \.self.id) { message in
-                    Text("WHY THE NANI IS NOT HERE")
                     VStack {
                         Text("\(message.content) from \(message.sender.name)")
                     }

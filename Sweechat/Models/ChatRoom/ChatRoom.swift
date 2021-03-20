@@ -4,12 +4,16 @@
 //
 //  Created by Christian James Welly on 14/3/21.
 //
-
+import Combine
 import Foundation
 
-class ChatRoom {
+class ChatRoom: ObservableObject {
     var id: String
-    var messages: [Message]
+    @Published var messages: [Message] {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     var chatRoomFacade: FirebaseChatRoomFacade
     let permissions: ChatRoomPermissionBitmask
 
@@ -29,9 +33,22 @@ class ChatRoom {
         chatRoomFacade.delegate = self
     }
 
+    init(id: String, messages: [Message]) {
+        self.id = id
+        self.messages = messages
+        self.permissions = ChatRoomPermission.none
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
+        chatRoomFacade.delegate = self
+    }
+
     func storeMessage(message: Message) {
         self.chatRoomFacade.save(message)
     }
+
+    func subscribeToMesssagesChange(function: @escaping ([Message]) -> Void) -> AnyCancellable {
+        $messages.sink(receiveValue: function)
+    }
+
 }
 
 // MARK: ChatRoomFacadeDelegate
@@ -40,7 +57,6 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         guard !self.messages.contains(message) else {
             return
         }
-        self.messages.append(message)
-        self.messages.sort()
+        self.messages += [message]
     }
 }

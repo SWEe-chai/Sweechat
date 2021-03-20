@@ -8,8 +8,5 @@
 import FirebaseFirestore
 
 protocol ChatRoomFacade {
-    var db: Firestore { get }
-    var reference: CollectionReference? { get }
-
     var delegate: ChatRoomFacadeDelegate? { get set }
 }

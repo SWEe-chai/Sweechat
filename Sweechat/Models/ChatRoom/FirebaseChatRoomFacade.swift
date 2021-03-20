@@ -39,7 +39,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
-        print(reference != nil)
         reference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
             if let e = error {
                 print("Error sending message: \(e.localizedDescription)")

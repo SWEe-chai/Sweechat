@@ -1,32 +1,48 @@
-import Firebase
-import FirebaseFirestore
+import Combine
 
 class ChatRoomViewModel: ObservableObject {
-    private let db = Firestore.firestore()
-    private var reference: CollectionReference?
-
-    @Published var chatRoom: ChatRoom {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var chatRoom: ChatRoom
     var user: User
-    private var messageListener: ListenerRegistration?
+    var subscribers: [AnyCancellable]?
 
     var text: String {
         "Agnes Natasya Wijaya Chatting"
     }
 
+    var messageCount: Int {
+        chatRoom.messages.count
+    }
+
+    var messages: [Message] {
+        chatRoom.messages
+    }
+
     init(id: String, user: User) {
         self.chatRoom = ChatRoom(id: id)
         self.user = user
+        initialiseSubscribers()
+    }
+
+    func initialiseSubscribers() {
+        subscribers = []
+        let messageChangeSubscriber = chatRoom.subscribeToMesssagesChange { messages in
+            print(messages.count)
+            if messages == self.chatRoom.messages {
+                return
+            }
+            self.chatRoom = ChatRoom(
+                id: self.chatRoom.id,
+                messages: messages
+            )
+        }
+        subscribers?.append(messageChangeSubscriber)
     }
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        print(self.chatRoom.messages)
+        print("WHY")
         let message = Message(sender: user, content: text)
         self.chatRoom.storeMessage(message: message)
-        print(self.chatRoom.messages)
+        print(self.chatRoom.messages.count)
     }
 }
