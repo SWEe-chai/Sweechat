@@ -7,7 +7,7 @@ class AppViewModel: ObservableObject {
     var subscribers: [AnyCancellable]?
 
     init() {
-        state = AppState.chatRoom
+        state = AppState.entry
         user = User.createDummyUser()
         authentication = ALAuth()
         authentication.delegate = user
