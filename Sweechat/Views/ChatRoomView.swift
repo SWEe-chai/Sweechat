@@ -7,9 +7,6 @@ struct ChatRoomView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-                .onAppear {
-                    viewModel.connectToFirebase(chatRoomId: id)
-                }
 
             Text("send something")
                 .onTapGesture {
@@ -17,14 +14,15 @@ struct ChatRoomView: View {
                 }
 
             ScrollView(.vertical) {
+                Text("SDFSDF")
+                Text("\(viewModel.messageCount)")
 
-                ForEach(viewModel.chatRoom.messages, id: \.self.id) { message in
+                ForEach(viewModel.textMessages, id: \.self) { message in
                     VStack {
-                        Text("\(message.content) from \(message.sender.name)")
+                        Text("\(message)")
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
         }
     }
 }

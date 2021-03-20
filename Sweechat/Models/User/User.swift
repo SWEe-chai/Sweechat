@@ -2,45 +2,45 @@ import Combine
 
 class User: ObservableObject {
     @Published var id: String
-    @Published var username: String?
-    @Published var email: String
-    @Published var firstName: String?
-    @Published var lastName: String?
-    @Published var profilePictureURL: String?
-    @Published var signedIn: Bool = false
+    @Published var name: String
+    @Published var profilePictureUrl: String?
+    @Published var isLoggedIn: Bool = false
     private var userFacade: UserFacade
 
     static func createUser() -> User {
-        User(id: "abc", firstName: "firstName", lastName: "lastName")
+        User(id: "39DI0eqPZabWv3nPLEvmHkeTxoo2", name: "Hello Im Hai")
     }
 
-    private init(id: String, firstName: String, lastName: String, avatarURL: String = "", email: String = "") {
-        self.firstName = firstName
-        self.lastName = lastName
+    private init(id: String, name: String, profilePictureUrl: String = "", email: String = "") {
+        self.name = name
         self.id = id
-        self.email = email
-        self.profilePictureURL = avatarURL
-        self.userFacade = FirebaseUserFacade()
+        self.profilePictureUrl = profilePictureUrl
+        self.userFacade = FirebaseUserFacade(userId: id)
         userFacade.delegate = self
     }
 
-    var name: String {
-       (self.firstName ?? "") + (self.lastName ?? "")
+    init(details: UserRepresentation) {
+        self.id = details.id
+        self.name = details.name
+        self.profilePictureUrl = details.profilePictureUrl
+        self.isLoggedIn = details.isLoggedIn
+        self.userFacade = FirebaseUserFacade(userId: details.id)
+        userFacade.delegate = self
     }
 
     func subscribeToSignedIn(function: @escaping (Bool) -> Void) -> AnyCancellable {
-        $signedIn.sink(receiveValue: function)
+        $isLoggedIn.sink(receiveValue: function)
     }
 }
 
 // MARK: ALAuthDelegate
 extension User: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
-        userFacade.loginAsUser(
-            withDetails: UserDetails(
+        userFacade.loginAndListenToUser(
+            withDetails: UserRepresentation(
                 id: details.id,
                 name: details.name,
-                profilePictureURL: details.profilePictureURL))
+                profilePictureUrl: details.profilePictureUrl))
     }
 
     func signOut() {
@@ -50,10 +50,10 @@ extension User: ALAuthDelegate {
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
-    func updateUserData(withDetails details: UserDetails) {
+    func updateUserData(withDetails details: UserRepresentation) {
         self.id = details.id
-        self.firstName = details.name
-        self.profilePictureURL = details.profilePictureURL
-        self.signedIn = details.isLoggedIn
+        self.name = details.name
+        self.profilePictureUrl = details.profilePictureUrl
+        self.isLoggedIn = details.isLoggedIn
     }
 }

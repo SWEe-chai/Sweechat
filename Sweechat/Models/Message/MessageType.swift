@@ -5,7 +5,7 @@
 //  Created by Agnes Natasya on 14/3/21.
 //
 
-public enum MLMessageType {
+public enum MessageType {
     case text
     case photo
     case video

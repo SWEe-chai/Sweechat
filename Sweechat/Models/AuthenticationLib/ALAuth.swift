@@ -40,12 +40,12 @@ extension ALAuth: ALAuthHandlerDelegate {
             }
             let id: String = user.uid
             let displayName: String = user.displayName ?? ""
-            let profilePictureURL: String = user.photoURL?.absoluteString ?? ""
+            let profilePictureUrl: String = user.photoURL?.absoluteString ?? ""
             self.delegate?.signIn(
                 withDetails: ALLoginDetails(
                     id: id,
                     name: displayName,
-                    profilePictureURL: profilePictureURL))
+                    profilePictureUrl: profilePictureUrl))
         }
     }
 
