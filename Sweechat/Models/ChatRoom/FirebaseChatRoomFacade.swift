@@ -50,6 +50,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
+        guard !messageRep.senderId.isEmpty else {
+            print("Error reading message: Message senderId is empty")
+            return
+        }
         db
             .collection(DatabaseConstant.Collection.users)
             .document(messageRep.senderId)

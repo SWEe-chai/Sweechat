@@ -11,6 +11,10 @@ class FirebaseMessageFacade: MessageFacade {
     var reference: DocumentReference?
 
     static func convert(document: DocumentSnapshot) -> MessageRepresentation? {
+        if !document.exists {
+            print("Error: Cannot convert message, message document does not exist")
+            return nil
+        }
         let data = document.data()
 
         guard let creationTime = data?[DatabaseConstant.Message.creationTime] as? Timestamp,
