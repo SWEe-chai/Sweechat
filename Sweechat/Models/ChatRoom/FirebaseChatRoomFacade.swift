@@ -51,37 +51,37 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
-
-        var senderRep: UserRepresentation?
-//        db
-//            .collection(DatabaseConstant.Collection.users)
-//            .document(messageRep.senderId)
-//            .getDocument(completion: { documentSnapshot, error in
-//                guard let snapshot = documentSnapshot else {
-//                    return
-//                }
-//                if let err = error {
-//                    print(err.localizedDescription)
-//                    return
-//                }
+        db
+            .collection(DatabaseConstant.Collection.users)
+            .document(messageRep.senderId)
+            .getDocument(completion: { documentSnapshot, error in
+                guard let snapshot = documentSnapshot else {
+                    return
+                }
+                if let err = error {
+                    print(err.localizedDescription)
+                    return
+                }
 //                senderRep = FirebaseUserFacade.convert(document: snapshot)
 //                }
-//           )
 
-//        if let senderRep = senderRep {
-            switch change.type {
-            case .added:
-                self.delegate?.insert(
-                    message: Message(
-                        id: messageRep.id,
-                        sender: User.createUser(),
-                        creationTime: messageRep.creationTime,
-                        content: messageRep.content
-                    )
-                )
-            default:
-                break
+                if let senderRep = FirebaseUserFacade.convert(document: snapshot) {
+                    switch change.type {
+                    case .added:
+                        self.delegate?.insert(
+                            message: Message(
+                                id: messageRep.id,
+                                sender: User(details: senderRep),
+                                creationTime: messageRep.creationTime,
+                                content: messageRep.content
+                            )
+                        )
+                    default:
+                        break
+                    }
+                }
             }
-//        }
+            )
+
     }
 }
