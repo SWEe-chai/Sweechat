@@ -11,6 +11,11 @@ struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
 
     var body: some View {
-        Text(viewModel.text)
+        VStack {
+            Text(viewModel.text)
+            Button(action: viewModel.tappedOnChatRoom, label: {
+                Text("Chat room")
+            })
+        }
     }
 }
