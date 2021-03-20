@@ -3,6 +3,7 @@ import Combine
 class User: ObservableObject {
     static let dummyUserId = ""
     static let dummyUserName = ""
+    static let deletedUserName = "Deleted User"
 
     @Published var id: String
     @Published var name: String
@@ -12,6 +13,9 @@ class User: ObservableObject {
 
     static func createDummyUser() -> User {
         User(details: UserRepresentation(id: dummyUserId, name: dummyUserName))
+    }
+    static func createDeletedUser() -> User {
+        User(details: UserRepresentation(id: dummyUserId, name: deletedUserName))
     }
 
     init(details: UserRepresentation) {

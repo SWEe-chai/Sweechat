@@ -26,14 +26,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .collection(DatabaseConstant.Collection.messages)
 
         messageListener = reference?.addSnapshotListener { querySnapshot, error in
-          guard let snapshot = querySnapshot else {
-            print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-            return
-          }
-
-          snapshot.documentChanges.forEach { change in
-            self.handleDocumentChange(change)
-          }
+            guard let snapshot = querySnapshot else {
+                print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            snapshot.documentChanges.forEach { change in
+                self.handleDocumentChange(change)
+            }
         }
 
     }
@@ -62,26 +61,27 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     print(err.localizedDescription)
                     return
                 }
-//                senderRep = FirebaseUserFacade.convert(document: snapshot)
-//                }
 
+                var user: User!
                 if let senderRep = FirebaseUserFacade.convert(document: snapshot) {
-                    switch change.type {
-                    case .added:
-                        self.delegate?.insert(
-                            message: Message(
-                                id: messageRep.id,
-                                sender: User(details: senderRep),
-                                creationTime: messageRep.creationTime,
-                                content: messageRep.content
-                            )
-                        )
-                    default:
-                        break
-                    }
+                    user = User(details: senderRep)
+                } else {
+                    user = User.createDeletedUser()
                 }
-            }
-            )
 
+                switch change.type {
+                case .added:
+                    self.delegate?.insert(
+                        message: Message(
+                            id: messageRep.id,
+                            sender: user,
+                            creationTime: messageRep.creationTime,
+                            content: messageRep.content
+                        )
+                    )
+                default:
+                    break
+                }
+            })
     }
 }

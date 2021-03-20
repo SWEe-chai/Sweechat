@@ -14,7 +14,7 @@ class ChatRoom: ObservableObject {
             objectWillChange.send()
         }
     }
-    private var chatRoomFacade: FirebaseChatRoomFacade
+    private var chatRoomFacade: ChatRoomFacade
     let permissions: ChatRoomPermissionBitmask
 
     init() {
