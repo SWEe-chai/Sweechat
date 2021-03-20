@@ -2,27 +2,42 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    var id: String
+    @State var typingMessage: String = ""
 
     var body: some View {
         VStack {
             Text(viewModel.text)
-
-            Text("send something")
-                .onTapGesture {
-                    viewModel.handleSendMessage("hi")
-                }
-
-            ScrollView(.vertical) {
-                Text("SDFSDF")
-                Text("\(viewModel.messageCount)")
-
-                ForEach(viewModel.textMessages, id: \.self) { message in
-                    VStack {
-                        Text("\(message)")
-                    }
-                }
+            ScrollView {
+                ForEach(viewModel.textMessages) {
+                    MessageView(viewModel: $0)
+                }.padding([.leading, .trailing])
             }
+            HStack {
+                TextField("Message...", text: $typingMessage)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(minHeight: CGFloat(30))
+                Button(action: sendTypedMessage) {
+                    Text("Send")
+                }
+            }.frame(minHeight: 20).padding()
         }
+    }
+
+    func sendTypedMessage() {
+        if typingMessage.isEmpty {
+            return
+        }
+        viewModel.handleSendMessage(typingMessage)
+        typingMessage = ""
+    }
+}
+
+struct ChatRoomView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatRoomView(
+            viewModel: ChatRoomViewModel(
+                id: "2",
+                user: User(
+                    details: UserRepresentation(id: "", name: "", profilePictureUrl: ""))))
     }
 }
