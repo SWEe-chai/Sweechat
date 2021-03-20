@@ -13,8 +13,8 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    var messages: [Message] {
-        chatRoom.messages
+    var textMessages: [String] {
+        chatRoom.messages.map { "\($0.content) from \($0.sender.name)" }
     }
 
     init(id: String, user: User) {

@@ -17,9 +17,9 @@ struct ChatRoomView: View {
                 Text("SDFSDF")
                 Text("\(viewModel.messageCount)")
 
-                ForEach(viewModel.messages, id: \.self.id) { message in
+                ForEach(viewModel.textMessages, id: \.self) { message in
                     VStack {
-                        Text("\(message.content) from \(message.sender.name)")
+                        Text("\(message)")
                     }
                 }
             }
