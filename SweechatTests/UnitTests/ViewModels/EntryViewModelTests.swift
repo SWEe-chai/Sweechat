@@ -6,11 +6,11 @@ class EntryViewModelTests: XCTestCase {
         var didNavigateToLogin = false
         var didNavigateToRegistration = false
 
-        func navigateToLogin() {
+        func navigateToLoginFromEntry() {
             didNavigateToLogin = true
         }
 
-        func navigateToRegistration() {
+        func navigateToRegistrationFromEntry() {
             didNavigateToRegistration = true
         }
     }

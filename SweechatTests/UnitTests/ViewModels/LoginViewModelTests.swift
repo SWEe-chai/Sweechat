@@ -32,9 +32,14 @@ class LoginViewModelTests: XCTestCase {
 
     private class LoggedInDelegateStub: LoggedInDelegate {
         var didNavigateToHome = false
+        var didNavigateToEntry = false
 
-        func navigateToHome() {
+        func navigateToHomeFromLoggedIn() {
             didNavigateToHome = true
+        }
+
+        func navigateToEntryFromLoggedIn() {
+            didNavigateToEntry = true
         }
     }
 
@@ -59,6 +64,12 @@ class LoginViewModelTests: XCTestCase {
         sut.didTapHomeButton()
 
         XCTAssertTrue(delegateStub.didNavigateToHome)
+    }
+
+    func testDidTapBackButton_callsDelegateEntryMethod() {
+        sut.didTapBackButton()
+
+        XCTAssertTrue(delegateStub.didNavigateToEntry)
     }
 
     func testDidGoogleLogin_callsAuthGoogleMethod() {

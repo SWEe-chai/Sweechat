@@ -4,9 +4,14 @@ import XCTest
 class OnboardingViewModelTests: XCTestCase {
     private class LoggedOutDelegateStub: LoggedOutDelegate {
         var didNavigateToEntry = false
+        var didNavigateToHome = false
 
-        func navigateToEntry() {
+        func navigateToEntryFromLoggedOut() {
             didNavigateToEntry = true
+        }
+
+        func navigateToHomeFromLoggedOut() {
+            didNavigateToHome = true
         }
     }
 
