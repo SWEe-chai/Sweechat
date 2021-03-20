@@ -14,7 +14,7 @@ class AppViewModel: ObservableObject {
         authentication.delegate = user
         initialiseSubscribers()
 
-        // For testing, this assertion below may be commented
+        // During development, this assertion below may be commented
         if !isValidState(state) {
             changeToDefaultState()
             return
