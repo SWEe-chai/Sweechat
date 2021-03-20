@@ -25,6 +25,12 @@ class MessageViewModel {
     }
 }
 
-extension MessageViewModel: Identifiable {
-
+// MARK: Hashable
+extension MessageViewModel: Hashable {
+    static func == (lhs: MessageViewModel, rhs: MessageViewModel) -> Bool {
+        lhs.message.id == rhs.message.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(message.id)
+    }
 }

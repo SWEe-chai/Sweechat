@@ -55,4 +55,9 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         self.messages.append(message)
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }
+
+    func insertAll(messages: [Message]) {
+        let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
+        self.messages = newMessages
+    }
 }

@@ -46,6 +46,12 @@ extension User: ALAuthDelegate {
         // TODO: Implement signout
     }
 }
+// MARK: Equatable
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
+    }
+}
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {

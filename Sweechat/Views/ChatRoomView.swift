@@ -33,10 +33,15 @@ struct ChatRoomView: View {
                 Text(viewModel.text)
             }
             ScrollView {
-                ForEach(viewModel.textMessages) {
-                    MessageView(viewModel: $0)
+                ScrollViewReader { value in
+                    ForEach(viewModel.textMessages, id: \.self) {
+                        MessageView(viewModel: $0)
+                    }
+                    .onChange(of: viewModel.textMessages.count) { numberOfMessages in
+                        value.scrollTo(viewModel.textMessages[numberOfMessages - 1])
+                    }
+                    .padding([.leading, .trailing])
                 }
-                .padding([.leading, .trailing])
             }
             inputBar
         }

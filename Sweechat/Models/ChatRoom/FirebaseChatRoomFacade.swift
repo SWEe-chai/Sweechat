@@ -13,19 +13,64 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var chatRoomId: String
 
     var db = Firestore.firestore()
+    var userIdsToUsers: [String: User] = [:]
     var reference: CollectionReference?
     private var messageListener: ListenerRegistration?
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
-        loadMessages()
+        setUpConnectionToChatRoom()
     }
 
-    func loadMessages() {
+    func setUpConnectionToChatRoom() {
         if chatRoomId.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
+        loadUsers(onCompletion: { self.loadUsers(onCompletion: self.addListener) })
+    }
+
+    private func loadUsers(onCompletion: (() -> Void)?) {
+        let usersReference = db.collection(DatabaseConstant.Collection.users)
+        usersReference.getDocuments { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            let userRepresentations: [UserRepresentation] = snapshot.documents.compactMap {
+                FirebaseUserFacade.convert(document: $0)
+            }
+
+            for userRep in userRepresentations {
+                self.userIdsToUsers[userRep.id] = User(details: userRep)
+            }
+            onCompletion?()
+        }
+    }
+
+    private func loadMessages(onCompletion: (() -> Void)?) {
+        reference?.getDocuments { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            let messagesRepresentations = snapshot.documents.compactMap({
+                FirebaseMessageFacade.convert(document: $0)
+            })
+            let messages: [Message] = messagesRepresentations.compactMap { messageRep in
+                let user: User = self.userIdsToUsers[messageRep.senderId] ??
+                    User.createDeletedUser()
+                return Message(id: messageRep.id,
+                               sender: user,
+                               creationTime: messageRep.creationTime,
+                               content: messageRep.content)
+            }
+            self.delegate?.insertAll(messages: messages)
+            onCompletion?()
+        }
+    }
+
+    private func addListener() {
         reference = db.collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
@@ -39,7 +84,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 self.handleDocumentChange(change)
             }
         }
-
     }
 
     func save(_ message: Message) {
@@ -71,13 +115,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     return
                 }
 
-                var user: User!
-                if let senderRep = FirebaseUserFacade.convert(document: snapshot) {
-                    user = User(details: senderRep)
-                } else {
-                    user = User.createDeletedUser()
-                }
-
+                let user: User = self.getUserFromMessageDocument(document: snapshot)
                 switch change.type {
                 case .added:
                     self.delegate?.insert(
@@ -92,5 +130,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     break
                 }
             })
+    }
+
+    private func getUserFromMessageDocument(document: DocumentSnapshot) -> User {
+        if let senderRep = FirebaseUserFacade.convert(document: document) {
+            return User(details: senderRep)
+        } else {
+            return User.createDeletedUser()
+        }
     }
 }
