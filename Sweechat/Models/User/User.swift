@@ -1,22 +1,17 @@
 import Combine
 
 class User: ObservableObject {
+    static let dummyUserId = ""
+    static let dummyUserName = ""
+
     @Published var id: String
     @Published var name: String
     @Published var profilePictureUrl: String?
     @Published var isLoggedIn: Bool = false
     private var userFacade: UserFacade
 
-    static func createUser() -> User {
-        User(id: "39DI0eqPZabWv3nPLEvmHkeTxoo2", name: "Hello Im Hai")
-    }
-
-    private init(id: String, name: String, profilePictureUrl: String = "", email: String = "") {
-        self.name = name
-        self.id = id
-        self.profilePictureUrl = profilePictureUrl
-        self.userFacade = FirebaseUserFacade(userId: id)
-        userFacade.delegate = self
+    static func createDummyUser() -> User {
+        User(details: UserRepresentation(id: dummyUserId, name: dummyUserName))
     }
 
     init(details: UserRepresentation) {

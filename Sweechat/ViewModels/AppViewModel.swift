@@ -13,7 +13,7 @@ class AppViewModel: ObservableObject {
 //        authentication.delegate = user
 //        initialiseSubscribers()
         state = AppState.chatRoom
-        user = User.createUser()
+        user = User.createDummyUser()
         authentication = ALAuth()
         authentication.delegate = user
     }
