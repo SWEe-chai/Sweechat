@@ -50,7 +50,7 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel(id: "2", user: user)
+        ChatRoomViewModel(id: "3", user: user)
     }
 
     var moduleViewModel: ModuleViewModel {
