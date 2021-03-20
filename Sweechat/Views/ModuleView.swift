@@ -12,5 +12,8 @@ struct ModuleView: View {
 
     var body: some View {
         Text(viewModel.text)
+        Button(action: viewModel.didTapChatRoomButton, label: {
+            Text("Chat room")
+        })
     }
 }
