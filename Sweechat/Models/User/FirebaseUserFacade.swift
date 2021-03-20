@@ -37,13 +37,7 @@ class FirebaseUserFacade: UserFacade {
             )
     }
 
-//    private func setUpConnectionAsUser() {
-//        if let userDetails = self.getLoggedInUserDetails() {
-//            self.delegate?.updateUserData(withDetails: userDetails)
-//        }
-//    }
-//
-    func setUpConnectionAsUser() {
+    private func setUpConnectionAsUser() {
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {

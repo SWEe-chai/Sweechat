@@ -45,10 +45,6 @@ class ChatRoom: ObservableObject {
         self.chatRoomFacade.save(message)
     }
 
-    func subscribeToMesssagesChange(function: @escaping ([Message]) -> Void) -> AnyCancellable {
-        $messages.sink(receiveValue: function)
-    }
-
 }
 
 // MARK: ChatRoomFacadeDelegate
@@ -57,6 +53,6 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         guard !self.messages.contains(message) else {
             return
         }
-        self.messages += [message]
+        self.messages.append(message)
     }
 }

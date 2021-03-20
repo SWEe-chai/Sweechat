@@ -3,7 +3,7 @@ import Combine
 class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
     var user: User
-    var subscribers: [AnyCancellable]?
+    var subscriber: AnyCancellable?
 
     var text: String {
         "Agnes Natasya Wijaya Chatting"
@@ -20,27 +20,23 @@ class ChatRoomViewModel: ObservableObject {
     init(id: String, user: User) {
         self.chatRoom = ChatRoom(id: id)
         self.user = user
-        initialiseSubscribers()
+        subscriber = chatRoom.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
     }
 
     func initialiseSubscribers() {
-        subscribers = []
-        let messageChangeSubscriber = chatRoom.subscribeToMesssagesChange { messages in
-            print(messages.count)
-            if messages == self.chatRoom.messages {
-                return
-            }
-            self.chatRoom = ChatRoom(
-                id: self.chatRoom.id,
-                messages: messages
-            )
-        }
-        subscribers?.append(messageChangeSubscriber)
+//        let messageChangeSubscriber = chatRoom.subscribeToMesssagesChange { messages in
+//            print(messages.count)
+//            if messages == self.chatRoom.messages {
+//                return
+//            }
+//        }
+//        subscriber = chatRoom
     }
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        print("WHY")
         let message = Message(sender: user, content: text)
         self.chatRoom.storeMessage(message: message)
         print(self.chatRoom.messages.count)
