@@ -14,7 +14,7 @@ class LoginViewModel: ObservableObject {
     }
 
     func didTapHomeButton() {
-        delegate?.navigateToHome()
+        delegate?.navigateToHomeFromLoggedIn()
     }
 
     func didTapGoogleLogin() {

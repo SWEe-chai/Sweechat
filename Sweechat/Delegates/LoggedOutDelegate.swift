@@ -1,4 +1,4 @@
 protocol LoggedOutDelegate: AnyObject {
-    func navigateToEntry()
+    func navigateToEntryFromLoggedOut()
     func navigateToHomeFromLoggedOut()
 }

@@ -1,4 +1,4 @@
 protocol HomeDelegate: AnyObject {
-    func navigateToSettings()
-    func navigateToModule()
+    func navigateToSettingsFromHome()
+    func navigateToModuleFromHome()
 }

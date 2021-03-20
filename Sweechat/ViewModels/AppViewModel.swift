@@ -80,7 +80,7 @@ class AppViewModel: ObservableObject {
 
 // MARK: LoggedOutDelegate
 extension AppViewModel: LoggedOutDelegate {
-    func navigateToEntry() {
+    func navigateToEntryFromLoggedOut() {
         change(state: AppState.entry)
     }
 
@@ -91,18 +91,18 @@ extension AppViewModel: LoggedOutDelegate {
 
 // MARK: EntryDelegate
 extension AppViewModel: EntryDelegate {
-    func navigateToLogin() {
+    func navigateToLoginFromEntry() {
         change(state: AppState.login)
     }
 
-    func navigateToRegistration() {
+    func navigateToRegistrationFromEntry() {
         change(state: AppState.registration)
     }
 }
 
 // MARK: ModuleDelegate
 extension AppViewModel: ModuleDelegate {
-    func navigateToChatRoom() {
+    func navigateToChatRoomFromModule() {
         change(state: AppState.chatRoom)
     }
 
@@ -113,7 +113,7 @@ extension AppViewModel: ModuleDelegate {
 
 // MARK: LoggedInDelegate
 extension AppViewModel: LoggedInDelegate {
-    func navigateToHome() {
+    func navigateToHomeFromLoggedIn() {
         change(state: AppState.home)
     }
 
@@ -124,11 +124,11 @@ extension AppViewModel: LoggedInDelegate {
 
 // MARK: HomeDelegate
 extension AppViewModel: HomeDelegate {
-    func navigateToModule() {
+    func navigateToModuleFromHome() {
         change(state: AppState.module)
     }
 
-    func navigateToSettings() {
+    func navigateToSettingsFromHome() {
         change(state: AppState.settings)
     }
 }

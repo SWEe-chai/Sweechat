@@ -8,6 +8,6 @@ class OnboardingViewModel: ObservableObject {
     }
 
     func didTapEntryButton() {
-        delegate?.navigateToEntry()
+        delegate?.navigateToEntryFromLoggedOut()
     }
 }

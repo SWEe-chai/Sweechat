@@ -1,4 +1,4 @@
 protocol ModuleDelegate: AnyObject {
-    func navigateToChatRoom()
+    func navigateToChatRoomFromModule()
     func navigateToHomeFromModule()
 }

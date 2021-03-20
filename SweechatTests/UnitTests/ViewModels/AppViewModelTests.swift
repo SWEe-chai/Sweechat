@@ -17,43 +17,43 @@ class AppViewModelTests: XCTestCase {
     func testNavigateToEntry() {
         sut.state = AppState.home // set some other initial state in AppVM
 
-        sut.navigateToEntry()
+        sut.navigateToEntryFromLoggedOut()
 
         XCTAssertEqual(sut.state, AppState.entry)
     }
 
     func testNavigateToLogin() {
-        sut.navigateToLogin()
+        sut.navigateToLoginFromEntry()
 
         XCTAssertEqual(sut.state, AppState.login)
     }
 
     func testNavigateToRegistration() {
-        sut.navigateToRegistration()
+        sut.navigateToRegistrationFromEntry()
 
         XCTAssertEqual(sut.state, AppState.registration)
     }
 
     func testNavigateToChatRoom() {
-        sut.navigateToChatRoom()
+        sut.navigateToChatRoomFromModule()
 
         XCTAssertEqual(sut.state, AppState.chatRoom)
     }
 
     func testNavigateToHome() {
-        sut.navigateToHome()
+        sut.navigateToHomeFromLoggedIn()
 
         XCTAssertEqual(sut.state, AppState.home)
     }
 
     func testNavigateToModule() {
-        sut.navigateToModule()
+        sut.navigateToModuleFromHome()
 
         XCTAssertEqual(sut.state, AppState.module)
     }
 
     func testNavigateToSettings() {
-        sut.navigateToSettings()
+        sut.navigateToSettingsFromHome()
 
         XCTAssertEqual(sut.state, AppState.settings)
     }
