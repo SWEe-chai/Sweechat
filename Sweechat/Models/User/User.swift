@@ -1,7 +1,7 @@
 import Combine
 
 class User: ObservableObject {
-    static let dummyUserId = ""
+    static let dummyUserId = "CWdDxGgOMLdrQd62b7CR6qBkQaG3"
     static let dummyUserName = ""
 
     @Published var id: String

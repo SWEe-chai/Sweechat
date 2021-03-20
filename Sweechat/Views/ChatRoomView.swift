@@ -8,9 +8,15 @@ struct ChatRoomView: View {
         VStack {
             Text(viewModel.text)
             ScrollView {
-                ForEach(viewModel.textMessages) {
-                    MessageView(viewModel: $0)
-                }.padding([.leading, .trailing])
+                ScrollViewReader { value in
+                    ForEach(viewModel.textMessages) {
+                        MessageView(viewModel: $0)
+                    }
+                    .padding([.leading, .trailing])
+                    .onChange(of: viewModel.textMessages.count) { _ in
+                        value.scrollTo(viewModel.textMessages.count - 1)
+                    }
+                }
             }
             HStack {
                 TextField("Message...", text: $typingMessage)
