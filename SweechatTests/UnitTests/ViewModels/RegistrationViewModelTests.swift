@@ -25,7 +25,7 @@ class RegistrationViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDidTapEntryButton_callsDelegateENtryMethod() {
+    func testDidTapHomeButton_callsDelegateHomeMethod() {
         sut.didTapHomeButton()
 
         XCTAssertTrue(delegateStub.didNavigateToHome)
