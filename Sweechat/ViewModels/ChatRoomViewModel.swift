@@ -32,7 +32,6 @@ class ChatRoomViewModel: ObservableObject {
         // TODO: Dont hardcode
         let message = Message(sender: user, content: text)
         self.chatRoom.storeMessage(message: message)
-        print(self.chatRoom.messages.count)
     }
 
     func didTapBackButton() {

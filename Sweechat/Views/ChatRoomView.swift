@@ -19,7 +19,8 @@ struct ChatRoomView: View {
             ScrollView {
                 ForEach(viewModel.textMessages) {
                     MessageView(viewModel: $0)
-                }.padding([.leading, .trailing])
+                }
+                .padding([.leading, .trailing])
             }
             HStack {
                 TextField("Message...", text: $typingMessage)
