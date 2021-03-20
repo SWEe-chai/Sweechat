@@ -16,12 +16,12 @@ class UserTests: XCTestCase {
     }
 
     func testCreateUser_returnsUserWithDummyUserDetails() {
-        let user = User.createDummyUser()
+        sut = User.createDummyUser()
 
-        XCTAssertEqual(user.id, User.dummyUserId)
-        XCTAssertEqual(user.name, User.dummyUserName)
-        XCTAssertNil(user.profilePictureUrl)
-        XCTAssertFalse(user.isLoggedIn)
+        XCTAssertEqual(sut.id, User.dummyUserId)
+        XCTAssertEqual(sut.name, User.dummyUserName)
+        XCTAssertNil(sut.profilePictureUrl)
+        XCTAssertFalse(sut.isLoggedIn)
     }
 
     func testSubscribeToSignedIn_callsFunctionUponChangingLoggedInStatus() {
