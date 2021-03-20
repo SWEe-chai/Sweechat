@@ -4,6 +4,22 @@ struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
 
+    var inputBar: some View {
+        HStack {
+            TextEditor(text: $typingMessage)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .cornerRadius(5)
+                .frame(idealHeight: 20, maxHeight: 60)
+                .multilineTextAlignment(.leading)
+            Button(action: sendTypedMessage) {
+                Text("Send")
+            }
+        }
+        .frame(idealHeight: 20, maxHeight: 50)
+        .padding()
+        .background(Color.gray.opacity(0.1))
+    }
+
     var body: some View {
         VStack {
             ZStack {
@@ -22,14 +38,7 @@ struct ChatRoomView: View {
                 }
                 .padding([.leading, .trailing])
             }
-            HStack {
-                TextField("Message...", text: $typingMessage)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(minHeight: CGFloat(30))
-                Button(action: sendTypedMessage) {
-                    Text("Send")
-                }
-            }.frame(minHeight: 20).padding()
+            inputBar
         }
     }
 
