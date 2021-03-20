@@ -8,10 +8,10 @@ class EntryViewModel: ObservableObject {
     }
 
     func didTapLoginButton() {
-        delegate?.navigateToLogin()
+        delegate?.navigateToLoginFromEntry()
     }
 
     func didTapRegistrationButton() {
-        delegate?.navigateToRegistration()
+        delegate?.navigateToRegistrationFromEntry()
     }
 }

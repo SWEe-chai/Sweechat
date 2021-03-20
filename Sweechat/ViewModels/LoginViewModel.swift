@@ -14,7 +14,7 @@ class LoginViewModel: ObservableObject {
     }
 
     func didTapHomeButton() {
-        delegate?.navigateToHome()
+        delegate?.navigateToHomeFromLoggedIn()
     }
 
     func didTapGoogleLogin() {
@@ -23,5 +23,9 @@ class LoginViewModel: ObservableObject {
 
     func didTapFacebookLogin() {
         auth.getHandlerUI(type: .facebook).initiateSignIn()
+    }
+
+    func didTapBackButton() {
+        delegate?.navigateToEntryFromLoggedIn()
     }
 }

@@ -50,7 +50,9 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        ChatRoomViewModel(id: "3", user: user)
+        let viewModel = ChatRoomViewModel(id: "3", user: user)
+        viewModel.delegate = self
+        return viewModel
     }
 
     var moduleViewModel: ModuleViewModel {
@@ -78,42 +80,62 @@ class AppViewModel: ObservableObject {
 
 // MARK: LoggedOutDelegate
 extension AppViewModel: LoggedOutDelegate {
-    func navigateToEntry() {
+    func navigateToEntryFromLoggedOut() {
         change(state: AppState.entry)
+    }
+
+    func navigateToHomeFromLoggedOut() {
+        change(state: AppState.home)
     }
 }
 
 // MARK: EntryDelegate
 extension AppViewModel: EntryDelegate {
-    func navigateToLogin() {
+    func navigateToLoginFromEntry() {
         change(state: AppState.login)
     }
 
-    func navigateToRegistration() {
+    func navigateToRegistrationFromEntry() {
         change(state: AppState.registration)
     }
 }
 
 // MARK: ModuleDelegate
 extension AppViewModel: ModuleDelegate {
-    func navigateToChatRoom() {
+    func navigateToChatRoomFromModule() {
         change(state: AppState.chatRoom)
-    }}
+    }
+
+    func navigateToHomeFromModule() {
+        change(state: AppState.home)
+    }
+}
 
 // MARK: LoggedInDelegate
 extension AppViewModel: LoggedInDelegate {
-    func navigateToHome() {
+    func navigateToHomeFromLoggedIn() {
         change(state: AppState.home)
+    }
+
+    func navigateToEntryFromLoggedIn() {
+        change(state: AppState.entry)
     }
 }
 
 // MARK: HomeDelegate
 extension AppViewModel: HomeDelegate {
-    func navigateToModule() {
+    func navigateToModuleFromHome() {
         change(state: AppState.module)
     }
 
-    func navigateToSettings() {
+    func navigateToSettingsFromHome() {
         change(state: AppState.settings)
+    }
+}
+
+// MARK: ChatRoomDelegate
+extension AppViewModel: ChatRoomDelegate {
+    func navigateToModuleFromChatRoom() {
+        change(state: AppState.module)
     }
 }
