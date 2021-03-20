@@ -9,7 +9,7 @@ class HomeViewModel: ObservableObject {
     }
 
     var text: String {
-        "Welcome home \(user.firstName ?? "")"
+        "Welcome home \(user.name )"
     }
 
     func didTapModuleButton() {

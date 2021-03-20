@@ -1,80 +1,44 @@
-import Firebase
-import FirebaseFirestore
+import Combine
 
 class ChatRoomViewModel: ObservableObject {
-    private let db = Firestore.firestore()
-    private var reference: CollectionReference?
-
-    @Published var chatRoom: ChatRoom {
-        didSet {
-            objectWillChange.send()
-        }
-    }
-    private var messageListener: ListenerRegistration?
+    @Published var chatRoom: ChatRoom
+    var user: User
+    var subscriber: AnyCancellable?
 
     var text: String {
         "Agnes Natasya Wijaya Chatting"
     }
 
-    init(id: String) {
-        chatRoom = ChatRoom(id: id)
+    var messageCount: Int {
+        chatRoom.messages.count
     }
 
-    func connectToFirebase(chatRoomId: String?) {
-        reference = db.collection([DatabaseConstant.Collection.chatRooms,
-                                   chatRoom.id,
-                                   DatabaseConstant.Collection.messages].joined(separator: "/"))
+    var textMessages: [String] {
+        chatRoom.messages.map { "\($0.content) from \($0.sender.name)" }
+    }
 
-        messageListener = reference?.addSnapshotListener { querySnapshot, error in
-          guard let snapshot = querySnapshot else {
-            print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-            return
-          }
-
-          snapshot.documentChanges.forEach { change in
-            self.handleDocumentChange(change)
-          }
+    init(id: String, user: User) {
+        self.chatRoom = ChatRoom(id: id)
+        self.user = user
+        subscriber = chatRoom.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
         }
+    }
 
+    func initialiseSubscribers() {
+//        let messageChangeSubscriber = chatRoom.subscribeToMesssagesChange { messages in
+//            print(messages.count)
+//            if messages == self.chatRoom.messages {
+//                return
+//            }
+//        }
+//        subscriber = chatRoom
     }
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        let user = User.createUser()
-        let message = Message(user: user, content: text)
-        self.save(message)
+        let message = Message(sender: user, content: text)
+        self.chatRoom.storeMessage(message: message)
+        print(self.chatRoom.messages.count)
     }
-
-    private func save(_ message: Message) {
-        reference?.addDocument(data: MessageAdapter.convert(message: message)) { error in
-            if let e = error {
-                print("Error sending message: \(e.localizedDescription)")
-                return
-            }
-        }
-    }
-
-    private func insertNewMessage(_ message: Message) {
-        guard !chatRoom.messages.contains(message) else {
-            return
-        }
-
-        chatRoom.messages.append(message)
-        chatRoom.messages.sort()
-    }
-
-    private func handleDocumentChange(_ change: DocumentChange) {
-        guard let message = MessageAdapter.convert(document: change.document) else {
-            return
-        }
-
-        switch change.type {
-        case .added:
-            insertNewMessage(message)
-
-        default:
-            break
-        }
-    }
-
 }
