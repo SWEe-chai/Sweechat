@@ -17,6 +17,8 @@
 		2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797542601E24600124FA3 /* ALAuthDelegate.swift */; };
 		2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */; };
 		279503A42605C74A00D3B743 /* ModuleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503A32605C74A00D3B743 /* ModuleDelegate.swift */; };
+		279503DF2605D55D00D3B743 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503DE2605D55D00D3B743 /* MessageView.swift */; };
+		279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503E32605D57600D3B743 /* MessageViewModel.swift */; };
 		27A61A6426046ACF00226600 /* UserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6326046ACF00226600 /* UserFacade.swift */; };
 		27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */; };
 		27A61A6E26046C0C00226600 /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6D26046C0C00226600 /* UserRepresentation.swift */; };
@@ -97,6 +99,8 @@
 		278797542601E24600124FA3 /* ALAuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthDelegate.swift; sourceTree = "<group>"; };
 		278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandlerDelegate.swift; sourceTree = "<group>"; };
 		279503A32605C74A00D3B743 /* ModuleDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleDelegate.swift; sourceTree = "<group>"; };
+		279503DE2605D55D00D3B743 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		279503E32605D57600D3B743 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		27A61A6326046ACF00226600 /* UserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacade.swift; sourceTree = "<group>"; };
 		27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserFacade.swift; sourceTree = "<group>"; };
 		27A61A6D26046C0C00226600 /* UserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepresentation.swift; sourceTree = "<group>"; };
@@ -264,6 +268,7 @@
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
+				279503DE2605D55D00D3B743 /* MessageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
+				279503E32605D57600D3B743 /* MessageViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -650,6 +656,7 @@
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
+				279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */,
 				775B92122604F83B0040B985 /* RoomConstant.swift in Sources */,
 				45D6334525FDF0EE00C94D4F /* LoggedOutDelegate.swift in Sources */,
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
@@ -676,6 +683,7 @@
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
+				279503DF2605D55D00D3B743 /* MessageView.swift in Sources */,
 				45D6339625FE0BFB00C94D4F /* LoggedInDelegate.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				2787975A2601E24600124FA3 /* ALAuth.swift in Sources */,
