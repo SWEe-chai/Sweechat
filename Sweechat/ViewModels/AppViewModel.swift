@@ -80,12 +80,12 @@ class AppViewModel: ObservableObject {
         return viewModel
     }
 
-    private func change(state: AppState) {
-        if !isValidState(state) {
+    private func change(state newState: AppState) {
+        if !isValidState(newState) {
             changeToDefaultState()
             return
         }
-        self.state = state
+        self.state = newState
     }
 
     private func isValidState(_ state: AppState) -> Bool {
