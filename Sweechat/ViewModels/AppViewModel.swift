@@ -1,4 +1,5 @@
 import Combine
+import os
 
 class AppViewModel: ObservableObject {
     @Published var state: AppState
@@ -12,6 +13,12 @@ class AppViewModel: ObservableObject {
         authentication = ALAuth()
         authentication.delegate = user
         initialiseSubscribers()
+
+        // For testing, this assertion below may be commented
+        if !isValidState(state) {
+            changeToDefaultState()
+            return
+        }
     }
 
     private func initialiseSubscribers() {
@@ -74,7 +81,29 @@ class AppViewModel: ObservableObject {
     }
 
     private func change(state: AppState) {
+        if !isValidState(state) {
+            changeToDefaultState()
+            return
+        }
         self.state = state
+    }
+
+    private func isValidState(_ state: AppState) -> Bool {
+        if user.isLoggedIn {
+            return StateConstant.LoggedInAppStates.contains(state)
+        } else {
+            return StateConstant.LoggedOutAppStates.contains(state)
+        }
+    }
+
+    private func changeToDefaultState() {
+        if user.isLoggedIn {
+            os_log(StateConstant.DefaultLoggedInAppStateMessage)
+            self.state = StateConstant.DefaultLoggedInAppState
+        } else {
+            os_log(StateConstant.DefaultLoggedOutAppStateMessage)
+            self.state = StateConstant.DefaultLoggedOutAppState
+        }
     }
 }
 
