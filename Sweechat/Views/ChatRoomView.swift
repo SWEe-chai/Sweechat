@@ -17,15 +17,10 @@ struct ChatRoomView: View {
                 Text(viewModel.text)
             }
             ScrollView {
-                ScrollViewReader { value in
-                    ForEach(viewModel.textMessages) {
-                        MessageView(viewModel: $0)
-                    }
-                    .padding([.leading, .trailing])
-                    .onChange(of: viewModel.textMessages.count) { _ in
-                        value.scrollTo(viewModel.textMessages.count - 1)
-                    }
+                ForEach(viewModel.textMessages) {
+                    MessageView(viewModel: $0)
                 }
+                .padding([.leading, .trailing])
             }
             HStack {
                 TextField("Message...", text: $typingMessage)
