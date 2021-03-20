@@ -14,7 +14,7 @@ class AppViewModel: ObservableObject {
         initialiseSubscribers()
     }
 
-    func initialiseSubscribers() {
+    private func initialiseSubscribers() {
         subscribers = []
         let signedInSubscriber = user.subscribeToSignedIn { userIsSignedIn in
             if !userIsSignedIn {
