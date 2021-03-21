@@ -3,7 +3,7 @@ import os
 
 class AppViewModel: ObservableObject {
     @Published var state: AppState
-    var user: User!
+    var user: User?
     var authentication: ALAuth
     private var isLoggedIn: Bool {
         user != nil
@@ -44,7 +44,7 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        let viewModel = ChatRoomViewModel(id: "3", user: user)
+        let viewModel = ChatRoomViewModel(id: "3", user: getUnwrappedUser())
         viewModel.delegate = self
         return viewModel
     }
@@ -56,7 +56,7 @@ class AppViewModel: ObservableObject {
     }
 
     var homeViewModel: HomeViewModel {
-        let viewModel = HomeViewModel(user: user)
+        let viewModel = HomeViewModel(user: getUnwrappedUser())
         viewModel.delegate = self
         return viewModel
     }
@@ -91,6 +91,14 @@ class AppViewModel: ObservableObject {
             os_log(StateConstant.DefaultLoggedOutAppStateMessage)
             self.state = StateConstant.DefaultLoggedOutAppState
         }
+    }
+
+    private func getUnwrappedUser() -> User {
+        // This is so that we can control where user is unwrapped
+        guard let user = self.user else {
+            fatalError("Unwrapped user but user is nil")
+        }
+        return user
     }
 }
 
