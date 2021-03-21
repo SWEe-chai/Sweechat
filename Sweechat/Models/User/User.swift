@@ -3,6 +3,7 @@ import Combine
 class User: ObservableObject {
     static let dummyUserId = ""
     static let dummyUserName = ""
+    static let unvailableUserName = "Unavailable User"
 
     @Published var id: String
     @Published var name: String
@@ -12,6 +13,9 @@ class User: ObservableObject {
 
     static func createDummyUser() -> User {
         User(details: UserRepresentation(id: dummyUserId, name: dummyUserName))
+    }
+    static func createUnavailableUser() -> User {
+        User(details: UserRepresentation(id: dummyUserId, name: unvailableUserName))
     }
 
     init(details: UserRepresentation) {
@@ -40,6 +44,12 @@ extension User: ALAuthDelegate {
 
     func signOut() {
         // TODO: Implement signout
+    }
+}
+// MARK: Equatable
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

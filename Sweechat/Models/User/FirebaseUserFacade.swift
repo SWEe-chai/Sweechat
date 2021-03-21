@@ -1,8 +1,9 @@
 import FirebaseFirestore
+import os
 
 class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
-    private var userId: String!
+    private var userId: String
 
     var db = Firestore.firestore()
     var reference: DocumentReference?
@@ -38,10 +39,14 @@ class FirebaseUserFacade: UserFacade {
     }
 
     private func setUpConnectionAsUser() {
+        if userId.isEmpty {
+            os_log("Error loading user: User id is empty")
+            return
+        }
         reference = db.collection(DatabaseConstant.Collection.users).document(userId)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                    print("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
             if let details = FirebaseUserFacade.convert(document: snapshot) {
@@ -51,12 +56,16 @@ class FirebaseUserFacade: UserFacade {
     }
 
     static func convert(document: DocumentSnapshot) -> UserRepresentation? {
+        if !document.exists {
+            os_log("Error: Cannot convert user, user document does not exist")
+            return nil
+        }
         let data = document.data()
         var details: UserRepresentation?
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            print("Error reading data update for user")
+            os_log("Error converting data for user")
             return nil
         }
         details = UserRepresentation(

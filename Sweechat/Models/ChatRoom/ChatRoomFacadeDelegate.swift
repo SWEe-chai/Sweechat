@@ -7,4 +7,5 @@
 
 protocol ChatRoomFacadeDelegate: AnyObject {
     func insert(message: Message)
+    func insertAll(messages: [Message])
 }
