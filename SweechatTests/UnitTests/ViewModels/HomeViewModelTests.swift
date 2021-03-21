@@ -5,7 +5,7 @@ class HomeViewModelTests: XCTestCase {
     private class UserStub: User {
         init() {
             super.init(details: UserRepresentation(id: User.dummyUserId, name: User.dummyUserName,
-                                                   profilePictureUrl: nil, isLoggedIn: true))
+                                                   profilePictureUrl: nil))
         }
     }
 
