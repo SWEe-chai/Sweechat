@@ -5,7 +5,6 @@ class AppViewModel: ObservableObject {
     @Published var state: AppState
     var user: User
     var authentication: ALAuth
-    var subscribers: [AnyCancellable]?
 
     init() {
         state = AppState.entry
@@ -21,14 +20,12 @@ class AppViewModel: ObservableObject {
     }
 
     private func initialiseSubscribers() {
-        subscribers = []
-        let signedInSubscriber = user.subscribeToSignedIn { userIsSignedIn in
-            if !userIsSignedIn {
+        user.subscribeToIsLoggedIn { isLoggedIn in
+            if !isLoggedIn {
                 return
             }
             self.change(state: .home)
         }
-        subscribers?.append(signedInSubscriber)
     }
 
     var onboardingViewModel: OnboardingViewModel {
