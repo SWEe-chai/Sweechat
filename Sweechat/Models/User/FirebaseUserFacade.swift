@@ -71,8 +71,7 @@ class FirebaseUserFacade: UserFacade {
         details = UserRepresentation(
             id: id,
             name: name,
-            profilePictureUrl: profilePictureUrl,
-            isLoggedIn: true
+            profilePictureUrl: profilePictureUrl
         )
 
         return details

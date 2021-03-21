@@ -6,7 +6,7 @@ struct Message {
     var creationTime: Date
     var sender: User
     var type: MessageType
-    var downloadURL: URL?
+    var downloadUrl: URL?
 
     init(sender: User, content: String) {
         self.sender = sender

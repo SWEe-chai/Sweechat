@@ -2,15 +2,18 @@ import XCTest
 @testable import Sweechat
 
 class AppViewModelTests: XCTestCase {
+    private var alLogInDetails: ALLoginDetails!
     private var sut: AppViewModel!
 
     override func setUp() {
         super.setUp()
+        alLogInDetails = ALLoginDetails(id: "abc", name: "name", profilePictureUrl: "prettyBoi.com")
         sut = AppViewModel()
     }
 
     override func tearDown() {
         sut = nil
+        alLogInDetails = nil
         super.tearDown()
     }
 
@@ -35,28 +38,28 @@ class AppViewModelTests: XCTestCase {
     }
 
     func testNavigateToChatRoom() {
-        sut.user.isLoggedIn = true
+        sut.signIn(withDetails: alLogInDetails)
         sut.navigateToChatRoomFromModule()
 
         XCTAssertEqual(sut.state, AppState.chatRoom)
     }
 
     func testNavigateToHome() {
-        sut.user.isLoggedIn = true
+        sut.signIn(withDetails: alLogInDetails)
         sut.navigateToHomeFromLoggedIn()
 
         XCTAssertEqual(sut.state, AppState.home)
     }
 
     func testNavigateToModule() {
-        sut.user.isLoggedIn = true
+        sut.signIn(withDetails: alLogInDetails)
         sut.navigateToModuleFromHome()
 
         XCTAssertEqual(sut.state, AppState.module)
     }
 
     func testNavigateToSettings() {
-        sut.user.isLoggedIn = true
+        sut.signIn(withDetails: alLogInDetails)
         sut.navigateToSettingsFromHome()
 
         XCTAssertEqual(sut.state, AppState.settings)
