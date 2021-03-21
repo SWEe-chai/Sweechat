@@ -18,11 +18,11 @@ class ALAuth {
         authHandlers[.facebook] = facebookAuth
     }
 
-    func getHandlerUI(type: ALAuthHandlerType) -> ALAuthHandler {
+    func initiateSignIn(type: ALAuthHandlerType) {
         guard let handler = authHandlers[type] else {
             fatalError("Authentication error: type \(type) is unknown")
         }
-        return handler
+        handler.initiateSignIn()
     }
 }
 

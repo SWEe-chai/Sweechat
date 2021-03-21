@@ -8,8 +8,8 @@ import FirebaseFirestore
 import os
 
 class FirebaseMessageFacade: MessageFacade {
-    var db = Firestore.firestore()
-    var reference: DocumentReference?
+    private var db = Firestore.firestore()
+    private var reference: DocumentReference?
 
     static func convert(document: DocumentSnapshot) -> MessageRepresentation? {
         if !document.exists {

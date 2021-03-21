@@ -1,8 +1,7 @@
 import Combine
 
 class User: ObservableObject {
-    static let dummyUserId = ""
-    static let dummyUserName = ""
+    static let unvailableUserId = ""
     static let unvailableUserName = "Unavailable User"
 
     @Published var id: String
@@ -12,7 +11,7 @@ class User: ObservableObject {
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
 
     static func createUnavailableUser() -> User {
-        User(details: UserRepresentation(id: dummyUserId, name: unvailableUserName))
+        User(details: UserRepresentation(id: unvailableUserId, name: unvailableUserName))
     }
 
     init(details: UserRepresentation) {
