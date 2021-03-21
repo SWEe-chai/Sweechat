@@ -285,6 +285,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		45210D5C2607495D00B54155 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = IntegrationTests;
+			sourceTree = "<group>";
+		};
 		458E23A02605BF52006780C7 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,6 +480,7 @@
 		778F08CF25FDDA470059C2A0 /* SweechatTests */ = {
 			isa = PBXGroup;
 			children = (
+				45210D5C2607495D00B54155 /* IntegrationTests */,
 				458E23A02605BF52006780C7 /* UnitTests */,
 				778F08D025FDDA470059C2A0 /* SweechatTests.swift */,
 				778F08D225FDDA470059C2A0 /* Info.plist */,
