@@ -8,8 +8,13 @@ class User: ObservableObject {
     @Published var id: String
     @Published var name: String
     @Published var profilePictureUrl: String?
-    @Published var isLoggedIn: Bool = false
+    var isLoggedIn: Bool = false {
+        didSet {
+            notifyIsLoggedInSubscribers(withValue: isLoggedIn)
+        }
+    }
     private var userFacade: UserFacade
+    private var isLoggedInSubscribers: [((Bool) -> Void)] = []
 
     static func createDummyUser() -> User {
         User(details: UserRepresentation(id: dummyUserId, name: dummyUserName))
@@ -27,9 +32,16 @@ class User: ObservableObject {
         userFacade.delegate = self
     }
 
-    func subscribeToSignedIn(function: @escaping (Bool) -> Void) -> AnyCancellable {
-        $isLoggedIn.sink(receiveValue: function)
+    func subscribeToIsLoggedIn(function: @escaping (Bool) -> Void) {
+        isLoggedInSubscribers.append(function)
     }
+
+    private func notifyIsLoggedInSubscribers(withValue isLoggedIn: Bool) {
+        isLoggedInSubscribers.forEach { subscriber in
+            subscriber(isLoggedIn)
+        }
+    }
+
 }
 
 // MARK: ALAuthDelegate
