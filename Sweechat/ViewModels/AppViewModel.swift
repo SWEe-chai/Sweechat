@@ -170,6 +170,7 @@ extension AppViewModel: ALAuthDelegate {
         user = User(details: UserRepresentation(
                         id: details.id,
                         name: details.name))
+        user?.initiateListeningToUser()
         change(state: .login)
     }
 
