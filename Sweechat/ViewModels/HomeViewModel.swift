@@ -1,15 +1,22 @@
-import Foundation
+import Combine
 
 class HomeViewModel: ObservableObject {
     weak var delegate: HomeDelegate?
     var user: User
+    private var subscribers: [AnyCancellable] = []
+    @Published var text: String = ""
 
     init(user: User) {
         self.user = user
+        self.text = "Welcome home \(user.name)"
+        initiateSubscribers()
     }
 
-    var text: String {
-        "Welcome home \(user.name)"
+    private func initiateSubscribers() {
+        let nameSubscriber = user.subscribeToName { newName in
+            self.text = "Welcome home \(newName)"
+        }
+        subscribers.append(nameSubscriber)
     }
 
     func didTapModuleButton() {

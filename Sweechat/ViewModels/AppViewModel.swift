@@ -3,7 +3,7 @@ import os
 
 class AppViewModel: ObservableObject {
     @Published var state: AppState
-    var user: User?
+    var user: User!
     var authentication: ALAuth
     private var isLoggedIn: Bool {
         user != nil
@@ -44,7 +44,7 @@ class AppViewModel: ObservableObject {
     }
 
     var chatRoomViewModel: ChatRoomViewModel {
-        let viewModel = ChatRoomViewModel(id: "3", user: getUnwrappedUser())
+        let viewModel = ChatRoomViewModel(id: "3", user: user)
         viewModel.delegate = self
         return viewModel
     }
@@ -56,7 +56,7 @@ class AppViewModel: ObservableObject {
     }
 
     var homeViewModel: HomeViewModel {
-        let viewModel = HomeViewModel(user: getUnwrappedUser())
+        let viewModel = HomeViewModel(user: user)
         viewModel.delegate = self
         return viewModel
     }
@@ -170,6 +170,7 @@ extension AppViewModel: ALAuthDelegate {
         user = User(details: UserRepresentation(
                         id: details.id,
                         name: details.name))
+        user?.initiateListeningToUser()
         change(state: .login)
     }
 
