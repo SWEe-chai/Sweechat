@@ -29,7 +29,7 @@ class UserTests: XCTestCase {
         let function: (Bool) -> Void = { _ in
             isFunctionCalled = true
         }
-        _ = sut.subscribeToSignedIn(function: function)
+        _ = sut.subscribeToIsLoggedIn(function: function)
 
         sut.isLoggedIn = true
 
