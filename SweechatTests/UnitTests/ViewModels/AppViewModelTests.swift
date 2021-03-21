@@ -35,24 +35,28 @@ class AppViewModelTests: XCTestCase {
     }
 
     func testNavigateToChatRoom() {
+        sut.user.isLoggedIn = true
         sut.navigateToChatRoomFromModule()
 
         XCTAssertEqual(sut.state, AppState.chatRoom)
     }
 
     func testNavigateToHome() {
+        sut.user.isLoggedIn = true
         sut.navigateToHomeFromLoggedIn()
 
         XCTAssertEqual(sut.state, AppState.home)
     }
 
     func testNavigateToModule() {
+        sut.user.isLoggedIn = true
         sut.navigateToModuleFromHome()
 
         XCTAssertEqual(sut.state, AppState.module)
     }
 
     func testNavigateToSettings() {
+        sut.user.isLoggedIn = true
         sut.navigateToSettingsFromHome()
 
         XCTAssertEqual(sut.state, AppState.settings)
