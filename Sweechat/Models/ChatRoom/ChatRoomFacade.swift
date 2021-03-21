@@ -9,4 +9,5 @@ import FirebaseFirestore
 
 protocol ChatRoomFacade {
     var delegate: ChatRoomFacadeDelegate? { get set }
+    func save(_ message: Message)
 }
