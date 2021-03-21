@@ -59,4 +59,31 @@ class ChatRoomTests: XCTestCase {
         XCTAssertTrue(sut.messages[1] == messageStub2)
         XCTAssertTrue(sut.messages[2] == messageStub3)
     }
+
+    func testInsertAll_singleMessage_appendsMessageToArrayInOrder() {
+        let messages = [messageStub1]
+
+        sut.insertAll(messages: messages)
+
+        XCTAssertEqual(sut.messages, messages)
+    }
+
+    func testInsertAll_multipleMessages_appendsMessagesToArrayInOrder() {
+        let messages = [messageStub1, messageStub2, messageStub3]
+
+        sut.insertAll(messages: messages)
+
+        XCTAssertEqual(sut.messages, messages)
+    }
+
+    func testInsertAll_multipleOutOfOrderMessages_appendsMessagesToArrayInOrder() {
+        let messages = [messageStub3, messageStub2, messageStub1]
+
+        sut.insertAll(messages: messages)
+
+        XCTAssertTrue(sut.messages.count == 3)
+        XCTAssertTrue(sut.messages[0] == messageStub1)
+        XCTAssertTrue(sut.messages[1] == messageStub2)
+        XCTAssertTrue(sut.messages[2] == messageStub3)
+    }
 }

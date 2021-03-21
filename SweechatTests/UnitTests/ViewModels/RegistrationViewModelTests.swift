@@ -3,12 +3,7 @@ import XCTest
 
 class RegistrationViewModelTests: XCTestCase {
     private class LoggedInDelegateStub: LoggedInDelegate {
-        var didNavigateToHome = false
         var didNavigateToEntry = false
-
-        func navigateToHomeFromLoggedIn() {
-            didNavigateToHome = true
-        }
 
         func navigateToEntryFromLoggedIn() {
             didNavigateToEntry = true
@@ -34,11 +29,5 @@ class RegistrationViewModelTests: XCTestCase {
         sut.didTapBackButton()
 
         XCTAssertTrue(delegateStub.didNavigateToEntry)
-    }
-
-    func testDidTapHomeButton_callsDelegateHomeMethod() {
-        sut.didTapHomeButton()
-
-        XCTAssertTrue(delegateStub.didNavigateToHome)
     }
 }
