@@ -7,7 +7,7 @@ class ChatRoomViewModel: ObservableObject {
     weak var delegate: ChatRoomDelegate?
 
     var text: String {
-        "Chat room \(chatRoom.id)"
+        "Chat room"
     }
 
     var messageCount: Int {
