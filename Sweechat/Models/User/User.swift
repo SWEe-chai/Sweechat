@@ -21,6 +21,20 @@ class User: ObservableObject {
         self.userFacade = FirebaseUserFacade(userId: details.id)
         userFacade.delegate = self
     }
+
+    func initiateListeningToUser() {
+        userFacade.loginAndListenToUser(
+            withDetails: UserRepresentation(
+                id: id,
+                name: name,
+                profilePictureUrl: profilePictureUrl
+            )
+        )
+    }
+
+    func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
+        $name.sink(receiveValue: function)
+    }
 }
 
 // MARK: Equatable

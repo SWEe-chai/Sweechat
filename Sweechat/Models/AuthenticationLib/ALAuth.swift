@@ -4,7 +4,6 @@ import SwiftUI
 class ALAuth {
     private var authHandlers: [ALAuthHandlerType: ALAuthHandler] = [:]
     weak var delegate: ALAuthDelegate?
-    var loginDetails: ALLoginDetails?
 
     func setUpGoogleHandler() {
         let googleAuth = ALGoogleAuthHandler()
