@@ -13,10 +13,6 @@ class LoginViewModel: ObservableObject {
         "Login"
     }
 
-    func didTapHomeButton() {
-        delegate?.navigateToHomeFromLoggedIn()
-    }
-
     func didTapGoogleLogin() {
         auth.initiateSignIn(type: ALAuthHandlerType.google)
     }

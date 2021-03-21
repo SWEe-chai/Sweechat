@@ -36,12 +36,7 @@ class LoginViewModelTests: XCTestCase {
     }
 
     private class LoggedInDelegateStub: LoggedInDelegate {
-        var didNavigateToHome = false
         var didNavigateToEntry = false
-
-        func navigateToHomeFromLoggedIn() {
-            didNavigateToHome = true
-        }
 
         func navigateToEntryFromLoggedIn() {
             didNavigateToEntry = true
@@ -63,12 +58,6 @@ class LoginViewModelTests: XCTestCase {
     override func tearDown() {
         sut = nil
         super.tearDown()
-    }
-
-    func testDidTapHomeButton_callsDelegateHomeMethod() {
-        sut.didTapHomeButton()
-
-        XCTAssertTrue(delegateStub.didNavigateToHome)
     }
 
     func testDidTapBackButton_callsDelegateEntryMethod() {
