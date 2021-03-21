@@ -48,10 +48,11 @@ struct ChatRoomView: View {
     }
 
     func sendTypedMessage() {
-        if typingMessage.isEmpty {
+        let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
+        if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(typingMessage)
+        viewModel.handleSendMessage(content)
         typingMessage = ""
     }
 }
