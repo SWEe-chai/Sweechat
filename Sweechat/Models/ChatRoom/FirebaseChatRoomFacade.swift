@@ -14,7 +14,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     var db = Firestore.firestore()
     var userIdsToUsers: [String: User] = [:]
-    var reference: CollectionReference?
+    var chatRoomReference: CollectionReference?
     private var messageListener: ListenerRegistration?
 
     init(chatRoomId: String) {
@@ -27,7 +27,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        loadUsers(onCompletion: { self.loadUsers(onCompletion: self.addListener) })
+        loadUsers(onCompletion: { self.loadMessages(onCompletion: self.addListener) })
     }
 
     private func loadUsers(onCompletion: (() -> Void)?) {
@@ -49,7 +49,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        reference?.getDocuments { querySnapshot, error in
+        chatRoomReference = db.collection(DatabaseConstant.Collection.chatRooms)
+            .document(chatRoomId)
+            .collection(DatabaseConstant.Collection.messages)
+        chatRoomReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
                 return
@@ -71,11 +74,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func addListener() {
-        reference = db.collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
-            .collection(DatabaseConstant.Collection.messages)
-
-        messageListener = reference?.addSnapshotListener { querySnapshot, error in
+        messageListener = chatRoomReference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -87,7 +86,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
-        reference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
+        chatRoomReference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
