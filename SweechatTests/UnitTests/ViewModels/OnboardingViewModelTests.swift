@@ -30,7 +30,7 @@ class OnboardingViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDidTapEntryButton_callsDelegateENtryMethod() {
+    func testDidTapEntryButton_callsDelegateEntryMethod() {
         sut.didTapEntryButton()
 
         XCTAssertTrue(delegateStub.didNavigateToEntry)
