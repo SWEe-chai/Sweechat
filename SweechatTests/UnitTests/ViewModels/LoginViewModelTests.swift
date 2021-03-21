@@ -25,8 +25,13 @@ class LoginViewModelTests: XCTestCase {
     private class ALAuthStub: ALAuth {
         var alAuthHandlerStub: ALAuthHandlerStub!
 
-        override func getHandlerUI(type: ALAuthHandlerType) -> ALAuthHandler {
-            alAuthHandlerStub
+        override func initiateSignIn(type: ALAuthHandlerType) {
+            switch type {
+            case .google:
+                alAuthHandlerStub.didGoogleSignIn = true
+            case .facebook:
+                alAuthHandlerStub.didFacebookSignIn = true
+            }
         }
     }
 

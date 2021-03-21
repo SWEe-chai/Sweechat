@@ -18,11 +18,11 @@ class LoginViewModel: ObservableObject {
     }
 
     func didTapGoogleLogin() {
-        auth.getHandlerUI(type: .google).initiateSignIn()
+        auth.initiateSignIn(type: ALAuthHandlerType.google)
     }
 
     func didTapFacebookLogin() {
-        auth.getHandlerUI(type: .facebook).initiateSignIn()
+        auth.initiateSignIn(type: ALAuthHandlerType.facebook)
     }
 
     func didTapBackButton() {

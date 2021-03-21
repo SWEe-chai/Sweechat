@@ -4,8 +4,10 @@ import XCTest
 class HomeViewModelTests: XCTestCase {
     private class UserStub: User {
         init() {
-            super.init(details: UserRepresentation(id: User.dummyUserId, name: User.dummyUserName,
-                                                   profilePictureUrl: nil))
+            super.init(details: UserRepresentation(
+                        id: "",
+                        name: "",
+                        profilePictureUrl: nil))
         }
     }
 
