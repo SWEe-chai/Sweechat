@@ -12,9 +12,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
     private var chatRoomId: String
 
-    var db = Firestore.firestore()
-    var userIdsToUsers: [String: User] = [:]
-    var chatRoomReference: CollectionReference?
+    private var db = Firestore.firestore()
+    private var userIdsToUsers: [String: User] = [:]
+    private var chatRoomReference: CollectionReference?
     private var messageListener: ListenerRegistration?
 
     init(chatRoomId: String) {
