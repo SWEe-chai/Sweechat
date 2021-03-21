@@ -18,7 +18,7 @@ class LoginViewModelIntegrationTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDidTapBackButton_callsDelegateEntryMethod() {
+    func testDidTapBackButton_navigatesToEntryState() {
         sut.didTapBackButton()
 
         XCTAssertEqual(appViewModel.state, .entry)

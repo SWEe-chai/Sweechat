@@ -35,6 +35,7 @@
 		45210D6A26074E9700B54155 /* OnboardingViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D6926074E9700B54155 /* OnboardingViewModelIntegrationTests.swift */; };
 		45210D6F26074F4300B54155 /* RegistrationViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D6E26074F4300B54155 /* RegistrationViewModelIntegrationTests.swift */; };
 		45210D74260754F000B54155 /* LoginViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D73260754F000B54155 /* LoginViewModelIntegrationTests.swift */; };
+		45210D79260755C300B54155 /* ChatRoomViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D78260755C300B54155 /* ChatRoomViewModelIntegrationTests.swift */; };
 		4585A4732606323000DD5BB0 /* ChatRoomViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585A4722606323000DD5BB0 /* ChatRoomViewModelTests.swift */; };
 		4585A4782606333A00DD5BB0 /* ModuleViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585A4772606333A00DD5BB0 /* ModuleViewModelTests.swift */; };
 		4585A47D2606341D00DD5BB0 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4585A47C2606341D00DD5BB0 /* HomeViewModelTests.swift */; };
@@ -135,6 +136,7 @@
 		45210D6926074E9700B54155 /* OnboardingViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelIntegrationTests.swift; sourceTree = "<group>"; };
 		45210D6E26074F4300B54155 /* RegistrationViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelIntegrationTests.swift; sourceTree = "<group>"; };
 		45210D73260754F000B54155 /* LoginViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelIntegrationTests.swift; sourceTree = "<group>"; };
+		45210D78260755C300B54155 /* ChatRoomViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelIntegrationTests.swift; sourceTree = "<group>"; };
 		4585A4722606323000DD5BB0 /* ChatRoomViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelTests.swift; sourceTree = "<group>"; };
 		4585A4772606333A00DD5BB0 /* ModuleViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModelTests.swift; sourceTree = "<group>"; };
 		4585A47C2606341D00DD5BB0 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				45210D6926074E9700B54155 /* OnboardingViewModelIntegrationTests.swift */,
 				45210D6E26074F4300B54155 /* RegistrationViewModelIntegrationTests.swift */,
 				45210D73260754F000B54155 /* LoginViewModelIntegrationTests.swift */,
+				45210D78260755C300B54155 /* ChatRoomViewModelIntegrationTests.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 				458E23EA2605DB9E006780C7 /* ChatRoomTests.swift in Sources */,
 				778F08D125FDDA470059C2A0 /* SweechatTests.swift in Sources */,
 				45210D6226074B7900B54155 /* EntryViewModelIntegrationTests.swift in Sources */,
+				45210D79260755C300B54155 /* ChatRoomViewModelIntegrationTests.swift in Sources */,
 				4585A4732606323000DD5BB0 /* ChatRoomViewModelTests.swift in Sources */,
 				458E23F92605EE0B006780C7 /* AppViewModelTests.swift in Sources */,
 				4585A482260634F500DD5BB0 /* SettingsViewModelTests.swift in Sources */,
