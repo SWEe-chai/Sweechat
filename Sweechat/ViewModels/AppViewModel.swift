@@ -16,7 +16,6 @@ class AppViewModel: ObservableObject {
 
         if !isValidState(state) {
             changeToDefaultState()
-            return
         }
     }
 
