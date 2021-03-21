@@ -62,7 +62,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
             let messages: [Message] = messagesRepresentations.compactMap { messageRep in
                 let user: User = self.userIdsToUsers[messageRep.senderId] ??
-                    User.createDeletedUser()
+                    User.createUnavailableUser()
                 return Message(id: messageRep.id,
                                sender: user,
                                creationTime: messageRep.creationTime,
@@ -135,7 +135,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         if let senderRep = FirebaseUserFacade.convert(document: document) {
             return User(details: senderRep)
         } else {
-            return User.createDeletedUser()
+            return User.createUnavailableUser()
         }
     }
 }
