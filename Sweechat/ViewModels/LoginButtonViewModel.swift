@@ -7,7 +7,7 @@ class LoginButtonViewModel {
         self.authHandler = authHandler
     }
 
-    var text: String { authHandler.type.rawValue }
+    var text: String { "\(authHandler.type.rawValue) Login" }
 
     func tapped() {
         authHandler.initiateSignIn()
