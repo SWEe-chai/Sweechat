@@ -10,6 +10,8 @@ import Foundation
 
 class Module: ObservableObject {
     var id: String
+    var name: String
+    var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom] {
         willSet {
             objectWillChange.send()
@@ -20,24 +22,29 @@ class Module: ObservableObject {
             objectWillChange.send()
         }
     }
-    private var moduleFacade: ModuleFacade
+    private var moduleFacade: ModuleFacade?
 
-    init() {
-        self.id = UUID().uuidString
-        self.chatRooms = []
-        self.moduleFacade = FirebaseModuleFacade(moduleId: id)
-        moduleFacade.delegate = self
+    static func of(id: String, name: String, profilePictureUrl: String? = nil, for user: User) -> Module {
+        let module = Module()
+        module.id = id
+        module.name = name
+        module.profilePictureUrl = profilePictureUrl
+        module.moduleFacade = FirebaseModuleFacade(moduleId: id, userId: user.id)
+        module.moduleFacade?.delegate = module
+        return module
     }
-
-    init(id: String) {
-        self.id = id
+    
+    private init() {
+        self.id = ""
+        self.name = ""
+        self.profilePictureUrl = nil
         self.chatRooms = []
-        self.moduleFacade = FirebaseModuleFacade(moduleId: id)
-        moduleFacade.delegate = self
+        self.users = []
+        self.moduleFacade = nil
     }
-
+    
     func storeChatRoom(chatRoom: ChatRoom) {
-        self.moduleFacade.save(chatRoom)
+        self.moduleFacade?.save(chatRoom)
     }
 }
 
