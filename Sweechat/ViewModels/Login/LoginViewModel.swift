@@ -1,7 +1,6 @@
 import Foundation
 
 class LoginViewModel: ObservableObject {
-    weak var delegate: LoggedInDelegate?
     private var auth: ALAuth
     private var user: User?
 

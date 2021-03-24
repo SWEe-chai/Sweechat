@@ -4,7 +4,6 @@ class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
     var user: User
     var subscriber: AnyCancellable?
-    weak var delegate: ChatRoomDelegate?
 
     // TODO: This should be the chatroom's name
     var text: String {

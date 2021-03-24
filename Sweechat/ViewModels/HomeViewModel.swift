@@ -1,7 +1,6 @@
 import Combine
 
 class HomeViewModel: ObservableObject {
-    weak var delegate: HomeDelegate?
     var user: User
     var moduleViewModels: [ModuleViewModel]
     var settingsViewModel: SettingsViewModel
