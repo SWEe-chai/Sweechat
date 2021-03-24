@@ -5,6 +5,9 @@ import SwiftUI
 
 class ALGoogleAuthHandler: NSObject, GIDSignInDelegate, ALAuthHandler {
     weak var delegate: ALAuthHandlerDelegate?
+    var type: ALAuthHandlerType {
+        .google
+    }
 
     override init() {
         super.init()

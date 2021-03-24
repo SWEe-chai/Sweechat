@@ -3,7 +3,10 @@ import FacebookLogin
 
 class ALFacebookAuthHandler: ALAuthHandler {
     weak var delegate: ALAuthHandlerDelegate?
-    var manager = LoginManager()
+    var type: ALAuthHandlerType {
+        .facebook
+    }
+    private var manager = LoginManager()
 
     func initiateSignIn() {
         manager.logIn(
