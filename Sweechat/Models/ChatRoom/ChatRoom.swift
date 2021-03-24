@@ -9,6 +9,8 @@ import Foundation
 
 class ChatRoom: ObservableObject {
     var id: String
+    var name: String
+    var profilePictureUrl: String?
     @Published var messages: [Message] {
         willSet {
             objectWillChange.send()
@@ -17,29 +19,25 @@ class ChatRoom: ObservableObject {
     private var chatRoomFacade: ChatRoomFacade
     let permissions: ChatRoomPermissionBitmask
 
-    init() {
-        self.id = UUID().uuidString
+    init(id: String, name: String, profilePictureUrl: String? = nil) {
+        self.id = id
+        self.name = name
+        self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.permissions = ChatRoomPermission.none
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
         chatRoomFacade.delegate = self
     }
 
-    init(id: String) {
-        self.id = id
-        self.messages = []
-        self.permissions = ChatRoomPermission.none
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-        chatRoomFacade.delegate = self
-    }
-
-    init(id: String, messages: [Message]) {
-        self.id = id
-        self.messages = messages
-        self.permissions = ChatRoomPermission.none
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-        chatRoomFacade.delegate = self
-    }
+//    init(id: String, name: String, profilePictureUrl: String? = nil, messages: [Message]) {
+//        self.id = id
+//        self.name = name
+//        self.profilePictureUrl = profilePictureUrl
+//        self.messages = messages
+//        self.permissions = ChatRoomPermission.none
+//        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
+//        chatRoomFacade.delegate = self
+//    }
 
     func storeMessage(message: Message) {
         self.chatRoomFacade.save(message)
@@ -59,5 +57,11 @@ extension ChatRoom: ChatRoomFacadeDelegate {
     func insertAll(messages: [Message]) {
         let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
         self.messages = newMessages
+    }
+}
+
+extension ChatRoom: Equatable {
+    static func == (lhs: ChatRoom, rhs: ChatRoom) -> Bool {
+        lhs.id == rhs.id
     }
 }

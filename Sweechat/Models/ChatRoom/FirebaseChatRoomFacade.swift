@@ -81,7 +81,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 return
             }
             snapshot.documentChanges.forEach { change in
-                self.handleDocumentChange(change)
+                self.handleMessageDocumentChange(change)
             }
         }
     }
@@ -95,7 +95,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
-    private func handleDocumentChange(_ change: DocumentChange) {
+    private func handleMessageDocumentChange(_ change: DocumentChange) {
         guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
@@ -132,7 +132,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
     }
 
-    static func convert(document: DocumentSnapshot) -> User? {
+    static func convert(document: DocumentSnapshot) -> ChatRoom? {
         if !document.exists {
             os_log("Error: Cannot convert user, user document does not exist")
             return nil
@@ -144,18 +144,18 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error converting data for user")
             return nil
         }
-        return User(
+        return ChatRoom(
             id: id,
             name: name,
             profilePictureUrl: profilePictureUrl
         )
     }
 
-    static func convert(user: User) -> [String: Any] {
+    static func convert(chatRoom: ChatRoom) -> [String: Any] {
         [
-            DatabaseConstant.User.id: user.id,
-            DatabaseConstant.User.name: user.name,
-            DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
+            DatabaseConstant.ChatRoom.id: chatRoom.id,
+            DatabaseConstant.ChatRoom.name: chatRoom.name,
+            DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
 
     }
