@@ -12,7 +12,7 @@ class HomeViewModel: ObservableObject {
         self.text = "Welcome home \(user.name)"
         // TODO: Load modules from facade instead
         moduleViewModels = [
-            ModuleViewModel(user: user)
+            ModuleViewModel(id: "1", name: "Module 1", user: user)
         ]
         // TODO: Connect this Settings View Model if we want to
         // implement logout
