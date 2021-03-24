@@ -49,23 +49,23 @@ class FirebaseUserFacade: UserFacade {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            if let user = FirebaseUserFacade.convert(document: snapshot) {
-                self.delegate?.updateUser(user: user)
-            }
+            self.delegate?.updateUser(
+                user: FirebaseUserFacade.convert(document: snapshot)
+            )
         }
     }
 
-    static func convert(document: DocumentSnapshot) -> User? {
+    static func convert(document: DocumentSnapshot) -> User {
         if !document.exists {
             os_log("Error: Cannot convert user, user document does not exist")
-            return nil
+            return User.createUnavailableUser()
         }
         let data = document.data()
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for user")
-            return nil
+            return User.createUnavailableUser()
         }
         return User(
             id: id,
