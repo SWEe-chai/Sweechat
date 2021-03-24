@@ -28,8 +28,7 @@ struct MessageView_Previews: PreviewProvider {
                 message:
                     Message(
                         id: "",
-                        sender: User(
-                            details: UserRepresentation(id: "", name: "One two three", profilePictureUrl: "")),
+                        sender: User(id: "", name: "One two three"),
                         creationTime: Date(),
                         content: "Hello everyone"),
                 isCurrentUser: true))

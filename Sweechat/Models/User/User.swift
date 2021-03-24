@@ -22,7 +22,7 @@ class User: ObservableObject {
 //        userFacade.delegate = self
 //    }
     
-    init(id: String, name: String, profilePictureUrl: String? = "") {
+    init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
