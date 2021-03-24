@@ -14,6 +14,7 @@ class LoginButtonViewModel {
     }
 }
 
+// MARK: Hashable
 extension LoginButtonViewModel: Hashable {
     static func == (lhs: LoginButtonViewModel, rhs: LoginButtonViewModel) -> Bool {
         lhs.authHandler.type == rhs.authHandler.type
