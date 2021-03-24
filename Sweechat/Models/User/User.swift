@@ -11,20 +11,28 @@ class User: ObservableObject {
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
 
     static func createUnavailableUser() -> User {
-        User(details: UserRepresentation(id: unvailableUserId, name: unvailableUserName))
+        User(id: unvailableUserId, name: unvailableUserName)
     }
 
-    init(details: UserRepresentation) {
-        self.id = details.id
-        self.name = details.name
-        self.profilePictureUrl = details.profilePictureUrl
-        self.userFacade = FirebaseUserFacade(userId: details.id)
+//    init(details: UserRepresentation) {
+//        self.id = details.id
+//        self.name = details.name
+//        self.profilePictureUrl = details.profilePictureUrl
+//        self.userFacade = FirebaseUserFacade(userId: details.id)
+//        userFacade.delegate = self
+//    }
+    
+    init(id: String, name: String, profilePictureUrl: String? = "") {
+        self.id = id
+        self.name = name
+        self.profilePictureUrl = profilePictureUrl
+        self.userFacade = FirebaseUserFacade(userId: id)
         userFacade.delegate = self
     }
 
     func initiateListeningToUser() {
         userFacade.loginAndListenToUser(
-            withDetails: UserRepresentation(
+            User(
                 id: id,
                 name: name,
                 profilePictureUrl: profilePictureUrl
@@ -46,9 +54,10 @@ extension User: Equatable {
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
-    func updateUserData(withDetails details: UserRepresentation) {
-        self.id = details.id
-        self.name = details.name
-        self.profilePictureUrl = details.profilePictureUrl
+    
+    func updateUser(user: User) {
+        self.id = user.id
+        self.name = user.name
+        self.profilePictureUrl = user.profilePictureUrl
     }
 }
