@@ -7,7 +7,7 @@
 import FirebaseFirestore
 import os
 
-class FirebaseMessageFacade: MessageFacade {
+class FirebaseMessageFacade {
     private var db = Firestore.firestore()
     private var reference: DocumentReference?
 

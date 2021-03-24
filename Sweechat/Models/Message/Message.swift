@@ -1,6 +1,6 @@
 import Foundation
 
-struct Message {
+class Message {
     var id: String
     var content: String
     var creationTime: Date
