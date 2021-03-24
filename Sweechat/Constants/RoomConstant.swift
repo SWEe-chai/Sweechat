@@ -6,5 +6,5 @@
 //
 // TODO: Remove dummy
 struct RoomConstant {
-    static let receiver = User(details: UserRepresentation(id: "user2", name: "name2", profilePictureUrl: ""))
+    static let receiver = User(id: "user2", name: "name2")
 }

@@ -12,6 +12,25 @@ struct DatabaseConstant {
         static let chatRooms = "chatRooms"
         static let messages = "messages"
         static let users = "users"
+        static let modules = "modules"
+        static let userModulePairs = "userModulePairs"
+        static let userChatRoomPairs = "userChatRoomPairs"
+    }
+    
+    struct UserModulePair {
+        static let moduleId = "moduleId"
+        static let userId = "userId"
+    }
+    
+    struct UserChatRoomPair {
+        static let userId = "userId"
+        static let chatRoomId = "chatRoomId"
+    }
+    
+    struct ChatRoom {
+        static let id = "id"
+        static let name = "name"
+        static let profilePictureUrl = "profilePictureUrl"
     }
 
     struct User {
