@@ -13,7 +13,8 @@ struct ModuleView: View {
     var body: some View {
         ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
             NavigationLink(
-                destination: viewModel.getChatRoomView(chatRoomViewModel)) {
+                destination:
+                    LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
                 Text(chatRoomViewModel.text)
             }
         }

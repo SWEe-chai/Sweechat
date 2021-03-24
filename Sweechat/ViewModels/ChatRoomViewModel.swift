@@ -34,10 +34,6 @@ class ChatRoomViewModel: ObservableObject {
         let message = Message(sender: user, content: text)
         self.chatRoom.storeMessage(message: message)
     }
-
-    func getView() -> ChatRoomView {
-        ChatRoomView(viewModel: self)
-    }
 }
 
 // MARK: Identifiable

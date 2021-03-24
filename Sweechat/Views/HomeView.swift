@@ -7,13 +7,16 @@ struct HomeView: View {
         VStack {
             ForEach(viewModel.moduleViewModels) { moduleViewModel in
                 NavigationLink(
-                    destination: LazyNavView(viewModel.getModuleView(moduleViewModel))) {
+                    destination:
+                        LazyNavView(ModuleView(viewModel: moduleViewModel))) {
                     Text(moduleViewModel.text)
                 }
             }
 
             NavigationLink(
-                destination: LazyNavView(viewModel.getSettingsView())) {
+                destination:
+                    LazyNavView(
+                        SettingsView(viewModel: viewModel.settingsViewModel))) {
                 Text("Settings")
             }
         }

@@ -15,10 +15,6 @@ class ModuleViewModel: ObservableObject {
             ChatRoomViewModel(id: "3", user: user)
         ]
     }
-
-    func getChatRoomView(_ chatRoomViewModel: ChatRoomViewModel) -> ChatRoomView {
-        ChatRoomView(viewModel: chatRoomViewModel)
-    }
 }
 
 extension ModuleViewModel: Identifiable {

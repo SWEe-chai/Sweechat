@@ -4,6 +4,7 @@ class HomeViewModel: ObservableObject {
     weak var delegate: HomeDelegate?
     var user: User
     var moduleViewModels: [ModuleViewModel]
+    var settingsViewModel: SettingsViewModel
     private var subscribers: [AnyCancellable] = []
     @Published var text: String = ""
 
@@ -14,6 +15,9 @@ class HomeViewModel: ObservableObject {
         moduleViewModels = [
             ModuleViewModel(user: user)
         ]
+        // TODO: Connect this Settings View Model if we want to
+        // implement logout
+        self.settingsViewModel = SettingsViewModel()
         initiateSubscribers()
     }
 
@@ -22,15 +26,5 @@ class HomeViewModel: ObservableObject {
             self.text = "Welcome home \(newName)"
         }
         subscribers.append(nameSubscriber)
-    }
-
-    func getModuleView(_ moduleViewModel: ModuleViewModel) -> ModuleView {
-        ModuleView(viewModel: moduleViewModel)
-    }
-
-    func getSettingsView() -> SettingsView {
-        // TODO: Connect this Settings View Model if we want to
-        // implement logout
-        SettingsView(viewModel: SettingsViewModel())
     }
 }

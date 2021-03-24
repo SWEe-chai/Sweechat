@@ -10,10 +10,11 @@ struct LoginView: View {
             }
             NavigationLink(
                 "",
-                destination: LazyNavView(viewModel.getHomeView()),
-                isActive: $viewModel.isLoggedIn)
-                .hidden()
-            .foregroundColor(.red)
+                destination: LazyNavView(
+                    HomeView(viewModel: viewModel.homeViewModel)),
+                isActive: $viewModel.isLoggedIn
+            )
+            .hidden()
         }
         .navigationTitle(Text(viewModel.text))
     }

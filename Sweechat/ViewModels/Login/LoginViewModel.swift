@@ -4,9 +4,13 @@ class LoginViewModel: ObservableObject {
     weak var delegate: LoggedInDelegate?
     private var auth: ALAuth
     private var user: User?
+
     @Published var isLoggedIn = false
     var loginButtonViewModels: [LoginButtonViewModel] {
         auth.authHandlers.map({ LoginButtonViewModel(authHandler: $0) })
+    }
+    var homeViewModel: HomeViewModel {
+        HomeViewModel(user: getUnwrappedUser())
     }
 
     init() {
@@ -16,10 +20,6 @@ class LoginViewModel: ObservableObject {
 
     var text: String {
         "Login"
-    }
-
-    func getHomeView() -> HomeView {
-        HomeView(viewModel: HomeViewModel(user: getUnwrappedUser()))
     }
 
     private func getUnwrappedUser() -> User {

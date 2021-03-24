@@ -27,9 +27,7 @@ struct ChatRoomView: View {
                     ForEach(viewModel.textMessages, id: \.self) {
                         MessageView(viewModel: $0)
                     }
-                    .onAppear {
-                        scrollToLatestMessage(scrollView)
-                    }
+                    .onAppear { scrollToLatestMessage(scrollView) }
                     .onChange(of: viewModel.textMessages.count) { _ in
                         scrollToLatestMessage(scrollView)
                     }
