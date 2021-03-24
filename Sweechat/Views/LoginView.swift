@@ -9,10 +9,13 @@ struct LoginView: View {
             ForEach(viewModel.loginButtonViewModels, id: \.self) { loginButtonVM in
                 LoginButtonView(viewModel: loginButtonVM)
             }
-            Button(action: viewModel.didTapBackButton) {
-                Text("Back")
-            }
+            NavigationLink(
+                "",
+                destination: LazyNavView(viewModel.getLoggedInView()),
+                isActive: $viewModel.isLoggedIn)
+                .hidden()
             .foregroundColor(.red)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

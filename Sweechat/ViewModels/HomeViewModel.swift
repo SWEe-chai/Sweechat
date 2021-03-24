@@ -3,6 +3,10 @@ import Combine
 class HomeViewModel: ObservableObject {
     weak var delegate: HomeDelegate?
     var user: User
+    // TODO: ADD LOAD MODULES FROM FACADE
+    var moduleViewModels = [
+        ModuleViewModel()
+    ]
     private var subscribers: [AnyCancellable] = []
     @Published var text: String = ""
 

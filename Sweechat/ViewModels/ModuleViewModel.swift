@@ -2,6 +2,7 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     weak var delegate: ModuleDelegate?
+    // TODO: When we have modules, this should be the name of the module
     var text: String {
         "Module"
     }
@@ -13,4 +14,7 @@ class ModuleViewModel: ObservableObject {
     func didTapBackButton() {
         delegate?.navigateToHomeFromModule()
     }
+}
+
+extension ModuleViewModel: Identifiable {
 }

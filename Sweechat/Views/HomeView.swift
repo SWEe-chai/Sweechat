@@ -6,12 +6,16 @@ struct HomeView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-            Button(action: viewModel.didTapModuleButton) {
-                Text("Module")
+            ForEach(viewModel.moduleViewModels) { moduleViewModel in
+                NavigationLink(
+                    destination: LazyNavView(
+                        ModuleView(viewModel: moduleViewModel))) {
+                    Text(moduleViewModel.text)
+                }
             }
             Button(action: viewModel.didTapSettingsButton) {
                 Text("Settings")
             }
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }

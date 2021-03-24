@@ -4,15 +4,12 @@ import os
 class AppViewModel: ObservableObject {
     @Published var state: AppState
     var user: User?
-    var authentication: ALAuth
     private var isLoggedIn: Bool {
         user != nil
     }
 
     init() {
         state = AppState.entry
-        authentication = ALAuth()
-        authentication.delegate = self
 
         if !isValidState(state) {
             changeToDefaultState()
@@ -32,7 +29,7 @@ class AppViewModel: ObservableObject {
     }
 
     var loginViewModel: LoginViewModel {
-        let viewModel = LoginViewModel(auth: authentication)
+        let viewModel = LoginViewModel()
         viewModel.delegate = self
         return viewModel
     }
@@ -144,6 +141,9 @@ extension AppViewModel: LoggedInDelegate {
     func navigateToEntryFromLoggedIn() {
         change(state: AppState.entry)
     }
+    func getLoggedInView() -> HomeView {
+        HomeView(viewModel: homeViewModel)
+    }
 }
 
 // MARK: HomeDelegate
@@ -161,20 +161,5 @@ extension AppViewModel: HomeDelegate {
 extension AppViewModel: ChatRoomDelegate {
     func navigateToModuleFromChatRoom() {
         change(state: AppState.module)
-    }
-}
-
-// MARK: ALAuthDelegate
-extension AppViewModel: ALAuthDelegate {
-    func signIn(withDetails details: ALLoginDetails) {
-        user = User(details: UserRepresentation(
-                        id: details.id,
-                        name: details.name))
-        user?.initiateListeningToUser()
-        change(state: .login)
-    }
-
-    func signOut() {
-        // TODO: Implement sign out
     }
 }
