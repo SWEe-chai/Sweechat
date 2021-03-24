@@ -63,7 +63,6 @@ class FirebaseModuleFacade: ModuleFacade {
             .collection(DatabaseConstant.Collection.userChatRoomPairs)
         chatRoomsFilteredQuery = chatRoomsReference?
             .whereField(DatabaseConstant.UserChatRoomPair.userId, isEqualTo: userId)
-            
         chatRoomsFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
@@ -128,4 +127,16 @@ class FirebaseModuleFacade: ModuleFacade {
         }
     }
     
+    private func handleUserDocumentChange(_ change: DocumentChange) {
+        let user = FirebaseUserFacade.convert(document: change.document)
+        switch change.type {
+        case .added:
+            self.delegate?.insert(
+                user: user
+            )
+        default:
+            break
+        }
+    }
+
 }
