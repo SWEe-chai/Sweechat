@@ -34,7 +34,15 @@ class ChatRoomViewModel: ObservableObject {
         self.chatRoom.storeMessage(message: message)
     }
 
+    func getView() -> ChatRoomView {
+        ChatRoomView(viewModel: self)
+    }
+
     func didTapBackButton() {
         delegate?.navigateToModuleFromChatRoom()
     }
+}
+
+// MARK: Identifiable
+extension ChatRoomViewModel: Identifiable {
 }

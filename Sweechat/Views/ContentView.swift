@@ -7,6 +7,7 @@ struct ContentView: View {
         NavigationView {
             EntryView(viewModel: appViewModel)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

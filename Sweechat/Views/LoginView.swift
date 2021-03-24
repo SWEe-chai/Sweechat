@@ -5,7 +5,6 @@ struct LoginView: View {
 
     var body: some View {
         VStack {
-            Text(viewModel.text)
             ForEach(viewModel.loginButtonViewModels, id: \.self) { loginButtonVM in
                 LoginButtonView(viewModel: loginButtonVM)
             }
@@ -17,5 +16,6 @@ struct LoginView: View {
             .foregroundColor(.red)
         }
         .navigationBarBackButtonHidden(true)
+        .navigationTitle(Text(viewModel.text))
     }
 }

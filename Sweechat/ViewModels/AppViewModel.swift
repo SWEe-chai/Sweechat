@@ -47,7 +47,7 @@ class AppViewModel: ObservableObject {
     }
 
     var moduleViewModel: ModuleViewModel {
-        let viewModel = ModuleViewModel()
+        let viewModel = ModuleViewModel(user: getUnwrappedUser())
         viewModel.delegate = self
         return viewModel
     }

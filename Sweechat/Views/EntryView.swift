@@ -5,7 +5,6 @@ struct EntryView: View {
 
     var body: some View {
         VStack {
-            Text("Entry")
             NavigationLink(
                 destination: LazyNavView(
                     LoginView(viewModel: viewModel.loginViewModel))) {
@@ -17,5 +16,7 @@ struct EntryView: View {
                 Text("Register")
             }
         }
+        .navigationTitle(Text("Entry"))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

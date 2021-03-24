@@ -11,13 +11,12 @@ struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
 
     var body: some View {
-        Text(viewModel.text)
-        Button(action: viewModel.didTapChatRoomButton, label: {
-            Text("Chat room")
-        })
-        Button(action: viewModel.didTapBackButton) {
-            Text("Back")
+        ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
+            NavigationLink(
+                destination: LazyNavView(chatRoomViewModel.getView())) {
+                Text(chatRoomViewModel.text)
+            }
         }
-        .foregroundColor(.red)
+        .navigationTitle(Text(viewModel.text))
     }
 }

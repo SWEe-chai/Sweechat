@@ -2,17 +2,16 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     weak var delegate: ModuleDelegate?
-    // TODO: When we have modules, this should be the name of the module
+    var chatRoomViewModels: [ChatRoomViewModel]
+    // TODO: When we have modules, text = name of module
     var text: String {
         "Module"
     }
 
-    func didTapChatRoomButton() {
-        delegate?.navigateToChatRoomFromModule()
-    }
-
-    func didTapBackButton() {
-        delegate?.navigateToHomeFromModule()
+    init(user: User) {
+        chatRoomViewModels = [
+            ChatRoomViewModel(id: "3", user: user)
+        ]
     }
 }
 

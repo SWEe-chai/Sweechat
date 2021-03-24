@@ -22,29 +22,32 @@ struct ChatRoomView: View {
 
     var body: some View {
         VStack {
-            ZStack {
-                HStack {
-                    Button(action: viewModel.didTapBackButton) {
-                        Text("Back")
-                    }
-                    .padding()
-                    Spacer()
-                }
-                Text(viewModel.text)
-            }
             ScrollView {
-                ScrollViewReader { value in
+                ScrollViewReader { scrollView in
                     ForEach(viewModel.textMessages, id: \.self) {
                         MessageView(viewModel: $0)
                     }
-                    .onChange(of: viewModel.textMessages.count) { numberOfMessages in
-                        value.scrollTo(viewModel.textMessages[numberOfMessages - 1])
+                    .onAppear {
+                        scrollToLatestMessage(scrollView)
+                    }
+                    .onChange(of: viewModel.textMessages.count) { _ in
+                        scrollToLatestMessage(scrollView)
                     }
                     .padding([.leading, .trailing])
                 }
             }
             inputBar
         }
+        .navigationTitle(Text(viewModel.text))
+    }
+
+    func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
+        if viewModel.textMessages.isEmpty {
+            return
+        }
+        let index = viewModel.textMessages.count - 1
+        scrollView.scrollTo(viewModel.textMessages[index])
+
     }
 
     func sendTypedMessage() {
