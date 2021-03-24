@@ -99,37 +99,23 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
-        guard !messageRep.senderId.isEmpty else {
+        guard let sender = userIdsToUsers[messageRep.senderId] else {
             os_log("Error reading message: Message senderId is empty")
             return
         }
-        db
-            .collection(DatabaseConstant.Collection.users)
-            .document(messageRep.senderId)
-            .getDocument(completion: { documentSnapshot, error in
-                guard let snapshot = documentSnapshot else {
-                    return
-                }
-                if let err = error {
-                    os_log("Error getting sender in message: \(err.localizedDescription)")
-                    return
-                }
-
-                let user: User = FirebaseUserFacade.convert(document: snapshot)
-                switch change.type {
-                case .added:
-                    self.delegate?.insert(
-                        message: Message(
-                            id: messageRep.id,
-                            sender: user,
-                            creationTime: messageRep.creationTime,
-                            content: messageRep.content
-                        )
-                    )
-                default:
-                    break
-                }
-            })
+        switch change.type {
+        case .added:
+            self.delegate?.insert(
+                message: Message(
+                    id: messageRep.id,
+                    sender: sender,
+                    creationTime: messageRep.creationTime,
+                    content: messageRep.content
+                )
+            )
+        default:
+            break
+        }
     }
 
     static func convert(document: DocumentSnapshot) -> ChatRoom? {

@@ -16,8 +16,10 @@ class FirebaseModuleFacade: ModuleFacade {
     private var db = Firestore.firestore()
     private var userIdsToUsers: [String: User] = [:]
     private var chatRoomsReference: CollectionReference?
+    private var chatRoomsFilteredQuery: Query?
     private var chatRoomsListener: ListenerRegistration?
     private var usersReference: CollectionReference?
+    private var usersFilteredQuery: Query?
     private var usersListener: ListenerRegistration?
 
     init(moduleId: String, userId: String) {
@@ -37,10 +39,10 @@ class FirebaseModuleFacade: ModuleFacade {
     private func loadUsers(onCompletion: (() -> Void)?) {
         usersReference = db
             .collection(DatabaseConstant.Collection.userModulePairs)
-        usersReference?
+        usersFilteredQuery = usersReference?
             .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
-            .getDocuments { querySnapshot, error in
+        usersFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
                 return
@@ -59,9 +61,10 @@ class FirebaseModuleFacade: ModuleFacade {
         chatRoomsReference = db.collection(DatabaseConstant.Collection.modules)
             .document(moduleId)
             .collection(DatabaseConstant.Collection.userChatRoomPairs)
-        chatRoomsReference?
+        chatRoomsFilteredQuery = chatRoomsReference?
             .whereField(DatabaseConstant.UserChatRoomPair.userId, isEqualTo: userId)
-            .getDocuments { querySnapshot, error in
+            
+        chatRoomsFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
@@ -76,7 +79,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func addListeners() {
-        chatRoomsListener = chatRoomsReference?.addSnapshotListener { querySnapshot, error in
+        chatRoomsListener = chatRoomsFilteredQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -86,7 +89,7 @@ class FirebaseModuleFacade: ModuleFacade {
             }
         }
         
-        usersListener = usersReference?.addSnapshotListener { querySnapshot, error in
+        usersListener = usersFilteredQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -124,4 +127,5 @@ class FirebaseModuleFacade: ModuleFacade {
             break
         }
     }
+    
 }
