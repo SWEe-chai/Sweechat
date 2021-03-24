@@ -1,16 +1,20 @@
 import SwiftUI
 
 struct EntryView: View {
-    @ObservedObject var viewModel: EntryViewModel
+    @ObservedObject var viewModel: AppViewModel
 
     var body: some View {
         VStack {
-            Text(viewModel.text)
-            Button(action: viewModel.didTapLoginButton) {
+            Text("Entry")
+            NavigationLink(
+                destination: LazyNavView(
+                    LoginView(viewModel: viewModel.loginViewModel))) {
                 Text("Login")
             }
-            Button(action: viewModel.didTapRegistrationButton) {
-                Text("Registration")
+            NavigationLink(
+                destination: LazyNavView(
+                    RegistrationView(viewModel: viewModel.registrationViewModel))) {
+                Text("Register")
             }
         }
     }

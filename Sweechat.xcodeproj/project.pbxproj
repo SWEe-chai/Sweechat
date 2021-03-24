@@ -21,6 +21,8 @@
 		279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503E32605D57600D3B743 /* MessageViewModel.swift */; };
 		279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAB0260A321F009A139C /* LoginButtonView.swift */; };
 		279CBAB6260A3248009A139C /* LoginButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAB5260A3248009A139C /* LoginButtonViewModel.swift */; };
+		279CBAC1260AD7CC009A139C /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAC0260AD7CC009A139C /* RootViewModel.swift */; };
+		279CBAC7260AD840009A139C /* LazyNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAC6260AD840009A139C /* LazyNavView.swift */; };
 		27A61A6426046ACF00226600 /* UserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6326046ACF00226600 /* UserFacade.swift */; };
 		27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */; };
 		27A61A6E26046C0C00226600 /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6D26046C0C00226600 /* UserRepresentation.swift */; };
@@ -128,6 +130,8 @@
 		279503E32605D57600D3B743 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		279CBAB0260A321F009A139C /* LoginButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonView.swift; sourceTree = "<group>"; };
 		279CBAB5260A3248009A139C /* LoginButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonViewModel.swift; sourceTree = "<group>"; };
+		279CBAC0260AD7CC009A139C /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		279CBAC6260AD840009A139C /* LazyNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNavView.swift; sourceTree = "<group>"; };
 		27A61A6326046ACF00226600 /* UserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacade.swift; sourceTree = "<group>"; };
 		27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserFacade.swift; sourceTree = "<group>"; };
 		27A61A6D26046C0C00226600 /* UserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepresentation.swift; sourceTree = "<group>"; };
@@ -277,6 +281,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		279CBAC5260AD822009A139C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				279CBAC6260AD840009A139C /* LazyNavView.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		3E591C4D26008B8200226DC2 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -393,6 +405,7 @@
 		45D6332225FDE2A700C94D4F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				279CBAC5260AD822009A139C /* Utilities */,
 				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				45D6332825FDE2F500C94D4F /* OnboardingView.swift */,
 				45D6335125FDF30100C94D4F /* EntryView.swift */,
@@ -422,6 +435,7 @@
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
 				279503E32605D57600D3B743 /* MessageViewModel.swift */,
 				279CBAB5260A3248009A139C /* LoginButtonViewModel.swift */,
+				279CBAC0260AD7CC009A139C /* RootViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -774,6 +788,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E47F81D25FE0E3200861721 /* ModuleView.swift in Sources */,
+				279CBAC7260AD840009A139C /* LazyNavView.swift in Sources */,
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
@@ -783,6 +798,7 @@
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
 				775B921C2604F8830040B985 /* MessageFacade.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
+				279CBAC1260AD7CC009A139C /* RootViewModel.swift in Sources */,
 				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */,
 				45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */,
