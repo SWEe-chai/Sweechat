@@ -5,4 +5,7 @@
 //  Created by Agnes Natasya on 24/3/21.
 //
 
-import Foundation
+protocol ModuleFacade {
+    var delegate: ModuleFacadeDelegate? { get set }
+    func save(_ chatRoom: ChatRoom)
+}
