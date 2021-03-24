@@ -6,8 +6,4 @@ class RegistrationViewModel: ObservableObject {
     var text: String {
         "Registration"
     }
-
-    func didTapBackButton() {
-        delegate?.navigateToEntryFromLoggedIn()
-    }
 }

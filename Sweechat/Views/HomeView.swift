@@ -7,12 +7,13 @@ struct HomeView: View {
         VStack {
             ForEach(viewModel.moduleViewModels) { moduleViewModel in
                 NavigationLink(
-                    destination: LazyNavView(
-                        ModuleView(viewModel: moduleViewModel))) {
+                    destination: LazyNavView(viewModel.getModuleView(moduleViewModel))) {
                     Text(moduleViewModel.text)
                 }
             }
-            Button(action: viewModel.didTapSettingsButton) {
+
+            NavigationLink(
+                destination: LazyNavView(viewModel.getSettingsView())) {
                 Text("Settings")
             }
         }

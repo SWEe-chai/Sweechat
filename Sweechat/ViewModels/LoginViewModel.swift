@@ -18,7 +18,7 @@ class LoginViewModel: ObservableObject {
         "Login"
     }
 
-    func getLoggedInView() -> HomeView {
+    func getHomeView() -> HomeView {
         HomeView(viewModel: HomeViewModel(user: getUnwrappedUser()))
     }
 

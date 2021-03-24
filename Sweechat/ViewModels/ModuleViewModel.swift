@@ -9,9 +9,15 @@ class ModuleViewModel: ObservableObject {
     }
 
     init(user: User) {
+        // TODO: Load chat rooms from facade instead
         chatRoomViewModels = [
+            ChatRoomViewModel(id: "2", user: user),
             ChatRoomViewModel(id: "3", user: user)
         ]
+    }
+
+    func getChatRoomView(_ chatRoomViewModel: ChatRoomViewModel) -> ChatRoomView {
+        ChatRoomView(viewModel: chatRoomViewModel)
     }
 }
 

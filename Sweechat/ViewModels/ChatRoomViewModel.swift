@@ -6,6 +6,7 @@ class ChatRoomViewModel: ObservableObject {
     var subscriber: AnyCancellable?
     weak var delegate: ChatRoomDelegate?
 
+    // TODO: This should be the chatroom's name
     var text: String {
         "Chat room"
     }
@@ -36,10 +37,6 @@ class ChatRoomViewModel: ObservableObject {
 
     func getView() -> ChatRoomView {
         ChatRoomView(viewModel: self)
-    }
-
-    func didTapBackButton() {
-        delegate?.navigateToModuleFromChatRoom()
     }
 }
 

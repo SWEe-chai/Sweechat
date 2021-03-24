@@ -61,7 +61,6 @@
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
 		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
 		45D6334525FDF0EE00C94D4F /* LoggedOutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334425FDF0EE00C94D4F /* LoggedOutDelegate.swift */; };
-		45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */; };
 		45D6335225FDF30100C94D4F /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335125FDF30100C94D4F /* EntryView.swift */; };
 		45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */; };
 		45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6336425FE011200C94D4F /* RegistrationView.swift */; };
@@ -170,7 +169,6 @@
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		45D6334425FDF0EE00C94D4F /* LoggedOutDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutDelegate.swift; sourceTree = "<group>"; };
-		45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		45D6335125FDF30100C94D4F /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		45D6336425FE011200C94D4F /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
@@ -289,6 +287,24 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		279CBACE260AF4B8009A139C /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				45D6336E25FE01E900C94D4F /* LoginView.swift */,
+				279CBAB0260A321F009A139C /* LoginButtonView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		279CBAD2260AF693009A139C /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+				45D6337B25FE07A200C94D4F /* ChatRoomView.swift */,
+				279503DE2605D55D00D3B743 /* MessageView.swift */,
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
 		3E591C4D26008B8200226DC2 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,18 +421,16 @@
 		45D6332225FDE2A700C94D4F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				279CBAD2260AF693009A139C /* ChatRoom */,
+				279CBACE260AF4B8009A139C /* Login */,
 				279CBAC5260AD822009A139C /* Utilities */,
 				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				45D6332825FDE2F500C94D4F /* OnboardingView.swift */,
 				45D6335125FDF30100C94D4F /* EntryView.swift */,
 				45D6336425FE011200C94D4F /* RegistrationView.swift */,
-				45D6336E25FE01E900C94D4F /* LoginView.swift */,
-				45D6337B25FE07A200C94D4F /* ChatRoomView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
-				279503DE2605D55D00D3B743 /* MessageView.swift */,
-				279CBAB0260A321F009A139C /* LoginButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -425,7 +439,6 @@
 			isa = PBXGroup;
 			children = (
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
-				45D6334C25FDF2DE00C94D4F /* EntryViewModel.swift */,
 				45D6332D25FDE32200C94D4F /* OnboardingViewModel.swift */,
 				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
 				45D6337325FE020000C94D4F /* LoginViewModel.swift */,
@@ -799,7 +812,6 @@
 				775B921C2604F8830040B985 /* MessageFacade.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				279CBAC1260AD7CC009A139C /* RootViewModel.swift in Sources */,
-				45D6334D25FDF2DE00C94D4F /* EntryViewModel.swift in Sources */,
 				27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */,
 				45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */,
 				775B92372605007E0040B985 /* FirebaseChatRoomFacade.swift in Sources */,

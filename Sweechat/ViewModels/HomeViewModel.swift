@@ -10,7 +10,7 @@ class HomeViewModel: ObservableObject {
     init(user: User) {
         self.user = user
         self.text = "Welcome home \(user.name)"
-        // TODO: ADD LOAD MODULES FROM FACADE
+        // TODO: Load modules from facade instead
         moduleViewModels = [
             ModuleViewModel(user: user)
         ]
@@ -24,11 +24,13 @@ class HomeViewModel: ObservableObject {
         subscribers.append(nameSubscriber)
     }
 
-    func didTapModuleButton() {
-        delegate?.navigateToModuleFromHome()
+    func getModuleView(_ moduleViewModel: ModuleViewModel) -> ModuleView {
+        ModuleView(viewModel: moduleViewModel)
     }
 
-    func didTapSettingsButton() {
-        delegate?.navigateToSettingsFromHome()
+    func getSettingsView() -> SettingsView {
+        // TODO: Connect this Settings View Model if we want to
+        // implement logout
+        SettingsView(viewModel: SettingsViewModel())
     }
 }
