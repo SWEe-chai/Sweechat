@@ -2,26 +2,17 @@ import Firebase
 import SwiftUI
 
 class ALAuth {
-    private var authHandlers: [ALAuthHandlerType: ALAuthHandler] = [:]
+    var authHandlers: [ALAuthHandler] = [
+        ALGoogleAuthHandler(),
+        ALFacebookAuthHandler()
+    ]
     weak var delegate: ALAuthDelegate?
 
-    func setUpGoogleHandler() {
-        let googleAuth = ALGoogleAuthHandler()
-        googleAuth.delegate = self
-        authHandlers[.google] = googleAuth
-    }
-
-    func setUpFacebookHandler() {
-        let facebookAuth = ALFacebookAuthHandler()
-        facebookAuth.delegate = self
-        authHandlers[.facebook] = facebookAuth
-    }
-
-    func initiateSignIn(type: ALAuthHandlerType) {
-        guard let handler = authHandlers[type] else {
-            fatalError("Authentication error: type \(type) is unknown")
+    // Initiate all auth handlers on init
+    init() {
+        for authHandler in authHandlers {
+            authHandler.delegate = self
         }
-        handler.initiateSignIn()
     }
 }
 

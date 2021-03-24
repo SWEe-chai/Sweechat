@@ -1,3 +1,4 @@
-enum ALAuthHandlerType {
-    case google, facebook
+enum ALAuthHandlerType: String {
+    case google = "Google",
+         facebook = "Facebook"
 }
