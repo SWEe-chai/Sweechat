@@ -14,8 +14,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     private var db = Firestore.firestore()
     private var userIdsToUsers: [String: User] = [:]
-    private var chatRoomReference: CollectionReference?
-    private var messageListener: ListenerRegistration?
+    private var messagesReference: CollectionReference?
+    private var messagesListener: ListenerRegistration?
+    private var usersReference: CollectionReference?
+    private var usersListener: ListenerRegistration?
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
@@ -27,32 +29,31 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        loadUsers(onCompletion: { self.loadMessages(onCompletion: self.addListener) })
+        loadUsers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
     }
 
     private func loadUsers(onCompletion: (() -> Void)?) {
-        let usersReference = db.collection(DatabaseConstant.Collection.users)
-        usersReference.getDocuments { querySnapshot, error in
+        usersReference = db.collection(DatabaseConstant.Collection.users)
+        usersReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let userRepresentations: [UserRepresentation] = snapshot.documents.compactMap {
+            let users: [User] = snapshot.documents.compactMap {
                 FirebaseUserFacade.convert(document: $0)
             }
-
-            for userRep in userRepresentations {
-                self.userIdsToUsers[userRep.id] = User(details: userRep)
+            for user in users {
+                self.userIdsToUsers[user.id] = user
             }
             onCompletion?()
         }
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        chatRoomReference = db.collection(DatabaseConstant.Collection.chatRooms)
+        messagesReference = db.collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
-        chatRoomReference?.getDocuments { querySnapshot, error in
+        messagesReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
                 return
@@ -73,8 +74,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
-    private func addListener() {
-        messageListener = chatRoomReference?.addSnapshotListener { querySnapshot, error in
+    private func addListeners() {
+        messagesListener = messagesReference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -86,7 +87,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
-        chatRoomReference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
+        messagesReference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
@@ -114,7 +115,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     return
                 }
 
-                let user: User = self.getUserFromMessageDocument(document: snapshot)
+                let user: User = FirebaseUserFacade.convert(document: snapshot)
                 switch change.type {
                 case .added:
                     self.delegate?.insert(
@@ -131,11 +132,32 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
     }
 
-    private func getUserFromMessageDocument(document: DocumentSnapshot) -> User {
-        if let senderRep = FirebaseUserFacade.convert(document: document) {
-            return User(details: senderRep)
-        } else {
-            return User.createUnavailableUser()
+    static func convert(document: DocumentSnapshot) -> User? {
+        if !document.exists {
+            os_log("Error: Cannot convert user, user document does not exist")
+            return nil
         }
+        let data = document.data()
+        guard let id = data?[DatabaseConstant.User.id] as? String,
+              let name = data?[DatabaseConstant.User.name] as? String,
+              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
+            os_log("Error converting data for user")
+            return nil
+        }
+        return User(
+            id: id,
+            name: name,
+            profilePictureUrl: profilePictureUrl
+        )
     }
+
+    static func convert(user: User) -> [String: Any] {
+        [
+            DatabaseConstant.User.id: user.id,
+            DatabaseConstant.User.name: user.name,
+            DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
+        ]
+
+    }
+
 }
