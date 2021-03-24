@@ -6,11 +6,8 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             Text(viewModel.text)
-            Button(action: {}) {
+            Button(action: viewModel.didTapLogoutButton) {
                 Text("Logout (not implemented)")
-            }
-            Button(action: viewModel.didTapBackButton) {
-                Text("Back")
             }
             .foregroundColor(.red)
         }
