@@ -3,18 +3,10 @@ import os
 
 class AppViewModel: ObservableObject {
     var loginViewModel: LoginViewModel {
-        let viewModel = LoginViewModel()
-        viewModel.delegate = self
-        return viewModel
+        LoginViewModel()
     }
 
     var registrationViewModel: RegistrationViewModel {
-        let viewModel = RegistrationViewModel()
-        viewModel.delegate = self
-        return viewModel
+        RegistrationViewModel()
     }
-}
-
-// MARK: LoggedInDelegate
-extension AppViewModel: LoggedInDelegate {
 }

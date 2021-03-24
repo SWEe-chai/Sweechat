@@ -17,5 +17,6 @@ class ModuleViewModel: ObservableObject {
     }
 }
 
+// MARK: Identifiable
 extension ModuleViewModel: Identifiable {
 }

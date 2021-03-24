@@ -1,2 +1,0 @@
-protocol LoggedInDelegate: AnyObject {
-}
