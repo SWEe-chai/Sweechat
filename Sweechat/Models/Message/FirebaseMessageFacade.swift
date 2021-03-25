@@ -11,7 +11,7 @@ class FirebaseMessageFacade {
     private var db = Firestore.firestore()
     private var reference: DocumentReference?
 
-    static func convert(document: DocumentSnapshot) -> MessageRepresentation? {
+    static func convert(document: DocumentSnapshot) -> Message? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
             return nil
@@ -25,9 +25,10 @@ class FirebaseMessageFacade {
 
         let id = document.documentID
         if let content = data?[DatabaseConstant.Message.content] as? String {
-        return MessageRepresentation(
+        return Message(
             id: id,
-            creationTime: creationTime.dateValue(), senderId: senderId,
+            senderId: senderId,
+            creationTime: creationTime.dateValue(),
             content: content)
         }
         return nil
@@ -36,7 +37,7 @@ class FirebaseMessageFacade {
     static func convert(message: Message) -> [String: Any] {
         [
             DatabaseConstant.Message.creationTime: message.creationTime,
-            DatabaseConstant.Message.senderId: message.sender.id,
+            DatabaseConstant.Message.senderId: message.senderId,
             DatabaseConstant.Message.content: message.content
         ]
     }

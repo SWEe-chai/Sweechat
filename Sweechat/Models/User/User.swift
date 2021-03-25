@@ -21,7 +21,7 @@ class User: ObservableObject {
 //        self.userFacade = FirebaseUserFacade(userId: details.id)
 //        userFacade.delegate = self
 //    }
-    
+
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
@@ -54,7 +54,7 @@ extension User: Equatable {
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
-    
+
     func updateUser(user: User) {
         self.id = user.id
         self.name = user.name
