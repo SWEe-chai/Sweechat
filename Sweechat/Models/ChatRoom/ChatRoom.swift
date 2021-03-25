@@ -27,7 +27,7 @@ class ChatRoom: ObservableObject {
         self.messages = []
         self.permissions = ChatRoomPermission.none
     }
-    
+
     func setModule(moduleId: String) {
         self.chatRoomFacade = FirebaseChatRoomFacade(moduleId: moduleId, chatRoomId: id)
         chatRoomFacade?.delegate = self
@@ -36,11 +36,11 @@ class ChatRoom: ObservableObject {
     func storeMessage(message: Message) {
         self.chatRoomFacade?.save(message)
     }
-    
+
     func setUserIdsToUsers(_ userIdsToUsers: [String: User]) {
         self.userIdsToUsers = userIdsToUsers
     }
-    
+
     func getUser(userId: String) -> User {
         userIdsToUsers[userId] ?? User.createUnavailableUser()
     }

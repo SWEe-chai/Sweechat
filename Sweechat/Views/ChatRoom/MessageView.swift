@@ -28,9 +28,13 @@ struct MessageView_Previews: PreviewProvider {
                 message:
                     Message(
                         id: "",
-                        sender: User(id: "", name: "One two three"),
+                        senderId: "",
                         creationTime: Date(),
-                        content: "Hello everyone"),
-                isCurrentUser: true))
+                        content: "Hello everyone"
+                    ),
+                sender: User(id: "", name: "One two three"),
+                isSenderCurrentUser: true
+            )
+        )
     }
 }
