@@ -8,5 +8,5 @@
 protocol ChatRoomFacadeDelegate: AnyObject {
     func insert(message: Message)
     func insertAll(messages: [Message])
-    func getUser(userId: String)
+    func getUser(userId: String) -> User
 }

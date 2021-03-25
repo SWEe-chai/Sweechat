@@ -41,8 +41,8 @@ class ChatRoom: ObservableObject {
         self.userIdsToUsers = userIdsToUsers
     }
     
-    func getUser(userId: String) {
-        userIdsToUsers[userId]
+    func getUser(userId: String) -> User {
+        userIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 }
 

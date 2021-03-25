@@ -30,30 +30,28 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        loadUsers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
+        self.loadMessages(onCompletion: self.addListeners)
     }
 
-    private func loadUsers(onCompletion: (() -> Void)?) {
-        usersReference = db.collection(DatabaseConstant.Collection.users)
-        usersReference?.getDocuments { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-            let users: [User] = snapshot.documents.compactMap {
-                FirebaseUserFacade.convert(document: $0)
-            }
-            for user in users {
-                self.userIdsToUsers[user.id] = user
-            }
-            onCompletion?()
-        }
-    }
+//    private func loadUsers(onCompletion: (() -> Void)?) {
+//        usersReference = db.collection(DatabaseConstant.Collection.users)
+//        usersReference?.getDocuments { querySnapshot, error in
+//            guard let snapshot = querySnapshot else {
+//                os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
+//                return
+//            }
+//            let users: [User] = snapshot.documents.compactMap {
+//                FirebaseUserFacade.convert(document: $0)
+//            }
+//            for user in users {
+//                self.userIdsToUsers[user.id] = user
+//            }
+//            onCompletion?()
+//        }
+//    }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
         messagesReference = db
-            .collection(DatabaseConstant.Collection.modules)
-            .document(moduleId)
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
@@ -66,8 +64,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 FirebaseMessageFacade.convert(document: $0)
             })
             let messages: [Message] = messagesRepresentations.compactMap { messageRep in
-                let user: User = self.userIdsToUsers[messageRep.senderId] ??
-                    User.createUnavailableUser()
+                let user: User = self.delegate?.getUser(userId: messageRep.senderId)
                 return Message(id: messageRep.id,
                                sender: user,
                                creationTime: messageRep.creationTime,
