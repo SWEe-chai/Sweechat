@@ -78,6 +78,12 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         self.members.append(member)
     }
 
+    func remove(member: User) {
+        if let index = members.firstIndex(of: member) {
+            self.members.remove(at: index)
+        }
+    }
+
     func insertAll(members: [User]) {
         self.members = members
     }

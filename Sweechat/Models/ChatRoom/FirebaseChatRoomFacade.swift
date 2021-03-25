@@ -15,8 +15,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var db = Firestore.firestore()
     private var messagesReference: CollectionReference?
     private var messagesListener: ListenerRegistration?
-    private var userChatRoomPairsReference: CollectionReference?
-    private var userChatRoomPairsListener: ListenerRegistration?
+    private var userChatRoomModulePairsReference: CollectionReference?
+    private var userChatRoomModulePairsFilteredQuery: Query?
+    private var userChatRoomModulePairsListener: ListenerRegistration?
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
@@ -28,21 +29,39 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
+        userChatRoomModulePairsReference = db
+            .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
+        userChatRoomModulePairsFilteredQuery = userChatRoomModulePairsReference?
+            .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
         loadMembers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
     }
 
     private func loadMembers(onCompletion: (() -> Void)?) {
-        userChatRoomPairsReference = db
-            .collection(DatabaseConstant.Collection.userChatRoomPairs)
-        userChatRoomPairsReference?.getDocuments { querySnapshot, error in
+        userChatRoomModulePairsFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
+                os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let users: [User] = snapshot.documents.compactMap {
-                FirebaseUserFacade.convert(document: $0)
+            for document in snapshot.documents {
+                let data = document.data()
+                guard let userId = data[DatabaseConstant.UserModulePair.userId] as? String else {
+                    return
+                }
+                self.db
+                    .collection(DatabaseConstant.Collection.users)
+                    .document(userId)
+                    .getDocument(completion: { documentSnapshot, error in
+                        guard let snapshot = documentSnapshot else {
+                            return
+                        }
+                        if let err = error {
+                            os_log("Error getting users in module: \(err.localizedDescription)")
+                            return
+                        }
+                        let user = FirebaseUserFacade.convert(document: snapshot)
+                        self.delegate?.insert(member: user)
+                    })
             }
-            self.delegate?.insertAll(members: users)
             onCompletion?()
         }
     }
@@ -76,13 +95,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
         }
 
-        userChatRoomPairsListener = userChatRoomPairsReference?.addSnapshotListener { querySnapshot, error in
+        userChatRoomModulePairsListener = userChatRoomModulePairsReference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
             snapshot.documentChanges.forEach { change in
-                self.handleMemberDocumentChange(change)
+                self.handleUserModulePairDocumentChange(change)
             }
         }
 
@@ -113,14 +132,43 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
-    private func handleMemberDocumentChange(_ change: DocumentChange) {
-        let member = FirebaseUserFacade.convert(document: change.document)
-        switch change.type {
-        case .added:
-            self.delegate?.insert(member: member)
-        default:
-            break
+//    private func handleMemberDocumentChange(_ change: DocumentChange) {
+//        print("EEEE")
+//        print(change.document.data())
+//        let member = FirebaseUserFacade.convert(document: change.document)
+//        switch change.type {
+//        case .added:
+//            self.delegate?.insert(member: member)
+//        default:
+//            break
+//        }
+//    }
+//    
+    private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
+        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+            return
         }
+        self.db
+            .collection(DatabaseConstant.Collection.users)
+            .document(userChatRoomModulePair.userId)
+            .getDocument(completion: { documentSnapshot, error in
+                guard let snapshot = documentSnapshot else {
+                    return
+                }
+                if let err = error {
+                    os_log("Error getting users in module: \(err.localizedDescription)")
+                    return
+                }
+                let user = FirebaseUserFacade.convert(document: snapshot)
+                switch change.type {
+                case .added:
+                    self.delegate?.insert(member: user)
+                case .removed:
+                    self.delegate?.remove(member: user)
+                default:
+                    break
+                }
+            })
     }
 
     static func convert(document: DocumentSnapshot) -> ChatRoom? {

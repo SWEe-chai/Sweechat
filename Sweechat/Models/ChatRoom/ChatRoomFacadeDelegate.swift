@@ -9,6 +9,7 @@ protocol ChatRoomFacadeDelegate: AnyObject {
     func insert(message: Message)
     func insertAll(messages: [Message])
     func insert(member: User)
+    func remove(member: User)
     func insertAll(members: [User])
     func getUser(userId: String) -> User
 }
