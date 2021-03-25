@@ -14,7 +14,7 @@ struct DatabaseConstant {
         static let users = "users"
         static let modules = "modules"
         static let userModulePairs = "userModulePairs"
-        static let userChatRoomPairs = "userChatRoomPairs"
+        static let userChatRoomModulePairs = "userChatRoomModulePairs"
     }
 
     struct UserModulePair {
@@ -22,9 +22,10 @@ struct DatabaseConstant {
         static let userId = "userId"
     }
 
-    struct UserChatRoomPair {
+    struct UserChatRoomModulePair {
         static let userId = "userId"
         static let chatRoomId = "chatRoomId"
+        static let moduleId = "moduleId"
     }
 
     struct ChatRoom {
