@@ -10,7 +10,7 @@ class ModuleViewModel: ObservableObject {
 
     init(id: String, name: String, profilePictureUrl: String? = nil, user: User) {
         // TODO: Load chat rooms from facade instead
-        module = Module.of(id: id, name: name, profilePictureUrl: profilePictureUrl, for: user)
+        module = Module.of(id: id, name: name, profilePictureUrl: profilePictureUrl, for: user.id)
 //        chatRoomViewModels = [
 //            ChatRoomViewModel(id: "2", user: user),
 //            ChatRoomViewModel(id: "3", user: user)
@@ -18,6 +18,9 @@ class ModuleViewModel: ObservableObject {
         chatRoomViewModels = module.chatRooms.map {
             ChatRoomViewModel(id: $0.id, name: $0.name, user: user)
         }
+//        module.chatRooms.forEach {
+//            $0.setModule(moduleId: module.id)
+//        }
     }
 }
 

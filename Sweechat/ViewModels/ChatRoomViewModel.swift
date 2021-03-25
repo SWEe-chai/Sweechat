@@ -16,7 +16,7 @@ class ChatRoomViewModel: ObservableObject {
 
     var textMessages: [MessageViewModel] {
         chatRoom.messages.map {
-            MessageViewModel(message: $0, isCurrentUser: user.id == $0.sender.id)
+            MessageViewModel(message: $0, sender: chatRoom.getUser(userId: $0.id), isSenderCurrentUser: user.id == $0.senderId)
         }
     }
 
@@ -30,7 +30,7 @@ class ChatRoomViewModel: ObservableObject {
 
     func handleSendMessage(_ text: String) {
         // TODO: Dont hardcode
-        let message = Message(sender: user, content: text)
+        let message = Message(senderId: user.id, content: text)
         self.chatRoom.storeMessage(message: message)
     }
 }

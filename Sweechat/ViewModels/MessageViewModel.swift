@@ -2,26 +2,28 @@ import SwiftUI
 
 class MessageViewModel {
     private var message: Message
-    private var isCurrentUser: Bool
+    private var sender: User
+    private var isSenderCurrentUser: Bool
 
     var content: String
     var foregroundColor: Color {
-        isCurrentUser ? .white : .black
+        isSenderCurrentUser ? .white : .black
     }
     var backgroundColor: Color {
-        isCurrentUser ? .blue : Color.gray.opacity(0.25)
+        isSenderCurrentUser ? .blue : Color.gray.opacity(0.25)
     }
     var isRightAlign: Bool {
-        isCurrentUser
+        isSenderCurrentUser
     }
     var title: String? {
-        isCurrentUser ? nil : message.sender.name
+        isSenderCurrentUser ? nil : sender.name
     }
 
-    init(message: Message, isCurrentUser: Bool) {
+    init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.message = message
         self.content = message.content
-        self.isCurrentUser = isCurrentUser
+        self.sender = sender
+        self.isSenderCurrentUser = isSenderCurrentUser
     }
 }
 
