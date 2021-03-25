@@ -5,9 +5,8 @@ class ChatRoomViewModel: ObservableObject {
     var user: User
     var subscriber: AnyCancellable?
 
-    // TODO: This should be the chatroom's name
     var text: String {
-        "Chat room"
+        chatRoom.name
     }
 
     var messageCount: Int {
