@@ -14,9 +14,9 @@ class FirebaseModuleFacade: ModuleFacade {
     private var userId: String
 
     private var db = Firestore.firestore()
-    private var userIdsToUsers: [String: User] = [:]
     private var chatRoomsReference: CollectionReference?
-    private var chatRoomsFilteredQuery: Query?
+    private var userChatRoomPairsReference: CollectionReference?
+    private var userChatRoomPairsFilteredQuery: Query?
     private var chatRoomsListener: ListenerRegistration?
     private var usersReference: CollectionReference?
     private var usersFilteredQuery: Query?
@@ -58,12 +58,16 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func loadChatRooms(onCompletion: (() -> Void)?) {
-        chatRoomsReference = db.collection(DatabaseConstant.Collection.modules)
+        chatRoomsReference = db
+            .collection(DatabaseConstant.Collection.modules)
+            .document(moduleId)
+            .collection(DatabaseConstant.Collection.chatRooms)
+        userChatRoomPairsReference = db.collection(DatabaseConstant.Collection.modules)
             .document(moduleId)
             .collection(DatabaseConstant.Collection.userChatRoomPairs)
-        chatRoomsFilteredQuery = chatRoomsReference?
+        userChatRoomPairsFilteredQuery = userChatRoomPairsReference?
             .whereField(DatabaseConstant.UserChatRoomPair.userId, isEqualTo: userId)
-        chatRoomsFilteredQuery?.getDocuments { querySnapshot, error in
+        userChatRoomPairsFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
@@ -78,7 +82,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func addListeners() {
-        chatRoomsListener = chatRoomsFilteredQuery?.addSnapshotListener { querySnapshot, error in
+        chatRoomsListener = userChatRoomPairsFilteredQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -94,14 +98,14 @@ class FirebaseModuleFacade: ModuleFacade {
                 return
             }
             snapshot.documentChanges.forEach { change in
-                self.handleUserDocumentChange(change)
+                self.handleUserModulePairDocumentChange(change)
             }
         }
 
     }
 
     func save(_ chatRoom: ChatRoom) {
-        chatRoomsReference?.addDocument(data: FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
+        userChatRoomPairsReference?.addDocument(data: FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
             if let e = error {
                 os_log("Error sending chatRoom: \(e.localizedDescription)")
                 return
@@ -122,21 +126,46 @@ class FirebaseModuleFacade: ModuleFacade {
                     profilePictureUrl: chatRoom.profilePictureUrl
                 )
             )
+            chatRoom.setModule(moduleId: moduleId)
         default:
             break
         }
     }
     
-    private func handleUserDocumentChange(_ change: DocumentChange) {
-        let user = FirebaseUserFacade.convert(document: change.document)
-        switch change.type {
-        case .added:
-            self.delegate?.insert(
-                user: user
-            )
-        default:
-            break
+    private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
+        guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
+            return
         }
+        guard !messageRep.senderId.isEmpty else {
+            os_log("Error reading message: Message senderId is empty")
+            return
+        }
+        usersReference?
+            .document(messageRep.senderId)
+            .getDocument(completion: { documentSnapshot, error in
+                guard let snapshot = documentSnapshot else {
+                    return
+                }
+                if let err = error {
+                    os_log("Error getting sender in message: \(err.localizedDescription)")
+                    return
+                }
+
+                let user: User = FirebaseUserFacade.convert(document: snapshot)
+                switch change.type {
+                case .added:
+                    self.delegate?.insert(
+                        message: Message(
+                            id: messageRep.id,
+                            sender: user,
+                            creationTime: messageRep.creationTime,
+                            content: messageRep.content
+                        )
+                    )
+                default:
+                    break
+                }
+            })
     }
 
 }

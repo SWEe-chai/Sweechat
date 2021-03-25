@@ -7,5 +7,7 @@
 
 protocol ModuleFacadeDelegate: AnyObject {
     func insert(chatRoom: ChatRoom)
+    func insert(user: User)
     func insertAll(chatRooms: [ChatRoom])
+    func insertAll(users: [User])
 }

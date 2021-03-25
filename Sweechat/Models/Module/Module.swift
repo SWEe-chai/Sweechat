@@ -23,6 +23,7 @@ class Module: ObservableObject {
         }
     }
     private var moduleFacade: ModuleFacade?
+    var userIdsToUsers: [String: User] = [:]
 
     static func of(id: String, name: String, profilePictureUrl: String? = nil, for user: User) -> Module {
         let module = Module()
@@ -41,6 +42,7 @@ class Module: ObservableObject {
         self.chatRooms = []
         self.users = []
         self.moduleFacade = nil
+        self.userIdsToUsers = [:]
     }
     
     func storeChatRoom(chatRoom: ChatRoom) {
@@ -59,5 +61,24 @@ extension Module: ModuleFacadeDelegate {
 
     func insertAll(chatRooms: [ChatRoom]) {
         self.chatRooms = chatRooms
+    }
+    
+    func insert(user: User) {
+        guard self.userIdsToUsers[user.id] == nil else {
+            return
+        }
+        self.userIdsToUsers[user.id] = user
+        for chatRoom in chatRooms {
+            chatRoom.setUserIdsToUsers(self.userIdToUsers)
+        }
+    }
+    
+    func insertAll(users: [User]) {
+        for user in users {
+            self.userIdsToUsers[user.id] = user
+        }
+        for chatRoom in chatRooms {
+            chatRoom.setUserIdsToUsers(self.userIdToUsers)
+        }
     }
 }

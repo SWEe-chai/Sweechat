@@ -16,8 +16,9 @@ class ChatRoom: ObservableObject {
             objectWillChange.send()
         }
     }
-    private var chatRoomFacade: ChatRoomFacade
+    private var chatRoomFacade: ChatRoomFacade?
     let permissions: ChatRoomPermissionBitmask
+    var userIdsToUsers: [String: User] = [:]
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
@@ -25,22 +26,23 @@ class ChatRoom: ObservableObject {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.permissions = ChatRoomPermission.none
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-        chatRoomFacade.delegate = self
+    }
+    
+    func setModule(moduleId: String) {
+        self.chatRoomFacade = FirebaseChatRoomFacade(moduleId: moduleId, chatRoomId: id)
+        chatRoomFacade?.delegate = self
     }
 
-//    init(id: String, name: String, profilePictureUrl: String? = nil, messages: [Message]) {
-//        self.id = id
-//        self.name = name
-//        self.profilePictureUrl = profilePictureUrl
-//        self.messages = messages
-//        self.permissions = ChatRoomPermission.none
-//        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-//        chatRoomFacade.delegate = self
-//    }
-
     func storeMessage(message: Message) {
-        self.chatRoomFacade.save(message)
+        self.chatRoomFacade?.save(message)
+    }
+    
+    func setUserIdsToUsers(_ userIdsToUsers: [String: User]) {
+        self.userIdsToUsers = userIdsToUsers
+    }
+    
+    func getUser(userId: String) {
+        userIdsToUsers[userId]
     }
 }
 

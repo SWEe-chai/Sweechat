@@ -11,16 +11,17 @@ import os
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
     private var chatRoomId: String
-
+    private var moduleId: String
+    
     private var db = Firestore.firestore()
-    private var userIdsToUsers: [String: User] = [:]
     private var messagesReference: CollectionReference?
     private var messagesListener: ListenerRegistration?
     private var usersReference: CollectionReference?
     private var usersListener: ListenerRegistration?
 
-    init(chatRoomId: String) {
+    init(moduleId: String, chatRoomId: String) {
         self.chatRoomId = chatRoomId
+        self.moduleId = moduleId
         setUpConnectionToChatRoom()
     }
 
@@ -50,7 +51,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        messagesReference = db.collection(DatabaseConstant.Collection.chatRooms)
+        messagesReference = db
+            .collection(DatabaseConstant.Collection.modules)
+            .document(moduleId)
+            .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
         messagesReference?.getDocuments { querySnapshot, error in
@@ -99,23 +103,36 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
-        guard let sender = userIdsToUsers[messageRep.senderId] else {
+        guard !messageRep.senderId.isEmpty else {
             os_log("Error reading message: Message senderId is empty")
             return
         }
-        switch change.type {
-        case .added:
-            self.delegate?.insert(
-                message: Message(
-                    id: messageRep.id,
-                    sender: sender,
-                    creationTime: messageRep.creationTime,
-                    content: messageRep.content
-                )
-            )
-        default:
-            break
-        }
+        usersReference?
+            .document(messageRep.senderId)
+            .getDocument(completion: { documentSnapshot, error in
+                guard let snapshot = documentSnapshot else {
+                    return
+                }
+                if let err = error {
+                    os_log("Error getting sender in message: \(err.localizedDescription)")
+                    return
+                }
+
+                let user: User = FirebaseUserFacade.convert(document: snapshot)
+                switch change.type {
+                case .added:
+                    self.delegate?.insert(
+                        message: Message(
+                            id: messageRep.id,
+                            sender: user,
+                            creationTime: messageRep.creationTime,
+                            content: messageRep.content
+                        )
+                    )
+                default:
+                    break
+                }
+            })
     }
 
     static func convert(document: DocumentSnapshot) -> ChatRoom? {
@@ -124,8 +141,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return nil
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.User.id] as? String,
-              let name = data?[DatabaseConstant.User.name] as? String,
+        guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
+              let name = data?[DatabaseConstant.ChatRoom.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for user")
             return nil
