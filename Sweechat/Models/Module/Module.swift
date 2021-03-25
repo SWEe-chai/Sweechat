@@ -63,10 +63,23 @@ extension Module: ModuleFacadeDelegate {
             return
         }
         self.chatRooms.append(chatRoom)
+        print(self.chatRooms)
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
         self.chatRooms = chatRooms
+    }
+
+    func update(chatRoom: ChatRoom) {
+        if let index = chatRooms.firstIndex(of: chatRoom) {
+            self.chatRooms[index] = chatRoom
+        }
+    }
+
+    func remove(chatRoom: ChatRoom) {
+        if let index = chatRooms.firstIndex(of: chatRoom) {
+            self.chatRooms.remove(at: index)
+        }
     }
 
     func insert(user: User) {
@@ -75,13 +88,13 @@ extension Module: ModuleFacadeDelegate {
         }
         self.userIdsToUsers[user.id] = user
     }
-    
+
     func update(user: User) {
         if self.userIdsToUsers[user.id] != nil {
             self.userIdsToUsers[user.id] = user
         }
     }
-    
+
     func remove(user: User) {
         userIdsToUsers[user.id] = nil
     }

@@ -7,6 +7,8 @@
 
 protocol ModuleFacadeDelegate: AnyObject {
     func insert(chatRoom: ChatRoom)
+    func remove(chatRoom: ChatRoom)
+    func update(chatRoom: ChatRoom)
     func insert(user: User)
     func update(user: User)
     func remove(user: User)
