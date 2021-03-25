@@ -27,10 +27,10 @@ class FirebaseUserChatRoomPairFacade {
         return FirebaseUserChatRoomPair(userId: userId, chatRoomId: chatRoomId)
     }
 
-    static func convert(firebaseUserChatRoomPair: FirebaseUserChatRoomPair) -> [String: Any] {
+    static func convert(pair: FirebaseUserChatRoomPair) -> [String: Any] {
         [
-            DatabaseConstant.UserChatRoomPair.userId: firebaseUserChatRoomPair.userId,
-            DatabaseConstant.UserChatRoomPair.chatRoomId: firebaseUserChatRoomPair.chatRoomId
+            DatabaseConstant.UserChatRoomPair.userId: pair.userId,
+            DatabaseConstant.UserChatRoomPair.chatRoomId: pair.chatRoomId
         ]
     }
 }

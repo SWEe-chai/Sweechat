@@ -27,10 +27,10 @@ class FirebaseUserModulePairFacade {
         return FirebaseUserModulePair(userId: userId, moduleId: moduleId)
     }
 
-    static func convert(firebaseUserModulePair: FirebaseUserModulePair) -> [String: Any] {
+    static func convert(pair: FirebaseUserModulePair) -> [String: Any] {
         [
-            DatabaseConstant.UserModulePair.userId: firebaseUserModulePair.userId,
-            DatabaseConstant.UserModulePair.moduleId: firebaseUserModulePair.moduleId
+            DatabaseConstant.UserModulePair.userId: pair.userId,
+            DatabaseConstant.UserModulePair.moduleId: pair.moduleId
         ]
     }
 }
