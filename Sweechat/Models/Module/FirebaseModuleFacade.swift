@@ -20,7 +20,7 @@ class FirebaseModuleFacade: ModuleFacade {
     private var userChatRoomPairsListener: ListenerRegistration?
     private var usersReference: CollectionReference?
     private var usersListener: ListenerRegistration?
-    private var userModulePairs: CollectionReference?
+    private var userModulePairsReference: CollectionReference?
     private var userModulePairsFilteredQuery: Query?
     private var userModulePairsListener: ListenerRegistration?
 
@@ -40,9 +40,9 @@ class FirebaseModuleFacade: ModuleFacade {
 
     private func loadUsers(onCompletion: (() -> Void)?) {
         usersReference = db.collection(DatabaseConstant.Collection.users)
-        userModulePairs = db
+        userModulePairsReference = db
             .collection(DatabaseConstant.Collection.userModulePairs)
-        userModulePairsFilteredQuery = userModulePairs?
+        userModulePairsFilteredQuery = userModulePairsReference?
             .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
         userModulePairsFilteredQuery?.getDocuments { querySnapshot, error in
@@ -167,27 +167,49 @@ class FirebaseModuleFacade: ModuleFacade {
         guard let firebaseUserChatRoomPair = FirebaseUserChatRoomPairFacade.convert(document: change.document) else {
             return
         }
-        chatRoomsReference?
+        userChatRoomPairsReference?
             .document(firebaseUserChatRoomPair.chatRoomId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
                     return
                 }
                 if let err = error {
-                    os_log("Error getting sender in message: \(err.localizedDescription)")
+                    os_log("Error getting chat room change in module: \(err.localizedDescription)")
                     return
                 }
+                self.db
+                    .collection(DatabaseConstant.Collection.chatRooms)
+                    .document(firebaseUserChatRoomPair.chatRoomId)
+                    .getDocument(completion: { documentSnapshot, error in
+                        guard let snapshot = documentSnapshot else {
+                            return
+                        }
+                        if let err = error {
+                            os_log("Error getting chat room in module: \(err.localizedDescription)")
+                            return
+                        }
 
-                if let chatRoom: ChatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
-                    switch change.type {
-                    case .added:
-                        self.delegate?.insert(
-                            chatRoom: chatRoom
-                        )
-                    default:
-                        break
-                    }
-                }
+                        let chatRoom = FirebaseChatRoomFacade.convert(document: snapshot)
+                        switch change.type {
+                        case .added:
+                            self.delegate?.insert(chatRoom: chatRoom)
+                        case .removed:
+                            self.delegate?.remove(chatRoom: chatRoom)
+                        default:
+                            break
+                        }
+                    })
+
+//                if let chatRoom: ChatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
+//                    switch change.type {
+//                    case .added:
+//                        self.delegate?.insert(
+//                            chatRoom: chatRoom
+//                        )
+//                    default:
+//                        break
+//                    }
+//                }
             })
     }
 
@@ -195,7 +217,7 @@ class FirebaseModuleFacade: ModuleFacade {
         guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
         }
-        userModulePairs?
+        userModulePairsReference?
             .document(userModulePair.userId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
