@@ -25,12 +25,12 @@ class Module: ObservableObject {
     private var moduleFacade: ModuleFacade?
     var userIdsToUsers: [String: User] = [:]
 
-    static func of(id: String, name: String, profilePictureUrl: String? = nil, for user: User) -> Module {
+    static func of(id: String, name: String, profilePictureUrl: String? = nil, for userId: String) -> Module {
         let module = Module()
         module.id = id
         module.name = name
         module.profilePictureUrl = profilePictureUrl
-        module.moduleFacade = FirebaseModuleFacade(moduleId: id, userId: user.id)
+        module.moduleFacade = FirebaseModuleFacade(moduleId: id, userId: userId)
         module.moduleFacade?.delegate = module
         return module
     }
@@ -69,7 +69,7 @@ extension Module: ModuleFacadeDelegate {
         }
         self.userIdsToUsers[user.id] = user
         for chatRoom in chatRooms {
-            chatRoom.setUserIdsToUsers(self.userIdToUsers)
+            chatRoom.setUserIdsToUsers(self.userIdsToUsers)
         }
     }
     
@@ -78,7 +78,7 @@ extension Module: ModuleFacadeDelegate {
             self.userIdsToUsers[user.id] = user
         }
         for chatRoom in chatRooms {
-            chatRoom.setUserIdsToUsers(self.userIdToUsers)
+            chatRoom.setUserIdsToUsers(self.userIdsToUsers)
         }
     }
 }

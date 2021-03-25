@@ -19,8 +19,9 @@ class FirebaseModuleFacade: ModuleFacade {
     private var userChatRoomPairsFilteredQuery: Query?
     private var chatRoomsListener: ListenerRegistration?
     private var usersReference: CollectionReference?
-    private var usersFilteredQuery: Query?
-    private var usersListener: ListenerRegistration?
+    private var userModulePairs: CollectionReference?
+    private var userModulePairsFilteredQuery: Query?
+    private var userModulePairsListener: ListenerRegistration?
 
     init(moduleId: String, userId: String) {
         self.moduleId = moduleId
@@ -37,12 +38,13 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func loadUsers(onCompletion: (() -> Void)?) {
-        usersReference = db
+        usersReference = db.collection(DatabaseConstant.Collection.users)
+        userModulePairs = db
             .collection(DatabaseConstant.Collection.userModulePairs)
-        usersFilteredQuery = usersReference?
+        userModulePairsFilteredQuery = userModulePairs?
             .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
-        usersFilteredQuery?.getDocuments { querySnapshot, error in
+        userModulePairsFilteredQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading users: \(error?.localizedDescription ?? "No error")")
                 return
@@ -50,17 +52,13 @@ class FirebaseModuleFacade: ModuleFacade {
             let users: [User] = snapshot.documents.compactMap {
                 FirebaseUserFacade.convert(document: $0)
             }
-            for user in users {
-                self.userIdsToUsers[user.id] = user
-            }
+            self.delegate?.insertAll(users: users)
             onCompletion?()
         }
     }
 
     private func loadChatRooms(onCompletion: (() -> Void)?) {
         chatRoomsReference = db
-            .collection(DatabaseConstant.Collection.modules)
-            .document(moduleId)
             .collection(DatabaseConstant.Collection.chatRooms)
         userChatRoomPairsReference = db.collection(DatabaseConstant.Collection.modules)
             .document(moduleId)
@@ -92,7 +90,7 @@ class FirebaseModuleFacade: ModuleFacade {
             }
         }
         
-        usersListener = usersFilteredQuery?.addSnapshotListener { querySnapshot, error in
+        userModulePairsListener = userModulePairsFilteredQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -114,34 +112,39 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleChatRoomDocumentChange(_ change: DocumentChange) {
-        guard let chatRoom = FirebaseChatRoomFacade.convert(document: change.document) else {
+        guard let firebaseUserChatRoomPair = FirebaseUserChatRoomPairFacade.convert(document: change.document) else {
             return
         }
-        switch change.type {
-        case .added:
-            self.delegate?.insert(
-                chatRoom: ChatRoom(
-                    id: chatRoom.id,
-                    name: chatRoom.name,
-                    profilePictureUrl: chatRoom.profilePictureUrl
-                )
-            )
-            chatRoom.setModule(moduleId: moduleId)
-        default:
-            break
-        }
+        chatRoomsReference?
+            .document(firebaseUserChatRoomPair.chatRoomId)
+            .getDocument(completion: { documentSnapshot, error in
+                guard let snapshot = documentSnapshot else {
+                    return
+                }
+                if let err = error {
+                    os_log("Error getting sender in message: \(err.localizedDescription)")
+                    return
+                }
+
+                if let chatRoom: ChatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
+                    switch change.type {
+                    case .added:
+                        self.delegate?.insert(
+                            chatRoom: chatRoom
+                        )
+                    default:
+                        break
+                    }
+                }
+            })
     }
     
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let messageRep = FirebaseMessageFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
         }
-        guard !messageRep.senderId.isEmpty else {
-            os_log("Error reading message: Message senderId is empty")
-            return
-        }
-        usersReference?
-            .document(messageRep.senderId)
+        userModulePairs?
+            .document(userModulePair.userId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
                     return
@@ -154,14 +157,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 let user: User = FirebaseUserFacade.convert(document: snapshot)
                 switch change.type {
                 case .added:
-                    self.delegate?.insert(
-                        message: Message(
-                            id: messageRep.id,
-                            sender: user,
-                            creationTime: messageRep.creationTime,
-                            content: messageRep.content
-                        )
-                    )
+                    self.delegate?.insert(user: user)
                 default:
                     break
                 }
