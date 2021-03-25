@@ -23,7 +23,13 @@ class Module: ObservableObject {
         }
     }
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [String: User] = [:]
+    var userIdsToUsers: [String: User] = [:] {
+        didSet {
+            for chatRoom in chatRooms {
+                chatRoom.setUserIdsToUsers(self.userIdsToUsers)
+            }
+        }
+    }
 
     static func of(id: String, name: String, profilePictureUrl: String? = nil, for userId: String) -> Module {
         let module = Module()
@@ -68,17 +74,21 @@ extension Module: ModuleFacadeDelegate {
             return
         }
         self.userIdsToUsers[user.id] = user
-        for chatRoom in chatRooms {
-            chatRoom.setUserIdsToUsers(self.userIdsToUsers)
+    }
+    
+    func update(user: User) {
+        if self.userIdsToUsers[user.id] != nil {
+            self.userIdsToUsers[user.id] = user
         }
+    }
+    
+    func remove(user: User) {
+        userIdsToUsers[user.id] = nil
     }
 
     func insertAll(users: [User]) {
         for user in users {
             self.userIdsToUsers[user.id] = user
-        }
-        for chatRoom in chatRooms {
-            chatRoom.setUserIdsToUsers(self.userIdsToUsers)
         }
     }
 }
