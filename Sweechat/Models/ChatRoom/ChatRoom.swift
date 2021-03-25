@@ -16,33 +16,43 @@ class ChatRoom: ObservableObject {
             objectWillChange.send()
         }
     }
-    private var chatRoomFacade: ChatRoomFacade?
+    private var chatRoomFacade: ChatRoomFacade
     let permissions: ChatRoomPermissionBitmask
-    var userIdsToUsers: [String: User] = [:]
+    var members: [User]
+    private var moduleUserIdsToUsers: [String: User] = [:]
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
+        self.members = []
         self.permissions = ChatRoomPermission.none
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
+        chatRoomFacade.delegate = self
     }
 
-    func setModule(moduleId: String) {
-        self.chatRoomFacade = FirebaseChatRoomFacade(moduleId: moduleId, chatRoomId: id)
-        chatRoomFacade?.delegate = self
+    init(name: String, members: [User], profilePictureUrl: String? = nil) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.profilePictureUrl = profilePictureUrl
+        self.messages = []
+        self.members = members
+        self.permissions = ChatRoomPermission.none
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
+        chatRoomFacade.delegate = self
     }
 
     func storeMessage(message: Message) {
-        self.chatRoomFacade?.save(message)
+        self.chatRoomFacade.save(message)
     }
 
     func setUserIdsToUsers(_ userIdsToUsers: [String: User]) {
-        self.userIdsToUsers = userIdsToUsers
+        self.moduleUserIdsToUsers = userIdsToUsers
     }
 
     func getUser(userId: String) -> User {
-        userIdsToUsers[userId] ?? User.createUnavailableUser()
+        moduleUserIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 }
 
@@ -59,6 +69,17 @@ extension ChatRoom: ChatRoomFacadeDelegate {
     func insertAll(messages: [Message]) {
         let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
         self.messages = newMessages
+    }
+
+    func insert(member: User) {
+        guard !self.members.contains(member) else {
+            return
+        }
+        self.members.append(member)
+    }
+
+    func insertAll(members: [User]) {
+        self.members = members
     }
 }
 
