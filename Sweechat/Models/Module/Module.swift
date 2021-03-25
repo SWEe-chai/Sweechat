@@ -34,7 +34,7 @@ class Module: ObservableObject {
         module.moduleFacade?.delegate = module
         return module
     }
-    
+
     private init() {
         self.id = ""
         self.name = ""
@@ -44,7 +44,7 @@ class Module: ObservableObject {
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
     }
-    
+
     func storeChatRoom(chatRoom: ChatRoom) {
         self.moduleFacade?.save(chatRoom)
     }
@@ -62,7 +62,7 @@ extension Module: ModuleFacadeDelegate {
     func insertAll(chatRooms: [ChatRoom]) {
         self.chatRooms = chatRooms
     }
-    
+
     func insert(user: User) {
         guard self.userIdsToUsers[user.id] == nil else {
             return
@@ -72,7 +72,7 @@ extension Module: ModuleFacadeDelegate {
             chatRoom.setUserIdsToUsers(self.userIdsToUsers)
         }
     }
-    
+
     func insertAll(users: [User]) {
         for user in users {
             self.userIdsToUsers[user.id] = user

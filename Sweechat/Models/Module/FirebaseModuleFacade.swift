@@ -89,7 +89,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 self.handleChatRoomDocumentChange(change)
             }
         }
-        
+
         userModulePairsListener = userModulePairsFilteredQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -138,7 +138,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 }
             })
     }
-    
+
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
         guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
