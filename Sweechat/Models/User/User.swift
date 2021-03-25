@@ -14,13 +14,13 @@ class User: ObservableObject {
         User(id: unvailableUserId, name: unvailableUserName)
     }
 
-//    init(details: UserRepresentation) {
-//        self.id = details.id
-//        self.name = details.name
-//        self.profilePictureUrl = details.profilePictureUrl
-//        self.userFacade = FirebaseUserFacade(userId: details.id)
-//        userFacade.delegate = self
-//    }
+    init(id: String) {
+        self.id = id
+        self.name = ""
+        self.profilePictureUrl = ""
+        self.userFacade = FirebaseUserFacade(userId: id)
+        userFacade.delegate = self
+    }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id

@@ -64,7 +64,7 @@ class FirebaseUserFacade: UserFacade {
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            os_log("Error converting data for user")
+            // os_log("Error converting data for user")
             return User.createUnavailableUser()
         }
         return User(
