@@ -7,5 +7,6 @@
 
 protocol ModuleFacade {
     var delegate: ModuleFacadeDelegate? { get set }
-    func save(_ chatRoom: ChatRoom)
+    func save(chatRoom: ChatRoom)
+    func save(user: User)
 }

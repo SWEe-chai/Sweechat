@@ -51,8 +51,12 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
-    func storeChatRoom(chatRoom: ChatRoom) {
-        self.moduleFacade?.save(chatRoom)
+    func store(chatRoom: ChatRoom) {
+        self.moduleFacade?.save(chatRoom: chatRoom)
+    }
+
+    func store(user: User) {
+        self.moduleFacade?.save(user: user)
     }
 }
 
@@ -63,6 +67,7 @@ extension Module: ModuleFacadeDelegate {
             return
         }
         self.chatRooms.append(chatRoom)
+        print("Ga kesini isit :(")
         print(self.chatRooms)
     }
 
