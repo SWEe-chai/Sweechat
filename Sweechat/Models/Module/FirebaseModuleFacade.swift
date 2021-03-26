@@ -15,6 +15,7 @@ class FirebaseModuleFacade: ModuleFacade {
 
     private var db = Firestore.firestore()
     private var chatRoomsReference: CollectionReference?
+    private var chatRoomsListener: ListenerRegistration?
     private var userChatRoomModulePairsReference: CollectionReference?
     private var currentUserChatRoomsQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
@@ -144,6 +145,16 @@ class FirebaseModuleFacade: ModuleFacade {
                 self.handleUserDocumentChange(change)
             }
         }
+
+        chatRoomsListener = chatRoomsReference?.addSnapshotListener { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            snapshot.documentChanges.forEach { change in
+                self.handleChatRoomDocumentChange(change)
+            }
+        }
     }
 
     func save(user: User) {
@@ -256,6 +267,30 @@ class FirebaseModuleFacade: ModuleFacade {
                     break
                 }
             })
+
+    }
+
+    private func handleChatRoomDocumentChange(_ change: DocumentChange) {
+        if let chatRoom = FirebaseChatRoomFacade.convert(document: change.document) {
+            chatRoomsReference?
+                .document(chatRoom.id)
+                .getDocument(completion: { documentSnapshot, error in
+                    guard let snapshot = documentSnapshot else {
+                        return
+                    }
+                    if let err = error {
+                        os_log("Error getting sender in message: \(err.localizedDescription)")
+                        return
+                    }
+
+                    switch change.type {
+                    case .modified:
+                        self.delegate?.update(chatRoom: chatRoom)
+                    default:
+                        break
+                    }
+                })
+        }
 
     }
 
