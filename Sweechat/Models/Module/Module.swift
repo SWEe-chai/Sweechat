@@ -37,8 +37,8 @@ class Module: ObservableObject {
     }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
-        self.id = UUID().uuidString
-        self.name = ""
+        self.id = id
+        self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.users = []

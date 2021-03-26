@@ -104,11 +104,11 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
         }
         modulesReference?
-            .document(userChatRoomModulePair.userId)
+            .document(userModulePair.moduleId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
                     return

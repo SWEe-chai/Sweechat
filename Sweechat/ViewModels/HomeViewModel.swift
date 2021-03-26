@@ -1,5 +1,5 @@
 import Combine
-
+import Foundation
 class HomeViewModel: ObservableObject {
     var user: User
     var settingsViewModel: SettingsViewModel
@@ -29,7 +29,6 @@ class HomeViewModel: ObservableObject {
         let moduleListSubscriber = moduleList.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
-
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
     }
@@ -40,7 +39,7 @@ class HomeViewModel: ObservableObject {
             User(id: "CWdDxGgOMLdrQd62b7CR6qBkQaG3")
         ]
         let module = Module(
-            name: "Dummy Module by Agnes",
+            name: "Dummy Module by Agnes \(UUID().uuidString)",
             users: users
         )
         self.moduleList.store(module: module)
