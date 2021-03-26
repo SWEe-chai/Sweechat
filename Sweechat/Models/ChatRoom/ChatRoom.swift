@@ -79,10 +79,8 @@ extension ChatRoom: ChatRoomFacadeDelegate {
 
     func update(message: Message) {
         if let index = messages.firstIndex(of: message) {
-            print("whyyyyyyyy never update")
             self.messages.remove(at: index)
             self.messages.insert(message, at: index)
-            print(self.messages[0].content)
         }
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }

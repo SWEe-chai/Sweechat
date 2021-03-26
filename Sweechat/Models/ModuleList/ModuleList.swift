@@ -40,7 +40,6 @@ extension ModuleList: ModuleListFacadeDelegate {
             return
         }
         self.modules.append(module)
-        print(self.modules)
     }
 
     func insertAll(modules: [Module]) {
@@ -57,8 +56,6 @@ extension ModuleList: ModuleListFacadeDelegate {
         if let index = modules.firstIndex(of: module) {
             self.modules[index] = module
         }
-        print("THIS IS AFTER REMOVE")
-        print(self.modules)
     }
 
 }
