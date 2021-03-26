@@ -7,8 +7,8 @@ class HomeViewModel: ObservableObject {
     var moduleList: ModuleList
     @Published var text: String = ""
     var moduleViewModels: [ModuleViewModel] {
-        modules.map {
-            ChatRoomViewModel(id: $0.id, name: $0.name, user: user)
+        moduleList.modules.map {
+            ModuleViewModel(id: $0.id, name: $0.name, user: user)
         }
     }
 
@@ -26,22 +26,24 @@ class HomeViewModel: ObservableObject {
         let nameSubscriber = user.subscribeToName { newName in
             self.text = "Welcome home \(newName)"
         }
+        let moduleListSubscriber = moduleList.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
+
         subscribers.append(nameSubscriber)
+        subscribers.append(moduleListSubscriber)
     }
-    
+
     func handleCreateModule() {
         let users = [
             User(id: "39DI0eqPZabWv3nPLEvmHkeTxoo2"),
             User(id: "CWdDxGgOMLdrQd62b7CR6qBkQaG3")
         ]
-        let module = Module.of(
+        let module = Module(
             name: "Dummy Module by Agnes",
             users: users
         )
         self.moduleList.store(module: module)
-        for user in users {
-            module.store(user: user)
-        }
     }
 
 }

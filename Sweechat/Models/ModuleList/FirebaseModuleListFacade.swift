@@ -11,18 +11,17 @@ import os
 class FirebaseModuleListFacade: ModuleListFacade {
     weak var delegate: ModuleListFacadeDelegate?
     private var userId: String
-    
+
     private var db = Firestore.firestore()
     private var modulesReference: CollectionReference?
     private var userModulePairsReference: CollectionReference?
     private var currentUserModulesListener: ListenerRegistration?
     private var currentUserModulesQuery: Query?
-    
+
     init(userId: String) {
         self.userId = userId
         setUpConnectionToModuleList()
     }
-
 
     func setUpConnectionToModuleList() {
         if userId.isEmpty {
@@ -61,7 +60,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
                             os_log("Error getting chat rooms in module: \(err.localizedDescription)")
                             return
                         }
-
+                        print(documentSnapshot?.data())
                         if let module = FirebaseModuleFacade.convert(document: snapshot) {
                             self.delegate?.insert(module: module)
                         }
@@ -86,13 +85,13 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     func save(module: Module) {
-        modulesReference?.addDocument(data: FirebaseModuleFacade.convert(module: module)) { error in
+        modulesReference?.document(module.id).setData(FirebaseModuleFacade.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
             }
         }
-        
+
         for user in module.users {
             let pair = FirebaseUserModulePair(userId: user.id, moduleId: module.id)
             userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
@@ -118,14 +117,15 @@ class FirebaseModuleListFacade: ModuleListFacade {
                     os_log("Error getting users in module: \(err.localizedDescription)")
                     return
                 }
-                let module = FirebaseModuleFacade.convert(document: snapshot)
-                switch change.type {
-                case .added:
-                    self.delegate?.insert(module: module)
-                case .removed:
-                    self.delegate?.remove(module: module)
-                default:
-                    break
+                if let module = FirebaseModuleFacade.convert(document: snapshot) {
+                    switch change.type {
+                    case .added:
+                        self.delegate?.insert(module: module)
+                    case .removed:
+                        self.delegate?.remove(module: module)
+                    default:
+                        break
+                    }
                 }
             })
     }

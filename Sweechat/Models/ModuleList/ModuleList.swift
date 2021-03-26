@@ -5,17 +5,17 @@
 //  Created by Agnes Natasya on 26/3/21.
 //
 
-import Foundation
 import Combine
+import Foundation
 
-class ModuleList {
+class ModuleList: ObservableObject {
     @Published var modules: [Module] {
         willSet {
             objectWillChange.send()
         }
     }
     private var moduleListFacade: ModuleListFacade?
-    
+
     static func of(_ userId: String) -> ModuleList {
         let moduleList = ModuleList()
         moduleList.moduleListFacade = FirebaseModuleListFacade(userId: userId)
@@ -26,6 +26,10 @@ class ModuleList {
     private init() {
         self.modules = []
         self.moduleListFacade = nil
+    }
+
+    func store(module: Module) {
+        self.moduleListFacade?.save(module: module)
     }
 }
 
@@ -47,7 +51,7 @@ extension ModuleList: ModuleListFacadeDelegate {
             self.modules.remove(at: index)
         }
     }
-    
+
     func update(module: Module) {
         if let index = modules.firstIndex(of: module) {
             self.modules[index] = module
@@ -55,4 +59,3 @@ extension ModuleList: ModuleListFacadeDelegate {
     }
 
 }
-

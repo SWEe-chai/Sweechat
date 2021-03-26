@@ -21,6 +21,11 @@ class Module: ObservableObject {
         willSet {
             objectWillChange.send()
         }
+        didSet {
+            for user in users {
+                self.userIdsToUsers[user.id] = user
+            }
+        }
     }
     private var moduleFacade: ModuleFacade?
     var userIdsToUsers: [String: User] = [:] {
@@ -31,23 +36,29 @@ class Module: ObservableObject {
         }
     }
 
-    static func of(name: String, profilePictureUrl: String? = nil, for userId: String) -> Module {
-        let module = Module()
-        module.name = name
-        module.profilePictureUrl = profilePictureUrl
-        module.moduleFacade = FirebaseModuleFacade(moduleId: module.id, userId: userId)
-        module.moduleFacade?.delegate = module
-        return module
-    }
-
-    private init() {
+    init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = ""
-        self.profilePictureUrl = nil
+        self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.users = []
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
+    }
+
+    init(name: String, users: [User], profilePictureUrl: String? = nil) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.profilePictureUrl = profilePictureUrl
+        self.chatRooms = []
+        self.users = users
+        self.moduleFacade = nil
+        self.userIdsToUsers = [:]
+    }
+
+    func setUserId(_ userId: String) {
+        self.moduleFacade = FirebaseModuleFacade(moduleId: self.id, userId: userId)
+        self.moduleFacade?.delegate = self
     }
 
     func store(chatRoom: ChatRoom) {

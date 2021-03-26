@@ -302,17 +302,16 @@ class FirebaseModuleFacade: ModuleFacade {
             os_log("Error converting data for chat room")
             return nil
         }
-        return Module.of(
+        return Module(
             id: id,
             name: name,
-            profilePictureUrl: profilePictureUrl,
-            for: userId
+            profilePictureUrl: profilePictureUrl
         )
     }
 
     static func convert(module: Module) -> [String: Any] {
         [
-            DatabaseConstant.Module.id: chatRoom.id,
+            DatabaseConstant.Module.id: module.id,
             DatabaseConstant.Module.name: module.name,
             DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
         ]

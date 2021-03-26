@@ -15,8 +15,9 @@ class ModuleViewModel: ObservableObject {
     }
 
     init(id: String, name: String, profilePictureUrl: String? = nil, user: User) {
-        self.module = Module.of(id: id, name: name, profilePictureUrl: profilePictureUrl, for: user.id)
         self.user = user
+        self.module = Module(id: id, name: name, profilePictureUrl: profilePictureUrl)
+        self.module.setUserId(user.id)
         initialiseSubscriber()
     }
 
