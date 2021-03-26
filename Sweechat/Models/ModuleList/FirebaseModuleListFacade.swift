@@ -14,6 +14,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
     private var db = Firestore.firestore()
     private var modulesReference: CollectionReference?
+    private var modulesListener: ListenerRegistration?
     private var userModulePairsReference: CollectionReference?
     private var currentUserModulesListener: ListenerRegistration?
     private var currentUserModulesQuery: Query?
@@ -80,7 +81,15 @@ class FirebaseModuleListFacade: ModuleListFacade {
                 self.handleUserModulePairDocumentChange(change)
             }
         }
-
+        modulesListener = modulesReference?.addSnapshotListener { querySnapshot, error in
+            guard let snapshot = querySnapshot else {
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            snapshot.documentChanges.forEach { change in
+                self.handleModuleDocumentChange(change)
+            }
+        }
     }
 
     func save(module: Module) {
@@ -127,6 +136,30 @@ class FirebaseModuleListFacade: ModuleListFacade {
                     }
                 }
             })
+    }
+
+    private func handleModuleDocumentChange(_ change: DocumentChange) {
+        if let module = FirebaseModuleFacade.convert(document: change.document) {
+            modulesReference?
+                .document(module.id)
+                .getDocument(completion: { documentSnapshot, error in
+                    guard documentSnapshot != nil else {
+                        return
+                    }
+                    if let err = error {
+                        os_log("Error getting sender in message: \(err.localizedDescription)")
+                        return
+                    }
+
+                    switch change.type {
+                    case .modified:
+                        self.delegate?.update(module: module)
+                    default:
+                        break
+                    }
+                })
+        }
+
     }
 
 }
