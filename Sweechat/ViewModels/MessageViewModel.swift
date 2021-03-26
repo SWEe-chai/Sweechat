@@ -1,9 +1,11 @@
 import SwiftUI
+import Combine
 
-class MessageViewModel {
+class MessageViewModel: ObservableObject {
     private var message: Message
     private var sender: User
     private var isSenderCurrentUser: Bool
+    var subscriber: AnyCancellable?
 
     var content: String
     var foregroundColor: Color {
@@ -24,6 +26,9 @@ class MessageViewModel {
         self.content = message.content
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
+        subscriber = message.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
     }
 }
 

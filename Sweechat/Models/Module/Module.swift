@@ -10,7 +10,11 @@ import Foundation
 
 class Module: ObservableObject {
     var id: String
-    var name: String
+    @Published var name: String {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom] {
         willSet {
