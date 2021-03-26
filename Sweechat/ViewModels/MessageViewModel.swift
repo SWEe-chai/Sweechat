@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 class MessageViewModel: ObservableObject {
-    private var message: Message
+    @Published var message: Message
     private var sender: User
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MessageView: View {
-    var viewModel: MessageViewModel
+    @ObservedObject var viewModel: MessageViewModel
     var body: some View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
