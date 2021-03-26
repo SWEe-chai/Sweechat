@@ -248,7 +248,7 @@ class FirebaseModuleFacade: ModuleFacade {
         usersReference?
             .document(user.id)
             .getDocument(completion: { documentSnapshot, error in
-                guard let snapshot = documentSnapshot else {
+                guard documentSnapshot != nil else {
                     return
                 }
                 if let err = error {
@@ -271,7 +271,7 @@ class FirebaseModuleFacade: ModuleFacade {
             chatRoomsReference?
                 .document(chatRoom.id)
                 .getDocument(completion: { documentSnapshot, error in
-                    guard let snapshot = documentSnapshot else {
+                    guard documentSnapshot != nil else {
                         return
                     }
                     if let err = error {

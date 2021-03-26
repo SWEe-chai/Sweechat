@@ -60,7 +60,6 @@ class FirebaseModuleListFacade: ModuleListFacade {
                             os_log("Error getting chat rooms in module: \(err.localizedDescription)")
                             return
                         }
-                        print(documentSnapshot?.data())
                         if let module = FirebaseModuleFacade.convert(document: snapshot) {
                             self.delegate?.insert(module: module)
                         }
