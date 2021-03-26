@@ -28,7 +28,6 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String) {
-        // TODO: Dont hardcode
         let message = Message(senderId: user.id, content: text)
         self.chatRoom.storeMessage(message: message)
     }
