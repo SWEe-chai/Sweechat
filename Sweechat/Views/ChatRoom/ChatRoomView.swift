@@ -63,7 +63,9 @@ struct ChatRoomView_Previews: PreviewProvider {
         ChatRoomView(
             viewModel: ChatRoomViewModel(
                 id: "2",
-                user: User(
-                    details: UserRepresentation(id: "", name: "", profilePictureUrl: ""))))
+                name: "Chat Room 2",
+                user: User(id: "", name: "", profilePictureUrl: "")
+            )
+        )
     }
 }

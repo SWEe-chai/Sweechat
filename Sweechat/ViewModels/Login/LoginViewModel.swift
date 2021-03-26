@@ -33,9 +33,10 @@ class LoginViewModel: ObservableObject {
 // MARK: ALAuthDelegate
 extension LoginViewModel: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
-        user = User(details: UserRepresentation(
-                        id: details.id,
-                        name: details.name))
+        user = User(
+            id: details.id,
+            name: details.name
+        )
         user?.initiateListeningToUser()
         isLoggedIn = true
     }

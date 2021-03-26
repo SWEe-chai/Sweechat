@@ -5,9 +5,8 @@ class ChatRoomViewModel: ObservableObject {
     var user: User
     var subscriber: AnyCancellable?
 
-    // TODO: This should be the chatroom's name
     var text: String {
-        "Chat room"
+        chatRoom.name
     }
 
     var messageCount: Int {
@@ -16,12 +15,12 @@ class ChatRoomViewModel: ObservableObject {
 
     var textMessages: [MessageViewModel] {
         chatRoom.messages.map {
-            MessageViewModel(message: $0, isCurrentUser: user.id == $0.sender.id)
+            MessageViewModel(message: $0, sender: chatRoom.getUser(userId: $0.id), isSenderCurrentUser: user.id == $0.senderId)
         }
     }
 
-    init(id: String, user: User) {
-        self.chatRoom = ChatRoom(id: id)
+    init(id: String, name: String, user: User) {
+        self.chatRoom = ChatRoom(id: id, name: name)
         self.user = user
         subscriber = chatRoom.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
@@ -29,8 +28,7 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String) {
-        // TODO: Dont hardcode
-        let message = Message(sender: user, content: text)
+        let message = Message(senderId: user.id, content: text)
         self.chatRoom.storeMessage(message: message)
     }
 }
