@@ -195,8 +195,7 @@ class FirebaseModuleFacade: ModuleFacade {
         guard let firebaseUserChatRoomPair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
             return
         }
-        self.db
-            .collection(DatabaseConstant.Collection.chatRooms)
+        chatRoomsReference?
             .document(firebaseUserChatRoomPair.chatRoomId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
@@ -206,7 +205,6 @@ class FirebaseModuleFacade: ModuleFacade {
                     os_log("Error getting chat room in module: \(err.localizedDescription)")
                     return
                 }
-                print("Do you go here?")
                 if let chatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
                     switch change.type {
                     case .added:
@@ -224,8 +222,7 @@ class FirebaseModuleFacade: ModuleFacade {
         guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
             return
         }
-        self.db
-            .collection(DatabaseConstant.Collection.users)
+        usersReference?
             .document(userChatRoomModulePair.userId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {

@@ -127,23 +127,15 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         switch change.type {
         case .added:
             self.delegate?.insert(message: message)
+        case .modified:
+            self.delegate?.update(message: message)
+        case .removed:
+            self.delegate?.remove(message: message)
         default:
             break
         }
     }
 
-//    private func handleMemberDocumentChange(_ change: DocumentChange) {
-//        print("EEEE")
-//        print(change.document.data())
-//        let member = FirebaseUserFacade.convert(document: change.document)
-//        switch change.type {
-//        case .added:
-//            self.delegate?.insert(member: member)
-//        default:
-//            break
-//        }
-//    }
-//    
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
         guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
             return

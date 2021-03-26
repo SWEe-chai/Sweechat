@@ -447,6 +447,8 @@
 		45D6332425FDE2B100C94D4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				77394BEA260D94B60068B01F /* FirebaseUserChatRoomModulePair */,
+				77394BE1260D947D0068B01F /* FirebaseUserModulePair */,
 				775CA648260B49700012C420 /* Module */,
 				2787974B2601E24600124FA3 /* AuthenticationLib */,
 				3EB99D4425FDFD0600861D74 /* ChatRoom */,
@@ -473,6 +475,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		77394BE1260D947D0068B01F /* FirebaseUserModulePair */ = {
+			isa = PBXGroup;
+			children = (
+				77394BB2260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift */,
+				77394BBA260D0BE50068B01F /* FirebaseUserModulePair.swift */,
+			);
+			path = FirebaseUserModulePair;
+			sourceTree = "<group>";
+		};
+		77394BEA260D94B60068B01F /* FirebaseUserChatRoomModulePair */ = {
+			isa = PBXGroup;
+			children = (
+				77394B61260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift */,
+				77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */,
+			);
+			path = FirebaseUserChatRoomModulePair;
+			sourceTree = "<group>";
+		};
 		775CA648260B49700012C420 /* Module */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,10 +500,6 @@
 				775CA651260B4A930012C420 /* ModuleFacadeDelegate.swift */,
 				775CA659260B4AF30012C420 /* FirebaseModuleFacade.swift */,
 				775CA65E260B4B0E0012C420 /* ModuleFacade.swift */,
-				77394B61260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift */,
-				77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */,
-				77394BB2260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift */,
-				77394BBA260D0BE50068B01F /* FirebaseUserModulePair.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
