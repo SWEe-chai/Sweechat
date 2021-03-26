@@ -171,7 +171,6 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     func save(chatRoom: ChatRoom) {
-        print("DO YOU GO HERE")
         chatRoomsReference?
             .document(chatRoom.id)
             .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
@@ -219,11 +218,11 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
         }
         usersReference?
-            .document(userChatRoomModulePair.userId)
+            .document(userModulePair.userId)
             .getDocument(completion: { documentSnapshot, error in
                 guard let snapshot = documentSnapshot else {
                     return
@@ -288,6 +287,35 @@ class FirebaseModuleFacade: ModuleFacade {
                     }
                 })
         }
+
+    }
+
+    static func convert(document: DocumentSnapshot) -> Module? {
+        if !document.exists {
+            os_log("Error: Cannot convert module, module document does not exist")
+            return nil
+        }
+        let data = document.data()
+        guard let id = data?[DatabaseConstant.Module.id] as? String,
+              let name = data?[DatabaseConstant.Module.name] as? String,
+              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
+            os_log("Error converting data for chat room")
+            return nil
+        }
+        return Module.of(
+            id: id,
+            name: name,
+            profilePictureUrl: profilePictureUrl,
+            for: userId
+        )
+    }
+
+    static func convert(module: Module) -> [String: Any] {
+        [
+            DatabaseConstant.Module.id: chatRoom.id,
+            DatabaseConstant.Module.name: module.name,
+            DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
+        ]
 
     }
 

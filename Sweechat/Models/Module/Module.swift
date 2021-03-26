@@ -31,18 +31,17 @@ class Module: ObservableObject {
         }
     }
 
-    static func of(id: String, name: String, profilePictureUrl: String? = nil, for userId: String) -> Module {
+    static func of(name: String, profilePictureUrl: String? = nil, for userId: String) -> Module {
         let module = Module()
-        module.id = id
         module.name = name
         module.profilePictureUrl = profilePictureUrl
-        module.moduleFacade = FirebaseModuleFacade(moduleId: id, userId: userId)
+        module.moduleFacade = FirebaseModuleFacade(moduleId: module.id, userId: userId)
         module.moduleFacade?.delegate = module
         return module
     }
 
     private init() {
-        self.id = ""
+        self.id = UUID().uuidString
         self.name = ""
         self.profilePictureUrl = nil
         self.chatRooms = []
@@ -67,8 +66,6 @@ extension Module: ModuleFacadeDelegate {
             return
         }
         self.chatRooms.append(chatRoom)
-        print("Ga kesini isit :(")
-        print(self.chatRooms)
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
@@ -108,5 +105,11 @@ extension Module: ModuleFacadeDelegate {
         for user in users {
             self.userIdsToUsers[user.id] = user
         }
+    }
+}
+
+extension Module: Equatable {
+    static func == (lhs: Module, rhs: Module) -> Bool {
+        lhs.id == rhs.id
     }
 }

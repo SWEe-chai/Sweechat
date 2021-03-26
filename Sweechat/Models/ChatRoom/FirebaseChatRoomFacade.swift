@@ -33,6 +33,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
         userChatRoomModulePairsFilteredQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
+        messagesReference = db
+            .collection(DatabaseConstant.Collection.chatRooms)
+            .document(chatRoomId)
+            .collection(DatabaseConstant.Collection.messages)
         loadMembers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
     }
 
@@ -67,10 +71,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        messagesReference = db
-            .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
-            .collection(DatabaseConstant.Collection.messages)
         messagesReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")

@@ -28,6 +28,12 @@ struct DatabaseConstant {
         static let moduleId = "moduleId"
     }
 
+    struct Module {
+        static let id = "id"
+        static let name = "name"
+        static let profilePictureUrl = "profilePictureUrl"
+    }
+    
     struct ChatRoom {
         static let id = "id"
         static let name = "name"

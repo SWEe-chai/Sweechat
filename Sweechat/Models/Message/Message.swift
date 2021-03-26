@@ -1,8 +1,13 @@
+import Combine
 import Foundation
 
-class Message {
+class Message: ObservableObject {
     var id: String
-    var content: String
+    @Published var content: String {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     var creationTime: Date
     var senderId: String
     var type: MessageType
