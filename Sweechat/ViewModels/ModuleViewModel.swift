@@ -33,7 +33,7 @@ class ModuleViewModel: ObservableObject {
             User(id: "CWdDxGgOMLdrQd62b7CR6qBkQaG3")
         ]
         let chatRoom = ChatRoom(
-            name: "Dummy Chat Room by Agnes",
+            name: "Dummy Chat Room by Agnes \(UUID().uuidString)",
             members: users
         )
         self.module.store(chatRoom: chatRoom)
