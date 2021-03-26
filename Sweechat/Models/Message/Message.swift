@@ -1,24 +1,29 @@
+import Combine
 import Foundation
 
-struct Message {
+class Message: ObservableObject {
     var id: String
-    var content: String
+    @Published var content: String {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     var creationTime: Date
-    var sender: User
+    var senderId: String
     var type: MessageType
     var downloadUrl: URL?
 
-    init(sender: User, content: String) {
-        self.sender = sender
+    init(senderId: String, content: String) {
+        self.senderId = senderId
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
         self.type = MessageType.text
     }
 
-    init(id: String, sender: User, creationTime: Date, content: String) {
+    init(id: String, senderId: String, creationTime: Date, content: String) {
         self.id = id
-        self.sender = sender
+        self.senderId = senderId
         self.creationTime = creationTime
         self.content = content
         self.type = MessageType.text

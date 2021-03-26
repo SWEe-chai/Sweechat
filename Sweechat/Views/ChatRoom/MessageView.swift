@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MessageView: View {
-    var viewModel: MessageViewModel
+    @ObservedObject var viewModel: MessageViewModel
     var body: some View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
@@ -28,10 +28,13 @@ struct MessageView_Previews: PreviewProvider {
                 message:
                     Message(
                         id: "",
-                        sender: User(
-                            details: UserRepresentation(id: "", name: "One two three", profilePictureUrl: "")),
+                        senderId: "",
                         creationTime: Date(),
-                        content: "Hello everyone"),
-                isCurrentUser: true))
+                        content: "Hello everyone"
+                    ),
+                sender: User(id: "", name: "One two three"),
+                isSenderCurrentUser: true
+            )
+        )
     }
 }

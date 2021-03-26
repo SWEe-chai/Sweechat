@@ -11,6 +11,10 @@ struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
 
     var body: some View {
+        Text("Create Chat Room")
+            .onTapGesture {
+                viewModel.handleCreateChatRoom()
+            }
         ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
             NavigationLink(
                 destination:
