@@ -10,6 +10,10 @@ class ChatRoomViewModel: ObservableObject {
         "Chat room"
     }
 
+    var permissions: ChatRoomType {
+        ChatRoomType.convert(permission: chatRoom.permissions)
+    }
+
     var messageCount: Int {
         chatRoom.messages.count
     }

@@ -14,7 +14,8 @@ struct ModuleView: View {
         ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
             NavigationLink(
                 destination:
-                    LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
+                    LazyNavView(ChatRoomViewFactory.makeView(
+                                    viewModel: chatRoomViewModel))) {
                 Text(chatRoomViewModel.text)
             }
         }
