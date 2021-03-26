@@ -68,6 +68,10 @@
 		77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */; };
 		77394BB3260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394BB2260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift */; };
 		77394BBB260D0BE50068B01F /* FirebaseUserModulePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394BBA260D0BE50068B01F /* FirebaseUserModulePair.swift */; };
+		77394BF3260D95C50068B01F /* ModuleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394BF2260D95C50068B01F /* ModuleList.swift */; };
+		77394BFE260D96440068B01F /* FirebaseModuleListFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394BFD260D96440068B01F /* FirebaseModuleListFacade.swift */; };
+		77394C03260D97C10068B01F /* ModuleListFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394C02260D97C10068B01F /* ModuleListFacade.swift */; };
+		77394C08260D982B0068B01F /* ModuleListFacadeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394C07260D982B0068B01F /* ModuleListFacadeDelegate.swift */; };
 		775B92122604F83B0040B985 /* RoomConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92112604F83B0040B985 /* RoomConstant.swift */; };
 		775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92162604F8710040B985 /* FirebaseMessageFacade.swift */; };
 		775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775B92312605006D0040B985 /* ChatRoomFacade.swift */; };
@@ -169,6 +173,10 @@
 		77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserChatRoomModulePair.swift; sourceTree = "<group>"; };
 		77394BB2260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserModulePairFacade.swift; sourceTree = "<group>"; };
 		77394BBA260D0BE50068B01F /* FirebaseUserModulePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserModulePair.swift; sourceTree = "<group>"; };
+		77394BF2260D95C50068B01F /* ModuleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleList.swift; sourceTree = "<group>"; };
+		77394BFD260D96440068B01F /* FirebaseModuleListFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModuleListFacade.swift; sourceTree = "<group>"; };
+		77394C02260D97C10068B01F /* ModuleListFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleListFacade.swift; sourceTree = "<group>"; };
+		77394C07260D982B0068B01F /* ModuleListFacadeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleListFacadeDelegate.swift; sourceTree = "<group>"; };
 		775B92112604F83B0040B985 /* RoomConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomConstant.swift; sourceTree = "<group>"; };
 		775B92162604F8710040B985 /* FirebaseMessageFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessageFacade.swift; sourceTree = "<group>"; };
 		775B92312605006D0040B985 /* ChatRoomFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomFacade.swift; sourceTree = "<group>"; };
@@ -447,6 +455,7 @@
 		45D6332425FDE2B100C94D4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				77394BF1260D95590068B01F /* ModuleList */,
 				77394BEA260D94B60068B01F /* FirebaseUserChatRoomModulePair */,
 				77394BE1260D947D0068B01F /* FirebaseUserModulePair */,
 				775CA648260B49700012C420 /* Module */,
@@ -491,6 +500,17 @@
 				77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */,
 			);
 			path = FirebaseUserChatRoomModulePair;
+			sourceTree = "<group>";
+		};
+		77394BF1260D95590068B01F /* ModuleList */ = {
+			isa = PBXGroup;
+			children = (
+				77394BF2260D95C50068B01F /* ModuleList.swift */,
+				77394BFD260D96440068B01F /* FirebaseModuleListFacade.swift */,
+				77394C02260D97C10068B01F /* ModuleListFacade.swift */,
+				77394C07260D982B0068B01F /* ModuleListFacadeDelegate.swift */,
+			);
+			path = ModuleList;
 			sourceTree = "<group>";
 		};
 		775CA648260B49700012C420 /* Module */ = {
@@ -817,12 +837,14 @@
 				45D6336525FE011200C94D4F /* RegistrationView.swift in Sources */,
 				77394BBB260D0BE50068B01F /* FirebaseUserModulePair.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
+				77394C03260D97C10068B01F /* ModuleListFacade.swift in Sources */,
 				775CA652260B4A930012C420 /* ModuleFacadeDelegate.swift in Sources */,
 				27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */,
 				45D6337C25FE07A200C94D4F /* ChatRoomView.swift in Sources */,
 				775B92372605007E0040B985 /* FirebaseChatRoomFacade.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
+				77394BF3260D95C50068B01F /* ModuleList.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
 				775CA64A260B49D90012C420 /* Module.swift in Sources */,
@@ -842,6 +864,7 @@
 				77394BB3260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MessageType.swift in Sources */,
 				278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */,
+				77394C08260D982B0068B01F /* ModuleListFacadeDelegate.swift in Sources */,
 				778F08B925FDDA420059C2A0 /* SceneDelegate.swift in Sources */,
 				279CBAB6260A3248009A139C /* LoginButtonViewModel.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
@@ -857,6 +880,7 @@
 				45D6335225FDF30100C94D4F /* EntryView.swift in Sources */,
 				3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */,
 				279503DF2605D55D00D3B743 /* MessageView.swift in Sources */,
+				77394BFE260D96440068B01F /* FirebaseModuleListFacade.swift in Sources */,
 				775CA65A260B4AF30012C420 /* FirebaseModuleFacade.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */,
