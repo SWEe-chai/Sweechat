@@ -20,13 +20,24 @@ class FirebaseMessageFacade {
             return nil
         }
 
+        guard let messageTypeStr = data?[DatabaseConstant.Message.type] as? String else {
+            os_log("Failed to convert message type as string")
+            return nil
+        }
+
+        guard let messageType = MessageType(rawValue: messageTypeStr) else {
+            os_log("Unable to initialise MessageType enum")
+            return nil
+        }
+
         let id = document.documentID
         if let content = data?[DatabaseConstant.Message.content] as? Data {
         return Message(
             id: id,
             senderId: senderId,
             creationTime: creationTime.dateValue(),
-            content: content)
+            content: content,
+            type: messageType)
         }
         return nil
     }
@@ -35,7 +46,8 @@ class FirebaseMessageFacade {
         [
             DatabaseConstant.Message.creationTime: message.creationTime,
             DatabaseConstant.Message.senderId: message.senderId,
-            DatabaseConstant.Message.content: message.content
+            DatabaseConstant.Message.content: message.content,
+            DatabaseConstant.Message.type: message.type.rawValue
         ]
     }
 }

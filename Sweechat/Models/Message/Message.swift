@@ -8,20 +8,20 @@ class Message: ObservableObject {
     var senderId: String
     var type: MessageType
 
-    init(senderId: String, content: Data) {
+    init(senderId: String, content: Data, type: MessageType) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
-        self.type = MessageType.text
+        self.type = type
     }
 
-    init(id: String, senderId: String, creationTime: Date, content: Data) {
+    init(id: String, senderId: String, creationTime: Date, content: Data, type: MessageType) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
         self.content = content
-        self.type = MessageType.text
+        self.type = type
     }
 
     func update(message: Message) {
