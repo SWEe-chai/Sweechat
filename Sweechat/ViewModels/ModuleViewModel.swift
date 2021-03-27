@@ -29,9 +29,9 @@ class ModuleViewModel: ObservableObject {
     }
 
     func handleCreateChatRoom() {
+        // TODO: Currently chatroom for yourself only
         let users = [
-            User(id: "39DI0eqPZabWv3nPLEvmHkeTxoo2"),
-            User(id: "CWdDxGgOMLdrQd62b7CR6qBkQaG3")
+            User(id: user.id)
         ]
         let chatRoom = ChatRoom(
             name: "Dummy Chat Room by Agnes \(UUID().uuidString)",
