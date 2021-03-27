@@ -16,7 +16,7 @@ struct ModuleView: View {
                 .onTapGesture {
                     viewModel.handleCreateChatRoom()
                 }
-
+            Text("Chatrooms in \(viewModel.text)")
             ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
                 NavigationLink(
                     destination:
@@ -25,8 +25,6 @@ struct ModuleView: View {
                 }
             }
         }
-        .onAppear { viewModel.initialiseSubscriber() }
-        .onDisappear { viewModel.removeSubscribers() }
         .navigationTitle(Text(viewModel.text))
     }
 }

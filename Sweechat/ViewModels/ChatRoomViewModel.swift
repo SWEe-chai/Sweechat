@@ -19,8 +19,8 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    init(id: String, name: String, user: User) {
-        self.chatRoom = ChatRoom(id: id, name: name)
+    init(chatRoom: ChatRoom, user: User) {
+        self.chatRoom = chatRoom
         self.user = user
         initialiseSubscriber()
     }

@@ -64,8 +64,7 @@ struct ChatRoomView_Previews: PreviewProvider {
     static var previews: some View {
         ChatRoomView(
             viewModel: ChatRoomViewModel(
-                id: "2",
-                name: "Chat Room 2",
+                chatRoom: ChatRoom(id: "0", name: "CS4269"),
                 user: User(id: "", name: "", profilePictureUrl: "")
             )
         )

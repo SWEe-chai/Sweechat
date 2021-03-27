@@ -10,17 +10,9 @@ import Foundation
 
 class Module: ObservableObject {
     var id: String
-    @Published var name: String {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var name: String
     var profilePictureUrl: String?
-    @Published var chatRooms: [ChatRoom] {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var chatRooms: [ChatRoom]
     @Published var users: [User] {
         willSet {
             objectWillChange.send()
@@ -60,6 +52,11 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
+    func update(module: Module) {
+        self.name = module.name
+        self.profilePictureUrl = module.profilePictureUrl
+    }
+
     func setModuleConnectionFor(_ userId: String) {
         self.moduleFacade = FirebaseModuleFacade(moduleId: self.id, userId: userId)
         self.moduleFacade?.delegate = self
@@ -71,6 +68,14 @@ class Module: ObservableObject {
 
     func store(user: User) {
         self.moduleFacade?.save(user: user)
+    }
+
+    func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
+        $name.sink(receiveValue: function)
+    }
+
+    func subscribeToChatrooms(function: @escaping ([ChatRoom]) -> Void) -> AnyCancellable {
+        $chatRooms.sink(receiveValue: function)
     }
 }
 

@@ -6,11 +6,7 @@ class HomeViewModel: ObservableObject {
     private var subscribers: [AnyCancellable] = []
     var moduleList: ModuleList
     @Published var text: String = ""
-    var moduleViewModels: [ModuleViewModel] {
-        moduleList.modules.map {
-            ModuleViewModel(id: $0.id, name: $0.name, user: user)
-        }
-    }
+    @Published var moduleViewModels: [ModuleViewModel] = []
 
     init(user: User) {
         self.user = user
@@ -29,15 +25,11 @@ class HomeViewModel: ObservableObject {
         let nameSubscriber = user.subscribeToName { newName in
             self.text = "Welcome home \(newName)"
         }
-        let moduleListSubscriber = moduleList.objectWillChange.sink { [weak self] _ in
-            self?.objectWillChange.send()
+        let moduleListSubscriber = moduleList.subscribeToModules { modules in
+            self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
-    }
-
-    func removeSubscribers() {
-        self.subscribers = []
     }
 
     func handleCreateModule() {
