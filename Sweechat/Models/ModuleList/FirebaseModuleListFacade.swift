@@ -29,9 +29,11 @@ class FirebaseModuleListFacade: ModuleListFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        modulesReference = db
+        modulesReference = FirebaseUtils
+            .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.modules)
-        userModulePairsReference = db
+        userModulePairsReference = FirebaseUtils
+            .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentUserModulesQuery = userModulePairsReference?
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
@@ -49,8 +51,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
                 guard let moduleId = data[DatabaseConstant.UserModulePair.moduleId] as? String else {
                     return
                 }
-                self.db
-                    .collection(DatabaseConstant.Collection.modules)
+                self.modulesReference?
                     .document(moduleId)
                     .getDocument(completion: { documentSnapshot, error in
                         guard let snapshot = documentSnapshot else {
