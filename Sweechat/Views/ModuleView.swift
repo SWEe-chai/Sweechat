@@ -21,10 +21,17 @@ struct ModuleView: View {
                 NavigationLink(
                     destination:
                         LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
-                    Text(chatRoomViewModel.text)
+                    ChatRoomItemView(viewModel: chatRoomViewModel)
                 }
             }
         }
         .navigationTitle(Text(viewModel.text))
+    }
+}
+
+struct ChatRoomItemView: View {
+    @ObservedObject var viewModel: ChatRoomViewModel
+    var body: some View {
+        Text(viewModel.text)
     }
 }

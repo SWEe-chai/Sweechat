@@ -13,10 +13,7 @@ class Module: ObservableObject {
     @Published var name: String
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom]
-    @Published var users: [User] {
-        willSet {
-            objectWillChange.send()
-        }
+    var users: [User] {
         didSet {
             for user in users {
                 self.userIdsToUsers[user.id] = user
@@ -85,16 +82,18 @@ extension Module: ModuleFacadeDelegate {
         guard !self.chatRooms.contains(chatRoom) else {
             return
         }
+        chatRoom.setChatRoomConnection()
         self.chatRooms.append(chatRoom)
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
+        chatRooms.forEach { $0.setChatRoomConnection() }
         self.chatRooms = chatRooms
     }
 
     func update(chatRoom: ChatRoom) {
         if let index = chatRooms.firstIndex(of: chatRoom) {
-            self.chatRooms[index] = chatRoom
+            self.chatRooms[index].update(chatRoom: chatRoom)
         }
     }
 

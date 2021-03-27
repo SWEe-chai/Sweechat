@@ -3,10 +3,10 @@ import Foundation
 class HomeViewModel: ObservableObject {
     var user: User
     var settingsViewModel: SettingsViewModel
-    private var subscribers: [AnyCancellable] = []
     var moduleList: ModuleList
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
+    private var subscribers: [AnyCancellable] = []
 
     init(user: User) {
         self.user = user

@@ -36,8 +36,6 @@ struct ChatRoomView: View {
             }
             inputBar
         }
-        .onAppear { viewModel.initialiseSubscriber() }
-        .onDisappear { viewModel.removeSubscriber() }
         .navigationTitle(Text(viewModel.text))
     }
 
