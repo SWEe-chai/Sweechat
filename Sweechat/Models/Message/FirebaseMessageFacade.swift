@@ -21,7 +21,7 @@ class FirebaseMessageFacade {
         }
 
         let id = document.documentID
-        if let content = data?[DatabaseConstant.Message.content] as? String {
+        if let content = data?[DatabaseConstant.Message.content] as? Data {
         return Message(
             id: id,
             senderId: senderId,

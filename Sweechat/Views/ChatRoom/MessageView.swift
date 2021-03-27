@@ -30,7 +30,7 @@ struct MessageView_Previews: PreviewProvider {
                         id: "",
                         senderId: "",
                         creationTime: Date(),
-                        content: "Hello everyone"
+                        content: "Hello everyone".toData()
                     ),
                 sender: User(id: "", name: "One two three"),
                 isSenderCurrentUser: true

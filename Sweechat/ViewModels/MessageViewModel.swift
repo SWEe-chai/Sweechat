@@ -23,11 +23,11 @@ class MessageViewModel: ObservableObject {
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.message = message
-        self.content = message.content
+        self.content = message.content.toString()
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
         subscriber = message.subscribeToContent { content in
-            self.content = content
+            self.content = content.toString()
         }
     }
 }
