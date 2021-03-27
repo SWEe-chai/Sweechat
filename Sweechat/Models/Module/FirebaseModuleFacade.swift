@@ -32,7 +32,6 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     func setUpConnectionToModule() {
-        print("setting up connection to module")
         if moduleId.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return

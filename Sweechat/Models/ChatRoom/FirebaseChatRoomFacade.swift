@@ -20,8 +20,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsListener: ListenerRegistration?
 
     private var usersReference: CollectionReference?
-    private var chatRoomReference: DocumentReference?
-    private var chatRoomListener: ListenerRegistration?
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
@@ -29,7 +27,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func setUpConnectionToChatRoom() {
-        print("setting up connection to chatroom")
         if chatRoomId.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
@@ -44,10 +41,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
-        chatRoomReference = FirebaseUtils
-            .getEnvironmentReference(db)
-            .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
         usersReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.users)
@@ -108,14 +101,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
         }
 
-        chatRoomListener = chatRoomReference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-            self.handleChatRoomDocumentChange(snapshot)
-        }
-
         userChatRoomModulePairsListener = userChatRoomModulePairsReference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -135,13 +120,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 return
             }
         }
-    }
-
-    private func handleChatRoomDocumentChange(_ snapshot: DocumentSnapshot) {
-        guard let chatRoom = FirebaseChatRoomFacade.convert(document: snapshot) else {
-            return
-        }
-        delegate?.update(chatRoom: chatRoom)
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {
