@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 class ModuleViewModel: ObservableObject {
     @Published var module: Module
