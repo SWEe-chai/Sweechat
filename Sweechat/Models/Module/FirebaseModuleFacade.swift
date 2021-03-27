@@ -36,14 +36,19 @@ class FirebaseModuleFacade: ModuleFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        usersReference = db.collection(DatabaseConstant.Collection.users)
-        userModulePairsReference = db
+        usersReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.users)
+        userModulePairsReference = FirebaseUtils
+            .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentModuleUsersQuery = userModulePairsReference?
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
-        chatRoomsReference = db
+        chatRoomsReference = FirebaseUtils
+            .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
-        userChatRoomModulePairsReference = db
+        userChatRoomModulePairsReference = FirebaseUtils
+            .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
         currentUserChatRoomsQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId)
@@ -62,8 +67,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 guard let userId = data[DatabaseConstant.UserModulePair.userId] as? String else {
                     return
                 }
-                self.db
-                    .collection(DatabaseConstant.Collection.users)
+                self.usersReference?
                     .document(userId)
                     .getDocument(completion: { documentSnapshot, error in
                         guard let snapshot = documentSnapshot else {
@@ -92,8 +96,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 guard let chatRoomId = data[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String else {
                     return
                 }
-                self.db
-                    .collection(DatabaseConstant.Collection.chatRooms)
+                self.chatRoomsReference?
                     .document(chatRoomId)
                     .getDocument(completion: { documentSnapshot, error in
                         guard let snapshot = documentSnapshot else {
