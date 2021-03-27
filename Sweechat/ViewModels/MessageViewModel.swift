@@ -7,7 +7,7 @@ class MessageViewModel: ObservableObject {
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?
 
-    var content: String
+    @Published var content: String
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
     }
@@ -26,8 +26,8 @@ class MessageViewModel: ObservableObject {
         self.content = message.content
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
-        subscriber = message.objectWillChange.sink { [weak self] _ in
-            self?.objectWillChange.send()
+        subscriber = message.subscribeToContent { content in
+            self.content = content
         }
     }
 }

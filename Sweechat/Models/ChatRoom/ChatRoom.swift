@@ -84,8 +84,9 @@ extension ChatRoom: ChatRoomFacadeDelegate {
 
     func update(message: Message) {
         if let index = messages.firstIndex(of: message) {
-            self.messages.remove(at: index)
-            self.messages.insert(message, at: index)
+            self.messages[index].update(message: message)
+//            self.messages.remove(at: index)
+//            self.messages.insert(message, at: index)
         }
     }
 
