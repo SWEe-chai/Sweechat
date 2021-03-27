@@ -25,6 +25,8 @@ struct HomeView: View {
                 Text("Settings")
             }
         }
+        .onAppear { viewModel.initialiseSubscribers() }
+        .onDisappear { viewModel.removeSubscribers() }
         .navigationTitle(Text(viewModel.text))
         .navigationBarBackButtonHidden(true)
     }

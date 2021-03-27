@@ -11,17 +11,22 @@ struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
 
     var body: some View {
-        Text("Create Chat Room")
-            .onTapGesture {
-                viewModel.handleCreateChatRoom()
-            }
-        ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
-            NavigationLink(
-                destination:
-                    LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
-                Text(chatRoomViewModel.text)
+        VStack {
+            Text("Create Chat Room")
+                .onTapGesture {
+                    viewModel.handleCreateChatRoom()
+                }
+
+            ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
+                NavigationLink(
+                    destination:
+                        LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
+                    Text(chatRoomViewModel.text)
+                }
             }
         }
+        .onAppear { viewModel.initialiseSubscriber() }
+        .onDisappear { viewModel.removeSubscribers() }
         .navigationTitle(Text(viewModel.text))
     }
 }

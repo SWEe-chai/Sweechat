@@ -9,7 +9,11 @@ import Foundation
 
 class ChatRoom: ObservableObject {
     var id: String
-    var name: String
+    @Published var name: String {
+        didSet {
+             objectWillChange.send()
+        }
+    }
     var profilePictureUrl: String?
     @Published var messages: [Message] {
         willSet {
@@ -100,6 +104,11 @@ extension ChatRoom: ChatRoomFacadeDelegate {
 
     func insertAll(members: [User]) {
         self.members = members
+    }
+
+    func update(chatRoom: ChatRoom) {
+        self.name = chatRoom.name
+        self.profilePictureUrl = chatRoom.profilePictureUrl
     }
 }
 

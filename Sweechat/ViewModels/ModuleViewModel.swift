@@ -19,13 +19,19 @@ class ModuleViewModel: ObservableObject {
         self.user = user
         self.module = Module(id: id, name: name, profilePictureUrl: profilePictureUrl)
         self.module.setModuleConnectionFor(user.id)
-        initialiseSubscriber()
     }
 
     func initialiseSubscriber() {
+        if subscriber != nil {
+            return
+        }
         subscriber = module.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
+    }
+
+    func removeSubscribers() {
+        subscriber = nil
     }
 
     func handleCreateChatRoom() {

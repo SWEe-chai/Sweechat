@@ -22,9 +22,17 @@ class ChatRoomViewModel: ObservableObject {
     init(id: String, name: String, user: User) {
         self.chatRoom = ChatRoom(id: id, name: name)
         self.user = user
+        initialiseSubscriber()
+    }
+
+    func initialiseSubscriber() {
         subscriber = chatRoom.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
+    }
+
+    func removeSubscriber() {
+        subscriber = nil
     }
 
     func handleSendMessage(_ text: String) {

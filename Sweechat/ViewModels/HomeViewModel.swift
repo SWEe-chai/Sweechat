@@ -19,10 +19,13 @@ class HomeViewModel: ObservableObject {
         // TODO: Connect this Settings View Model if we want to
         // implement logout
         self.settingsViewModel = SettingsViewModel()
-        initiateSubscribers()
+        initialiseSubscribers()
     }
 
-    private func initiateSubscribers() {
+    func initialiseSubscribers() {
+        if !subscribers.isEmpty {
+            return
+        }
         let nameSubscriber = user.subscribeToName { newName in
             self.text = "Welcome home \(newName)"
         }
@@ -31,6 +34,10 @@ class HomeViewModel: ObservableObject {
         }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
+    }
+
+    func removeSubscribers() {
+        self.subscribers = []
     }
 
     func handleCreateModule() {
