@@ -8,9 +8,6 @@ import FirebaseFirestore
 import os
 
 class FirebaseUserModulePairFacade {
-    private var db = Firestore.firestore()
-    private var reference: DocumentReference?
-
     static func convert(document: DocumentSnapshot) -> FirebaseUserModulePair? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")

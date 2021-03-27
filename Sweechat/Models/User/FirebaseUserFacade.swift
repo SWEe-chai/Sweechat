@@ -5,9 +5,9 @@ class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
     private var userId: String
 
-    var db = Firestore.firestore()
+    private var db = Firestore.firestore()
     private var usersReference: CollectionReference
-    var reference: DocumentReference?
+    private var reference: DocumentReference?
     private var userListener: ListenerRegistration?
 
     init(userId: String) {
