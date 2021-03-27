@@ -7,7 +7,7 @@
 
 public enum MessageType: String {
     case text
-    case photo
+    case image
     case video
     case location
     case emoji

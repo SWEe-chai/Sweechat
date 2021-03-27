@@ -3,6 +3,8 @@ import SwiftUI
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
 
     var inputBar: some View {
         HStack {
@@ -14,10 +16,16 @@ struct ChatRoomView: View {
             Button(action: sendTypedMessage) {
                 Text("Send")
             }
+            Button(action: openImagePicker) {
+                Text("Img")
+            }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
+        .sheet(isPresented: $showingImagePicker, onDismiss: sendImageToFirebase) {
+            ImagePicker(image: $inputImage)
+        }
     }
 
     var body: some View {
@@ -55,6 +63,15 @@ struct ChatRoomView: View {
         }
         viewModel.handleSendMessage(content)
         typingMessage = ""
+    }
+
+    func openImagePicker() {
+        self.showingImagePicker = true
+    }
+
+    func sendImageToFirebase() {
+        viewModel.handleSendImage(inputImage) // type: UIImage?
+        inputImage = nil
     }
 }
 
