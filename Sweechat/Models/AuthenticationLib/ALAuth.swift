@@ -16,7 +16,7 @@ class ALAuth {
         }
     }
 
-    func logInWithPreviousSession() {
+    func signInWithPreviousSession() {
         guard let user = Auth.auth().currentUser else {
             return
         }

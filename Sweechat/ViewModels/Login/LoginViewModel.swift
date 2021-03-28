@@ -17,7 +17,7 @@ class LoginViewModel: ObservableObject {
     init() {
         self.auth = ALAuth()
         auth.delegate = self
-        auth.logInWithPreviousSession()
+        auth.signInWithPreviousSession()
     }
 
     var text: String {
