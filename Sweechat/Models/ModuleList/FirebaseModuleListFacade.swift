@@ -94,6 +94,10 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     func save(module: Module) {
+        // TODO: generate id using a synchronous call
+        let id = randomString(length: 8)
+        module.id = id
+
         modulesReference?.document(module.id).setData(FirebaseModuleFacade.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
@@ -110,6 +114,11 @@ class FirebaseModuleListFacade: ModuleListFacade {
                 }
             }
         }
+    }
+
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map { _ in letters.randomElement()! })
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
@@ -162,5 +171,4 @@ class FirebaseModuleListFacade: ModuleListFacade {
         }
 
     }
-
 }

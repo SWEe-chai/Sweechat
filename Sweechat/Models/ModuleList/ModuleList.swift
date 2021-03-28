@@ -31,6 +31,10 @@ class ModuleList: ObservableObject {
     func store(module: Module) {
         self.moduleListFacade?.save(module: module)
     }
+
+    func joinModule(moduleId: String) {
+
+    }
 }
 
 // MARK: ModuleListFacadeDelegate

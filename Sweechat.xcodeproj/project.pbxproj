@@ -16,6 +16,7 @@
 		2787975A2601E24600124FA3 /* ALAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797522601E24600124FA3 /* ALAuth.swift */; };
 		2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797542601E24600124FA3 /* ALAuthDelegate.swift */; };
 		2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */; };
+		2788582B261046480058ADB2 /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2788582A261046480058ADB2 /* AddModuleView.swift */; };
 		279503DF2605D55D00D3B743 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503DE2605D55D00D3B743 /* MessageView.swift */; };
 		279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503E32605D57600D3B743 /* MessageViewModel.swift */; };
 		279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAB0260A321F009A139C /* LoginButtonView.swift */; };
@@ -122,6 +123,7 @@
 		278797522601E24600124FA3 /* ALAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuth.swift; sourceTree = "<group>"; };
 		278797542601E24600124FA3 /* ALAuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthDelegate.swift; sourceTree = "<group>"; };
 		278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandlerDelegate.swift; sourceTree = "<group>"; };
+		2788582A261046480058ADB2 /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
 		279503DE2605D55D00D3B743 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		279503E32605D57600D3B743 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		279CBAB0260A321F009A139C /* LoginButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonView.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
+				2788582A261046480058ADB2 /* AddModuleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -852,6 +855,7 @@
 				27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
+				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */,
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
