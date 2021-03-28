@@ -176,6 +176,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         let data = document.data()
         guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
+              let isGroup = data?[DatabaseConstant.ChatRoom.isGroup] as? Bool,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for chat room")
             return nil
@@ -183,6 +184,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         return ChatRoom(
             id: id,
             name: name,
+            isGroup: isGroup,
             profilePictureUrl: profilePictureUrl
         )
     }
@@ -191,6 +193,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         [
             DatabaseConstant.ChatRoom.id: chatRoom.id,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
+            DatabaseConstant.ChatRoom.isGroup: chatRoom.isGroup,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
 

@@ -22,7 +22,8 @@ struct CreateChatRoomView: View {
             ForEach(viewModel.otherMembersItemViewModels) { memberItemViewModel in
                 let chatRoom = ChatRoom(
                     name: memberItemViewModel.memberName,
-                    members: viewModel.getSelectedMembers()
+                    members: viewModel.getSelectedMembers(),
+                    isGroup: false
                 )
                 MemberItemView(viewModel: memberItemViewModel)
                     .onTapGesture {

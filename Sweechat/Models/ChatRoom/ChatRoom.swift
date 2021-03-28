@@ -8,10 +8,8 @@ import Combine
 import Foundation
 
 class ChatRoom: ObservableObject {
-    static let unvailableChatRoomId = ""
-    static let unvailableChatRoomName = "Unavailable Chat Room"
-
     var id: String
+    var isGroup: Bool
     @Published var name: String
     var profilePictureUrl: String?
     @Published var messages: [Message]
@@ -20,22 +18,20 @@ class ChatRoom: ObservableObject {
     var members: [User]
     private var moduleUserIdsToUsers: [String: User] = [:]
 
-    static func createUnavailableChatRoom() -> ChatRoom {
-        ChatRoom(id: unvailableChatRoomId, name: unvailableChatRoomName)
-    }
-
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: String, name: String, isGroup: Bool, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.isGroup = isGroup
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.members = []
         self.permissions = ChatRoomPermission.none
     }
 
-    init(name: String, members: [User], profilePictureUrl: String? = nil) {
+    init(name: String, members: [User], isGroup: Bool, profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.isGroup = isGroup
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.members = members

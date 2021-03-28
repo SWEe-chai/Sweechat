@@ -40,9 +40,10 @@ struct CreateGroupView: View {
                     .onTapGesture {
                         let chatRoom = ChatRoom(
                             name: groupName,
-                            members: viewModel.getSelectedMembers()
+                            members: viewModel.getSelectedMembers(),
+                            isGroup: true
                         )
-                        viewModel.handleCreateChatRoo m(chatRoom: chatRoom)
+                        viewModel.handleCreateChatRoom(chatRoom: chatRoom)
                     }
             }
         }

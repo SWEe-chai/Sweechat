@@ -43,6 +43,7 @@ struct DatabaseConstant {
     struct ChatRoom {
         static let id = "id"
         static let name = "name"
+        static let isGroup = "isGroup"
         static let profilePictureUrl = "profilePictureUrl"
     }
 
