@@ -37,6 +37,13 @@ struct CreateGroupView: View {
                     LazyNavView(ModuleView(viewModel: viewModel))) {
 
                 Text("Create!!")
+                    .onTapGesture {
+                        let chatRoom = ChatRoom(
+                            name: groupName,
+                            members: viewModel.getSelectedMembers()
+                        )
+                        viewModel.handleCreateChatRoo m(chatRoom: chatRoom)
+                    }
             }
         }
     }
