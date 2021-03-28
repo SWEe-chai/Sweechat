@@ -40,17 +40,15 @@ struct HomeView: View {
             HStack {
                 Button(action: {
                     isShowingJoinView = true
+                    isShowingAddView = false
                 }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "plus")
-                    }
+                    Image(systemName: "plus.magnifyingglass")
                 }
                 Button(action: {
+                    isShowingJoinView = false
                     isShowingAddView = true
                 }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "plus")
-                    }
+                    Image(systemName: "plus.app")
                 }
             }
         })
