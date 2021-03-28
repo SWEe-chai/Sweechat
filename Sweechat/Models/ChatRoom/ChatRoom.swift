@@ -12,7 +12,6 @@ class ChatRoom: ObservableObject {
     static let unvailableChatRoomName = "Unavailable Chat Room"
 
     var id: String
-    var isGroup: Bool
     @Published var name: String
     var profilePictureUrl: String?
     @Published var messages: [Message]

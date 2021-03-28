@@ -2,7 +2,6 @@ import FirebaseFirestore
 import os
 
 class FirebaseUserFacade: UserFacade {
-
     weak var delegate: UserFacadeDelegate?
     private var userId: String
 
@@ -16,32 +15,31 @@ class FirebaseUserFacade: UserFacade {
         self.usersReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.users)
-        setUpConnectionAsUser()
     }
 
-//    func loginAndListenToUser(_ user: User) {
-//        userId = user.id
-//        self.usersReference.document(userId).getDocument { document, _ in
-//            guard let document = document,
-//                  document.exists else {
-//                // In this case user is a new user
-//                self.addUser(user)
-//                return
-//            }
-//            self.setUpConnectionAsUser()
-//        }
-//    }
+    func loginAndListenToUser(_ user: User) {
+        userId = user.id
+        self.usersReference.document(userId).getDocument { document, _ in
+            guard let document = document,
+                  document.exists else {
+                // In this case user is a new user
+                self.addUser(user)
+                return
+            }
+            self.setUpConnectionAsUser()
+        }
+    }
 
-//    private func addUser(_ user: User) {
-//        self.usersReference
-//            .document(user.id)
-//            .setData(
-//                FirebaseUserFacade
-//                    .convert(user: user), completion: { _ in
-//            self.setUpConnectionAsUser()
-//                    }
-//            )
-//    }
+    private func addUser(_ user: User) {
+        self.usersReference
+            .document(user.id)
+            .setData(
+                FirebaseUserFacade
+                    .convert(user: user), completion: { _ in
+            self.setUpConnectionAsUser()
+                    }
+            )
+    }
 
     private func setUpConnectionAsUser() {
         if userId.isEmpty {
