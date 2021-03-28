@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import os
 
 class MessageViewModel: ObservableObject {
     @Published var message: Message
@@ -20,8 +21,8 @@ class MessageViewModel: ObservableObject {
     var title: String? {
         isSenderCurrentUser ? nil : sender.name
     }
-    var type: MessageType {
-        message.type
+    var messageContentType: MessageContentType {
+        MessageContentType.convert(messageType: message.type)
     }
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool) {
@@ -40,7 +41,7 @@ class MessageViewModel: ObservableObject {
         case .text, .image:
             self.content = message.content.toString()
         default:
-            self.content = "The message type: \(message.type.rawValue) is not implemented"
+            self.content = "The message type: \(self.message.type.rawValue) is not implemented"
         }
     }
 }

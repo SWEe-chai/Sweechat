@@ -35,6 +35,7 @@
 		3E74E084261047DC00CB344E /* ImageMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E083261047DC00CB344E /* ImageMessageContentView.swift */; };
 		3E74E095261054B200CB344E /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E094261054B200CB344E /* RemoteImage.swift */; };
 		3E74E09A2610591100CB344E /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E0992610591100CB344E /* MessageView.swift */; };
+		3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E0A726106F3300CB344E /* MessageContentType.swift */; };
 		3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */; };
 		3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4525FDFD1100861D74 /* ChatRoom.swift */; };
 		3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */; };
@@ -148,6 +149,7 @@
 		3E74E083261047DC00CB344E /* ImageMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageContentView.swift; sourceTree = "<group>"; };
 		3E74E094261054B200CB344E /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		3E74E0992610591100CB344E /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		3E74E0A726106F3300CB344E /* MessageContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentType.swift; sourceTree = "<group>"; };
 		3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentViewFactory.swift; sourceTree = "<group>"; };
 		3EB99D4525FDFD1100861D74 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermission.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
 				279503E32605D57600D3B743 /* MessageViewModel.swift */,
 				2777FAE0260C7C6700961FAF /* ChatRoomType.swift */,
+				3E74E0A726106F3300CB344E /* MessageContentType.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -860,6 +863,7 @@
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomType.swift in Sources */,
+				3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */,
 				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
 				775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
