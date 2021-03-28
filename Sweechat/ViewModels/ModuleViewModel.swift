@@ -16,9 +16,6 @@ class ModuleViewModel: ObservableObject {
         self.text = module.name
         self.isChatRoomSelected = false
         self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
-        let a = module
-            .members
-            .filter { $0 != user }
         self.otherMembersItemViewModels = module
             .members
             .filter { $0 != user }
@@ -51,6 +48,14 @@ class ModuleViewModel: ObservableObject {
 //        let currentChatRoom = self.module.chatRooms.filter { $0.members.containsSameElements(as: members) }
 //        return !currentChatRoom.isEmpty ? currentChatRoom[0] : ChatRoom.createUnavailableChatRoom()
 //    }
+
+    func getSelectedMembers() -> [User] {
+        var selectedMembers = self
+            .otherMembersItemViewModels.filter { $0.isSelected }
+            .map { $0.member }
+        selectedMembers.append(user)
+        return selectedMembers
+    }
 
     func handleCreateChatRoom(chatRoom: ChatRoom) {
         let currentChatRoom = self.module.chatRooms.filter { $0.members.containsSameElements(as: chatRoom.members) }

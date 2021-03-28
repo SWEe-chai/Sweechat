@@ -12,6 +12,11 @@ struct MemberItemView: View {
 
     var body: some View {
         HStack {
+            Rectangle()
+                .fill(viewModel.isSelected ? Color.green : Color.red)
+                .frame(width: 20, height: 20, alignment: .center)
+                .cornerRadius(5)
+
             Text("\(viewModel.memberName)")
         }
     }
