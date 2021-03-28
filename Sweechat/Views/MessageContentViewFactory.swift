@@ -6,15 +6,15 @@
 //
 import SwiftUI
 
-struct MessageViewFactory {
+struct MessageContentViewFactory {
     static func makeView(viewModel: MessageViewModel) -> some View {
         switch viewModel.type {
         case .text:
-            return AnyView(TextMessageView(viewModel: viewModel))
+            return AnyView(TextMessageContentView(viewModel: viewModel))
         case .image:
-            return AnyView(ImageMessageView(viewModel: viewModel))
+            return AnyView(ImageMessageContentView(viewModel: viewModel))
         default:
-            return AnyView(TextMessageView(viewModel: viewModel))
+            return AnyView(TextMessageContentView(viewModel: viewModel))
         }
     }
 }

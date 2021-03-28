@@ -33,7 +33,7 @@ struct ChatRoomView: View {
             ScrollView {
                 ScrollViewReader { scrollView in
                     ForEach(viewModel.textMessages, id: \.self) {
-                        MessageViewFactory.makeView(viewModel: $0)
+                        MessageView(viewModel: $0)
                     }
                     .onAppear { scrollToLatestMessage(scrollView) }
                     .onChange(of: viewModel.textMessages.count) { _ in
