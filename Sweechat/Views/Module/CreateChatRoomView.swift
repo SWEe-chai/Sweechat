@@ -12,21 +12,20 @@ struct CreateChatRoomView: View {
 
     var body: some View {
         ForEach(viewModel.otherMembersItemViewModels) { memberItemViewModel in
-            let chatRoomViewModel = ChatRoomViewModel(
-                chatRoom: ChatRoom(
-                    name: memberItemViewModel.memberName,
-                    members: [viewModel.user, memberItemViewModel.member]
-                ),
-                user: viewModel.user
+            let chatRoom = ChatRoom(
+                name: memberItemViewModel.memberName,
+                members: [viewModel.user, memberItemViewModel.member]
             )
-            NavigationLink(
-                destination: LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
-                MemberItemView(viewModel: memberItemViewModel)
-//                    .onTapGesture {
-//                        print("FDSFD")
-//                        viewModel.handleCreateChatRoom()
-//                    }
+            MemberItemView(viewModel: memberItemViewModel)
+                .onTapGesture {
+                    viewModel.handleCreateChatRoom(chatRoom: chatRoom)
                 }
+            NavigationLink(
+                "",
+                destination: LazyNavView(
+                    ModuleView(viewModel: viewModel)
+                ),
+                isActive: $viewModel.isChatRoomSelected
             )
             .hidden()
         }

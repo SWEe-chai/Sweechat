@@ -8,6 +8,9 @@ import Combine
 import Foundation
 
 class ChatRoom: ObservableObject {
+    static let unvailableChatRoomId = ""
+    static let unvailableChatRoomName = "Unavailable Chat Room"
+
     var id: String
     @Published var name: String
     var profilePictureUrl: String?
@@ -16,6 +19,10 @@ class ChatRoom: ObservableObject {
     let permissions: ChatRoomPermissionBitmask
     var members: [User]
     private var moduleUserIdsToUsers: [String: User] = [:]
+
+    static func createUnavailableChatRoom() -> ChatRoom {
+        ChatRoom(id: unvailableChatRoomId, name: unvailableChatRoomName)
+    }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
@@ -36,11 +43,14 @@ class ChatRoom: ObservableObject {
     }
 
     func setChatRoomConnection() {
+        print("DO YOU GO HERE")
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
         chatRoomFacade?.delegate = self
     }
 
     func storeMessage(message: Message) {
+        print("ADASDA")
+        print(message)
         self.chatRoomFacade?.save(message)
     }
 
@@ -64,6 +74,7 @@ class ChatRoom: ObservableObject {
 // MARK: ChatRoomFacadeDelegate
 extension ChatRoom: ChatRoomFacadeDelegate {
     func insert(message: Message) {
+        print("DO YOU GO HERER")
         guard !self.messages.contains(message) else {
             return
         }

@@ -6,6 +6,7 @@ class ModuleViewModel: ObservableObject {
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var otherMembersItemViewModels: [MemberItemViewModel] = []
+    @Published var isChatRoomSelected: Bool
     var user: User
     var subscribers: [AnyCancellable] = []
 
@@ -13,6 +14,7 @@ class ModuleViewModel: ObservableObject {
         self.user = user
         self.module = module
         self.text = module.name
+        self.isChatRoomSelected = false
         self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
         let a = module
             .members
@@ -47,22 +49,27 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(membersSubscriber)
     }
 
-    func handleCreateChatRoom() {
-        // TODO: Currently chatroom for yourself only
-        let user = User(id: self.user.id)
-        user.setUserConnection()
-        let users = [user]
-        let chatRoom = ChatRoom(
-            name: "Dummy Chat Room by Agnes \(UUID().uuidString)",
-            members: users
-        )
-        self.module.store(chatRoom: chatRoom)
-        for user in users {
-            self.module.store(user: user)
+//    func getChatRoom(for members: [User]) -> ChatRoom {
+//        let currentChatRoom = self.module.chatRooms.filter { $0.members.containsSameElements(as: members) }
+//        return !currentChatRoom.isEmpty ? currentChatRoom[0] : ChatRoom.createUnavailableChatRoom()
+//    }
+
+    func handleCreateChatRoom(chatRoom: ChatRoom) {
+        let currentChatRoom = self.module.chatRooms.filter { $0.members.containsSameElements(as: chatRoom.members) }
+        if currentChatRoom.isEmpty {
+            self.module.store(chatRoom: chatRoom)
         }
+        chatRoom.setChatRoomConnection()
+        self.isChatRoomSelected = true
     }
 }
 
 // MARK: Identifiable
 extension ModuleViewModel: Identifiable {
+}
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        self.count == other.count && self.sorted() == other.sorted()
+    }
 }

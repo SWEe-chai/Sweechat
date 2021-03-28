@@ -11,9 +11,7 @@ class User: ObservableObject {
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
 
     static func createUnavailableUser() -> User {
-        let user = User(id: unvailableUserId, name: unvailableUserName)
-        user.setUserConnection()
-        return user
+        User(id: unvailableUserId, name: unvailableUserName)
     }
 
     init(id: String) {
@@ -51,9 +49,13 @@ class User: ObservableObject {
 }
 
 // MARK: Equatable
-extension User: Equatable {
+extension User: Equatable, Comparable {
     static func == (lhs: User, rhs: User) -> Bool {
         lhs.id == rhs.id
+    }
+
+    static func < (lhs: User, rhs: User) -> Bool {
+        lhs.id < rhs.id
     }
 }
 
