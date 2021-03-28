@@ -12,10 +12,15 @@ struct ModuleView: View {
 
     var body: some View {
         VStack {
-            Text("Create Chat Room")
-                .onTapGesture {
-                    viewModel.handleCreateChatRoom()
-                }
+            NavigationLink(
+                destination:
+                    LazyNavView(CreateChatRoomView(viewModel: viewModel))) {
+
+                Text("Create Chat Room")
+                    .onTapGesture {
+                        viewModel.handleCreateChatRoom()
+                    }
+            }
             Text("Chatrooms in \(viewModel.text)")
             ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
                 NavigationLink(

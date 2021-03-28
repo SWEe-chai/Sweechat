@@ -7,38 +7,43 @@ class User: ObservableObject {
     @Published var id: String
     @Published var name: String
     @Published var profilePictureUrl: String?
-    private var userFacade: UserFacade
+    private var userFacade: UserFacade?
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
 
     static func createUnavailableUser() -> User {
-        User(id: unvailableUserId, name: unvailableUserName)
+        let user = User(id: unvailableUserId, name: unvailableUserName)
+        user.setUserConnection()
+        return user
     }
 
     init(id: String) {
         self.id = id
         self.name = ""
         self.profilePictureUrl = ""
-        self.userFacade = FirebaseUserFacade(userId: id)
-        userFacade.delegate = self
     }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
-        self.userFacade = FirebaseUserFacade(userId: id)
-        userFacade.delegate = self
     }
 
-    func initiateListeningToUser() {
-        userFacade.loginAndListenToUser(
-            User(
-                id: id,
-                name: name,
-                profilePictureUrl: profilePictureUrl
-            )
-        )
+    func setUserConnection() {
+        self.userFacade = FirebaseUserFacade(userId: id)
+        userFacade?.delegate = self
     }
+
+//    func initiateListeningToUser() {
+//        let user = User(
+//            id: id,
+//            name: name,
+//            profilePictureUrl: profilePictureUrl
+//        )
+//        
+//
+//        userFacade.loginAndListenToUser(
+//        )
+//    }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
@@ -55,7 +60,7 @@ extension User: Equatable {
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
 
-    func updateUser(user: User) {
+    func update(user: User) {
         self.id = user.id
         self.name = user.name
         self.profilePictureUrl = user.profilePictureUrl
