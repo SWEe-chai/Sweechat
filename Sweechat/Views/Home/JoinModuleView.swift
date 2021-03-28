@@ -9,7 +9,7 @@ struct JoinModuleView: View {
             Text("Join a Module").font(.title2)
             TextField("Module secret", text: $moduleSecret).padding()
             HStack {
-                Button("Cancle") { close() }.padding()
+                Button("Cancel") { close() }.padding()
                 Button("Join") { tappedCreate() }.padding()
             }
         }

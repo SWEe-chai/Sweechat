@@ -9,7 +9,7 @@ struct AddModuleView: View {
             Text("Create a Module").font(.title2)
             TextField("Module name", text: $moduleName).padding()
             HStack {
-                Button("Cancle") { close() }.padding()
+                Button("Cancel") { close() }.padding()
                 Button("Create") { tappedCreate() }.padding()
             }
         }
