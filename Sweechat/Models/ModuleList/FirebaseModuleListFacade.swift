@@ -101,7 +101,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
             }
         }
 
-        for user in module.users {
+        for user in module.members {
             let pair = FirebaseUserModulePair(userId: user.id, moduleId: module.id)
             userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {
