@@ -11,6 +11,10 @@ class ChatRoomViewModel: ObservableObject {
 
     @Published var text: String
 
+    var permissions: ChatRoomType {
+        ChatRoomType.convert(permission: chatRoom.permissions)
+    }
+
     var messageCount: Int {
         chatRoom.messages.count
     }
