@@ -34,9 +34,9 @@ class HomeViewModel: ObservableObject {
 
     func handleCreateModule() {
         // TODO: Currently module with yourself only
-        let users = [
-            User(id: user.id)
-        ]
+        let user = User(id: self.user.id)
+        user.setUserConnection()
+        let users = [user]
         let module = Module(
             name: "Dummy Module by Agnes \(UUID().uuidString)",
             users: users

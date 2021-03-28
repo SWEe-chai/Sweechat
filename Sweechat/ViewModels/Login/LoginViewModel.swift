@@ -37,7 +37,7 @@ extension LoginViewModel: ALAuthDelegate {
             id: details.id,
             name: details.name
         )
-        user?.initiateListeningToUser()
+        user?.setUserConnection()
         isLoggedIn = true
     }
 

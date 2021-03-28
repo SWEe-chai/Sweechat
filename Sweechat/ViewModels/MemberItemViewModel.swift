@@ -10,9 +10,13 @@ import Combine
 class MemberItemViewModel: ObservableObject {
     var member: User
     @Published var memberName: String
-    
+
     init(member: User) {
         self.member = member
         self.memberName = member.name
     }
+}
+
+// MARK: Identifiable
+extension MemberItemViewModel: Identifiable {
 }

@@ -2,9 +2,10 @@ import Combine
 import Foundation
 
 class ModuleViewModel: ObservableObject {
-    @Published var module: Module
+    private var module: Module
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
+    @Published var otherMembersItemViewModels: [MemberItemViewModel] = []
     var user: User
     var subscribers: [AnyCancellable] = []
 
@@ -13,6 +14,15 @@ class ModuleViewModel: ObservableObject {
         self.module = module
         self.text = module.name
         self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
+        let a = module
+            .members
+            .filter { $0 != user }
+        print(a.count)
+        print(user.id)
+        self.otherMembersItemViewModels = module
+            .members
+            .filter { $0 != user }
+            .map { MemberItemViewModel(member: $0) }
         self.module.setModuleConnectionFor(user.id)
         initialiseSubscriber()
     }
@@ -24,18 +34,24 @@ class ModuleViewModel: ObservableObject {
         let nameSubscriber = module.subscribeToName { newName in
             self.text = newName
         }
-        let chatRoomSubscriber = module.subscribeToChatrooms { chatRooms in
+        let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
             self.chatRoomViewModels = chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
         }
+        let membersSubscriber = module.subscribeToMembers { members in
+            self.otherMembersItemViewModels = members
+                .filter { $0 != self.user }
+                .map { MemberItemViewModel(member: $0) }
+        }
         subscribers.append(nameSubscriber)
-        subscribers.append(chatRoomSubscriber)
+        subscribers.append(chatRoomsSubscriber)
+        subscribers.append(membersSubscriber)
     }
 
     func handleCreateChatRoom() {
         // TODO: Currently chatroom for yourself only
-        let users = [
-            User(id: user.id)
-        ]
+        let user = User(id: self.user.id)
+        user.setUserConnection()
+        let users = [user]
         let chatRoom = ChatRoom(
             name: "Dummy Chat Room by Agnes \(UUID().uuidString)",
             members: users

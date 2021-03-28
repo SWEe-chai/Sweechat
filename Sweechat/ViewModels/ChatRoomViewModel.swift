@@ -1,9 +1,9 @@
 import Combine
 
 class ChatRoomViewModel: ObservableObject {
-    @Published var chatRoom: ChatRoom
-    var user: User
-    var subscribers: [AnyCancellable] = []
+    private var chatRoom: ChatRoom
+    private var user: User
+    private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
 
