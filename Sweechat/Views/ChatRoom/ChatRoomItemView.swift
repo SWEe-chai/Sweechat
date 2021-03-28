@@ -5,4 +5,11 @@
 //  Created by Agnes Natasya on 28/3/21.
 //
 
-import Foundation
+import SwiftUI
+
+struct ChatRoomItemView: View {
+    @ObservedObject var viewModel: ChatRoomViewModel
+    var body: some View {
+        Text(viewModel.text)
+    }
+}

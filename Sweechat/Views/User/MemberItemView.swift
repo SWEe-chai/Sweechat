@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MemberItemView: View {
-    @ObservedObject var viewModel: MemberPreviewViewModel
+    @ObservedObject var viewModel: MemberItemViewModel
 
     var body: some View {
         HStack {
-            viewModel.memberName
+            Text("\(viewModel.memberName)")
         }
     }
 }
