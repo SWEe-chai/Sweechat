@@ -2,6 +2,7 @@ import Combine
 import Foundation
 class HomeViewModel: ObservableObject {
     var user: User
+    weak var delegate: HomeViewModelDelegate?
     var settingsViewModel: SettingsViewModel
     var moduleList: ModuleList
     @Published var text: String = ""
@@ -15,6 +16,7 @@ class HomeViewModel: ObservableObject {
         // TODO: Connect this Settings View Model if we want to
         // implement logout
         self.settingsViewModel = SettingsViewModel()
+        settingsViewModel.delegate = self
         initialiseSubscribers()
     }
 
@@ -47,5 +49,12 @@ class HomeViewModel: ObservableObject {
     func handleJoinModule(secret: String) {
         let id = secret
         moduleList.joinModule(moduleId: id)
+    }
+}
+
+// MARK: SettingsViewModelDelegate
+extension HomeViewModel: SettingsViewModelDelegate {
+    func signOut() {
+        delegate?.signOut()
     }
 }

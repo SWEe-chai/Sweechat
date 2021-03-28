@@ -16,6 +16,7 @@ struct LoginView: View {
             )
             .hidden()
         }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(Text(viewModel.text))
     }
 }

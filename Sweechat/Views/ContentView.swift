@@ -5,7 +5,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            EntryView(viewModel: appViewModel)
+            LoginView(viewModel: appViewModel.loginViewModel)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

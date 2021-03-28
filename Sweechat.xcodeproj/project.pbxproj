@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
 		271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */; };
+		272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */; };
+		272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */; };
 		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
 		2777FAE1260C7C6700961FAF /* ChatRoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomType.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
@@ -130,6 +132,8 @@
 /* Begin PBXFileReference section */
 		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALLoginDetails.swift; sourceTree = "<group>"; };
+		272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
+		272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelDelegate.swift; sourceTree = "<group>"; };
 		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
 		2777FAE0260C7C6700961FAF /* ChatRoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomType.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
@@ -265,6 +269,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		272AA9662610D21400584D84 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */,
+				272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
 		2766C904260B0EC80066361F /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +520,7 @@
 		45D6332325FDE2AC00C94D4F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				272AA9662610D21400584D84 /* Delegate */,
 				3EFF012C2610828D008288C9 /* Message */,
 				2766C904260B0EC80066361F /* Login */,
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
@@ -918,6 +932,7 @@
 				3E74E09A2610591100CB344E /* MessageView.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
+				272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */,
 				77394BF3260D95C50068B01F /* ModuleList.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
 				2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */,
@@ -925,6 +940,7 @@
 				775CA64A260B49D90012C420 /* Module.swift in Sources */,
 				775CA65F260B4B0E0012C420 /* ModuleFacade.swift in Sources */,
 				27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */,
+				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,
