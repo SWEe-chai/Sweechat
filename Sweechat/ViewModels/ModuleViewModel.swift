@@ -3,10 +3,15 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     private var module: Module
+    @Published var currentSelectedMembers: [User] {
+        didSet {
+            otherMembersItemViewModels
+                .forEach { $0.isSelected = currentSelectedMembers.contains($0.member) }
+        }
+    }
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var otherMembersItemViewModels: [MemberItemViewModel] = []
-    @Published var isChatRoomSelected: Bool
     var user: User
     var subscribers: [AnyCancellable] = []
 
@@ -14,7 +19,7 @@ class ModuleViewModel: ObservableObject {
         self.user = user
         self.module = module
         self.text = module.name
-        self.isChatRoomSelected = false
+        self.currentSelectedMembers = []
         self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
         self.otherMembersItemViewModels = module
             .members
@@ -44,11 +49,6 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(membersSubscriber)
     }
 
-//    func getChatRoom(for members: [User]) -> ChatRoom {
-//        let currentChatRoom = self.module.chatRooms.filter { $0.members.containsSameElements(as: members) }
-//        return !currentChatRoom.isEmpty ? currentChatRoom[0] : ChatRoom.createUnavailableChatRoom()
-//    }
-
     func getSelectedMembers() -> [User] {
         var selectedMembers = self
             .otherMembersItemViewModels.filter { $0.isSelected }
@@ -57,17 +57,27 @@ class ModuleViewModel: ObservableObject {
         return selectedMembers
     }
 
-    func handleCreateChatRoom(name: String, isGroup: Bool) {
-        let chatRoom = ChatRoom(name: name, members: getSelectedMembers(), isGroup: isGroup)
-        let currentChatRoom = self.module.chatRooms.filter {
-            $0.members.containsSameElements(as: chatRoom.members)
+    func handleMemberSelection(_ user: User) {
+        self.currentSelectedMembers.append(user)
+    }
 
-        }
-        if currentChatRoom.isEmpty {
+    func handleCreateChatRoom(name: String) {
+        let chatRoom = ChatRoom(name: name, members: getSelectedMembers())
+        if chatRoom.members.count > 2 {
+            let name = !name.isEmpty ? name : chatRoom.members.map { $0.name }.joined(separator: ", ")
+            chatRoom.name = name
             self.module.store(chatRoom: chatRoom)
+            chatRoom.setChatRoomConnection()
+        } else {
+            let existingChatRooms = self.module.chatRooms.filter {
+                $0.members.containsSameElements(as: chatRoom.members)
+            }
+            if existingChatRooms.isEmpty {
+                self.module.store(chatRoom: chatRoom)
+                chatRoom.setChatRoomConnection()
+            }
         }
-        chatRoom.setChatRoomConnection()
-        self.isChatRoomSelected = true
+        self.currentSelectedMembers = []
     }
 }
 

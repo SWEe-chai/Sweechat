@@ -35,7 +35,7 @@ struct CreateGroupView: View {
         .toolbar {
             Text("Create!!")
                 .onTapGesture {
-                    viewModel.handleCreateChatRoom(name: groupName, isGroup: true)
+                    viewModel.handleCreateChatRoom(name: groupName)
                     self.presentationMode.wrappedValue.dismiss()
                     self.presentationMode.wrappedValue.dismiss()
                 }
