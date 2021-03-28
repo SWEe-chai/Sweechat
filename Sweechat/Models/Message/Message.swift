@@ -3,26 +3,25 @@ import Foundation
 
 class Message: ObservableObject {
     var id: String
-    @Published var content: String
+    @Published var content: Data
     var creationTime: Date
     var senderId: String
     var type: MessageType
-    var downloadUrl: URL?
 
-    init(senderId: String, content: String) {
+    init(senderId: String, content: Data, type: MessageType) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
-        self.type = MessageType.text
+        self.type = type
     }
 
-    init(id: String, senderId: String, creationTime: Date, content: String) {
+    init(id: String, senderId: String, creationTime: Date, content: Data, type: MessageType) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
         self.content = content
-        self.type = MessageType.text
+        self.type = type
     }
 
     func update(message: Message) {
@@ -30,10 +29,9 @@ class Message: ObservableObject {
         self.creationTime = message.creationTime
         self.content = message.content
         self.type = message.type
-        self.downloadUrl = message.downloadUrl
     }
 
-    func subscribeToContent(function: @escaping (String) -> Void) -> AnyCancellable {
+    func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
         $content.sink(receiveValue: function)
     }
 }
@@ -45,5 +43,17 @@ extension Message: Comparable {
 
     static func < (lhs: Message, rhs: Message) -> Bool {
         lhs.creationTime < rhs.creationTime
+    }
+}
+
+extension String {
+    func toData() -> Data {
+        Data(self.utf8)
+    }
+}
+
+extension Data {
+    func toString() -> String {
+        String(decoding: self, as: UTF8.self)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseStorage
 import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
@@ -13,6 +14,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var chatRoomId: String
 
     private var db = Firestore.firestore()
+    private var storage = Storage.storage().reference()
     private var messagesReference: CollectionReference?
     private var messagesListener: ListenerRegistration?
     private var userChatRoomModulePairsReference: CollectionReference?
@@ -118,6 +120,24 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
+            }
+        }
+    }
+
+    func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
+        storage.child(fileName).putData(data, metadata: nil) { _, err in
+            guard err == nil else {
+                os_log("failed to upload data to firebase")
+                return
+            }
+
+            self.storage.child(fileName).downloadURL { url, _ in
+                guard let url = url else {
+                    os_log("failed to get download url")
+                    return
+                }
+
+                onCompletion?(url)
             }
         }
     }
