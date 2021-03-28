@@ -57,15 +57,13 @@ class ModuleViewModel: ObservableObject {
         return selectedMembers
     }
 
-    func handleCreateChatRoom(chatRoom: ChatRoom) {
+    func handleCreateChatRoom(name: String, isGroup: Bool) {
+        let chatRoom = ChatRoom(name: name, members: getSelectedMembers(), isGroup: isGroup)
         let currentChatRoom = self.module.chatRooms.filter {
-            print($0.members)
-            print(chatRoom.members)
-            return $0.members.containsSameElements(as: chatRoom.members)
+            $0.members.containsSameElements(as: chatRoom.members)
 
         }
         if currentChatRoom.isEmpty {
-            print("AYOLAAAA")
             self.module.store(chatRoom: chatRoom)
         }
         chatRoom.setChatRoomConnection()

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateGroupView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var viewModel: ModuleViewModel
     @State var groupName: String = ""
     var body: some View {
@@ -32,20 +33,12 @@ struct CreateGroupView: View {
             }
         }
         .toolbar {
-            NavigationLink(
-                destination:
-                    LazyNavView(ModuleView(viewModel: viewModel))) {
-
-                Text("Create!!")
-                    .onTapGesture {
-                        let chatRoom = ChatRoom(
-                            name: groupName,
-                            members: viewModel.getSelectedMembers(),
-                            isGroup: true
-                        )
-                        viewModel.handleCreateChatRoom(chatRoom: chatRoom)
-                    }
-            }
+            Text("Create!!")
+                .onTapGesture {
+                    viewModel.handleCreateChatRoom(name: groupName, isGroup: true)
+                    self.presentationMode.wrappedValue.dismiss()
+                    self.presentationMode.wrappedValue.dismiss()
+                }
         }
     }
 }

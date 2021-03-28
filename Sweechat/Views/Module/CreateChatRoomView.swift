@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateChatRoomView: View {
     @ObservedObject var viewModel: ModuleViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
@@ -20,23 +21,11 @@ struct CreateChatRoomView: View {
 
             Spacer()
             ForEach(viewModel.otherMembersItemViewModels) { memberItemViewModel in
-                let chatRoom = ChatRoom(
-                    name: memberItemViewModel.memberName,
-                    members: viewModel.getSelectedMembers(),
-                    isGroup: false
-                )
                 MemberItemView(viewModel: memberItemViewModel)
                     .onTapGesture {
-                        viewModel.handleCreateChatRoom(chatRoom: chatRoom)
+                        viewModel.handleCreateChatRoom(name: memberItemViewModel.memberName, isGroup: false)
+                        self.presentationMode.wrappedValue.dismiss()
                     }
-                NavigationLink(
-                    "",
-                    destination: LazyNavView(
-                        ModuleView(viewModel: viewModel)
-                    ),
-                    isActive: $viewModel.isChatRoomSelected
-                )
-                .hidden()
             }
 
         }
