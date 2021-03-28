@@ -36,22 +36,11 @@ struct HomeView: View {
                 )
             }
         }
-        .toolbar(content: {
-            HStack {
-                Button(action: {
-                    isShowingJoinView = true
-                    isShowingAddView = false
-                }) {
-                    Image(systemName: "plus.magnifyingglass")
-                }
-                Button(action: {
-                    isShowingJoinView = false
-                    isShowingAddView = true
-                }) {
-                    Image(systemName: "plus.app")
-                }
-            }
-        })
+        .toolbar {
+            HomeToolbarView(
+                isShowingJoinView: $isShowingJoinView,
+                isShowingAddView: $isShowingAddView)
+        }
         .navigationTitle(Text(viewModel.text))
         .navigationBarBackButtonHidden(true)
     }
