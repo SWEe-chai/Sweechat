@@ -7,8 +7,6 @@ class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
     var user: User
     var subscribers: [AnyCancellable] = []
-    // TODO: Move this to Facade level instead of here
-    private var storage = Storage.storage().reference()
 
     @Published var text: String
 

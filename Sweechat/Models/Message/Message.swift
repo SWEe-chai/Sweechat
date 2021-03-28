@@ -46,7 +46,6 @@ extension Message: Comparable {
     }
 }
 
-// TODO: Remove this extension later
 extension String {
     func toData() -> Data {
         Data(self.utf8)
