@@ -32,16 +32,20 @@ class HomeViewModel: ObservableObject {
         subscribers.append(moduleListSubscriber)
     }
 
-    func handleCreateModule() {
+    func handleCreateModule(name: String) {
         // TODO: Currently module with yourself only
         let users = [
             User(id: user.id)
         ]
         let module = Module(
-            name: "Dummy Module by Agnes \(UUID().uuidString)",
+            name: name,
             users: users
         )
         self.moduleList.store(module: module)
     }
 
+    func handleJoinModule(secret: String) {
+        let id = secret
+        moduleList.joinModule(moduleId: id)
+    }
 }

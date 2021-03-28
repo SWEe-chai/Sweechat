@@ -28,6 +28,10 @@ class ModuleList: ObservableObject {
         self.moduleListFacade?.save(module: module)
     }
 
+    func joinModule(moduleId: String) {
+        self.moduleListFacade?.joinModule(moduleId: moduleId)
+    }
+
     func subscribeToModules(function: @escaping ([Module]) -> Void) -> AnyCancellable {
         $modules.sink(receiveValue: function)
     }
