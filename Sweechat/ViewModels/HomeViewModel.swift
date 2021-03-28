@@ -13,8 +13,6 @@ class HomeViewModel: ObservableObject {
         self.user = user
         self.text = "Welcome home \(user.name)"
         self.moduleList = ModuleList.of(user.id)
-        // TODO: Connect this Settings View Model if we want to
-        // implement logout
         self.settingsViewModel = SettingsViewModel()
         settingsViewModel.delegate = self
         initialiseSubscribers()

@@ -16,7 +16,7 @@ class ALAuth {
         }
     }
 
-    func autoLogin() {
+    func logInWithPreviousSession() {
         guard let user = Auth.auth().currentUser else {
             return
         }
@@ -48,11 +48,11 @@ extension ALAuth: ALAuthHandlerDelegate {
     func signIn(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {
-                print(error.localizedDescription)
+                os_log("ALAuth: Error when signing in \(error.localizedDescription)")
                 return
             }
             guard let user: Firebase.User = authResult?.user else {
-                print("FIREBASE: Unable to authenticate user.")
+                os_log("FIREBASE: Unable to authenticate user.")
                 return
             }
             self.signInAs(user: user)

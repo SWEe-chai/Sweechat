@@ -17,7 +17,7 @@ class LoginViewModel: ObservableObject {
     init() {
         self.auth = ALAuth()
         auth.delegate = self
-        auth.autoLogin()
+        auth.logInWithPreviousSession()
     }
 
     var text: String {
@@ -45,7 +45,6 @@ extension LoginViewModel: ALAuthDelegate {
     }
 
     func signOut() {
-        print("calling signout")
         auth.signOut()
         isLoggedIn = false
         user = nil
