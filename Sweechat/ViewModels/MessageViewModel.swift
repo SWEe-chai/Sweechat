@@ -20,6 +20,9 @@ class MessageViewModel: ObservableObject {
     var title: String? {
         isSenderCurrentUser ? nil : sender.name
     }
+    var type: MessageType {
+        message.type
+    }
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.message = message

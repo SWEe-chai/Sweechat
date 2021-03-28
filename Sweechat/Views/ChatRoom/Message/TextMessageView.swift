@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MessageView: View {
+struct TextMessageView: View {
     @ObservedObject var viewModel: MessageViewModel
     var body: some View {
         HStack(alignment: .bottom, spacing: 15) {
@@ -23,9 +23,9 @@ struct MessageView: View {
     }
 }
 
-struct MessageView_Previews: PreviewProvider {
+struct TextMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageView(
+        TextMessageView(
             viewModel: MessageViewModel(
                 message:
                     Message(
