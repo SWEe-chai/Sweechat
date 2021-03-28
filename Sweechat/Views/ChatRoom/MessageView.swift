@@ -9,11 +9,13 @@ struct MessageView: View {
                 if let title = viewModel.title {
                     Text(title).font(.footnote)
                 }
-                Text(viewModel.content)
-                    .padding(10)
-                    .foregroundColor(viewModel.foregroundColor)
-                    .background(viewModel.backgroundColor)
-                    .cornerRadius(10)
+                if let content = viewModel.content {
+                    Text(content)
+                        .padding(10)
+                        .foregroundColor(viewModel.foregroundColor)
+                        .background(viewModel.backgroundColor)
+                        .cornerRadius(10)
+                }
             }
             if !viewModel.isRightAlign { Spacer() }
         }

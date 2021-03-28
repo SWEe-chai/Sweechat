@@ -7,7 +7,7 @@ class MessageViewModel: ObservableObject {
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?
 
-    @Published var content: String
+    @Published var content: String?
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
     }
@@ -23,11 +23,23 @@ class MessageViewModel: ObservableObject {
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.message = message
-        self.content = message.content.toString()
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
+        parseContent(message.content)
+
         subscriber = message.subscribeToContent { content in
-            self.content = content.toString()
+            self.parseContent(content)
+        }
+    }
+
+    private func parseContent(_ content: Data) {
+        switch message.type {
+        case MessageType.text:
+            self.content = message.content.toString()
+        case MessageType.image:
+            self.content = "This is an image message type: " + message.content.toString()
+        default:
+            self.content = "The message type: \(message.type.rawValue) is not implemented"
         }
     }
 }
