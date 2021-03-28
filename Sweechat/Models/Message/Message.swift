@@ -3,11 +3,7 @@ import Foundation
 
 class Message: ObservableObject {
     var id: String
-    @Published var content: String {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var content: String
     var creationTime: Date
     var senderId: String
     var type: MessageType
@@ -27,6 +23,18 @@ class Message: ObservableObject {
         self.creationTime = creationTime
         self.content = content
         self.type = MessageType.text
+    }
+
+    func update(message: Message) {
+        self.senderId = message.senderId
+        self.creationTime = message.creationTime
+        self.content = message.content
+        self.type = message.type
+        self.downloadUrl = message.downloadUrl
+    }
+
+    func subscribeToContent(function: @escaping (String) -> Void) -> AnyCancellable {
+        $content.sink(receiveValue: function)
     }
 }
 

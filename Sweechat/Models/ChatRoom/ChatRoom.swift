@@ -9,14 +9,10 @@ import Foundation
 
 class ChatRoom: ObservableObject {
     var id: String
-    var name: String
+    @Published var name: String
     var profilePictureUrl: String?
-    @Published var messages: [Message] {
-        willSet {
-            objectWillChange.send()
-        }
-    }
-    private var chatRoomFacade: ChatRoomFacade
+    @Published var messages: [Message]
+    private var chatRoomFacade: ChatRoomFacade?
     let permissions: ChatRoomPermissionBitmask
     var members: [User]
     private var moduleUserIdsToUsers: [String: User] = [:]
@@ -28,8 +24,6 @@ class ChatRoom: ObservableObject {
         self.messages = []
         self.members = []
         self.permissions = ChatRoomPermission.none
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-        chatRoomFacade.delegate = self
     }
 
     init(name: String, members: [User], profilePictureUrl: String? = nil) {
@@ -39,12 +33,15 @@ class ChatRoom: ObservableObject {
         self.messages = []
         self.members = members
         self.permissions = ChatRoomPermission.none
+    }
+
+    func setChatRoomConnection() {
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
-        chatRoomFacade.delegate = self
+        chatRoomFacade?.delegate = self
     }
 
     func storeMessage(message: Message) {
-        self.chatRoomFacade.save(message)
+        self.chatRoomFacade?.save(message)
     }
 
     func setUserIdsToUsers(_ userIdsToUsers: [String: User]) {
@@ -53,6 +50,14 @@ class ChatRoom: ObservableObject {
 
     func getUser(userId: String) -> User {
         moduleUserIdsToUsers[userId] ?? User.createUnavailableUser()
+    }
+
+    func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
+        $messages.sink(receiveValue: function)
+    }
+
+    func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
+        $name.sink(receiveValue: function)
     }
 }
 
@@ -79,10 +84,8 @@ extension ChatRoom: ChatRoomFacadeDelegate {
 
     func update(message: Message) {
         if let index = messages.firstIndex(of: message) {
-            self.messages.remove(at: index)
-            self.messages.insert(message, at: index)
+            self.messages[index].update(message: message)
         }
-        self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }
 
     func insert(member: User) {
@@ -100,6 +103,11 @@ extension ChatRoom: ChatRoomFacadeDelegate {
 
     func insertAll(members: [User]) {
         self.members = members
+    }
+
+    func update(chatRoom: ChatRoom) {
+        self.name = chatRoom.name
+        self.profilePictureUrl = chatRoom.profilePictureUrl
     }
 }
 

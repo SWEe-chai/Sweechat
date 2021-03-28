@@ -14,7 +14,7 @@ struct HomeView: View {
                 NavigationLink(
                     destination:
                         LazyNavView(ModuleView(viewModel: moduleViewModel))) {
-                    Text(moduleViewModel.text)
+                    ModuleItemView(viewModel: moduleViewModel)
                 }
             }
 
@@ -27,5 +27,12 @@ struct HomeView: View {
         }
         .navigationTitle(Text(viewModel.text))
         .navigationBarBackButtonHidden(true)
+    }
+}
+
+struct ModuleItemView: View {
+    @ObservedObject var viewModel: ModuleViewModel
+    var body: some View {
+        Text(viewModel.text)
     }
 }
