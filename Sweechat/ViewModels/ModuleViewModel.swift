@@ -3,29 +3,32 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     @Published var module: Module
-    var text: String {
-        module.name
-    }
+    @Published var text: String
+    @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     var user: User
-    var subscriber: AnyCancellable?
+    var subscribers: [AnyCancellable] = []
 
-    var chatRoomViewModels: [ChatRoomViewModel] {
-        module.chatRooms.map {
-            ChatRoomViewModel(id: $0.id, name: $0.name, user: user)
-        }
-    }
-
-    init(id: String, name: String, profilePictureUrl: String? = nil, user: User) {
+    init(module: Module, user: User) {
         self.user = user
-        self.module = Module(id: id, name: name, profilePictureUrl: profilePictureUrl)
+        self.module = module
+        self.text = module.name
+        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
         self.module.setModuleConnectionFor(user.id)
         initialiseSubscriber()
     }
 
     func initialiseSubscriber() {
-        subscriber = module.objectWillChange.sink { [weak self] _ in
-            self?.objectWillChange.send()
+        if !subscribers.isEmpty {
+            return
         }
+        let nameSubscriber = module.subscribeToName { newName in
+            self.text = newName
+        }
+        let chatRoomSubscriber = module.subscribeToChatrooms { chatRooms in
+            self.chatRoomViewModels = chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
+        }
+        subscribers.append(nameSubscriber)
+        subscribers.append(chatRoomSubscriber)
     }
 
     func handleCreateChatRoom() {

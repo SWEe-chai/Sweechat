@@ -3,28 +3,42 @@ import Combine
 class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
     var user: User
-    var subscriber: AnyCancellable?
+    var subscribers: [AnyCancellable] = []
 
-    var text: String {
-        chatRoom.name
-    }
+    @Published var text: String
 
     var messageCount: Int {
         chatRoom.messages.count
     }
 
-    var textMessages: [MessageViewModel] {
-        chatRoom.messages.map {
-            MessageViewModel(message: $0, sender: chatRoom.getUser(userId: $0.id), isSenderCurrentUser: user.id == $0.senderId)
+    @Published var textMessages: [MessageViewModel]
+
+    init(chatRoom: ChatRoom, user: User) {
+        self.chatRoom = chatRoom
+        self.user = user
+        self.textMessages = chatRoom.messages.map {
+            MessageViewModel(
+                message: $0,
+                sender: chatRoom.getUser(userId: $0.id),
+                isSenderCurrentUser: user.id == $0.senderId)
         }
+        self.text = chatRoom.name
+        initialiseSubscriber()
     }
 
-    init(id: String, name: String, user: User) {
-        self.chatRoom = ChatRoom(id: id, name: name)
-        self.user = user
-        subscriber = chatRoom.objectWillChange.sink { [weak self] _ in
-            self?.objectWillChange.send()
+    func initialiseSubscriber() {
+        let messagesSubscriber = chatRoom.subscribeToMessages { messages in
+            self.textMessages = messages.map { MessageViewModel(
+                message: $0,
+                sender: self.chatRoom.getUser(userId: $0.id),
+                isSenderCurrentUser: self.user.id == $0.senderId)
+            }
         }
+        let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
+            self.text = newName
+        }
+        subscribers.append(messagesSubscriber)
+        subscribers.append(chatRoomNameSubscriber)
     }
 
     func handleSendMessage(_ text: String) {
