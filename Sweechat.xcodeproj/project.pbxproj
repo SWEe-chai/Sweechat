@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
 		271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */; };
+		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
+		2777FAE1260C7C6700961FAF /* ChatRoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomType.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
 		278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */; };
 		278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974F2601E24600124FA3 /* ALAuthHandler.swift */; };
@@ -117,6 +119,8 @@
 /* Begin PBXFileReference section */
 		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALLoginDetails.swift; sourceTree = "<group>"; };
+		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
+		2777FAE0260C7C6700961FAF /* ChatRoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomType.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
 		2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALFacebookAuthHandler.swift; sourceTree = "<group>"; };
 		2787974F2601E24600124FA3 /* ALAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandler.swift; sourceTree = "<group>"; };
@@ -446,6 +450,7 @@
 				45D6336425FE011200C94D4F /* RegistrationView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
+				2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
 				279503E32605D57600D3B743 /* MessageViewModel.swift */,
+				2777FAE0260C7C6700961FAF /* ChatRoomType.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -844,6 +850,7 @@
 				279CBAC7260AD840009A139C /* LazyNavView.swift in Sources */,
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
+				2777FAE1260C7C6700961FAF /* ChatRoomType.swift in Sources */,
 				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
 				775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
@@ -860,6 +867,7 @@
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
 				77394BF3260D95C50068B01F /* ModuleList.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
+				2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */,
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
 				775CA64A260B49D90012C420 /* Module.swift in Sources */,
 				775CA65F260B4B0E0012C420 /* ModuleFacade.swift in Sources */,
