@@ -3,18 +3,18 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     private var module: Module
+    private var user: User
+    private var subscribers: [AnyCancellable] = []
+    @Published var text: String
+    @Published var chatRoomViewModels: [ChatRoomViewModel] = []
+    @Published var otherMembersItemViewModels: [MemberItemViewModel] = []
     @Published var currentSelectedMembers: [User] {
         didSet {
             otherMembersItemViewModels
                 .forEach { $0.isSelected = currentSelectedMembers.contains($0.member) }
         }
     }
-    @Published var text: String
-    @Published var chatRoomViewModels: [ChatRoomViewModel] = []
-    @Published var otherMembersItemViewModels: [MemberItemViewModel] = []
-    var user: User
-    var subscribers: [AnyCancellable] = []
-
+    
     init(module: Module, user: User) {
         self.user = user
         self.module = module
@@ -69,6 +69,8 @@ class ModuleViewModel: ObservableObject {
             self.module.store(chatRoom: chatRoom)
             chatRoom.setChatRoomConnection()
         } else {
+            let name = getSelectedMembers().filter { $0 != user }.map { $0.name }.joined()
+            chatRoom.name = name
             let existingChatRooms = self.module.chatRooms.filter {
                 $0.members.containsSameElements(as: chatRoom.members)
             }

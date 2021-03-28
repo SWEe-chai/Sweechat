@@ -97,7 +97,6 @@
 		77C5D08626103403005D5504 /* MemberItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D08526103403005D5504 /* MemberItemViewModel.swift */; };
 		77C5D08B261034C3005D5504 /* MemberItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D08A261034C3005D5504 /* MemberItemView.swift */; };
 		77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */; };
-		77C5D0C7261082AE005D5504 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D0C6261082AE005D5504 /* CreateGroupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,7 +212,6 @@
 		77C5D08526103403005D5504 /* MemberItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemViewModel.swift; sourceTree = "<group>"; };
 		77C5D08A261034C3005D5504 /* MemberItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemView.swift; sourceTree = "<group>"; };
 		77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomItemView.swift; sourceTree = "<group>"; };
-		77C5D0C6261082AE005D5504 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -633,7 +631,6 @@
 			children = (
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				77C5D07426102EC8005D5504 /* CreateChatRoomView.swift */,
-				77C5D0C6261082AE005D5504 /* CreateGroupView.swift */,
 			);
 			path = Module;
 			sourceTree = "<group>";
@@ -894,7 +891,6 @@
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */,
 				77C5D08626103403005D5504 /* MemberItemViewModel.swift in Sources */,
-				77C5D0C7261082AE005D5504 /* CreateGroupView.swift in Sources */,
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
 				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,
