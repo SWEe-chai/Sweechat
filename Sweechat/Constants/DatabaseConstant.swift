@@ -9,9 +9,41 @@ import Foundation
 
 struct DatabaseConstant {
     struct Collection {
+        static let environmentCollection = "environment"
+        static let dev = "dev"
+        // Change environmentDocument as needed when working on features
+        // involving a schema change
+        static let environmentDocument = dev
+
         static let chatRooms = "chatRooms"
         static let messages = "messages"
         static let users = "users"
+        static let modules = "modules"
+        static let userModulePairs = "userModulePairs"
+        static let userChatRoomModulePairs = "userChatRoomModulePairs"
+    }
+
+    struct UserModulePair {
+        static let moduleId = "moduleId"
+        static let userId = "userId"
+    }
+
+    struct UserChatRoomModulePair {
+        static let userId = "userId"
+        static let chatRoomId = "chatRoomId"
+        static let moduleId = "moduleId"
+    }
+
+    struct Module {
+        static let id = "id"
+        static let name = "name"
+        static let profilePictureUrl = "profilePictureUrl"
+    }
+
+    struct ChatRoom {
+        static let id = "id"
+        static let name = "name"
+        static let profilePictureUrl = "profilePictureUrl"
     }
 
     struct User {

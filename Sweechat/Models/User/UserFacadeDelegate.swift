@@ -1,5 +1,5 @@
 import Foundation
 
 protocol UserFacadeDelegate: AnyObject {
-    func updateUserData(withDetails details: UserRepresentation)
+    func updateUser(user: User)
 }
