@@ -20,15 +20,15 @@ struct CreateChatRoomView: View {
                 user: viewModel.user
             )
             NavigationLink(
-                destination:
-                    LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
+                destination: LazyNavView(ChatRoomView(viewModel: chatRoomViewModel))) {
                 MemberItemView(viewModel: memberItemViewModel)
-            }
+//                    .onTapGesture {
+//                        print("FDSFD")
+//                        viewModel.handleCreateChatRoom()
+//                    }
+                }
+            )
+            .hidden()
         }
-
-        .onTapGesture {
-            viewModel.handleCreateChatRoom()
-        }
-
     }
 }
