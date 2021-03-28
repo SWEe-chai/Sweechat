@@ -19,12 +19,12 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    @Published var textMessages: [MessageViewModel]
+    @Published var messages: [MessageViewModel]
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
-        self.textMessages = chatRoom.messages.map {
+        self.messages = chatRoom.messages.map {
             MessageViewModel(
                 message: $0,
                 sender: chatRoom.getUser(userId: $0.id),
@@ -36,7 +36,7 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            self.textMessages = messages.map { MessageViewModel(
+            self.messages = messages.map { MessageViewModel(
                 message: $0,
                 sender: self.chatRoom.getUser(userId: $0.id),
                 isSenderCurrentUser: self.user.id == $0.senderId)

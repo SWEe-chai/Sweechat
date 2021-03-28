@@ -32,11 +32,11 @@ struct ChatRoomView: View {
         VStack {
             ScrollView {
                 ScrollViewReader { scrollView in
-                    ForEach(viewModel.textMessages, id: \.self) {
+                    ForEach(viewModel.messages, id: \.self) {
                         MessageView(viewModel: $0)
                     }
                     .onAppear { scrollToLatestMessage(scrollView) }
-                    .onChange(of: viewModel.textMessages.count) { _ in
+                    .onChange(of: viewModel.messages.count) { _ in
                         scrollToLatestMessage(scrollView)
                     }
                     .padding([.leading, .trailing])
@@ -48,11 +48,11 @@ struct ChatRoomView: View {
     }
 
     func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
-        if viewModel.textMessages.isEmpty {
+        if viewModel.messages.isEmpty {
             return
         }
-        let index = viewModel.textMessages.count - 1
-        scrollView.scrollTo(viewModel.textMessages[index])
+        let index = viewModel.messages.count - 1
+        scrollView.scrollTo(viewModel.messages[index])
 
     }
 
