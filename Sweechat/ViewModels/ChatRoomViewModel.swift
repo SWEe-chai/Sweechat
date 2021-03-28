@@ -1,4 +1,7 @@
 import Combine
+import SwiftUI
+import FirebaseStorage
+import os
 
 class ChatRoomViewModel: ObservableObject {
     @Published var chatRoom: ChatRoom
@@ -15,16 +18,16 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    @Published var textMessages: [MessageViewModel]
+    @Published var messages: [MessageViewModel]
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
-        self.textMessages = chatRoom.messages.map {
-            MessageViewModel(
-                message: $0,
-                sender: chatRoom.getUser(userId: $0.id),
-                isSenderCurrentUser: user.id == $0.senderId)
+        self.messages = chatRoom.messages.map {
+            MessageViewModelFactory
+                .makeViewModel(message: $0,
+                               sender: chatRoom.getUser(userId: $0.id),
+                               isSenderCurrentUser: user.id == $0.senderId)
         }
         self.text = chatRoom.name
         initialiseSubscriber()
@@ -32,10 +35,11 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            self.textMessages = messages.map { MessageViewModel(
-                message: $0,
-                sender: self.chatRoom.getUser(userId: $0.id),
-                isSenderCurrentUser: self.user.id == $0.senderId)
+            self.messages = messages.map {
+                MessageViewModelFactory
+                    .makeViewModel(message: $0,
+                                   sender: self.chatRoom.getUser(userId: $0.id),
+                                   isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
@@ -46,8 +50,26 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String) {
-        let message = Message(senderId: user.id, content: text)
+        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text)
         self.chatRoom.storeMessage(message: message)
+    }
+
+    func handleSendImage(_ wrappedImage: UIImage?) {
+        guard let image = wrappedImage else {
+            os_log("wrappedImage is nil")
+            return
+        }
+
+        guard let data = image.jpegData(compressionQuality: 0.7) else {
+            os_log("unable to get jpeg data for image")
+            return
+        }
+
+        self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
+            let urlstring = url.absoluteString
+            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 }
 
