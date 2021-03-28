@@ -33,7 +33,7 @@ class ModuleList: ObservableObject {
     }
 
     func joinModule(moduleId: String) {
-
+        self.moduleListFacade?.joinModule(moduleId: moduleId)
     }
 }
 

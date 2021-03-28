@@ -23,12 +23,14 @@ struct AddModuleView: View {
         .padding()
         .background(Color.white)
     }
+
     func tappedCreate() {
         let name = moduleName.isEmpty ? "Default module name" : moduleName
         viewModel.handleCreateModule(name: name)
         moduleName = ""
         close()
     }
+
     func close() {
         moduleName = ""
         isShowing = false

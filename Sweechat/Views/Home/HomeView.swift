@@ -29,6 +29,12 @@ struct HomeView: View {
                     viewModel: viewModel
                 )
             }
+            if isShowingJoinView {
+                JoinModuleView(
+                    isShowing: $isShowingJoinView,
+                    viewModel: viewModel
+                )
+            }
         }
         .toolbar(content: {
             HStack {

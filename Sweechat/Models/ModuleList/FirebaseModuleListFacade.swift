@@ -40,6 +40,28 @@ class FirebaseModuleListFacade: ModuleListFacade {
         self.loadModules(onCompletion: self.addListeners)
     }
 
+    func joinModule(moduleId: String) {
+        runIfModuleExists(moduleId: moduleId) {
+            let pair = FirebaseUserModulePair(userId: self.userId, moduleId: moduleId)
+            self.userModulePairsReference?.addDocument(
+                data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
+                if let e = error {
+                    os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
+                    return
+                }
+            }
+        }
+    }
+
+    func runIfModuleExists(moduleId: String, onCompletion: (() -> Void)?) {
+        modulesReference?.document(moduleId).getDocument { querySnapshot, _ in
+            if let snapshot = querySnapshot,
+               snapshot.exists {
+                onCompletion?()
+            }
+        }
+    }
+
     private func loadModules(onCompletion: (() -> Void)?) {
         currentUserModulesQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {

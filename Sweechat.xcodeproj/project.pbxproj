@@ -17,6 +17,7 @@
 		2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797542601E24600124FA3 /* ALAuthDelegate.swift */; };
 		2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */; };
 		2788582B261046480058ADB2 /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2788582A261046480058ADB2 /* AddModuleView.swift */; };
+		27885837261053ED0058ADB2 /* JoinModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885836261053ED0058ADB2 /* JoinModuleView.swift */; };
 		279503DF2605D55D00D3B743 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503DE2605D55D00D3B743 /* MessageView.swift */; };
 		279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279503E32605D57600D3B743 /* MessageViewModel.swift */; };
 		279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAB0260A321F009A139C /* LoginButtonView.swift */; };
@@ -124,6 +125,7 @@
 		278797542601E24600124FA3 /* ALAuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthDelegate.swift; sourceTree = "<group>"; };
 		278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandlerDelegate.swift; sourceTree = "<group>"; };
 		2788582A261046480058ADB2 /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
+		27885836261053ED0058ADB2 /* JoinModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModuleView.swift; sourceTree = "<group>"; };
 		279503DE2605D55D00D3B743 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		279503E32605D57600D3B743 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		279CBAB0260A321F009A139C /* LoginButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonView.swift; sourceTree = "<group>"; };
@@ -286,6 +288,16 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		27885832261053A00058ADB2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
+				2788582A261046480058ADB2 /* AddModuleView.swift */,
+				27885836261053ED0058ADB2 /* JoinModuleView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		279CBAC5260AD822009A139C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,6 +437,7 @@
 		45D6332225FDE2A700C94D4F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				27885832261053A00058ADB2 /* Home */,
 				279CBAD2260AF693009A139C /* ChatRoom */,
 				279CBACE260AF4B8009A139C /* Login */,
 				279CBAC5260AD822009A139C /* Utilities */,
@@ -432,9 +445,7 @@
 				45D6335125FDF30100C94D4F /* EntryView.swift */,
 				45D6336425FE011200C94D4F /* RegistrationView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
-				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
-				2788582A261046480058ADB2 /* AddModuleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -857,6 +868,7 @@
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
+				27885837261053ED0058ADB2 /* JoinModuleView.swift in Sources */,
 				279503E42605D57600D3B743 /* MessageViewModel.swift in Sources */,
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
