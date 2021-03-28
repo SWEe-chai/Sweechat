@@ -24,10 +24,10 @@ class ChatRoomViewModel: ObservableObject {
         self.chatRoom = chatRoom
         self.user = user
         self.messages = chatRoom.messages.map {
-            MessageViewModel(
-                message: $0,
-                sender: chatRoom.getUser(userId: $0.id),
-                isSenderCurrentUser: user.id == $0.senderId)
+            MessageViewModelFactory
+                .makeViewModel(message: $0,
+                               sender: chatRoom.getUser(userId: $0.id),
+                               isSenderCurrentUser: user.id == $0.senderId)
         }
         self.text = chatRoom.name
         initialiseSubscriber()
@@ -35,10 +35,11 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            self.messages = messages.map { MessageViewModel(
-                message: $0,
-                sender: self.chatRoom.getUser(userId: $0.id),
-                isSenderCurrentUser: self.user.id == $0.senderId)
+            self.messages = messages.map {
+                MessageViewModelFactory
+                    .makeViewModel(message: $0,
+                                   sender: self.chatRoom.getUser(userId: $0.id),
+                                   isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in

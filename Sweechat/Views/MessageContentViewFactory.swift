@@ -8,13 +8,13 @@ import SwiftUI
 
 struct MessageContentViewFactory {
     static func makeView(viewModel: MessageViewModel) -> some View {
-        switch viewModel.messageContentType {
-        case .text:
-            return AnyView(TextMessageContentView(viewModel: viewModel))
-        case .media:
-            return AnyView(ImageMessageContentView(viewModel: viewModel))
+        switch viewModel {
+        case let textMessageViewModel as TextMessageViewModel:
+            return AnyView(TextMessageContentView(viewModel: textMessageViewModel))
+        case let mediaMessageViewModel as MediaMessageViewModel:
+            return AnyView(ImageMessageContentView(viewModel: mediaMessageViewModel))
         default:
-            return AnyView(TextMessageContentView(viewModel: viewModel))
+            return AnyView(UnsupportedMessageContentView())
         }
     }
 }
