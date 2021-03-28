@@ -77,7 +77,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        print("LOAD MESSAGE PLS")
         messagesReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
@@ -86,7 +85,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             let messages = snapshot.documents.compactMap({
                 FirebaseMessageFacade.convert(document: $0)
             })
-            print(messages)
             self.delegate?.insertAll(messages: messages)
             onCompletion?()
         }
@@ -125,7 +123,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {
-        print("YO DOC CHANGEEEE")
         guard let message = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }

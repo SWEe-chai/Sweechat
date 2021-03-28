@@ -19,8 +19,6 @@ class ModuleViewModel: ObservableObject {
         let a = module
             .members
             .filter { $0 != user }
-        print(a.count)
-        print(user.id)
         self.otherMembersItemViewModels = module
             .members
             .filter { $0 != user }
