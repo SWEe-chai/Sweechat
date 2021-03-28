@@ -23,7 +23,7 @@ struct ChatRoomView: View {
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendImageToFirebase) {
+        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
             ImagePicker(image: $inputImage)
         }
     }
@@ -69,8 +69,8 @@ struct ChatRoomView: View {
         self.showingImagePicker = true
     }
 
-    func sendImageToFirebase() {
-        viewModel.handleSendImage(inputImage) // type: UIImage?
+    func sendImage() {
+        viewModel.handleSendImage(inputImage)
         inputImage = nil
     }
 }
