@@ -10,9 +10,11 @@ struct MessageViewFactory {
     static func makeView(viewModel: MessageViewModel) -> some View {
         switch viewModel.type {
         case .text:
-            return TextMessageView(viewModel: viewModel)
+            return AnyView(TextMessageView(viewModel: viewModel))
+        case .image:
+            return AnyView(ImageMessageView(viewModel: viewModel))
         default:
-            return TextMessageView(viewModel: viewModel)
+            return AnyView(TextMessageView(viewModel: viewModel))
         }
     }
 }

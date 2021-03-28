@@ -37,10 +37,8 @@ class MessageViewModel: ObservableObject {
 
     private func parseContent(_ content: Data) {
         switch message.type {
-        case MessageType.text:
+        case .text, .image:
             self.content = message.content.toString()
-        case MessageType.image:
-            self.content = "This is an image message type: " + message.content.toString()
         default:
             self.content = "The message type: \(message.type.rawValue) is not implemented"
         }
