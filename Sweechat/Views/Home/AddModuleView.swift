@@ -1,10 +1,3 @@
-//
-//  AddModuleView.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 28/3/21.
-//
-
 import SwiftUI
 
 struct AddModuleView: View {
