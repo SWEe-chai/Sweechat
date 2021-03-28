@@ -9,11 +9,7 @@ import Combine
 import Foundation
 
 class ModuleList: ObservableObject {
-    @Published var modules: [Module] {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var modules: [Module]
     private var moduleListFacade: ModuleListFacade?
 
     static func of(_ userId: String) -> ModuleList {
@@ -30,6 +26,10 @@ class ModuleList: ObservableObject {
 
     func store(module: Module) {
         self.moduleListFacade?.save(module: module)
+    }
+
+    func subscribeToModules(function: @escaping ([Module]) -> Void) -> AnyCancellable {
+        $modules.sink(receiveValue: function)
     }
 }
 
@@ -54,7 +54,7 @@ extension ModuleList: ModuleListFacadeDelegate {
 
     func update(module: Module) {
         if let index = modules.firstIndex(of: module) {
-            self.modules[index] = module
+            self.modules[index].update(module: module)
         }
     }
 
