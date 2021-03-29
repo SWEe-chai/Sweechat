@@ -73,7 +73,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                          FirebaseUserFacade.convert(document: $0)
                     }
                     self.delegate?.insertAll(members: members)
-                    print("loaded members")
                     onCompletion?()
                 }
         }
@@ -89,7 +88,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 FirebaseMessageFacade.convert(document: $0)
             })
             self.delegate?.insertAll(messages: messages)
-            print("loaded messages")
             onCompletion?()
         }
     }

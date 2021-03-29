@@ -23,7 +23,6 @@ class ChatRoomViewModel: ObservableObject {
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
-        print("loading messages init", chatRoom.messages.count)
         self.messages = chatRoom.messages.map {
             MessageViewModelFactory
                 .makeViewModel(message: $0,
@@ -36,7 +35,6 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            print("updating messages subscriber", messages.count)
             self.messages = messages.map {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,

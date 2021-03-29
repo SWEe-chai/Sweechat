@@ -80,9 +80,7 @@ extension Module: ModuleFacadeDelegate {
         guard !self.chatRooms.contains(chatRoom) else {
             return
         }
-        chatRoom.setChatRoomConnection()
-        print("setting up chatroom connection")
-        self.chatRooms.append(chatRoom)
+        chatRoom.setChatRoomConnection()        self.chatRooms.append(chatRoom)
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
