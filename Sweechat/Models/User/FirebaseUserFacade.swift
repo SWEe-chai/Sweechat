@@ -53,7 +53,7 @@ class FirebaseUserFacade: UserFacade {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            self.delegate?.updateUser(
+            self.delegate?.update(
                 user: FirebaseUserFacade.convert(document: snapshot)
             )
         }

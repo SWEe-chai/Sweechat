@@ -43,7 +43,7 @@ class FirebaseModuleFacade: ModuleFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentModuleUsersQuery = userModulePairsReference?
-            .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
         chatRoomsReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
