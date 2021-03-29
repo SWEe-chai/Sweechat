@@ -30,7 +30,7 @@ class ChatRoomViewModel: ObservableObject {
                                isSenderCurrentUser: user.id == $0.senderId)
         }
         self.text = chatRoom.name
-        initialiseSubscriber()w
+        initialiseSubscriber()
     }
 
     func initialiseSubscriber() {

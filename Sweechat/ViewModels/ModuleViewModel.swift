@@ -14,7 +14,7 @@ class ModuleViewModel: ObservableObject {
                 .forEach { $0.isSelected = currentSelectedMembers.contains($0.member) }
         }
     }
-    
+
     init(module: Module, user: User) {
         self.user = user
         self.module = module
