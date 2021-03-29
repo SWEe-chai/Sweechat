@@ -522,8 +522,6 @@
 				778F08BA25FDDA420059C2A0 /* ContentView.swift */,
 				45D6335125FDF30100C94D4F /* EntryView.swift */,
 				45D6338B25FE0AFE00C94D4F /* HomeView.swift */,
-				45D6336425FE011200C94D4F /* RegistrationView.swift */,
-				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
 				2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */,
 				3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */,
@@ -543,7 +541,6 @@
 				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
-				279503E32605D57600D3B743 /* MessageViewModel.swift */,
 				77C5D08526103403005D5504 /* MemberItemViewModel.swift */,
 				2777FAE0260C7C6700961FAF /* ChatRoomType.swift */,
 			);

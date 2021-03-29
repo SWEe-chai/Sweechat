@@ -5,11 +5,6 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            Text("Create Module")
-                .onTapGesture {
-                    viewModel.handleCreateModule()
-                }
-
             ForEach(viewModel.moduleViewModels) { moduleViewModel in
                 NavigationLink(
                     destination:
