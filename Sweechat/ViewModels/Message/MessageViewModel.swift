@@ -3,7 +3,7 @@ import Combine
 import os
 
 class MessageViewModel: ObservableObject {
-    @Published var message: Message
+    private var message: Message
     private var sender: User
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?

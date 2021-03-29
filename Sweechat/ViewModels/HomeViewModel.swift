@@ -34,9 +34,8 @@ class HomeViewModel: ObservableObject {
 
     func handleCreateModule(name: String) {
         // TODO: Currently module with yourself only
-        let users = [
-            User(id: user.id)
-        ]
+        let user = User(id: self.user.id)
+        let users = [user]
         let module = Module(
             name: name,
             users: users
