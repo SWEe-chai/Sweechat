@@ -23,6 +23,7 @@ class ChatRoomViewModel: ObservableObject {
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
+        print("loading messages init", chatRoom.messages.count)
         self.messages = chatRoom.messages.map {
             MessageViewModelFactory
                 .makeViewModel(message: $0,
@@ -35,10 +36,11 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
+            print("updating messages subscriber", messages.count)
             self.messages = messages.map {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.id),
+                                   sender: self.chatRoom.getUser(userId: $0.senderId),
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
@@ -50,8 +52,8 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String) {
-        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text)
-        self.chatRoom.storeMessage(message: message)
+//        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text)
+//        self.chatRoom.storeMessage(message: message)
     }
 
     func handleSendImage(_ wrappedImage: UIImage?) {

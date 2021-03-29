@@ -21,13 +21,7 @@ class Module: ObservableObject {
         }
     }
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [String: User] = [:] {
-        didSet {
-            for chatRoom in chatRooms {
-                chatRoom.setUserIdsToUsers(self.userIdsToUsers)
-            }
-        }
-    }
+    var userIdsToUsers: [String: User] = [:]
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
@@ -87,6 +81,7 @@ extension Module: ModuleFacadeDelegate {
             return
         }
         chatRoom.setChatRoomConnection()
+        print("setting up chatroom connection")
         self.chatRooms.append(chatRoom)
     }
 

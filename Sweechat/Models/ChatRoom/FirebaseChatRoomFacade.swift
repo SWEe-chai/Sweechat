@@ -55,26 +55,27 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            for document in snapshot.documents {
-                let data = document.data()
+            let userIds: [String] = snapshot.documents.compactMap {
+                let data = $0.data()
                 guard let userId = data[DatabaseConstant.UserModulePair.userId] as? String else {
-                    return
+                    return nil
                 }
-                self.usersReference?
-                    .document(userId)
-                    .getDocument(completion: { documentSnapshot, error in
-                        guard let snapshot = documentSnapshot else {
-                            return
-                        }
-                        if let err = error {
-                            os_log("Error getting users in module: \(err.localizedDescription)")
-                            return
-                        }
-                        let user = FirebaseUserFacade.convert(document: snapshot)
-                        self.delegate?.insert(member: user)
-                    })
+                return userId
             }
-            onCompletion?()
+            self.usersReference?
+                .whereField(DatabaseConstant.User.id, in: userIds)
+                .getDocuments { querySnapshot, error in
+                    guard let snapshot = querySnapshot else {
+                        os_log("Error loading users in chatroom: \(error?.localizedDescription ?? "No error")")
+                        return
+                    }
+                    let members: [User] = snapshot.documents.compactMap {
+                         FirebaseUserFacade.convert(document: $0)
+                    }
+                    self.delegate?.insertAll(members: members)
+                    print("loaded members")
+                    onCompletion?()
+                }
         }
     }
 
@@ -88,6 +89,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 FirebaseMessageFacade.convert(document: $0)
             })
             self.delegate?.insertAll(messages: messages)
+            print("loaded messages")
             onCompletion?()
         }
     }

@@ -14,15 +14,16 @@ class ChatRoom: ObservableObject {
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
     let permissions: ChatRoomPermissionBitmask
-    var members: [User]
     private var moduleUserIdsToUsers: [String: User] = [:]
+    var members: [User] {
+        Array(moduleUserIdsToUsers.values)
+    }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.members = []
         self.permissions = ChatRoomPermission.none
     }
 
@@ -31,8 +32,8 @@ class ChatRoom: ObservableObject {
         self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.members = members
         self.permissions = ChatRoomPermission.none
+        insertAll(members: members)
     }
 
     func setChatRoomConnection() {
@@ -96,17 +97,20 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         guard !self.members.contains(member) else {
             return
         }
-        self.members.append(member)
+        moduleUserIdsToUsers[member.id] = member
     }
 
     func remove(member: User) {
-        if let index = members.firstIndex(of: member) {
-            self.members.remove(at: index)
+        if !moduleUserIdsToUsers.keys.contains(member.id) {
+            return
         }
+        moduleUserIdsToUsers.removeValue(forKey: member.id)
     }
 
     func insertAll(members: [User]) {
-        self.members = members
+        for member in members {
+            moduleUserIdsToUsers[member.id] = member
+        }
     }
 
     func update(chatRoom: ChatRoom) {
