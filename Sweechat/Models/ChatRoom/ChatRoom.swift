@@ -52,6 +52,10 @@ class ChatRoom: ObservableObject {
         moduleUserIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
+    func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
+        self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
+    }
+
     func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
     }

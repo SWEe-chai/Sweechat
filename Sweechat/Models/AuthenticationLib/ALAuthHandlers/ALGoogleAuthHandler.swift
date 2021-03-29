@@ -52,6 +52,5 @@ class ALGoogleAuthHandler: NSObject, GIDSignInDelegate, ALAuthHandler {
             name: Notification.Name(rawValue: "ToggleAuthUINotification"),
             object: nil,
             userInfo: ["statusText": "User has disconnected."])
-        delegate?.signOut()
     }
 }

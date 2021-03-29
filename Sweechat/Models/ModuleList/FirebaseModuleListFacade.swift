@@ -40,6 +40,28 @@ class FirebaseModuleListFacade: ModuleListFacade {
         self.loadModules(onCompletion: self.addListeners)
     }
 
+    func joinModule(moduleId: String) {
+        runIfModuleExists(moduleId: moduleId) {
+            let pair = FirebaseUserModulePair(userId: self.userId, moduleId: moduleId)
+            self.userModulePairsReference?.addDocument(
+                data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
+                if let e = error {
+                    os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
+                    return
+                }
+            }
+        }
+    }
+
+    func runIfModuleExists(moduleId: String, onCompletion: (() -> Void)?) {
+        modulesReference?.document(moduleId).getDocument { querySnapshot, _ in
+            if let snapshot = querySnapshot,
+               snapshot.exists {
+                onCompletion?()
+            }
+        }
+    }
+
     private func loadModules(onCompletion: (() -> Void)?) {
         currentUserModulesQuery?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
@@ -94,6 +116,10 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     func save(module: Module) {
+        // TODO: generate id using a synchronous call
+        let id = randomString(length: 8)
+        module.id = id
+
         modulesReference?.document(module.id).setData(FirebaseModuleFacade.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
@@ -110,6 +136,11 @@ class FirebaseModuleListFacade: ModuleListFacade {
                 }
             }
         }
+    }
+
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map { _ in letters.randomElement()! })
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
@@ -162,5 +193,4 @@ class FirebaseModuleListFacade: ModuleListFacade {
         }
 
     }
-
 }
