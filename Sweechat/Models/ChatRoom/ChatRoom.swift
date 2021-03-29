@@ -14,9 +14,9 @@ class ChatRoom: ObservableObject {
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
     let permissions: ChatRoomPermissionBitmask
-    private var moduleUserIdsToUsers: [String: User] = [:]
+    private var memberIdsToUsers: [String: User] = [:]
     var members: [User] {
-        Array(moduleUserIdsToUsers.values)
+        Array(memberIdsToUsers.values)
     }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
@@ -45,12 +45,8 @@ class ChatRoom: ObservableObject {
         self.chatRoomFacade?.save(message)
     }
 
-    func setUserIdsToUsers(_ userIdsToUsers: [String: User]) {
-        self.moduleUserIdsToUsers = userIdsToUsers
-    }
-
     func getUser(userId: String) -> User {
-        moduleUserIdsToUsers[userId] ?? User.createUnavailableUser()
+        memberIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
@@ -97,19 +93,19 @@ extension ChatRoom: ChatRoomFacadeDelegate {
         guard !self.members.contains(member) else {
             return
         }
-        moduleUserIdsToUsers[member.id] = member
+        memberIdsToUsers[member.id] = member
     }
 
     func remove(member: User) {
-        if !moduleUserIdsToUsers.keys.contains(member.id) {
+        if !memberIdsToUsers.keys.contains(member.id) {
             return
         }
-        moduleUserIdsToUsers.removeValue(forKey: member.id)
+        memberIdsToUsers.removeValue(forKey: member.id)
     }
 
     func insertAll(members: [User]) {
         for member in members {
-            moduleUserIdsToUsers[member.id] = member
+            memberIdsToUsers[member.id] = member
         }
     }
 
