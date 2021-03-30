@@ -200,11 +200,20 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error converting data for chat room")
             return nil
         }
-        return ChatRoom(
-            id: id,
-            name: name,
-            profilePictureUrl: profilePictureUrl
-        )
+        let type = ChatRoomType(
+            rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") ?? .groupChat
+        switch type {
+        case .groupChat:
+            return GroupChatRoom(
+                id: id,
+                name: name,
+                profilePictureUrl: profilePictureUrl)
+        case .privateChat:
+            return PrivateChatRoom(
+                id: id,
+                name: name,
+                profilePictureUrl: profilePictureUrl)
+        }
     }
 
     static func convert(chatRoom: ChatRoom) -> [String: Any] {

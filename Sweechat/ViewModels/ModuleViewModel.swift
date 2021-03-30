@@ -14,13 +14,20 @@ class ModuleViewModel: ObservableObject {
                 .forEach { $0.isSelected = currentSelectedMembers.contains($0.member) }
         }
     }
+    var createChatRoomViewModel: CreateChatRoomViewModel {
+        CreateChatRoomViewModel(
+            module: module,
+            user: user,
+            members: module.members)
+    }
 
     init(module: Module, user: User) {
         self.user = user
         self.module = module
         self.text = module.name
         self.currentSelectedMembers = []
-        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
+
+        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: user) }
         self.otherMembersItemViewModels = module
             .members
             .filter { $0 != user }
@@ -49,7 +56,7 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(membersSubscriber)
     }
 
-    func getSelectedMembers() -> [User] {
+    private func getSelectedMembers() -> [User] {
         var selectedMembers = self
             .otherMembersItemViewModels.filter { $0.isSelected }
             .map { $0.member }
@@ -62,15 +69,13 @@ class ModuleViewModel: ObservableObject {
     }
 
     func handleCreateChatRoom(name: String) {
-        let chatRoom = ChatRoom(name: name, members: getSelectedMembers())
+        let chatRoom = GroupChatRoom(name: name, members: getSelectedMembers())
         if chatRoom.members.count > 2 {
             let name = !name.isEmpty ? name : chatRoom.members.map { $0.name }.joined(separator: ", ")
             chatRoom.name = name
             self.module.store(chatRoom: chatRoom)
             chatRoom.setChatRoomConnection()
         } else {
-            let name = getSelectedMembers().filter { $0 != user }.map { $0.name }.joined()
-            chatRoom.name = name
             let existingChatRooms = self.module.chatRooms.filter {
                 $0.members.containsSameElements(as: chatRoom.members)
             }

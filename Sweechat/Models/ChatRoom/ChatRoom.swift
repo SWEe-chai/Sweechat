@@ -7,7 +7,7 @@
 import Combine
 import Foundation
 
-class ChatRoom: ObservableObject {
+class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: String
     @Published var name: String
     var profilePictureUrl: String?
@@ -60,10 +60,8 @@ class ChatRoom: ObservableObject {
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
     }
-}
 
-// MARK: ChatRoomFacadeDelegate
-extension ChatRoom: ChatRoomFacadeDelegate {
+    // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
         guard !self.messages.contains(message) else {
             return
