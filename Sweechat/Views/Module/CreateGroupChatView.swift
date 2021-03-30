@@ -29,8 +29,9 @@ struct CreateGroupChatView: View {
         .navigationTitle("Create Group")
         .toolbar {
             Button("Create") {
-                print("Create the group baby!")
+                viewModel.createGroupChat(groupName: groupName)
                 isShowing = false
+                groupName = ""
             }.disabled(groupName.isEmpty)
         }
     }
@@ -62,7 +63,7 @@ struct CreateGroupChatView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CreateGroupChatView(viewModel: CreateChatRoomViewModel(
-                module: Module(id: "", name: ""),
+                module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya")),
                 user: User(id: "1", name: "One Natasya"),
                 members: [
                     User(id: "1", name: "One Natasya"),

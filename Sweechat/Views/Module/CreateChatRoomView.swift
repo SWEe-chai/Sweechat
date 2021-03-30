@@ -18,6 +18,7 @@ struct CreateChatRoomView: View {
                     Button(memberItemViewModel.memberName) {
                         viewModel.createPrivateGroupChatWith(
                             memberViewModel: memberItemViewModel)
+                        isShowing = false
                     }.padding()
                 }
                 Spacer()

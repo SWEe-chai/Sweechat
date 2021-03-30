@@ -17,7 +17,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var storage = Storage.storage().reference()
     private var messagesReference: CollectionReference?
     private var messagesListener: ListenerRegistration?
-    private var userChatRoomModulePairsReference: CollectionReference?
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
 
@@ -33,10 +32,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        userChatRoomModulePairsReference = FirebaseUtils
+        userChatRoomModulePairsFilteredQuery = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
-        userChatRoomModulePairsFilteredQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
         messagesReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -103,7 +101,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
         }
 
-        userChatRoomModulePairsListener = userChatRoomModulePairsReference?.addSnapshotListener { querySnapshot, error in
+        userChatRoomModulePairsListener = userChatRoomModulePairsFilteredQuery?
+            .addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -111,7 +110,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             snapshot.documentChanges.forEach { change in
                 self.handleUserModulePairDocumentChange(change)
             }
-        }
+            }
 
     }
 
@@ -163,7 +162,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade
+                .convert(document: change.document) else {
             return
         }
         self.usersReference?
@@ -188,7 +188,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
     }
 
-    static func convert(document: DocumentSnapshot) -> ChatRoom? {
+    static func convert(document: DocumentSnapshot, user: User) -> ChatRoom? {
         if !document.exists {
             os_log("Error: Cannot convert chat room, chat room document does not exist")
             return nil
@@ -207,22 +207,30 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return GroupChatRoom(
                 id: id,
                 name: name,
+                currentUser: user,
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(
                 id: id,
                 name: name,
+                currentUser: user,
                 profilePictureUrl: profilePictureUrl)
         }
     }
 
     static func convert(chatRoom: ChatRoom) -> [String: Any] {
-        [
+        var document = [
             DatabaseConstant.ChatRoom.id: chatRoom.id,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
-
+        switch chatRoom {
+        case chatRoom as PrivateChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.privateChat.rawValue
+        default:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
+        }
+        return document
     }
 
 }

@@ -35,7 +35,7 @@ struct ChooseGroupChatMembersView_Previews: PreviewProvider {
         NavigationView {
             ChooseGroupChatMembersView(
                 viewModel: CreateChatRoomViewModel(
-                    module: Module(id: "", name: ""),
+                    module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya")),
                     user: User(id: "1", name: "One Natasya"),
                     members: [
                         User(id: "1", name: "One Natasya"),

@@ -32,7 +32,7 @@ class ModuleViewModel: ObservableObject {
             .members
             .filter { $0 != user }
             .map { MemberItemViewModel(member: $0) }
-        self.module.setModuleConnectionFor(user.id)
+        self.module.setModuleConnection()
         initialiseSubscriber()
     }
 
@@ -68,24 +68,24 @@ class ModuleViewModel: ObservableObject {
         self.currentSelectedMembers.append(user)
     }
 
-    func handleCreateChatRoom(name: String) {
-        let chatRoom = GroupChatRoom(name: name, members: getSelectedMembers())
-        if chatRoom.members.count > 2 {
-            let name = !name.isEmpty ? name : chatRoom.members.map { $0.name }.joined(separator: ", ")
-            chatRoom.name = name
-            self.module.store(chatRoom: chatRoom)
-            chatRoom.setChatRoomConnection()
-        } else {
-            let existingChatRooms = self.module.chatRooms.filter {
-                $0.members.containsSameElements(as: chatRoom.members)
-            }
-            if existingChatRooms.isEmpty {
-                self.module.store(chatRoom: chatRoom)
-                chatRoom.setChatRoomConnection()
-            }
-        }
-        self.currentSelectedMembers = []
-    }
+//    func handleCreateChatRoom(name: String) {
+//        let chatRoom = GroupChatRoom(name: name, members: getSelectedMembers())
+//        if chatRoom.members.count > 2 {
+//            let name = !name.isEmpty ? name : chatRoom.members.map { $0.name }.joined(separator: ", ")
+//            chatRoom.name = name
+//            self.module.store(chatRoom: chatRoom)
+//            chatRoom.setChatRoomConnection()
+//        } else {
+//            let existingChatRooms = self.module.chatRooms.filter {
+//                $0.members.containsSameElements(as: chatRoom.members)
+//            }
+//            if existingChatRooms.isEmpty {
+//                self.module.store(chatRoom: chatRoom)
+//                chatRoom.setChatRoomConnection()
+//            }
+//        }
+//        self.currentSelectedMembers = []
+//    }
 }
 
 // MARK: Identifiable

@@ -19,8 +19,31 @@ class CreateChatRoomViewModel: ObservableObject {
     }
 
     func createPrivateGroupChatWith(memberViewModel: MemberItemViewModel) {
-        // TODO: Implement creation
-        print("create private chat with \(memberViewModel.memberName)")
+        // Return if private chat already exists
+        for chatroom in module.chatRooms {
+            if let privateChatRoom = chatroom as? PrivateChatRoom,
+               privateChatRoom.otherUser == memberViewModel.member {
+                // This means that the private chat has already been created
+                return
+            }
+        }
+
+        // This means that Chatroom does not exist
+        let newPrivateChatRoom = PrivateChatRoom(
+            name: memberViewModel.memberName,
+            members: [user, memberViewModel.member],
+            currentUser: user)
+        module.store(chatRoom: newPrivateChatRoom)
+    }
+
+    func createGroupChat(groupName: String) {
+        var members: [User] = otherUsersViewModels
+            .filter { $0.isSelected }
+            .map { $0.member }
+        members.append(user)
+        let newGroupChatRoom = GroupChatRoom(name: groupName, members: members, currentUser: user)
+        module.store(chatRoom: newGroupChatRoom)
+
     }
 
     func toggleIsWritable() {

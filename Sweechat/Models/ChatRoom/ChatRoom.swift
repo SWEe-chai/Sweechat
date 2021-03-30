@@ -11,25 +11,34 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: String
     @Published var name: String
     var profilePictureUrl: String?
+    var currentUser: User
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
     let permissions: ChatRoomPermissionBitmask
-    private var memberIdsToUsers: [String: User] = [:]
+    var memberIdsToUsers: [String: User] = [:]
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
 
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: String,
+         name: String,
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.permissions = ChatRoomPermission.none
     }
 
-    init(name: String, members: [User], profilePictureUrl: String? = nil) {
+    init(name: String,
+         members: [User],
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.permissions = ChatRoomPermission.none

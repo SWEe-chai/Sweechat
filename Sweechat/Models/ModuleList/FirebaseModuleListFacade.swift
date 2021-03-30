@@ -10,7 +10,8 @@ import os
 
 class FirebaseModuleListFacade: ModuleListFacade {
     weak var delegate: ModuleListFacadeDelegate?
-    private var userId: String
+    private var user: User
+    private var userId: String { user.id }
 
     private var db = Firestore.firestore()
     private var modulesReference: CollectionReference?
@@ -19,8 +20,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
     private var currentUserModulesListener: ListenerRegistration?
     private var currentUserModulesQuery: Query?
 
-    init(userId: String) {
-        self.userId = userId
+    init(user: User) {
+        self.user = user
         setUpConnectionToModuleList()
     }
 
@@ -84,7 +85,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
                             os_log("Error getting chat rooms in module: \(err.localizedDescription)")
                             return
                         }
-                        if let module = FirebaseModuleFacade.convert(document: snapshot) {
+                        if let module = FirebaseModuleFacade.convert(document: snapshot, user: self.user) {
                             self.delegate?.insert(module: module)
                         }
                     }
@@ -157,7 +158,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
                     os_log("Error getting users in module: \(err.localizedDescription)")
                     return
                 }
-                if let module = FirebaseModuleFacade.convert(document: snapshot) {
+                if let module = FirebaseModuleFacade.convert(
+                    document: snapshot, user: self.user) {
                     switch change.type {
                     case .added:
                         self.delegate?.insert(module: module)
@@ -171,7 +173,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     private func handleModuleDocumentChange(_ change: DocumentChange) {
-        if let module = FirebaseModuleFacade.convert(document: change.document) {
+        if let module = FirebaseModuleFacade.convert(
+            document: change.document, user: self.user) {
             modulesReference?
                 .document(module.id)
                 .getDocument(completion: { documentSnapshot, error in

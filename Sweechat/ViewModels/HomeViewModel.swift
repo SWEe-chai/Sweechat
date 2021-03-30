@@ -12,7 +12,7 @@ class HomeViewModel: ObservableObject {
     init(user: User) {
         self.user = user
         self.text = "Welcome home \(user.name)"
-        self.moduleList = ModuleList.of(user.id)
+        self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
         settingsViewModel.delegate = self
         initialiseSubscribers()
@@ -38,7 +38,8 @@ class HomeViewModel: ObservableObject {
         let users = [user]
         let module = Module(
             name: name,
-            users: users
+            users: users,
+            currentUser: user
         )
         self.moduleList.store(module: module)
     }

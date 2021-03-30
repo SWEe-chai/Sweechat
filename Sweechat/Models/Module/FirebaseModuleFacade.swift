@@ -11,7 +11,8 @@ import os
 class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
     private var moduleId: String
-    private var userId: String
+    private var user: User
+    private var userId: String { user.id }
 
     private var db = Firestore.firestore()
     private var chatRoomsReference: CollectionReference?
@@ -25,9 +26,9 @@ class FirebaseModuleFacade: ModuleFacade {
     private var currentModuleUsersQuery: Query?
     private var userModulePairsListener: ListenerRegistration?
 
-    init(moduleId: String, userId: String) {
+    init(moduleId: String, user: User) {
         self.moduleId = moduleId
-        self.userId = userId
+        self.user = user
         setUpConnectionToModule()
     }
 
@@ -108,7 +109,8 @@ class FirebaseModuleFacade: ModuleFacade {
                             return
                         }
 
-                        if let chatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
+                        if let chatRoom = FirebaseChatRoomFacade
+                            .convert(document: snapshot, user: self.user) {
                             self.delegate?.insert(chatRoom: chatRoom)
                         }
                     }
@@ -184,17 +186,19 @@ class FirebaseModuleFacade: ModuleFacade {
             }
         for member in chatRoom.members {
             let pair = FirebaseUserChatRoomModulePair(userId: member.id, chatRoomId: chatRoom.id, moduleId: moduleId)
-            userChatRoomModulePairsReference?.addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
+            userChatRoomModulePairsReference?
+                .addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {
                     os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
                     return
                 }
-            }
+                }
         }
     }
 
     private func handleUserChatRoomModulePairDocumentChange(_ change: DocumentChange) {
-        guard let firebaseUserChatRoomPair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let firebaseUserChatRoomPair = FirebaseUserChatRoomModulePairFacade
+                .convert(document: change.document) else {
             return
         }
         chatRoomsReference?
@@ -207,7 +211,8 @@ class FirebaseModuleFacade: ModuleFacade {
                     os_log("Error getting chat room in module: \(err.localizedDescription)")
                     return
                 }
-                if let chatRoom = FirebaseChatRoomFacade.convert(document: snapshot) {
+                if let chatRoom = FirebaseChatRoomFacade
+                    .convert(document: snapshot, user: self.user) {
                     switch change.type {
                     case .added:
                         self.delegate?.insert(chatRoom: chatRoom)
@@ -270,7 +275,8 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleChatRoomDocumentChange(_ change: DocumentChange) {
-        if let chatRoom = FirebaseChatRoomFacade.convert(document: change.document) {
+        if let chatRoom = FirebaseChatRoomFacade
+            .convert(document: change.document, user: user) {
             chatRoomsReference?
                 .document(chatRoom.id)
                 .getDocument(completion: { documentSnapshot, error in
@@ -293,7 +299,8 @@ class FirebaseModuleFacade: ModuleFacade {
 
     }
 
-    static func convert(document: DocumentSnapshot) -> Module? {
+    // Since modules need to have a user, to convert, we need to have the user
+    static func convert(document: DocumentSnapshot, user: User) -> Module? {
         if !document.exists {
             os_log("Error: Cannot convert module, module document does not exist")
             return nil
@@ -308,6 +315,7 @@ class FirebaseModuleFacade: ModuleFacade {
         return Module(
             id: id,
             name: name,
+            currentUser: user,
             profilePictureUrl: profilePictureUrl
         )
     }
@@ -318,7 +326,6 @@ class FirebaseModuleFacade: ModuleFacade {
             DatabaseConstant.Module.name: module.name,
             DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
         ]
-
     }
 
 }

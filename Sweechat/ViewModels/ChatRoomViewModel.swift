@@ -4,7 +4,7 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject {
-    private var chatRoom: ChatRoom
+    var chatRoom: ChatRoom
     private var user: User
     private var subscribers: [AnyCancellable] = []
 
