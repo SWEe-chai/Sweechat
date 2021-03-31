@@ -16,20 +16,28 @@ class FirebaseUserChatRoomModulePairFacade {
         }
         let data = document.data()
 
+        print("converting triplet")
         guard let userId = data?[DatabaseConstant.UserChatRoomModulePair.userId] as? String,
               let chatRoomId = data?[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String,
-              let moduleId = data?[DatabaseConstant.UserChatRoomModulePair.moduleId] as? String else {
+              let moduleId = data?[DatabaseConstant.UserChatRoomModulePair.moduleId] as? String,
+              let permissions = data?[DatabaseConstant.UserChatRoomModulePair.permissions] as? UInt32 else {
+            print("converting triplet fail")
             return nil
         }
 
-        return FirebaseUserChatRoomModulePair(userId: userId, chatRoomId: chatRoomId, moduleId: moduleId)
+        return FirebaseUserChatRoomModulePair(
+            userId: userId,
+            chatRoomId: chatRoomId,
+            moduleId: moduleId,
+            permissions: permissions)
     }
 
     static func convert(pair: FirebaseUserChatRoomModulePair) -> [String: Any] {
         [
             DatabaseConstant.UserChatRoomModulePair.userId: pair.userId,
             DatabaseConstant.UserChatRoomModulePair.chatRoomId: pair.chatRoomId,
-            DatabaseConstant.UserChatRoomModulePair.moduleId: pair.moduleId
+            DatabaseConstant.UserChatRoomModulePair.moduleId: pair.moduleId,
+            DatabaseConstant.UserChatRoomModulePair.permissions: pair.permissions
         ]
     }
 }

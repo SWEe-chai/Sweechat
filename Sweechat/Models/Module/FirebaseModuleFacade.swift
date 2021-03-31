@@ -175,7 +175,8 @@ class FirebaseModuleFacade: ModuleFacade {
             )
     }
 
-    func save(chatRoom: ChatRoom) {
+    func save(chatRoom: ChatRoom,
+              userPermissions: [UserPermissionPair]) {
         chatRoomsReference?
             .document(chatRoom.id)
             .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
@@ -184,8 +185,12 @@ class FirebaseModuleFacade: ModuleFacade {
                     return
                 }
             }
-        for member in chatRoom.members {
-            let pair = FirebaseUserChatRoomModulePair(userId: member.id, chatRoomId: chatRoom.id, moduleId: moduleId)
+        for userPermission in userPermissions {
+            let pair = FirebaseUserChatRoomModulePair(
+                userId: userPermission.userId,
+                chatRoomId: chatRoom.id,
+                moduleId: moduleId,
+                permissions: userPermission.permissions)
             userChatRoomModulePairsReference?
                 .addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {

@@ -27,23 +27,41 @@ class CreateChatRoomViewModel: ObservableObject {
                 return
             }
         }
+        let membersInPrivateChat = [user, memberViewModel.member]
+        let memberPermissions = membersInPrivateChat
+            .map { UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite) }
 
         // This means that Chatroom does not exist
         let newPrivateChatRoom = PrivateChatRoom(
             name: memberViewModel.memberName,
-            members: [user, memberViewModel.member],
+            members: membersInPrivateChat,
             currentUser: user)
-        module.store(chatRoom: newPrivateChatRoom)
+        module.store(chatRoom: newPrivateChatRoom,
+                     userPermissions: memberPermissions)
     }
 
     func createGroupChat(groupName: String) {
         var members: [User] = otherUsersViewModels
             .filter { $0.isSelected }
             .map { $0.member }
+        var memberPermissions = members.map {
+            UserPermissionPair(
+                userId: $0.id,
+                permissions: getOtherUsersPermissions())
+        }
         members.append(user)
+        // Creator gets all permissions
+        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all
+        ))
         let newGroupChatRoom = GroupChatRoom(name: groupName, members: members, currentUser: user)
-        module.store(chatRoom: newGroupChatRoom)
+        module.store(chatRoom: newGroupChatRoom,
+                     userPermissions: memberPermissions)
 
+    }
+
+    private func getOtherUsersPermissions() -> ChatRoomPermissionBitmask {
+        ChatRoomPermission.read
+            + (isWritable ? ChatRoomPermission.write : 0)
     }
 
     func toggleIsWritable() {

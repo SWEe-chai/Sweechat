@@ -64,8 +64,11 @@ class Module: ObservableObject {
         self.moduleFacade?.delegate = self
     }
 
-    func store(chatRoom: ChatRoom) {
-        self.moduleFacade?.save(chatRoom: chatRoom)
+    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair]) {
+        assert(chatRoom.members.count == userPermissions.count)
+        self.moduleFacade?.save(
+            chatRoom: chatRoom,
+            userPermissions: userPermissions)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
