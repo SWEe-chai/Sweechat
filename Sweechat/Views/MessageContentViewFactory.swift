@@ -11,7 +11,7 @@ struct MessageContentViewFactory {
         switch viewModel {
         case let textMessageViewModel as TextMessageViewModel:
             return AnyView(TextMessageContentView(viewModel: textMessageViewModel))
-        case let mediaMessageViewModel as MediaMessageViewModel:
+        case let mediaMessageViewModel as ImageMessageViewModel:
             return AnyView(ImageMessageContentView(viewModel: mediaMessageViewModel))
         default:
             return AnyView(UnsupportedMessageContentView())

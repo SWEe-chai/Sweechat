@@ -11,7 +11,9 @@ struct MessageViewModelFactory {
         case .text:
             return TextMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
         case .image:
-            return MediaMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+            return ImageMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+        case .video:
+            return VideoMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
         default:
             // TODO: Perhaps we can use a placeholder view model that will always return some
             // content for a currently-unsupported type
