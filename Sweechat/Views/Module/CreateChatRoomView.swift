@@ -8,42 +8,31 @@
 import SwiftUI
 
 struct CreateChatRoomView: View {
-    @ObservedObject var viewModel: ModuleViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var groupName: String = ""
+    var viewModel: CreateChatRoomViewModel
+    @Binding var isShowing: Bool
 
     var body: some View {
-        VStack {
-            if viewModel.currentSelectedMembers.count > 1 {
-                HStack {
-                    TextField("Group name...", text: $groupName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .cornerRadius(5)
-                        .frame(idealHeight: 20, maxHeight: 60)
-                        .multilineTextAlignment(.leading)
+        NavigationView {
+            VStack(alignment: .leading) {
+                ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
+                    Button(memberItemViewModel.memberName) {
+                        viewModel.createPrivateGroupChatWith(
+                            memberViewModel: memberItemViewModel)
+                        isShowing = false
+                    }.padding()
                 }
-                .frame(idealHeight: 20, maxHeight: 50)
-                .padding()
-                .background(Color.gray.opacity(0.1))
+                Spacer()
             }
-
-            Spacer()
-            ForEach(viewModel.otherMembersItemViewModels) { memberItemViewModel in
-                MemberItemView(viewModel: memberItemViewModel)
-                    .onTapGesture {
-                        viewModel.handleMemberSelection(memberItemViewModel.member)
-                    }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("New Message")
+            .toolbar {
+                NavigationLink("Group Chat",
+                               destination:
+                                LazyNavView(
+                                    ChooseGroupChatMembersView(
+                                        viewModel: viewModel,
+                                        isShowing: $isShowing)))
             }
-
         }
-        .toolbar {
-            Text("Create!!")
-                .onTapGesture {
-                    viewModel.handleCreateChatRoom(name: groupName)
-                    self.presentationMode.wrappedValue.dismiss()
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-        }
-
     }
 }

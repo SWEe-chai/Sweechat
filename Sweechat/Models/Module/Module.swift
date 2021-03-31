@@ -20,12 +20,17 @@ class Module: ObservableObject {
             }
         }
     }
+    var currentUser: User
     private var moduleFacade: ModuleFacade?
     var userIdsToUsers: [String: User] = [:]
 
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: String,
+         name: String,
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.members = []
@@ -33,9 +38,13 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
-    init(name: String, users: [User], profilePictureUrl: String? = nil) {
+    init(name: String,
+         users: [User],
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.members = users
@@ -48,17 +57,18 @@ class Module: ObservableObject {
         self.profilePictureUrl = module.profilePictureUrl
     }
 
-    func setModuleConnectionFor(_ userId: String) {
-        self.moduleFacade = FirebaseModuleFacade(moduleId: self.id, userId: userId)
+    func setModuleConnection() {
+        self.moduleFacade = FirebaseModuleFacade(
+            moduleId: self.id,
+            user: currentUser)
         self.moduleFacade?.delegate = self
     }
 
-    func store(chatRoom: ChatRoom) {
-        self.moduleFacade?.save(chatRoom: chatRoom)
-    }
-
-    func store(user: User) {
-        self.moduleFacade?.save(user: user)
+    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair]) {
+        assert(chatRoom.members.count == userPermissions.count)
+        self.moduleFacade?.save(
+            chatRoom: chatRoom,
+            userPermissions: userPermissions)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {

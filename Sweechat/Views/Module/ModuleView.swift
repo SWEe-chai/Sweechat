@@ -9,15 +9,10 @@ import SwiftUI
 
 struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
+    @State private var showingCreateChatRoom = false
 
     var body: some View {
         VStack {
-            NavigationLink(
-                destination:
-                    LazyNavView(CreateChatRoomView(viewModel: viewModel))) {
-
-                Text("Create Chat Room")
-            }
             Text("Chatrooms in \(viewModel.text)")
             ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
                 NavigationLink(
@@ -28,6 +23,17 @@ struct ModuleView: View {
                     ChatRoomItemView(viewModel: chatRoomViewModel)
                 }
             }
+        }
+        .toolbar {
+            Button(action: {
+                showingCreateChatRoom.toggle()
+            }) {
+                Image(systemName: "square.and.pencil")
+            }
+        }
+        .sheet(isPresented: $showingCreateChatRoom) {
+            CreateChatRoomView(viewModel: viewModel.createChatRoomViewModel,
+                               isShowing: $showingCreateChatRoom)
         }
         .navigationTitle(Text(viewModel.text))
     }

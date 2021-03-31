@@ -4,14 +4,14 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject {
-    private var chatRoom: ChatRoom
+    var chatRoom: ChatRoom
     private var user: User
     private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
 
-    var permissions: ChatRoomType {
-        ChatRoomType.convert(permission: chatRoom.permissions)
+    var permissions: ChatRoomViewModelType {
+        ChatRoomViewModelType.convert(permission: chatRoom.permissions)
     }
 
     var messageCount: Int {

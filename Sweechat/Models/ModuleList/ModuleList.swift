@@ -12,9 +12,9 @@ class ModuleList: ObservableObject {
     @Published var modules: [Module]
     private var moduleListFacade: ModuleListFacade?
 
-    static func of(_ userId: String) -> ModuleList {
+    static func of(_ user: User) -> ModuleList {
         let moduleList = ModuleList()
-        moduleList.moduleListFacade = FirebaseModuleListFacade(userId: userId)
+        moduleList.moduleListFacade = FirebaseModuleListFacade(user: user)
         moduleList.moduleListFacade?.delegate = moduleList
         return moduleList
     }
