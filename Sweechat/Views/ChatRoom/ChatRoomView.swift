@@ -4,7 +4,7 @@ struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
     @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @State private var pickerContent: Any?
 
     var inputBar: some View {
         HStack {
@@ -27,7 +27,7 @@ struct ChatRoomView: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
-            ImagePicker(image: $inputImage)
+            ImagePicker(image: $pickerContent)
         }
     }
 
@@ -73,8 +73,8 @@ struct ChatRoomView: View {
     }
 
     func sendImage() {
-        viewModel.handleSendImage(inputImage)
-        inputImage = nil
+        viewModel.handleSendImage(pickerContent)
+        pickerContent = nil
     }
 
     func sendVideo() {

@@ -21,7 +21,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
     @Environment(\.presentationMode) var presentationMode
-    @Binding var image: UIImage?
+    @Binding var image: Any? // UIImage in the case of photo, URL in the case of video
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)

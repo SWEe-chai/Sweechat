@@ -54,9 +54,9 @@ class ChatRoomViewModel: ObservableObject {
         self.chatRoom.storeMessage(message: message)
     }
 
-    func handleSendImage(_ wrappedImage: UIImage?) {
-        guard let image = wrappedImage else {
-            os_log("wrappedImage is nil")
+    func handleSendImage(_ wrappedImage: Any?) {
+        guard let image = wrappedImage as? UIImage else {
+            os_log("wrappedImage is not UIImage")
             return
         }
 
