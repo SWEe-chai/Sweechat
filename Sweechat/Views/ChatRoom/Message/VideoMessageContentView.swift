@@ -9,7 +9,6 @@ import AVKit
 import SwiftUI
 
 struct VideoMessageContentView: View {
-    // TODO: Force unwrapping. Will be refactored anyway
     @ObservedObject var viewModel: VideoMessageViewModel
     var body: some View {
         VideoPlayer(player: AVPlayer(url: viewModel.url))
