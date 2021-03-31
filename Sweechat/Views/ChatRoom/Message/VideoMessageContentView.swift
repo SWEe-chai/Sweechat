@@ -11,8 +11,12 @@ import SwiftUI
 struct VideoMessageContentView: View {
     @ObservedObject var viewModel: VideoMessageViewModel
     var body: some View {
-        VideoPlayer(player: AVPlayer(url: viewModel.url))
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 200, height: 200)
+        if let url = viewModel.url {
+            VideoPlayer(player: AVPlayer(url: url))
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 200, height: 200)
+        } else {
+            Text("The link to this video is broken.")
+        }
     }
 }
