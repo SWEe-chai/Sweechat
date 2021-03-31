@@ -1,10 +1,12 @@
 import SwiftUI
+import os
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
     @State private var showingImagePicker = false
     @State private var pickerContent: Any?
+    @State private var pickerChoice: ContentType?
 
     var inputBar: some View {
         HStack {
@@ -17,18 +19,14 @@ struct ChatRoomView: View {
                 Text("Send")
             }
             Button(action: openImagePicker) {
-                Text("Img")
-            }
-            Button(action: openImagePicker) {
-                Text("Vid")
+                Text("Media")
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        // TODO: This only works for sending video now, no sending image
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendVideo) {
-            ImagePicker(image: $pickerContent)
+        .sheet(isPresented: $showingImagePicker, onDismiss: sendMedia) {
+            ImagePicker(image: $pickerContent, type: $pickerChoice)
         }
     }
 
@@ -73,14 +71,21 @@ struct ChatRoomView: View {
         self.showingImagePicker = true
     }
 
-    func sendImage() {
-        viewModel.handleSendImage(pickerContent)
-        pickerContent = nil
-    }
+    private func sendMedia() {
+        guard let choice = pickerChoice else {
+            os_log("Picker choice is nil")
+            return
+        }
 
-    func sendVideo() {
-        viewModel.handleSendVideo(pickerContent)
+        switch choice {
+        case .image:
+            viewModel.handleSendImage(pickerContent)
+        case .video:
+            viewModel.handleSendVideo(pickerContent)
+        }
+
         pickerContent = nil
+        pickerChoice = nil
     }
 }
 

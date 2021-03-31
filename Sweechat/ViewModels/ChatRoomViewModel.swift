@@ -75,6 +75,7 @@ class ChatRoomViewModel: ObservableObject {
     func handleSendVideo(_ mediaURL: Any?) {
         guard let url = mediaURL as? URL else {
             os_log("media url is not a url")
+            print("media url: \(String(describing: mediaURL))")
             return
         }
 

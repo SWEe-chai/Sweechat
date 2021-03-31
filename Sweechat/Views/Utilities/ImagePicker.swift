@@ -3,6 +3,10 @@
 
 import SwiftUI
 
+enum ContentType {
+    case image, video
+}
+
 struct ImagePicker: UIViewControllerRepresentable {
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         let parent: ImagePicker
@@ -15,8 +19,10 @@ struct ImagePicker: UIViewControllerRepresentable {
                                    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.image = uiImage
+                parent.type = .image
             } else if let mediaURL = info[.mediaURL] {
                 parent.image = mediaURL
+                parent.type = .video
             }
 
             parent.presentationMode.wrappedValue.dismiss()
@@ -24,6 +30,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     @Environment(\.presentationMode) var presentationMode
     @Binding var image: Any? // UIImage in the case of photo, URL in the case of video
+    @Binding var type: ContentType?
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
