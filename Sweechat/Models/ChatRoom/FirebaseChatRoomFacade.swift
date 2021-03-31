@@ -147,8 +147,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             print(url)
             guard err == nil else {
                 os_log("failed to upload data to firebase")
-                print("with error: \(err?.localizedDescription)")
-                print("metadata \(metadata)")
                 return
             }
 
