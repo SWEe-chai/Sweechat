@@ -6,14 +6,16 @@
 //
 
 enum MessageContentType {
-    case text, media, unsupported
+    case text, image, video, unsupported
 
     static func convert(messageType: MessageType) -> MessageContentType {
         switch messageType {
         case .text:
             return .text
         case .image:
-            return .media
+            return .image
+        case .video:
+            return .video
         default:
             return .unsupported
         }
