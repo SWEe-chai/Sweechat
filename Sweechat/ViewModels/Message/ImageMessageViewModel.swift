@@ -1,5 +1,5 @@
 //
-//  MediaMessageViewModel.swift
+//  ImageMessageViewModel.swift
 //  Sweechat
 //
 //  Created by Christian James Welly on 28/3/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MediaMessageViewModel: MessageViewModel {
+class ImageMessageViewModel: MessageViewModel {
     @Published var url: String
 
     override init(message: Message, sender: User, isSenderCurrentUser: Bool) {

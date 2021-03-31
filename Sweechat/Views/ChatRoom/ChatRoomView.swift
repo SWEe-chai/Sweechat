@@ -1,10 +1,12 @@
 import SwiftUI
+import os
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
-    @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @State private var showingMediaPicker = false
+    @State private var pickedMedia: Any?
+    @State private var pickedMediaType: PickedMediaType?
 
     var inputBar: some View {
         HStack {
@@ -16,15 +18,15 @@ struct ChatRoomView: View {
             Button(action: sendTypedMessage) {
                 Text("Send")
             }
-            Button(action: openImagePicker) {
-                Text("Img")
+            Button(action: openMediaPicker) {
+                Text("Media")
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
-            ImagePicker(image: $inputImage)
+        .sheet(isPresented: $showingMediaPicker, onDismiss: sendMedia) {
+            MediaPicker(pickedMedia: $pickedMedia, pickedMediaType: $pickedMediaType)
         }
     }
 
@@ -65,13 +67,25 @@ struct ChatRoomView: View {
         typingMessage = ""
     }
 
-    func openImagePicker() {
-        self.showingImagePicker = true
+    func openMediaPicker() {
+        self.showingMediaPicker = true
     }
 
-    func sendImage() {
-        viewModel.handleSendImage(inputImage)
-        inputImage = nil
+    private func sendMedia() {
+        guard let choice = pickedMediaType else {
+            os_log("pickedMediaType is nil")
+            return
+        }
+
+        switch choice {
+        case .image:
+            viewModel.handleSendImage(pickedMedia)
+        case .video:
+            viewModel.handleSendVideo(pickedMedia)
+        }
+
+        pickedMedia = nil
+        pickedMediaType = nil
     }
 }
 
