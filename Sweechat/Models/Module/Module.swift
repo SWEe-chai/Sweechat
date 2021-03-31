@@ -13,28 +13,22 @@ class Module: ObservableObject {
     @Published var name: String
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom]
-    var users: [User] {
+    @Published var members: [User] {
         didSet {
-            for user in users {
+            for user in members {
                 self.userIdsToUsers[user.id] = user
             }
         }
     }
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [String: User] = [:] {
-        didSet {
-            for chatRoom in chatRooms {
-                chatRoom.setUserIdsToUsers(self.userIdsToUsers)
-            }
-        }
-    }
+    var userIdsToUsers: [String: User] = [:]
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
-        self.users = []
+        self.members = []
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
     }
@@ -44,7 +38,7 @@ class Module: ObservableObject {
         self.name = name
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
-        self.users = users
+        self.members = users
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
     }
@@ -73,6 +67,10 @@ class Module: ObservableObject {
 
     func subscribeToChatrooms(function: @escaping ([ChatRoom]) -> Void) -> AnyCancellable {
         $chatRooms.sink(receiveValue: function)
+    }
+
+    func subscribeToMembers(function: @escaping ([User]) -> Void) -> AnyCancellable {
+        $members.sink(receiveValue: function)
     }
 }
 
@@ -104,20 +102,23 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insert(user: User) {
-        guard self.userIdsToUsers[user.id] == nil else {
+        guard !self.members.contains(user) else {
             return
         }
-        self.userIdsToUsers[user.id] = user
+        user.setUserConnection()
+        self.members.append(user)
     }
 
     func update(user: User) {
-        if self.userIdsToUsers[user.id] != nil {
-            self.userIdsToUsers[user.id] = user
+        if let index = members.firstIndex(of: user) {
+            self.members[index].update(user: user)
         }
     }
 
     func remove(user: User) {
-        userIdsToUsers[user.id] = nil
+        if let index = members.firstIndex(of: user) {
+            self.members.remove(at: index)
+        }
     }
 
     func insertAll(users: [User]) {

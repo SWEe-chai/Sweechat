@@ -4,9 +4,9 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject {
-    @Published var chatRoom: ChatRoom
-    var user: User
-    var subscribers: [AnyCancellable] = []
+    private var chatRoom: ChatRoom
+    private var user: User
+    private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
 
@@ -38,7 +38,7 @@ class ChatRoomViewModel: ObservableObject {
             self.messages = messages.map {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.id),
+                                   sender: self.chatRoom.getUser(userId: $0.senderId),
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
