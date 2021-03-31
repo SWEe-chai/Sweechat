@@ -71,6 +71,11 @@ class ChatRoomViewModel: ObservableObject {
             self.chatRoom.storeMessage(message: message)
         }
     }
+
+    func handleSendVideo() {
+        let message = Message(senderId: user.id, content: "Video".toData(), type: MessageType.video)
+        self.chatRoom.storeMessage(message: message)
+    }
 }
 
 // MARK: Identifiable

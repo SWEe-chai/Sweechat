@@ -19,6 +19,9 @@ struct ChatRoomView: View {
             Button(action: openImagePicker) {
                 Text("Img")
             }
+            Button(action: sendVideo) {
+                Text("Vid")
+            }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
@@ -72,6 +75,10 @@ struct ChatRoomView: View {
     func sendImage() {
         viewModel.handleSendImage(inputImage)
         inputImage = nil
+    }
+
+    func sendVideo() {
+        viewModel.handleSendVideo()
     }
 }
 

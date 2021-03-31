@@ -14,5 +14,7 @@ struct VideoMessageContentView: View {
     private let player = AVPlayer(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)
     var body: some View {
         VideoPlayer(player: player)
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 200, height: 200)
     }
 }
