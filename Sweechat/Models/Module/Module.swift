@@ -42,7 +42,6 @@ class Module: ObservableObject {
          users: [User],
          currentUser: User,
          profilePictureUrl: String? = nil) {
-        print("Module init 2")
         self.id = UUID().uuidString
         self.name = name
         self.currentUser = currentUser
