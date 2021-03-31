@@ -17,8 +17,8 @@ struct ChatRoomPermission {
     static let pin: ChatRoomPermissionBitmask = 0b1 << 3
 
     static let readWrite: ChatRoomPermissionBitmask =
-        ChatRoomPermission.read + ChatRoomPermission.write
+        ChatRoomPermission.read | ChatRoomPermission.write
     static let all: ChatRoomPermissionBitmask =
-        ChatRoomPermission.readWrite +
-        ChatRoomPermission.invite + ChatRoomPermission.pin
+        ChatRoomPermission.readWrite |
+        ChatRoomPermission.invite | ChatRoomPermission.pin
 }

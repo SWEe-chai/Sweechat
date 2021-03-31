@@ -1,4 +1,4 @@
 struct UserPermissionPair {
     let userId: String
-    let permissions: UInt32
+    let permissions: ChatRoomPermissionBitmask
 }

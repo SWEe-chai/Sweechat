@@ -19,7 +19,8 @@ class FirebaseUserChatRoomModulePairFacade {
         guard let userId = data?[DatabaseConstant.UserChatRoomModulePair.userId] as? String,
               let chatRoomId = data?[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String,
               let moduleId = data?[DatabaseConstant.UserChatRoomModulePair.moduleId] as? String,
-              let permissions = data?[DatabaseConstant.UserChatRoomModulePair.permissions] as? UInt32 else {
+              let permissions = data?[DatabaseConstant.UserChatRoomModulePair.permissions]
+                as? ChatRoomPermissionBitmask else {
             return nil
         }
 
