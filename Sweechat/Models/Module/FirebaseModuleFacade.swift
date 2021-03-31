@@ -193,10 +193,10 @@ class FirebaseModuleFacade: ModuleFacade {
                 permissions: userPermission.permissions)
             userChatRoomModulePairsReference?
                 .addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
-                if let e = error {
-                    os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
-                    return
-                }
+                    if let e = error {
+                        os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
+                        return
+                    }
                 }
         }
     }

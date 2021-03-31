@@ -103,13 +103,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
         userChatRoomModulePairsListener = userChatRoomModulePairsFilteredQuery?
             .addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-            snapshot.documentChanges.forEach { change in
-                self.handleUserModulePairDocumentChange(change)
-            }
+                guard let snapshot = querySnapshot else {
+                    os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                snapshot.documentChanges.forEach { change in
+                    self.handleUserModulePairDocumentChange(change)
+                }
             }
 
     }

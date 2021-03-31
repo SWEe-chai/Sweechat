@@ -61,7 +61,7 @@ class CreateChatRoomViewModel: ObservableObject {
 
     private func getOtherUsersPermissions() -> ChatRoomPermissionBitmask {
         ChatRoomPermission.read
-            + (isWritable ? ChatRoomPermission.write : 0)
+            | (isWritable ? ChatRoomPermission.write : 0)
     }
 
     func toggleIsWritable() {
