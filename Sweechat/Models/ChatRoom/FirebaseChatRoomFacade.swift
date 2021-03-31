@@ -227,8 +227,11 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         switch chatRoom {
         case chatRoom as PrivateChatRoom:
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.privateChat.rawValue
-        default:
+        case chatRoom as GroupChatRoom:
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
+        default:
+            os_log("Firebase ChatRoom Facade: Trying to convert abstract class ChatRoom")
+            fatalError("ChatRoom must be either a group chat or private chat")
         }
         return document
     }
