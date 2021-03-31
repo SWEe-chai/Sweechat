@@ -142,25 +142,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
-    func uploadToStorage(fromURL url: URL, fileName: String, onCompletion: ((URL) -> Void)?) {
-        storage.child(fileName).putFile(from: url, metadata: nil) { metadata, err in
-            print(url)
-            guard err == nil else {
-                os_log("failed to upload data to firebase")
-                return
-            }
-
-            self.storage.child(fileName).downloadURL { url, _ in
-                guard let url = url else {
-                    os_log("failed to get download url")
-                    return
-                }
-
-                onCompletion?(url)
-            }
-        }
-    }
-
     private func handleMessageDocumentChange(_ change: DocumentChange) {
         guard let message = FirebaseMessageFacade.convert(document: change.document) else {
             return
