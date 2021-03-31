@@ -45,6 +45,7 @@
 		3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E0A726106F3300CB344E /* MessageContentType.swift */; };
 		3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */; };
 		3E96F2E526144AFA003E9C27 /* VideoMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96F2E426144AFA003E9C27 /* VideoMessageViewModel.swift */; };
+		3E96F33326144EF9003E9C27 /* VideoMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E96F33226144EF9003E9C27 /* VideoMessageContentView.swift */; };
 		3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4525FDFD1100861D74 /* ChatRoom.swift */; };
 		3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */; };
 		3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED4FBB92606260900ADA24A /* StateConstant.swift */; };
@@ -169,6 +170,7 @@
 		3E74E0A726106F3300CB344E /* MessageContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentType.swift; sourceTree = "<group>"; };
 		3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentViewFactory.swift; sourceTree = "<group>"; };
 		3E96F2E426144AFA003E9C27 /* VideoMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMessageViewModel.swift; sourceTree = "<group>"; };
+		3E96F33226144EF9003E9C27 /* VideoMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMessageContentView.swift; sourceTree = "<group>"; };
 		3EB99D4525FDFD1100861D74 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		3EB99D4D25FDFF8800861D74 /* ChatRoomPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermission.swift; sourceTree = "<group>"; };
 		3ED4FBB92606260900ADA24A /* StateConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateConstant.swift; sourceTree = "<group>"; };
@@ -380,10 +382,13 @@
 		3E7EBBB3261043BA00D276AE /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				279503DE2605D55D00D3B743 /* TextMessageContentView.swift */,
-				3E74E083261047DC00CB344E /* ImageMessageContentView.swift */,
+				3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */,
+				2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */,
 				3E74E0992610591100CB344E /* MessageView.swift */,
 				3E405A70261086A4005F2B49 /* UnsupportedMessageContentView.swift */,
+				279503DE2605D55D00D3B743 /* TextMessageContentView.swift */,
+				3E74E083261047DC00CB344E /* ImageMessageContentView.swift */,
+				3E96F33226144EF9003E9C27 /* VideoMessageContentView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -514,8 +519,6 @@
 				45D6336425FE011200C94D4F /* RegistrationView.swift */,
 				3E47F81C25FE0E3200861721 /* ModuleView.swift */,
 				45D633B425FE154100C94D4F /* SettingsView.swift */,
-				2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */,
-				3E7EBBAE2610418B00D276AE /* MessageContentViewFactory.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,
 				45D6338C25FE0AFE00C94D4F /* HomeView.swift in Sources */,
 				278797592601E24600124FA3 /* ALAuthHandlerType.swift in Sources */,
+				3E96F33326144EF9003E9C27 /* VideoMessageContentView.swift in Sources */,
 				45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */,
 				77394BB3260D0BCE0068B01F /* FirebaseUserModulePairFacade.swift in Sources */,
 				778F08F525FDEF210059C2A0 /* MessageType.swift in Sources */,
