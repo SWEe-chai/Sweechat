@@ -19,14 +19,15 @@ struct ChatRoomView: View {
             Button(action: openImagePicker) {
                 Text("Img")
             }
-            Button(action: sendVideo) {
+            Button(action: openImagePicker) {
                 Text("Vid")
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
+        // TODO: This only works for sending video now, no sending image
+        .sheet(isPresented: $showingImagePicker, onDismiss: sendVideo) {
             ImagePicker(image: $pickerContent)
         }
     }
@@ -78,7 +79,8 @@ struct ChatRoomView: View {
     }
 
     func sendVideo() {
-        viewModel.handleSendVideo()
+        viewModel.handleSendVideo(pickerContent)
+        pickerContent = nil
     }
 }
 

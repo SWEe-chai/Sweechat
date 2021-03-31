@@ -15,6 +15,8 @@ struct ImagePicker: UIViewControllerRepresentable {
                                    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.image = uiImage
+            } else if let mediaURL = info[.mediaURL] {
+                parent.image = mediaURL
             }
 
             parent.presentationMode.wrappedValue.dismiss()
@@ -30,6 +32,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         // select something from photo library
         let picker = UIImagePickerController()
+        picker.mediaTypes = ["public.image", "public.movie"]
         picker.delegate = context.coordinator
         return picker
     }

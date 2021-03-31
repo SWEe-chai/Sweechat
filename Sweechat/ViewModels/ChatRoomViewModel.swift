@@ -72,9 +72,16 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    func handleSendVideo() {
-        let message = Message(senderId: user.id, content: "Video".toData(), type: MessageType.video)
-        self.chatRoom.storeMessage(message: message)
+    func handleSendVideo(_ mediaURL: Any?) {
+        guard let url = mediaURL as? URL else {
+            os_log("media url is not a url")
+            return
+        }
+        self.chatRoom.uploadToStorage(fromURL: url, fileName: "\(UUID().uuidString).MOV") { url in
+            let urlstring = url.absoluteString
+            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 }
 
