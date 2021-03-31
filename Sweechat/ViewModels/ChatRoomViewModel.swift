@@ -77,10 +77,17 @@ class ChatRoomViewModel: ObservableObject {
             os_log("media url is not a url")
             return
         }
-        self.chatRoom.uploadToStorage(fromURL: url, fileName: "\(UUID().uuidString).MOV") { url in
-            let urlstring = url.absoluteString
-            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image)
-            self.chatRoom.storeMessage(message: message)
+
+        do {
+            let data = try Data(contentsOf: url)
+            self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
+                let urlstring = url.absoluteString
+                let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video)
+                self.chatRoom.storeMessage(message: message)
+            }
+        } catch {
+            os_log("failed to convert data: \(error.localizedDescription)")
+            return
         }
     }
 }

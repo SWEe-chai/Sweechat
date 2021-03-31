@@ -11,9 +11,8 @@ import SwiftUI
 struct VideoMessageContentView: View {
     // TODO: Force unwrapping. Will be refactored anyway
     @ObservedObject var viewModel: VideoMessageViewModel
-    private let player = AVPlayer(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)
     var body: some View {
-        VideoPlayer(player: player)
+        VideoPlayer(player: AVPlayer(url: viewModel.url))
             .aspectRatio(contentMode: .fit)
             .frame(width: 200, height: 200)
     }
