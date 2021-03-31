@@ -56,6 +56,10 @@ class ChatRoom: ObservableObject {
         self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
     }
 
+    func uploadToStorage(fromURL url: URL, fileName: String, onCompletion: ((URL) -> Void)?) {
+        self.chatRoomFacade?.uploadToStorage(fromURL: url, fileName: fileName, onCompletion: onCompletion)
+    }
+
     func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
     }
