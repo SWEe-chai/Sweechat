@@ -4,23 +4,12 @@ import os
 
 class FirebaseModuleQuery {
     static func getModule(pair: FirebaseUserModulePair, user: User, onCompletion: @escaping (Module) -> Void) {
-        FirebaseUtils
-            .getEnvironmentReference(Firestore.firestore())
-            .collection(DatabaseConstant.Collection.modules)
-            .document(pair.moduleId)
-            .getDocument { snapshot, error in
-                guard let document = snapshot else {
-                    os_log("Error getting modules: Module with Id: \(pair.moduleId) does not exist")
-                    os_log("Error \(error?.localizedDescription ?? "No error")")
-                    return
-                }
-                guard let module = FirebaseModuleFacade
-                        .convert(document: document,
-                                 user: user) else {
-                    return
-                }
-                onCompletion(module)
+        getModules(pairs: [pair], user: user) { modules in
+            guard let module = modules.first else {
+                return
             }
+            onCompletion(module)
+        }
     }
 
     static func getModules(pairs: [FirebaseUserModulePair], user: User, onCompletion: @escaping ([Module]) -> Void) {

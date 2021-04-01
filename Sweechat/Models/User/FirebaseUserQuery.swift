@@ -3,18 +3,12 @@ import os
 
 class FirebaseUserQuery {
     static func getUser(withId id: String, onCompletion: @escaping (User) -> Void) {
-        FirebaseUtils
-            .getEnvironmentReference(Firestore.firestore())
-            .collection(DatabaseConstant.Collection.users)
-            .document(id)
-            .getDocument { snapshot, error in
-                guard let document = snapshot else {
-                    os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                    return
-                }
-                let user: User = FirebaseUserFacade.convert(document: document)
-                onCompletion(user)
+        getUsers(withIds: [id]) { users in
+            guard let user = users.first else {
+                return
             }
+            onCompletion(user)
+        }
     }
 
     static func getUsers(withIds ids: [String],
