@@ -16,9 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
 
-        let settings = FirestoreSettings()
-        settings.isPersistenceEnabled = false
-        Firestore.firestore().settings = settings
+        // Set this variable to allow/disallow caching to test
+        let allowCaching = true
+        if !allowCaching {
+            let settings = FirestoreSettings()
+            settings.isPersistenceEnabled = false
+            Firestore.firestore().settings = settings
+        }
+
         return true
     }
 
