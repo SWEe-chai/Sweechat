@@ -1,8 +1,12 @@
 import SwiftUI
+import os
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
+    @State private var showingMediaPicker = false
+    @State private var pickedMedia: Any?
+    @State private var pickedMediaType: PickedMediaType?
 
     var inputBar: some View {
         HStack {
@@ -14,21 +18,27 @@ struct ChatRoomView: View {
             Button(action: sendTypedMessage) {
                 Text("Send")
             }
+            Button(action: openMediaPicker) {
+                Text("Media")
+            }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
+        .sheet(isPresented: $showingMediaPicker, onDismiss: sendMedia) {
+            MediaPicker(pickedMedia: $pickedMedia, pickedMediaType: $pickedMediaType)
+        }
     }
 
     var body: some View {
         VStack {
             ScrollView {
                 ScrollViewReader { scrollView in
-                    ForEach(viewModel.textMessages, id: \.self) {
+                    ForEach(viewModel.messages, id: \.self) {
                         MessageView(viewModel: $0)
                     }
                     .onAppear { scrollToLatestMessage(scrollView) }
-                    .onChange(of: viewModel.textMessages.count) { _ in
+                    .onChange(of: viewModel.messages.count) { _ in
                         scrollToLatestMessage(scrollView)
                     }
                     .padding([.leading, .trailing])
@@ -40,11 +50,11 @@ struct ChatRoomView: View {
     }
 
     func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
-        if viewModel.textMessages.isEmpty {
+        if viewModel.messages.isEmpty {
             return
         }
-        let index = viewModel.textMessages.count - 1
-        scrollView.scrollTo(viewModel.textMessages[index])
+        let index = viewModel.messages.count - 1
+        scrollView.scrollTo(viewModel.messages[index])
 
     }
 
@@ -56,14 +66,37 @@ struct ChatRoomView: View {
         viewModel.handleSendMessage(content)
         typingMessage = ""
     }
+
+    func openMediaPicker() {
+        self.showingMediaPicker = true
+    }
+
+    private func sendMedia() {
+        guard let choice = pickedMediaType else {
+            os_log("pickedMediaType is nil")
+            return
+        }
+
+        switch choice {
+        case .image:
+            viewModel.handleSendImage(pickedMedia)
+        case .video:
+            viewModel.handleSendVideo(pickedMedia)
+        }
+
+        pickedMedia = nil
+        pickedMediaType = nil
+    }
 }
 
 struct ChatRoomView_Previews: PreviewProvider {
     static var previews: some View {
         ChatRoomView(
             viewModel: ChatRoomViewModel(
-                chatRoom: ChatRoom(id: "0", name: "CS4269"),
-                user: User(id: "", name: "", profilePictureUrl: "")
+                chatRoom: ChatRoom(id: "0",
+                                   name: "CS4269",
+                                   currentUser: User(id: "", name: "Hello", profilePictureUrl: "")),
+                user: User(id: "", name: "Hello", profilePictureUrl: "")
             )
         )
     }

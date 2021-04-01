@@ -5,9 +5,9 @@
 //  Created by Agnes Natasya on 14/3/21.
 //
 
-public enum MessageType {
+public enum MessageType: String {
     case text
-    case photo
+    case image
     case video
     case location
     case emoji

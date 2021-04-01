@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseStorage
 import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
@@ -13,9 +14,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var chatRoomId: String
 
     private var db = Firestore.firestore()
+    private var storage = Storage.storage().reference()
     private var messagesReference: CollectionReference?
     private var messagesListener: ListenerRegistration?
-    private var userChatRoomModulePairsReference: CollectionReference?
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
 
@@ -31,10 +32,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
-        userChatRoomModulePairsReference = FirebaseUtils
+        userChatRoomModulePairsFilteredQuery = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
-        userChatRoomModulePairsFilteredQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
         messagesReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -53,26 +53,26 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            for document in snapshot.documents {
-                let data = document.data()
+            let userIds: [String] = snapshot.documents.compactMap {
+                let data = $0.data()
                 guard let userId = data[DatabaseConstant.UserModulePair.userId] as? String else {
-                    return
+                    return nil
                 }
-                self.usersReference?
-                    .document(userId)
-                    .getDocument(completion: { documentSnapshot, error in
-                        guard let snapshot = documentSnapshot else {
-                            return
-                        }
-                        if let err = error {
-                            os_log("Error getting users in module: \(err.localizedDescription)")
-                            return
-                        }
-                        let user = FirebaseUserFacade.convert(document: snapshot)
-                        self.delegate?.insert(member: user)
-                    })
+                return userId
             }
-            onCompletion?()
+            self.usersReference?
+                .whereField(DatabaseConstant.User.id, in: userIds)
+                .getDocuments { querySnapshot, error in
+                    guard let snapshot = querySnapshot else {
+                        os_log("Error loading users in chatroom: \(error?.localizedDescription ?? "No error")")
+                        return
+                    }
+                    let members: [User] = snapshot.documents.compactMap {
+                         FirebaseUserFacade.convert(document: $0)
+                    }
+                    self.delegate?.insertAll(members: members)
+                    onCompletion?()
+                }
         }
     }
 
@@ -101,15 +101,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
         }
 
-        userChatRoomModulePairsListener = userChatRoomModulePairsReference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
+        userChatRoomModulePairsListener = userChatRoomModulePairsFilteredQuery?
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                snapshot.documentChanges.forEach { change in
+                    self.handleUserModulePairDocumentChange(change)
+                }
             }
-            snapshot.documentChanges.forEach { change in
-                self.handleUserModulePairDocumentChange(change)
-            }
-        }
 
     }
 
@@ -118,6 +119,24 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
+            }
+        }
+    }
+
+    func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
+        storage.child(fileName).putData(data, metadata: nil) { _, err in
+            guard err == nil else {
+                os_log("failed to upload data to firebase")
+                return
+            }
+
+            self.storage.child(fileName).downloadURL { url, _ in
+                guard let url = url else {
+                    os_log("failed to get download url")
+                    return
+                }
+
+                onCompletion?(url)
             }
         }
     }
@@ -143,7 +162,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let userChatRoomModulePair = FirebaseUserChatRoomModulePairFacade
+                .convert(document: change.document) else {
             return
         }
         self.usersReference?
@@ -168,7 +188,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
     }
 
-    static func convert(document: DocumentSnapshot) -> ChatRoom? {
+    static func convert(document: DocumentSnapshot, user: User) -> ChatRoom? {
         if !document.exists {
             os_log("Error: Cannot convert chat room, chat room document does not exist")
             return nil
@@ -180,20 +200,40 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error converting data for chat room")
             return nil
         }
-        return ChatRoom(
-            id: id,
-            name: name,
-            profilePictureUrl: profilePictureUrl
-        )
+        let type = ChatRoomType(
+            rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") ?? .groupChat
+        switch type {
+        case .groupChat:
+            return GroupChatRoom(
+                id: id,
+                name: name,
+                currentUser: user,
+                profilePictureUrl: profilePictureUrl)
+        case .privateChat:
+            return PrivateChatRoom(
+                id: id,
+                name: name,
+                currentUser: user,
+                profilePictureUrl: profilePictureUrl)
+        }
     }
 
     static func convert(chatRoom: ChatRoom) -> [String: Any] {
-        [
+        var document = [
             DatabaseConstant.ChatRoom.id: chatRoom.id,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
-
+        switch chatRoom {
+        case chatRoom as PrivateChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.privateChat.rawValue
+        case chatRoom as GroupChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
+        default:
+            os_log("Firebase ChatRoom Facade: Trying to convert abstract class ChatRoom")
+            fatalError("ChatRoom must be either a group chat or private chat")
+        }
+        return document
     }
 
 }

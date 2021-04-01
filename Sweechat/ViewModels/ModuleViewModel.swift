@@ -2,18 +2,25 @@ import Combine
 import Foundation
 
 class ModuleViewModel: ObservableObject {
-    @Published var module: Module
+    private var module: Module
+    private var user: User
+    private var subscribers: [AnyCancellable] = []
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
-    var user: User
-    var subscribers: [AnyCancellable] = []
+
+    var createChatRoomViewModel: CreateChatRoomViewModel {
+        CreateChatRoomViewModel(
+            module: module,
+            user: user,
+            members: module.members)
+    }
 
     init(module: Module, user: User) {
         self.user = user
         self.module = module
         self.text = module.name
-        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
-        self.module.setModuleConnectionFor(user.id)
+        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: user) }
+        self.module.setModuleConnection()
         initialiseSubscriber()
     }
 
@@ -24,29 +31,21 @@ class ModuleViewModel: ObservableObject {
         let nameSubscriber = module.subscribeToName { newName in
             self.text = newName
         }
-        let chatRoomSubscriber = module.subscribeToChatrooms { chatRooms in
+        let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
             self.chatRoomViewModels = chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
         }
         subscribers.append(nameSubscriber)
-        subscribers.append(chatRoomSubscriber)
+        subscribers.append(chatRoomsSubscriber)
     }
 
-    func handleCreateChatRoom() {
-        // TODO: Currently chatroom for yourself only
-        let users = [
-            User(id: user.id)
-        ]
-        let chatRoom = ChatRoom(
-            name: "Dummy Chat Room by Agnes \(UUID().uuidString)",
-            members: users
-        )
-        self.module.store(chatRoom: chatRoom)
-        for user in users {
-            self.module.store(user: user)
-        }
-    }
 }
 
 // MARK: Identifiable
 extension ModuleViewModel: Identifiable {
+}
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        self.count == other.count && self.sorted() == other.sorted()
+    }
 }

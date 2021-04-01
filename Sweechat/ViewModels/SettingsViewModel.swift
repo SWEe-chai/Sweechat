@@ -1,11 +1,13 @@
 import Foundation
 
 class SettingsViewModel: ObservableObject {
+    weak var delegate: SettingsViewModelDelegate?
+
     var text: String {
         "Settings"
     }
 
     func didTapLogoutButton() {
-        // TODO: Implement logout
+        delegate?.signOut()
     }
 }

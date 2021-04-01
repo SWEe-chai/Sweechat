@@ -9,12 +9,15 @@ class LoginViewModel: ObservableObject {
         auth.authHandlers.map({ LoginButtonViewModel(authHandler: $0) })
     }
     var homeViewModel: HomeViewModel {
-        HomeViewModel(user: getUnwrappedUser())
+        let viewModel = HomeViewModel(user: getUnwrappedUser())
+        viewModel.delegate = self
+        return viewModel
     }
 
     init() {
         self.auth = ALAuth()
         auth.delegate = self
+        auth.signInWithPreviousSession()
     }
 
     var text: String {
@@ -37,11 +40,17 @@ extension LoginViewModel: ALAuthDelegate {
             id: details.id,
             name: details.name
         )
-        user?.initiateListeningToUser()
+        user?.setUserConnection()
         isLoggedIn = true
     }
 
     func signOut() {
-        // TODO: Implement sign out
+        auth.signOut()
+        isLoggedIn = false
+        user = nil
     }
+}
+
+// MARK: HomeViewModelDelegate
+extension LoginViewModel: HomeViewModelDelegate {
 }

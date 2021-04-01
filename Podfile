@@ -11,6 +11,7 @@ target 'Sweechat' do
     pod 'Firebase/Messaging'
     pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
+    pod 'Firebase/Storage'
 
     # add swift extension
     pod 'FirebaseFirestoreSwift'

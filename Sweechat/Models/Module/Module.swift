@@ -13,38 +13,41 @@ class Module: ObservableObject {
     @Published var name: String
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom]
-    var users: [User] {
+    @Published var members: [User] {
         didSet {
-            for user in users {
+            for user in members {
                 self.userIdsToUsers[user.id] = user
             }
         }
     }
+    var currentUser: User
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [String: User] = [:] {
-        didSet {
-            for chatRoom in chatRooms {
-                chatRoom.setUserIdsToUsers(self.userIdsToUsers)
-            }
-        }
-    }
+    var userIdsToUsers: [String: User] = [:]
 
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: String,
+         name: String,
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
-        self.users = []
+        self.members = []
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
     }
 
-    init(name: String, users: [User], profilePictureUrl: String? = nil) {
+    init(name: String,
+         users: [User],
+         currentUser: User,
+         profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
-        self.users = users
+        self.members = users
         self.moduleFacade = nil
         self.userIdsToUsers = [:]
     }
@@ -54,17 +57,18 @@ class Module: ObservableObject {
         self.profilePictureUrl = module.profilePictureUrl
     }
 
-    func setModuleConnectionFor(_ userId: String) {
-        self.moduleFacade = FirebaseModuleFacade(moduleId: self.id, userId: userId)
+    func setModuleConnection() {
+        self.moduleFacade = FirebaseModuleFacade(
+            moduleId: self.id,
+            user: currentUser)
         self.moduleFacade?.delegate = self
     }
 
-    func store(chatRoom: ChatRoom) {
-        self.moduleFacade?.save(chatRoom: chatRoom)
-    }
-
-    func store(user: User) {
-        self.moduleFacade?.save(user: user)
+    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair]) {
+        assert(chatRoom.members.count == userPermissions.count)
+        self.moduleFacade?.save(
+            chatRoom: chatRoom,
+            userPermissions: userPermissions)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
@@ -73,6 +77,10 @@ class Module: ObservableObject {
 
     func subscribeToChatrooms(function: @escaping ([ChatRoom]) -> Void) -> AnyCancellable {
         $chatRooms.sink(receiveValue: function)
+    }
+
+    func subscribeToMembers(function: @escaping ([User]) -> Void) -> AnyCancellable {
+        $members.sink(receiveValue: function)
     }
 }
 
@@ -104,20 +112,23 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insert(user: User) {
-        guard self.userIdsToUsers[user.id] == nil else {
+        guard !self.members.contains(user) else {
             return
         }
-        self.userIdsToUsers[user.id] = user
+        user.setUserConnection()
+        self.members.append(user)
     }
 
     func update(user: User) {
-        if self.userIdsToUsers[user.id] != nil {
-            self.userIdsToUsers[user.id] = user
+        if let index = members.firstIndex(of: user) {
+            self.members[index].update(user: user)
         }
     }
 
     func remove(user: User) {
-        userIdsToUsers[user.id] = nil
+        if let index = members.firstIndex(of: user) {
+            self.members.remove(at: index)
+        }
     }
 
     func insertAll(users: [User]) {
