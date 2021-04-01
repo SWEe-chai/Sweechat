@@ -38,10 +38,8 @@ struct SignalProtocol: GroupCryptographyProvider {
         try verifySignature(signature, using: serverIdentityKey, for: serverSignedPreKey.rawRepresentation)
 
         // Generate own keys
-        let (privateIdentityKey,
-             publicIdentityKey,
-             privateEphemeralKey,
-             publicEphemeralKey) = try getIdentityAndEphemeralKeyPairs()
+        let (privateIdentityKey, publicIdentityKey) = try getIdentityKeyPair()
+        let (privateEphemeralKey, publicEphemeralKey) = try generateEphemeralKeyPair()
 
         // Generate master key
         let masterKey = try generateInitiatorMasterKey(privateIdentityKey: privateIdentityKey,
@@ -125,7 +123,9 @@ struct SignalProtocol: GroupCryptographyProvider {
         let (privateSignedPreKey, publicSignedPreKey) = keyFactory.generateKeyPair()
 
         // Handle force unwrap (fatal error?)
-        let signature = try! privateIdentityKey.sign(data: publicSignedPreKey.rawRepresentation)
+        guard let signature = try? privateIdentityKey.sign(data: publicSignedPreKey.rawRepresentation) else {
+            fatalError("Unable to sign signed pre-key")
+        }
 
         privateServerKeyBundle["ik"] = privateIdentityKey.rawRepresentation
         privateServerKeyBundle["spk"] = privateSignedPreKey.rawRepresentation
@@ -169,7 +169,7 @@ struct SignalProtocol: GroupCryptographyProvider {
         }
     }
 
-    private func getIdentityAndEphemeralKeyPairs() throws -> (PrivateKey, PublicKey, PrivateKey, PublicKey) {
+    private func getIdentityKeyPair() throws -> (PrivateKey, PublicKey) {
         guard let privateIdentityKeyData = privateServerKeyBundle["ik"] else {
             throw SignalProtocolError(message: "Unable to get own private identity key")
         }
@@ -179,9 +179,12 @@ struct SignalProtocol: GroupCryptographyProvider {
 
         let privateIdentityKey = keyFactory.generatePrivateKey(from: privateIdentityKeyData)
         let publicIdentityKey = keyFactory.generatePublicKey(from: publicIdentityKeyData)
-        let (privateEphemeralKey, publicEphemeralKey) = keyFactory.generateKeyPair()
 
-        return (privateIdentityKey, publicIdentityKey, privateEphemeralKey, publicEphemeralKey)
+        return (privateIdentityKey, publicIdentityKey)
+    }
+    private func generateEphemeralKeyPair() throws -> (PrivateKey, PublicKey) {
+        let (privateEphemeralKey, publicEphemeralKey) = keyFactory.generateKeyPair()
+        return (privateEphemeralKey, publicEphemeralKey)
     }
 
     private func generateInitiatorMasterKey(privateIdentityKey: PrivateKey, privateEphemeralKey: PrivateKey,
