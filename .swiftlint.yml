@@ -74,6 +74,7 @@ opt_in_rules:
 disabled_rules:
   - attributes
   - identifier_name
+  - large_tuple
   - multiple_closures_with_trailing_closure # for e.g. SwiftUI buttons
   - todo
   - type_name

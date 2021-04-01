@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-struct PrivateKeyImpl: PrivateKey {
+struct P256PrivateKey: PrivateKey {
     let rawRepresentation: Data
 
     init(rawRepresentation: Data) {
@@ -17,9 +17,9 @@ struct PrivateKeyImpl: PrivateKey {
                                                                     outputByteCount: outputKeyLength)
             var symmetricKeyBytes = Data()
             symmetricKey.withUnsafeBytes({ symmetricKeyBytes.append(contentsOf: $0) })
-            return SharedKeyImpl(rawRepresentation: symmetricKeyBytes)
+            return P256SharedKey(rawRepresentation: symmetricKeyBytes)
         } catch {
-            throw SignalError(message: "Unable to combine keys")
+            throw SignalProtocolError(message: "Unable to combine keys")
         }
     }
 
@@ -29,7 +29,7 @@ struct PrivateKeyImpl: PrivateKey {
             let signature = try signingKey.signature(for: data)
             return signature.rawRepresentation
         } catch {
-            throw SignalError(message: "Unable to sign using key")
+            throw SignalProtocolError(message: "Unable to sign using key")
         }
     }
 }
