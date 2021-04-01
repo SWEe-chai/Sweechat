@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
 
         // Set this variable to allow/disallow caching to test
-        let allowCaching = true
+        let allowCaching = false
         if !allowCaching {
             let settings = FirestoreSettings()
             settings.isPersistenceEnabled = false

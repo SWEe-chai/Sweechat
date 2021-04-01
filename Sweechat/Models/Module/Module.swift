@@ -99,12 +99,6 @@ extension Module: ModuleFacadeDelegate {
         self.chatRooms = chatRooms
     }
 
-    func update(chatRoom: ChatRoom) {
-        if let index = chatRooms.firstIndex(of: chatRoom) {
-            self.chatRooms[index].update(chatRoom: chatRoom)
-        }
-    }
-
     func remove(chatRoom: ChatRoom) {
         if let index = chatRooms.firstIndex(of: chatRoom) {
             self.chatRooms.remove(at: index)
