@@ -3,9 +3,9 @@ import SwiftUI
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
-    @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-    @State private var showingCanvas = false
+    @State private var showingModal = false
+    @State private var modalView: ModalView?
     @State private var showingActionSheet = false
 
     var inputBar: some View {
@@ -25,18 +25,23 @@ struct ChatRoomView: View {
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        .actionSheet(isPresented: $showingActionSheet) {
+        .actionSheet(
+            isPresented: $showingActionSheet) {
             ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
                 .default(Text("Image")) { openImagePicker() },
                 .default(Text("Canvas")) { openCanvas() },
                 .cancel()
             ])
         }
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
-            ImagePicker(image: $inputImage)
-        }
-        .fullScreenCover(isPresented: $showingCanvas, onDismiss: sendImage) {
-            CanvasView(showingCanvas: $showingCanvas, inputImage: $inputImage)
+        .sheet(isPresented: $showingModal, onDismiss: sendImage) {
+            switch modalView {
+            case .Canvas:
+            CanvasView(showingModal: $showingModal, inputImage: $inputImage)
+            case .ImagePicker:
+                ImagePicker(image: $inputImage)
+            default:
+                EmptyView()
+            }
         }
     }
 
@@ -82,18 +87,18 @@ struct ChatRoomView: View {
     }
 
     func openImagePicker() {
-        print("ASDADA")
-        self.showingImagePicker = true
-        print(self.showingImagePicker)
+        self.showingModal = true
+        self.modalView = .ImagePicker
+    }
+
+    func openCanvas() {
+        self.showingModal = true
+        self.modalView = .Canvas
     }
 
     func sendImage() {
         viewModel.handleSendImage(inputImage)
         inputImage = nil
-    }
-
-    func openCanvas() {
-        self.showingCanvas = true
     }
 }
 
@@ -106,4 +111,9 @@ struct ChatRoomView_Previews: PreviewProvider {
             )
         )
     }
+}
+
+enum ModalView {
+    case ImagePicker
+    case Canvas
 }

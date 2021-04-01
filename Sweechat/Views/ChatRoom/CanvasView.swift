@@ -8,7 +8,7 @@ import SwiftUI
 import PencilKit
 
 struct CanvasView: View {
-    @Binding var showingCanvas: Bool
+    @Binding var showingModal: Bool
     @Binding var inputImage: UIImage?
     var canvasView = PKCanvasView()
 
@@ -17,7 +17,7 @@ struct CanvasView: View {
             HStack {
                 Text("Close")
                     .onTapGesture {
-                        showingCanvas = false
+                        showingModal = false
                     }
                 Spacer()
                 Text("Send")
@@ -29,7 +29,7 @@ struct CanvasView: View {
                                 width: UIScreen.main.bounds.size.width,
                                 height: UIScreen.main.bounds.size.height
                             ), scale: 1.0)
-                        showingCanvas = false
+                        showingModal = false
                     }
             }
             MyCanvas(canvasView: canvasView)
