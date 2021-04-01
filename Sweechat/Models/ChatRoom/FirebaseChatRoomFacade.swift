@@ -238,5 +238,4 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
         return document
     }
-
 }

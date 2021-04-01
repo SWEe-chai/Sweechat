@@ -10,7 +10,7 @@ import SwiftUI
 struct AnnouncementView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     var body: some View {
-        Text("Announcements!")
+        MessagesScrollView(viewModel: viewModel)
     }
 }
 
