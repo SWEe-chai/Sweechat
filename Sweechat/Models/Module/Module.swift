@@ -52,11 +52,6 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
-    func update(module: Module) {
-        self.name = module.name
-        self.profilePictureUrl = module.profilePictureUrl
-    }
-
     func setModuleConnection() {
         self.moduleFacade = FirebaseModuleFacade(
             moduleId: self.id,
@@ -123,6 +118,11 @@ extension Module: ModuleFacadeDelegate {
         for user in users {
             self.userIdsToUsers[user.id] = user
         }
+    }
+
+    func update(module: Module) {
+        self.name = module.name
+        self.profilePictureUrl = module.profilePictureUrl
     }
 }
 

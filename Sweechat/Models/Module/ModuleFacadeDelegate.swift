@@ -12,4 +12,5 @@ protocol ModuleFacadeDelegate: AnyObject {
     func remove(user: User)
     func insertAll(chatRooms: [ChatRoom])
     func insertAll(users: [User])
+    func update(module: Module)
 }

@@ -22,6 +22,8 @@ class FirebaseModuleFacade: ModuleFacade {
     private var userModulePairsReference: CollectionReference?
     private var currentModuleUsersQuery: Query?
     private var userModulePairsListener: ListenerRegistration?
+    private var moduleReference: DocumentReference?
+    private var moduleListener: ListenerRegistration?
 
     init(moduleId: String, user: User) {
         self.moduleId = moduleId
@@ -48,6 +50,10 @@ class FirebaseModuleFacade: ModuleFacade {
         currentUserChatRoomsQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId)
             .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+        moduleReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.modules)
+            .document(moduleId)
         loadUsers(onCompletion: { self.loadChatRooms(onCompletion: self.addListeners) })
     }
 
@@ -107,19 +113,21 @@ class FirebaseModuleFacade: ModuleFacade {
                 self.handleUserModulePairDocumentChange(change)
             }
         }
+
+        // This listens to the module itself
+        moduleListener = moduleReference?.addSnapshotListener { querySnapshot, error in
+            guard let document = querySnapshot else {
+                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                return
+            }
+            self.handleModuleChange(document)
+        }
     }
 
     func save(user: User) {
-        userModulePairsReference?
-            .addDocument(
-                data: FirebaseUserModulePairFacade
-                    .convert(
-                        pair: FirebaseUserModulePair(
-                            userId: user.id,
-                            moduleId: moduleId
-                        )
-                    )
-            )
+        userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(
+            pair: FirebaseUserModulePair(userId: user.id, moduleId: moduleId))
+        )
     }
 
     func save(chatRoom: ChatRoom,
@@ -179,6 +187,14 @@ class FirebaseModuleFacade: ModuleFacade {
                 break
             }
         }
+    }
+
+    private func handleModuleChange(_ document: DocumentSnapshot) {
+        guard let module = FirebaseModuleFacade.convert(document: document, user: user) else {
+            os_log("Firebase Module Facade cannot handle module document change: \(document)")
+            return
+        }
+        delegate?.update(module: module)
     }
 
     // Since modules need to have a user, to convert, we need to have the user
