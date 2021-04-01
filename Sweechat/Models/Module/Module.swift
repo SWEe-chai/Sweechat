@@ -119,12 +119,6 @@ extension Module: ModuleFacadeDelegate {
         self.members.append(user)
     }
 
-    func update(user: User) {
-        if let index = members.firstIndex(of: user) {
-            self.members[index].update(user: user)
-        }
-    }
-
     func remove(user: User) {
         if let index = members.firstIndex(of: user) {
             self.members.remove(at: index)
