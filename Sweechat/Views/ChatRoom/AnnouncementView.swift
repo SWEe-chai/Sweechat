@@ -1,10 +1,3 @@
-//
-//  AnnouncementView.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 1/4/21.
-//
-
 import SwiftUI
 
 struct AnnouncementView: View {
@@ -23,7 +16,7 @@ struct AnnouncementView_Previews: PreviewProvider {
                         id: "chatRoomId",
                         name: "Announcements",
                         currentUser: User(id: "Hello", name: "Happy boi"),
-                        permissions: ChatRoomPermission.all),
+                        currentUserPermission: ChatRoomPermission.all),
                     user: User(id: "Hello", name: "Happy boi")))
     }
 }

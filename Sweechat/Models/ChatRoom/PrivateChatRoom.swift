@@ -4,19 +4,22 @@ class PrivateChatRoom: ChatRoom {
     var otherUser: User?
     var subscribers: [AnyCancellable] = []
 
+    // Used by facade
     init(id: String,
-         name: String,
-         currentUser: User,
-         otherUser: User? = nil,
-         profilePictureUrl: String? = nil) {
-        let members: [User] = [currentUser, otherUser].compactMap { $0 }
-
+         currentUser: User) {
         super.init(id: id,
                    name: "",
                    currentUser: currentUser,
-                   permissions: ChatRoomPermission.readWrite,
+                   currentUserPermission: ChatRoomPermission.readWrite)
+    }
+
+    init(currentUser: User,
+         otherUser: User) {
+        let members = [currentUser, otherUser]
+        super.init(name: "",
                    members: members,
-                   profilePictureUrl: profilePictureUrl)
+                   currentUser: currentUser,
+                   currentUserPermission: ChatRoomPermission.readWrite)
     }
 
     private func setOtherUser(_ user: User) {

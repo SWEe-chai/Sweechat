@@ -67,7 +67,7 @@ struct MessageInputBarView_Previews: PreviewProvider {
                 chatRoom: ChatRoom(id: "0",
                                    name: "CS4269",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-                                   permissions: ChatRoomPermission.readWrite),
+                                   currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ))
     }

@@ -210,14 +210,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 id: id,
                 name: name,
                 currentUser: user,
-                permissions: permissions,
+                currentUserPermission: permissions,
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(
                 id: id,
-                name: name,
-                currentUser: user,
-                profilePictureUrl: profilePictureUrl)
+                currentUser: user)
         }
     }
 

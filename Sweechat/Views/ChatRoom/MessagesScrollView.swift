@@ -1,10 +1,3 @@
-//
-//  MessagesScrollView.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 1/4/21.
-//
-
 import SwiftUI
 
 struct MessagesScrollView: View {
@@ -40,7 +33,7 @@ struct MessagesScrollView_Previews: PreviewProvider {
                 chatRoom: ChatRoom(id: "0",
                                    name: "CS4269",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-                                   permissions: ChatRoomPermission.readWrite),
+                                   currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             )
         )
