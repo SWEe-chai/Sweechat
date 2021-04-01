@@ -188,7 +188,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             })
     }
 
-    static func convert(document: DocumentSnapshot, user: User) -> ChatRoom? {
+    static func convert(document: DocumentSnapshot,
+                        user: User,
+                        withPermissions permissions: ChatRoomPermissionBitmask) -> ChatRoom? {
         if !document.exists {
             os_log("Error: Cannot convert chat room, chat room document does not exist")
             return nil
@@ -208,6 +210,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 id: id,
                 name: name,
                 currentUser: user,
+                permissions: permissions,
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(

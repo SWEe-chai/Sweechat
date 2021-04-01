@@ -23,25 +23,15 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     init(id: String,
          name: String,
          currentUser: User,
+         permissions: ChatRoomPermissionBitmask,
+         members: [User] = [],
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.permissions = ChatRoomPermission.none
-    }
-
-    init(name: String,
-         members: [User],
-         currentUser: User,
-         profilePictureUrl: String? = nil) {
-        self.id = UUID().uuidString
-        self.name = name
-        self.currentUser = currentUser
-        self.profilePictureUrl = profilePictureUrl
-        self.messages = []
-        self.permissions = ChatRoomPermission.none
+        self.permissions = permissions
         insertAll(members: members)
     }
 

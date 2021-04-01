@@ -4,23 +4,18 @@ class PrivateChatRoom: ChatRoom {
     var otherUser: User?
     var subscribers: [AnyCancellable] = []
 
-    override init(id: String,
-                  name: String,
-                  currentUser: User,
-                  profilePictureUrl: String? = nil) {
+    init(id: String,
+         name: String,
+         currentUser: User,
+         otherUser: User? = nil,
+         profilePictureUrl: String? = nil) {
+        let members: [User] = [currentUser, otherUser].compactMap { $0 }
+
         super.init(id: id,
                    name: "",
                    currentUser: currentUser,
-                   profilePictureUrl: profilePictureUrl)
-    }
-
-    override init(name: String,
-                  members: [User],
-                  currentUser: User,
-                  profilePictureUrl: String? = nil) {
-        super.init(name: "",
+                   permissions: ChatRoomPermission.readWrite,
                    members: members,
-                   currentUser: currentUser,
                    profilePictureUrl: profilePictureUrl)
     }
 

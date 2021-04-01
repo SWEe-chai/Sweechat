@@ -95,7 +95,8 @@ struct ChatRoomView_Previews: PreviewProvider {
             viewModel: ChatRoomViewModel(
                 chatRoom: ChatRoom(id: "0",
                                    name: "CS4269",
-                                   currentUser: User(id: "", name: "Hello", profilePictureUrl: "")),
+                                   currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
+                                   permissions: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             )
         )
