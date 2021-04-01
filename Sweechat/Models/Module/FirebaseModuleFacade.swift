@@ -251,6 +251,8 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleChatRoomDocumentChange(_ change: DocumentChange) {
+        // TODO: Sizable oof because if the document updates, we don't know what's the chatroom permission
+        // unless we get all chatroom permissions here.
         if let chatRoom = FirebaseChatRoomFacade
             .convert(document: change.document, user: user, withPermissions: ChatRoomPermission.all) {
             chatRoomsReference?
