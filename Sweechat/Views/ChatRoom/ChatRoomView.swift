@@ -18,28 +18,25 @@ struct ChatRoomView: View {
             Button(action: sendTypedMessage) {
                 Text("Send")
             }
-            Button(action: openImagePicker) {
-                Text("Img")
-            }
-            Button(action: openCanvas) {
-                Text("Canvas")
+            Button(action: openActionSheet) {
+                Text("Attachment")
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
-        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
-            ImagePicker(image: $inputImage)
-        }
-        .fullScreenCover(isPresented: $showingCanvas, onDismiss: sendImage) {
-            CanvasView(showingCanvas: $showingCanvas, inputImage: $inputImage)
-        }
         .actionSheet(isPresented: $showingActionSheet) {
             ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
                 .default(Text("Image")) { openImagePicker() },
                 .default(Text("Canvas")) { openCanvas() },
                 .cancel()
             ])
+        }
+        .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
+            ImagePicker(image: $inputImage)
+        }
+        .fullScreenCover(isPresented: $showingCanvas, onDismiss: sendImage) {
+            CanvasView(showingCanvas: $showingCanvas, inputImage: $inputImage)
         }
     }
 
@@ -80,8 +77,14 @@ struct ChatRoomView: View {
         typingMessage = ""
     }
 
+    func openActionSheet() {
+        self.showingActionSheet = true
+    }
+
     func openImagePicker() {
+        print("ASDADA")
         self.showingImagePicker = true
+        print(self.showingImagePicker)
     }
 
     func sendImage() {
