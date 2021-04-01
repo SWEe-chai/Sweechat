@@ -14,6 +14,7 @@
 		272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */; };
 		27598E372615A9FC00DF564F /* AnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E362615A9FB00DF564F /* AnnouncementView.swift */; };
 		27598E3C2615C0AB00DF564F /* MessagesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E3B2615C0AB00DF564F /* MessagesScrollView.swift */; };
+		27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E482615C41500DF564F /* MessageInputBarView.swift */; };
 		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
 		2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
@@ -150,6 +151,7 @@
 		272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelDelegate.swift; sourceTree = "<group>"; };
 		27598E362615A9FB00DF564F /* AnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementView.swift; sourceTree = "<group>"; };
 		27598E3B2615C0AB00DF564F /* MessagesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesScrollView.swift; sourceTree = "<group>"; };
+		27598E482615C41500DF564F /* MessageInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputBarView.swift; sourceTree = "<group>"; };
 		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
 		2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelType.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				279503DE2605D55D00D3B743 /* TextMessageContentView.swift */,
 				3E74E083261047DC00CB344E /* ImageMessageContentView.swift */,
 				3E96F33226144EF9003E9C27 /* VideoMessageContentView.swift */,
+				27598E482615C41500DF564F /* MessageInputBarView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1037,6 +1040,7 @@
 				3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
 				279ECCF22613197800CBFFEB /* ChooseGroupChatMembersView.swift in Sources */,
+				27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */,
 				3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
 				2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */,
