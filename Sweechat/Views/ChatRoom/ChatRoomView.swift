@@ -5,6 +5,8 @@ struct ChatRoomView: View {
     @State var typingMessage: String = ""
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    @State private var showingCanvas = false
+    @State private var showingActionSheet = false
 
     var inputBar: some View {
         HStack {
@@ -19,12 +21,25 @@ struct ChatRoomView: View {
             Button(action: openImagePicker) {
                 Text("Img")
             }
+            Button(action: openCanvas) {
+                Text("Canvas")
+            }
         }
         .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
         .sheet(isPresented: $showingImagePicker, onDismiss: sendImage) {
             ImagePicker(image: $inputImage)
+        }
+        .fullScreenCover(isPresented: $showingCanvas, onDismiss: sendImage) {
+            CanvasView(showingCanvas: $showingCanvas, inputImage: $inputImage)
+        }
+        .actionSheet(isPresented: $showingActionSheet) {
+            ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
+                .default(Text("Image")) { openImagePicker() },
+                .default(Text("Canvas")) { openCanvas() },
+                .cancel()
+            ])
         }
     }
 
@@ -72,6 +87,10 @@ struct ChatRoomView: View {
     func sendImage() {
         viewModel.handleSendImage(inputImage)
         inputImage = nil
+    }
+
+    func openCanvas() {
+        self.showingCanvas = true
     }
 }
 
