@@ -25,6 +25,10 @@ class FirebaseModuleQuery {
 
     static func getModules(pairs: [FirebaseUserModulePair], user: User, onCompletion: @escaping ([Module]) -> Void) {
         let moduleIds = pairs.map { $0.moduleId }
+        if moduleIds.isEmpty {
+            onCompletion([])
+            return
+        }
         FirebaseUtils
             .getEnvironmentReference(Firestore.firestore())
             .collection(DatabaseConstant.Collection.modules)

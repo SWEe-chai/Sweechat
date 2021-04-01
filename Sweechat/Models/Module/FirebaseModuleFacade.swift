@@ -79,13 +79,9 @@ class FirebaseModuleFacade: ModuleFacade {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            for document in documents {
-                guard let pair = FirebaseUserChatRoomModulePairFacade.convert(document: document) else {
-                    return
-                }
-                FirebaseChatRoomQuery.getChatRoom(pair: pair, user: self.user) { chatRoom in
-                    self.delegate?.insert(chatRoom: chatRoom)
-                }
+            let pairs = documents.compactMap { FirebaseUserChatRoomModulePairFacade.convert(document: $0) }
+            FirebaseChatRoomQuery.getChatRooms(pairs: pairs, user: self.user) { chatRooms in
+                self.delegate?.insertAll(chatRooms: chatRooms)
             }
             onCompletion?()
         }

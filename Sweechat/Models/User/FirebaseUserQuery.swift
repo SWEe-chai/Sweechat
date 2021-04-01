@@ -19,6 +19,10 @@ class FirebaseUserQuery {
 
     static func getUsers(withIds ids: [String],
                          onCompletion: @escaping ([User]) -> Void) {
+        if ids.isEmpty {
+            onCompletion([])
+            return
+        }
         FirebaseUtils
             .getEnvironmentReference(Firestore.firestore())
             .collection(DatabaseConstant.Collection.users)
