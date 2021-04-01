@@ -14,7 +14,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var currentUser: User
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
-    let permissions: ChatRoomPermissionBitmask
+    let currentUserPermission: ChatRoomPermissionBitmask
     var memberIdsToUsers: [String: User] = [:]
     var members: [User] {
         Array(memberIdsToUsers.values)
@@ -23,25 +23,27 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     init(id: String,
          name: String,
          currentUser: User,
+         currentUserPermission: ChatRoomPermissionBitmask,
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.permissions = ChatRoomPermission.none
+        self.currentUserPermission = currentUserPermission
     }
 
     init(name: String,
          members: [User],
          currentUser: User,
+         currentUserPermission: ChatRoomPermissionBitmask,
          profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.permissions = ChatRoomPermission.none
+        self.currentUserPermission = currentUserPermission
         insertAll(members: members)
     }
 

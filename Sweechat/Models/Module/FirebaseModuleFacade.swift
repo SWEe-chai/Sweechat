@@ -21,7 +21,6 @@ class FirebaseModuleFacade: ModuleFacade {
     private var currentUserChatRoomsQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
     private var usersReference: CollectionReference?
-    private var usersListener: ListenerRegistration?
     private var userModulePairsReference: CollectionReference?
     private var currentModuleUsersQuery: Query?
     private var userModulePairsListener: ListenerRegistration?
@@ -94,7 +93,9 @@ class FirebaseModuleFacade: ModuleFacade {
             }
             for document in snapshot.documents {
                 let data = document.data()
-                guard let chatRoomId = data[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String else {
+                guard let chatRoomId = data[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String,
+                      let permissions = data[DatabaseConstant.UserChatRoomModulePair.permissions]
+                        as? ChatRoomPermissionBitmask else {
                     return
                 }
                 self.chatRoomsReference?
@@ -110,17 +111,17 @@ class FirebaseModuleFacade: ModuleFacade {
                         }
 
                         if let chatRoom = FirebaseChatRoomFacade
-                            .convert(document: snapshot, user: self.user) {
+                            .convert(document: snapshot, user: self.user, withPermissions: permissions) {
                             self.delegate?.insert(chatRoom: chatRoom)
                         }
-                    }
-                    )
+                    })
             }
             onCompletion?()
         }
     }
 
     private func addListeners() {
+        // This listens to new chatrooms that belongs to this user in the module
         userChatRoomModulePairsListener = currentUserChatRoomsQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -131,6 +132,7 @@ class FirebaseModuleFacade: ModuleFacade {
             }
         }
 
+        // This listens to new users in the module
         userModulePairsListener = currentModuleUsersQuery?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -138,16 +140,6 @@ class FirebaseModuleFacade: ModuleFacade {
             }
             snapshot.documentChanges.forEach { change in
                 self.handleUserModulePairDocumentChange(change)
-            }
-        }
-
-        usersListener = usersReference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-            snapshot.documentChanges.forEach { change in
-                self.handleUserDocumentChange(change)
             }
         }
 
@@ -217,7 +209,9 @@ class FirebaseModuleFacade: ModuleFacade {
                     return
                 }
                 if let chatRoom = FirebaseChatRoomFacade
-                    .convert(document: snapshot, user: self.user) {
+                    .convert(document: snapshot,
+                             user: self.user,
+                             withPermissions: firebaseUserChatRoomPair.permissions) {
                     switch change.type {
                     case .added:
                         self.delegate?.insert(chatRoom: chatRoom)
@@ -256,32 +250,11 @@ class FirebaseModuleFacade: ModuleFacade {
             })
     }
 
-    private func handleUserDocumentChange(_ change: DocumentChange) {
-        let user = FirebaseUserFacade.convert(document: change.document)
-        usersReference?
-            .document(user.id)
-            .getDocument(completion: { documentSnapshot, error in
-                guard documentSnapshot != nil else {
-                    return
-                }
-                if let err = error {
-                    os_log("Error getting sender in message: \(err.localizedDescription)")
-                    return
-                }
-
-                switch change.type {
-                case .modified:
-                    self.delegate?.update(user: user)
-                default:
-                    break
-                }
-            })
-
-    }
-
     private func handleChatRoomDocumentChange(_ change: DocumentChange) {
+        // TODO: Sizable oof because if the document updates, we don't know what's the chatroom permission
+        // unless we get all chatroom permissions here.
         if let chatRoom = FirebaseChatRoomFacade
-            .convert(document: change.document, user: user) {
+            .convert(document: change.document, user: user, withPermissions: ChatRoomPermission.all) {
             chatRoomsReference?
                 .document(chatRoom.id)
                 .getDocument(completion: { documentSnapshot, error in
@@ -301,7 +274,6 @@ class FirebaseModuleFacade: ModuleFacade {
                     }
                 })
         }
-
     }
 
     // Since modules need to have a user, to convert, we need to have the user

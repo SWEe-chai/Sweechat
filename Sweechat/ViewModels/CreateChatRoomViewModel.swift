@@ -33,9 +33,8 @@ class CreateChatRoomViewModel: ObservableObject {
 
         // This means that Chatroom does not exist
         let newPrivateChatRoom = PrivateChatRoom(
-            name: memberViewModel.memberName,
-            members: membersInPrivateChat,
-            currentUser: user)
+            currentUser: user,
+            otherUser: memberViewModel.member)
         module.store(chatRoom: newPrivateChatRoom,
                      userPermissions: memberPermissions)
     }
@@ -51,9 +50,12 @@ class CreateChatRoomViewModel: ObservableObject {
         }
         members.append(user)
         // Creator gets all permissions
-        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all
-        ))
-        let newGroupChatRoom = GroupChatRoom(name: groupName, members: members, currentUser: user)
+        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
+        let newGroupChatRoom = GroupChatRoom(
+            name: groupName,
+            members: members,
+            currentUser: user,
+            currentUserPermission: ChatRoomPermission.all)
         module.store(chatRoom: newGroupChatRoom,
                      userPermissions: memberPermissions)
 

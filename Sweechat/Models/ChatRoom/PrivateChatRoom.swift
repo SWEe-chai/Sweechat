@@ -4,24 +4,22 @@ class PrivateChatRoom: ChatRoom {
     var otherUser: User?
     var subscribers: [AnyCancellable] = []
 
-    override init(id: String,
-                  name: String,
-                  currentUser: User,
-                  profilePictureUrl: String? = nil) {
+    // Used by facade
+    init(id: String,
+         currentUser: User) {
         super.init(id: id,
                    name: "",
                    currentUser: currentUser,
-                   profilePictureUrl: profilePictureUrl)
+                   currentUserPermission: ChatRoomPermission.readWrite)
     }
 
-    override init(name: String,
-                  members: [User],
-                  currentUser: User,
-                  profilePictureUrl: String? = nil) {
+    init(currentUser: User,
+         otherUser: User) {
+        let members = [currentUser, otherUser]
         super.init(name: "",
                    members: members,
                    currentUser: currentUser,
-                   profilePictureUrl: profilePictureUrl)
+                   currentUserPermission: ChatRoomPermission.readWrite)
     }
 
     private func setOtherUser(_ user: User) {
