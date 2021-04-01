@@ -2,26 +2,31 @@ import Combine
 import Foundation
 
 class Message: ObservableObject {
+    let parentId: String?
     var id: String
     @Published var content: Data
     var creationTime: Date
     var senderId: String
     var type: MessageType
 
-    init(senderId: String, content: Data, type: MessageType) {
+    // TODO: Remove default value to make it explicit
+    init(senderId: String, content: Data, type: MessageType, parentId: String? = nil) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
         self.type = type
+        self.parentId = parentId
     }
 
-    init(id: String, senderId: String, creationTime: Date, content: Data, type: MessageType) {
+    init(id: String, senderId: String, creationTime: Date,
+         content: Data, type: MessageType, parentId: String? = nil) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
         self.content = content
         self.type = type
+        self.parentId = parentId
     }
 
     func update(message: Message) {
