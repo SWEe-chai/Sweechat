@@ -29,12 +29,14 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
-                Button(action: sendTypedMessage) {
-                    Image(systemName: "paperplane.fill")
-                }
-                Button(action: openActionSheet) {
-                    Image(systemName: "plus.circle")
-                }
+                Image(systemName: "paperplane.fill")
+                    .onTapGesture {
+                        sendTypedMessage()
+                    }
+                Image(systemName: "plus.circle")
+                    .onTapGesture {
+                        openActionSheet()
+                    }
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
