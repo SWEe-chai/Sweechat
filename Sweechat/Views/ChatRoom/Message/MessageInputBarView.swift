@@ -20,6 +20,7 @@ struct MessageInputBarView: View {
                         Text("X")
                     }
                     Text("\(message.previewContent())")
+                        .lineLimit(1)
                 }
             }
             HStack {
