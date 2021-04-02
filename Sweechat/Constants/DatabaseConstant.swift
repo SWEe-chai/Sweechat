@@ -47,6 +47,7 @@ struct DatabaseConstant {
         static let name = "name"
         static let profilePictureUrl = "profilePictureUrl"
         static let type = "type"
+        static let ownerId = "ownerId"
     }
 
     struct User {

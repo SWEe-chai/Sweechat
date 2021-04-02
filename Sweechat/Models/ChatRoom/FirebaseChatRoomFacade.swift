@@ -20,6 +20,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var chatRoomReference: DocumentReference?
     private var chatRoomListener: ListenerRegistration?
     private var messagesReference: CollectionReference?
+    private var filteredMessagesReference: Query?
     private var messagesListener: ListenerRegistration?
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
@@ -47,6 +48,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
+        filteredMessagesReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.chatRooms)
+            .document(chatRoomId)
+            .collection(DatabaseConstant.Collection.messages)
+            .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
@@ -97,7 +104,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             self.delegate?.update(chatRoom: chatRoom)
         }
 
-        messagesListener = messagesReference?.addSnapshotListener { querySnapshot, error in
+        messagesListener = filteredMessagesReference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
@@ -216,6 +223,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         let data = document.data()
         guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
+              let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for chat room")
             return nil
@@ -227,12 +235,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return GroupChatRoom(
                 id: id,
                 name: name,
+                ownerId: ownerId,
                 currentUser: user,
                 currentUserPermission: permissions,
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(
                 id: id,
+                ownerId: ownerId,
                 currentUser: user)
         }
     }
@@ -241,6 +251,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         var document = [
             DatabaseConstant.ChatRoom.id: chatRoom.id,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
+            DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
         switch chatRoom {

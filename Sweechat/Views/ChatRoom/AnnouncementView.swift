@@ -15,6 +15,7 @@ struct AnnouncementView_Previews: PreviewProvider {
                     chatRoom: ChatRoom(
                         id: "chatRoomId",
                         name: "Announcements",
+                        ownerId: "Me",
                         currentUser: User(id: "Hello", name: "Happy boi"),
                         currentUserPermission: ChatRoomPermission.all),
                     user: User(id: "Hello", name: "Happy boi")))
