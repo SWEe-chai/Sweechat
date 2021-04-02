@@ -136,7 +136,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             storeMessage(message: Message(senderId: currentUser.id,
                                           content: keyExchangeBundleData,
                                           type: MessageType.keyExchange,
-                                          receiverId: member.id))
+                                          receiverId: member.id,
+                                          parentId: nil))
         }
     }
 

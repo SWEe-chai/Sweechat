@@ -44,7 +44,7 @@ class FirebaseMessageFacade {
             creationTime: creationTime.dateValue(),
             content: content,
             type: messageType,
-            receiverId: receiverId)
+            receiverId: receiverId,
             parentId: parentId)
         }
         return nil

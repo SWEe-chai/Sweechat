@@ -94,7 +94,7 @@ struct MessageInputBarView: View {
     func openActionSheet() {
         self.showingActionSheet = true
     }
-  
+
     func openMediaPicker() {
         self.modalView = .MediaPicker
         self.showingModal = true
@@ -116,7 +116,7 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ))
+            ), messageBeingRepliedTo: Binding.constant(nil))
     }
 }
 

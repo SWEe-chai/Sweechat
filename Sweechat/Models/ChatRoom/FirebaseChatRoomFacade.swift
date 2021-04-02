@@ -160,7 +160,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 if err != nil {
                     os_log("Error fetching public key bundles")
                 }
-                
+
                 guard let documents = querySnapshot?.documents else {
                     return
                 }

@@ -49,7 +49,7 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func handleSendMessage(_ text: String,  withParentId parentId: String?) {
+    func handleSendMessage(_ text: String, withParentId parentId: String?) {
         let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
                               receiverId: ChatRoom.allUsersId, parentId: parentId)
         self.chatRoom.storeMessage(message: message)

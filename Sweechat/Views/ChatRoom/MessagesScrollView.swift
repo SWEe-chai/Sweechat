@@ -39,7 +39,7 @@ struct MessagesScrollView: View {
         scrollView.scrollTo(viewModel.messages[index])
 
     }
-  
+
     private func replyTo(message: MessageViewModel) {
         messageBeingRepliedTo = message
     }
@@ -78,8 +78,8 @@ struct MessagesScrollView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            )
-        ) 
+            ), messageBeingRepliedTo: Binding.constant(nil)
+        )
     }
 }
 
