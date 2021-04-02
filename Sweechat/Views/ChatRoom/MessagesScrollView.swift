@@ -71,7 +71,7 @@ struct MessagesScrollView: View {
             os_log("could not find message in the list of messages")
             return
         }
-        withAnimation {
+        withAnimation(Animation.easeIn(duration: 1.0)) {
             scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
         }
     }
