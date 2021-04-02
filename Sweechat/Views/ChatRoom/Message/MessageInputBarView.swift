@@ -16,7 +16,7 @@ struct MessageInputBarView: View {
                     // TODO: Make a nicer cancel button
                     Text("X")
                 }
-                Text("Replying to message with id: \(message.id)")
+                Text("\(message.previewContent())")
             }
         }
         VStack {

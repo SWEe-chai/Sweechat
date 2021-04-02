@@ -18,4 +18,9 @@ class ImageMessageViewModel: MessageViewModel {
             self.url = message.content.toString()
         }
     }
+
+    // MARK: Message Reply
+    override func previewContent() -> String {
+        "Image"
+    }
 }

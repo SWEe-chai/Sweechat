@@ -35,6 +35,13 @@ class MessageViewModel: ObservableObject {
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
     }
+
+    // MARK: Message Reply
+    /// The content shown when replying to messages
+    func previewContent() -> String {
+        os_log("previewContent() in MessageViewModel called. Did you forget to implement in a subclass?")
+        return "Message"
+    }
 }
 
 // MARK: Hashable

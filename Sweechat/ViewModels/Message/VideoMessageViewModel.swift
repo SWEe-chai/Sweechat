@@ -18,4 +18,9 @@ class VideoMessageViewModel: MessageViewModel {
             self.url = URL(string: content.toString())
         }
     }
+
+    // MARK: Message Reply
+    override func previewContent() -> String {
+        "Video"
+    }
 }
