@@ -7,12 +7,7 @@ struct CreateForumView: View {
 
     var body: some View {
         VStack {
-            TextField("Group name...", text: $forumName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .cornerRadius(5)
-                .frame(idealHeight: 20, maxHeight: 60)
-                .multilineTextAlignment(.leading)
-                .padding()
+            ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
             Spacer()
         }
         .navigationTitle("Create Forum")
