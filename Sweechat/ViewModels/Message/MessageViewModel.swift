@@ -8,6 +8,16 @@ class MessageViewModel: ObservableObject {
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?
 
+    // MARK: IDs
+    var id: String {
+        message.id
+    }
+
+    var parentId: String? {
+        message.parentId
+    }
+
+    // MARK: Messsage Bubble Properties
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
     }
@@ -28,6 +38,13 @@ class MessageViewModel: ObservableObject {
         self.message = message
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
+    }
+
+    // MARK: Message Reply
+    /// The content shown when replying to messages
+    func previewContent() -> String {
+        os_log("previewContent() in MessageViewModel called. Did you forget to implement in a subclass?")
+        return "Message"
     }
 }
 

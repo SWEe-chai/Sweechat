@@ -49,13 +49,13 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func handleSendMessage(_ text: String) {
+    func handleSendMessage(_ text: String,  withParentId parentId: String?) {
         let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
-                              receiverId: ChatRoom.allUsersId)
+                              receiverId: ChatRoom.allUsersId, parentId: parentId)
         self.chatRoom.storeMessage(message: message)
     }
 
-    func handleSendImage(_ wrappedImage: Any?) {
+    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: String?) {
         guard let image = wrappedImage as? UIImage else {
             os_log("wrappedImage is not UIImage")
             return
@@ -69,12 +69,12 @@ class ChatRoomViewModel: ObservableObject {
         self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
             let urlstring = url.absoluteString
             let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
-                                  receiverId: ChatRoom.allUsersId)
+                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
             self.chatRoom.storeMessage(message: message)
         }
     }
 
-    func handleSendVideo(_ mediaURL: Any?) {
+    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: String?) {
         guard let url = mediaURL as? URL else {
             os_log("media url is not a url")
             print("media url: \(String(describing: mediaURL))")
@@ -86,7 +86,7 @@ class ChatRoomViewModel: ObservableObject {
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
                 let urlstring = url.absoluteString
                 let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video,
-                                      receiverId: ChatRoom.allUsersId)
+                                      receiverId: ChatRoom.allUsersId, parentId: parentId)
                 self.chatRoom.storeMessage(message: message)
             }
         } catch {
