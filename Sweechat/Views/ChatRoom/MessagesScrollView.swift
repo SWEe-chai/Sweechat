@@ -63,7 +63,7 @@ struct MessagesScrollView: View {
         withAnimation {
             // NOTE: If the message you tapped is already shown on the screen, it won't scroll there
             // Might need to find API that makes the bottom part of the screen scroll to it
-            scrollView.scrollTo(viewModel.messages[index])
+            scrollView.scrollTo(viewModel.messages[index], anchor: .center)
         }
     }
 }
