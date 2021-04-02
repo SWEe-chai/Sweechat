@@ -96,6 +96,8 @@
 		458E23F92605EE0B006780C7 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E23F82605EE0B006780C7 /* AppViewModelTests.swift */; };
 		458E24112605FA16006780C7 /* RegistrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E24102605FA16006780C7 /* RegistrationViewModelTests.swift */; };
 		458E24162605FAC2006780C7 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E24152605FAC2006780C7 /* LoginViewModelTests.swift */; };
+		45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */; };
+		45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
 		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
 		45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */; };
@@ -248,6 +250,8 @@
 		458E23F82605EE0B006780C7 /* AppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTests.swift; sourceTree = "<group>"; };
 		458E24102605FA16006780C7 /* RegistrationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelTests.swift; sourceTree = "<group>"; };
 		458E24152605FAC2006780C7 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyStorageManager.swift; sourceTree = "<group>"; };
+		45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyJSONStorageManager.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -515,7 +519,8 @@
 		45834C3226106C8200B888B5 /* Cryptography */ = {
 			isa = PBXGroup;
 			children = (
-				4583D9852616055B0092AF87 /* CryptographyProviders */,
+				45A5824D2616BC8300D5DDD7 /* Storage */,
+				4583D9852616055B0092AF87 /* Providers */,
 				4583D9832616055B0092AF87 /* Errors */,
 				4583D9802616055B0092AF87 /* Factories */,
 				4583D9882616055B0092AF87 /* Keys */,
@@ -540,13 +545,13 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
-		4583D9852616055B0092AF87 /* CryptographyProviders */ = {
+		4583D9852616055B0092AF87 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
 				4583D9862616055B0092AF87 /* SignalProtocol.swift */,
 				4583D9872616055B0092AF87 /* GroupCryptographyProvider.swift */,
 			);
-			path = CryptographyProviders;
+			path = Providers;
 			sourceTree = "<group>";
 		};
 		4583D9882616055B0092AF87 /* Keys */ = {
@@ -619,6 +624,15 @@
 				45210D8F26075B1900B54155 /* MessageViewModelTests.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		45A5824D2616BC8300D5DDD7 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */,
+				45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		45D6332225FDE2A700C94D4F /* Views */ = {
@@ -1060,14 +1074,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45834C5426106C8200B888B5 /* PublicKey.swift in Sources */,
 				279CBAC7260AD840009A139C /* LazyNavView.swift in Sources */,
 				778F090625FDF06F0059C2A0 /* User.swift in Sources */,
 				278DBCA0261204B700AA1018 /* MessageViewModel.swift in Sources */,
-				45834C5526106C8200B888B5 /* PrivateKey.swift in Sources */,
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
-				45834C5A26106C8200B888B5 /* PrivateKeyImpl.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
 				3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */,
 				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
@@ -1109,6 +1120,7 @@
 				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				4583D9932616055B0092AF87 /* SignalProtocol.swift in Sources */,
+				45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */,
 				3E96F2E526144AFA003E9C27 /* VideoMessageViewModel.swift in Sources */,
 				27885837261053ED0058ADB2 /* JoinModuleView.swift in Sources */,
 				77C5D08626103403005D5504 /* MemberItemViewModel.swift in Sources */,
@@ -1156,10 +1168,7 @@
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				2788584826105DD30058ADB2 /* HomeToolbarView.swift in Sources */,
 				3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */,
-				45834C5026106C8200B888B5 /* CryptographyProvider.swift in Sources */,
-				45834C5626106C8200B888B5 /* SharedKeyImpl.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
-				45834C5926106C8200B888B5 /* PublicKeyImpl.swift in Sources */,
 				4583D99B2616055B0092AF87 /* SharedKey.swift in Sources */,
 				77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */,
 				4583D9992616055B0092AF87 /* P256SharedKey.swift in Sources */,
@@ -1175,6 +1184,7 @@
 				279ECCE5261304D300CBFFEB /* CreateChatRoomViewModel.swift in Sources */,
 				2787975A2601E24600124FA3 /* ALAuth.swift in Sources */,
 				278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */,
+				45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "hai-chatroom-permission"
+        static let dev = "kevin-crypto-dev"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev
@@ -21,6 +21,7 @@ struct DatabaseConstant {
         static let modules = "modules"
         static let userModulePairs = "userModulePairs"
         static let userChatRoomModulePairs = "userChatRoomModulePairs"
+        static let publicKeyBundles = "publicKeyBundles"
     }
 
     struct UserModulePair {
@@ -59,5 +60,10 @@ struct DatabaseConstant {
         static let senderId = "senderId"
         static let content = "content"
         static let type = "type"
+    }
+
+    struct PublicKeyBundle {
+        static let userId = "userId"
+        static let bundleData = "bundleData"
     }
 }

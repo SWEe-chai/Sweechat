@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 class User: ObservableObject {
     static let unvailableUserId = ""
@@ -9,6 +10,7 @@ class User: ObservableObject {
     @Published var profilePictureUrl: String?
     private var userFacade: UserFacade?
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
+    private var groupCryptographyProvider: GroupCryptographyProvider
 
     static func createUnavailableUser() -> User {
         User(id: unvailableUserId, name: unvailableUserName)
@@ -18,12 +20,14 @@ class User: ObservableObject {
         self.id = id
         self.name = ""
         self.profilePictureUrl = ""
+        self.groupCryptographyProvider = SignalProtocol(userId: id)
     }
 
     init(id: String, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
+        self.groupCryptographyProvider = SignalProtocol(userId: id)
     }
 
     func setUserConnection() {
@@ -36,6 +40,10 @@ class User: ObservableObject {
                 profilePictureUrl: profilePictureUrl
             )
         )
+    }
+
+    func getPublicKeyBundleData() -> Data? {
+        try? groupCryptographyProvider.getPublicServerKeyBundleData()
     }
 
 //    func initiateListeningToUser() {
