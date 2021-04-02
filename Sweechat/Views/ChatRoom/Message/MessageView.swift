@@ -40,17 +40,15 @@ struct MessageView: View {
     var message: MessageViewModel
 
     var body: some View {
-        HStack {
-            // custom vertical divider
-            Rectangle().fill(Color.gray).frame(width: 2)
-            VStack(alignment: .leading) {
-                Text(message.senderName)
-                    .fontWeight(.bold)
-                Text(message.previewContent())
-                    .lineLimit(1)
-            }
-            .font(.caption)
+        VStack(alignment: .leading) {
+            Text(message.senderName)
+                .fontWeight(.bold)
+            Text(message.previewContent())
+                .lineLimit(1)
         }
+        .padding(.leading, 10)
+        .font(.caption)
+        .border(width: 2, edges: [.leading], color: Color.gray)
         // So that it does not stretch vertically
         .fixedSize(horizontal: false, vertical: true)
     }
