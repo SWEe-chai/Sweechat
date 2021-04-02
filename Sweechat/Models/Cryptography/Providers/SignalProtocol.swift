@@ -3,20 +3,20 @@ import Foundation
 
 struct SignalProtocol: GroupCryptographyProvider {
     private let userId: String
-    private let groupId: String
     private let outputKeyLength = 32
     private let salt = "Signal Protocol".data(using: .utf8)!
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
     private let keyFactory: KeyFactory
+    private let storageManager: GroupCryptographyJSONStorageManager
     private var privateServerKeyBundle: [String: Data] = [:]
     private var publicServerKeyBundle: [String: Data] = [:]
     private var chainKeyData: Data?
 
-    init(userId: String, groupId: String) {
+    init(userId: String) {
         self.userId = userId
-        self.groupId = groupId
         self.keyFactory = P256KeyFactory()
+        self.storageManager = GroupCryptographyJSONStorageManager()
         initialiseServerKeyBundles()
     }
 
@@ -28,7 +28,7 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: generateKeyExchangeDataFrom
 
-    mutating func generateKeyExchangeDataFrom(serverKeyBundleData: Data) throws -> Data {
+    mutating func generateKeyExchangeDataFrom(serverKeyBundleData: Data, groupId: String) throws -> Data {
         // Generate server keys
         let (serverIdentityKey,
              serverSignedPreKey,
@@ -73,7 +73,7 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: process
 
-    mutating func process(keyExchangeBundleData: Data) throws {
+    mutating func process(keyExchangeBundleData: Data, groupId: String) throws {
         // Generate key exchange keys
         let (keyExchangeIdentityKey,
              keyExchangeEphemeralKey,
@@ -101,7 +101,7 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: encrypt
 
-    func encrypt(plaintextData: Data) throws -> Data {
+    func encrypt(plaintextData: Data, groupId: String) throws -> Data {
         let chainKey = try getChainKey()
         let ciphertextData = try chainKey.encrypt(plaintextData: plaintextData)
         return ciphertextData
@@ -109,20 +109,26 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: decrypt
 
-    func decrypt(ciphertextData: Data) throws -> Data {
+    func decrypt(ciphertextData: Data, groupId: String) throws -> Data {
         let chainKey = try getChainKey()
         let ciphertextData = try chainKey.decrypt(ciphertextData: ciphertextData)
         return ciphertextData
     }
 
     // MARK: Helper functions
+
     private mutating func initialiseServerKeyBundles() {
-        // Put a condition here to check storage if key bundle already stored/cached
-        // Use group ID to check local storage
+        if let (privateServerKeyBundle,
+                publicServerKeyBundle) = try? storageManager.loadServerKeyBundles(userId: userId) {
+            self.privateServerKeyBundle = privateServerKeyBundle
+            self.publicServerKeyBundle = publicServerKeyBundle
+            return
+        }
+
         let (privateIdentityKey, publicIdentityKey) = keyFactory.generateKeyPair()
         let (privateSignedPreKey, publicSignedPreKey) = keyFactory.generateKeyPair()
 
-        // Handle force unwrap (fatal error?)
+        // Might want to remove fatalError here
         guard let signature = try? privateIdentityKey.sign(data: publicSignedPreKey.rawRepresentation) else {
             fatalError("Unable to sign signed pre-key")
         }
@@ -132,6 +138,14 @@ struct SignalProtocol: GroupCryptographyProvider {
         publicServerKeyBundle["ik"] = publicIdentityKey.rawRepresentation
         publicServerKeyBundle["spk"] = publicSignedPreKey.rawRepresentation
         publicServerKeyBundle["signature"] = signature
+
+        // Might want to remove fatalError here
+        do {
+            try storageManager.save(userId: userId, privateServerKeyBundle: privateServerKeyBundle,
+                                    publicServerKeyBundle: publicServerKeyBundle)
+        } catch {
+            fatalError("Unable to save server key bundles")
+        }
     }
 
     private func encode(keyBundle: [String: Data]) throws -> Data {
