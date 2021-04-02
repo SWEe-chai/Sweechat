@@ -1,10 +1,3 @@
-//
-//  ChatRoomNameTextField.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 3/4/21.
-//
-
 import SwiftUI
 
 struct ChatRoomNameTextField: View {
