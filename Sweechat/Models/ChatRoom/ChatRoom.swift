@@ -87,23 +87,26 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
-        guard !self.messages.contains(message) else {
+        if self.messages.contains(message)
+            || (message.receiverId != ChatRoom.allUsersId && message.receiverId != self.currentUser.id) {
             return
         }
 
         processMessage(message)
         self.messages.append(message)
-        self.messages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId || $0.receiverId == self.id })
+        self.messages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId
+                                                || $0.receiverId == self.currentUser.id })
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }
 
     func insertAll(messages: [Message]) {
         // Chat room is created
-        if messages.isEmpty, let publicKeyBundles = chatRoomFacade?.getPublicKeyBundles(of: members) {
-            performKeyExchange(publicKeyBundles: publicKeyBundles)
+        if messages.isEmpty && self.messages.isEmpty {
+            chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
         }
 
-        var newMessages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId || $0.receiverId == self.id })
+        var newMessages = messages.filter({ $0.receiverId == ChatRoom.allUsersId
+                                            || $0.receiverId == self.currentUser.id })
         newMessages.sort(by: { $0.creationTime < $1.creationTime })
 
         if !newMessages.isEmpty && newMessages[0].type == MessageType.keyExchange {

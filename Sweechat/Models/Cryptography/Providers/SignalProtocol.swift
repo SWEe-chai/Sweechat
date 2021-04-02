@@ -97,7 +97,6 @@ struct SignalProtocol: GroupCryptographyProvider {
     // MARK: encrypt
 
     func encrypt(plaintextData: Data, groupId: String) throws -> Data {
-        print("Encryption is amazing")
         let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.encrypt(plaintextData: plaintextData)
         return ciphertextData
@@ -106,7 +105,6 @@ struct SignalProtocol: GroupCryptographyProvider {
     // MARK: decrypt
 
     func decrypt(ciphertextData: Data, groupId: String) throws -> Data {
-        print("Decryption is amazing")
         let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.decrypt(ciphertextData: ciphertextData)
         return ciphertextData
@@ -193,6 +191,7 @@ struct SignalProtocol: GroupCryptographyProvider {
 
         return (privateIdentityKey, publicIdentityKey)
     }
+
     private func generateEphemeralKeyPair() throws -> (PrivateKey, PublicKey) {
         let (privateEphemeralKey, publicEphemeralKey) = keyFactory.generateKeyPair()
         return (privateEphemeralKey, publicEphemeralKey)

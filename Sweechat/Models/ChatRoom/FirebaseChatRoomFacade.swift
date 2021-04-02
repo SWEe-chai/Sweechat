@@ -146,9 +146,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
-    func getPublicKeyBundles(of users: [User]) -> [String: Data] {
-        var publicKeyBundles: [String: Data] = [:]
-
+    func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         self.publicKeyBundlesReference
             .whereField("userId", in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
@@ -157,6 +155,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 }
 
                 if let documents = querySnapshot?.documents {
+                    var publicKeyBundles: [String: Data] = [:]
+
                     documents.forEach({
                         let data = $0.data()
                         if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
@@ -164,10 +164,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                             publicKeyBundles[userId] = bundleData
                         }
                     })
+
+                    onCompletion?(publicKeyBundles)
                 }
             }
-
-        return publicKeyBundles
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {
