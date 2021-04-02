@@ -1,4 +1,5 @@
 import SwiftUI
+import os
 
 struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
@@ -11,6 +12,9 @@ struct MessagesScrollView: View {
                     if let parentMessage = getMessage(withId: messageViewModel.parentId) {
                         // TODO: Make nicer view for the replied message
                         Text("\(parentMessage.previewContent())")
+                            .onTapGesture {
+                                scrollToMessage(scrollView, parentMessage)
+                            }
                     }
                     MessageView(viewModel: messageViewModel)
                         // TODO: This will clash with playing of video message
@@ -43,6 +47,23 @@ struct MessagesScrollView: View {
     private func getMessage(withId id: String?) -> MessageViewModel? {
         viewModel.messages.first {
             $0.id == id
+        }
+    }
+
+    // TODO: Perhaps combine this with `scrollToLatesMessage`?
+    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel) {
+        if viewModel.messages.isEmpty {
+            os_log("messages are empty")
+            return
+        }
+        guard let index = viewModel.messages.firstIndex(of: message) else {
+            os_log("could not find message in the list of messages")
+            return
+        }
+        withAnimation {
+            // NOTE: If the message you tapped is already shown on the screen, it won't scroll there
+            // Might need to find API that makes the bottom part of the screen scroll to it
+            scrollView.scrollTo(viewModel.messages[index])
         }
     }
 }
