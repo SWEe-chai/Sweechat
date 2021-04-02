@@ -41,13 +41,17 @@ struct MessageInputBarView: View {
             }
         }
     }
+
+    // TODO: Might want to combine sendTypedMessage with sendMedia. Some common logic
+    // like setting messageBeingRepliedTo to nil at the end
     func sendTypedMessage() {
         let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
         if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(content)
+        viewModel.handleSendMessage(content, withParentId: messageBeingRepliedTo?.id)
         typingMessage = ""
+        messageBeingRepliedTo = nil
     }
 
     func openMediaPicker() {
@@ -62,13 +66,14 @@ struct MessageInputBarView: View {
 
         switch choice {
         case .image:
-            viewModel.handleSendImage(pickedMedia)
+            viewModel.handleSendImage(pickedMedia, withParentId: messageBeingRepliedTo?.id)
         case .video:
-            viewModel.handleSendVideo(pickedMedia)
+            viewModel.handleSendVideo(pickedMedia, withParentId: messageBeingRepliedTo?.id)
         }
 
         pickedMedia = nil
         pickedMediaType = nil
+        messageBeingRepliedTo = nil
     }
 }
 

@@ -9,8 +9,7 @@ class Message: ObservableObject {
     var senderId: String
     var type: MessageType
 
-    // TODO: Remove default value to make it explicit
-    init(senderId: String, content: Data, type: MessageType, parentId: String? = nil) {
+    init(senderId: String, content: Data, type: MessageType, parentId: String?) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
@@ -20,7 +19,7 @@ class Message: ObservableObject {
     }
 
     init(id: String, senderId: String, creationTime: Date,
-         content: Data, type: MessageType, parentId: String? = nil) {
+         content: Data, type: MessageType, parentId: String?) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
