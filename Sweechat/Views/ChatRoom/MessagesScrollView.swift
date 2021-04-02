@@ -3,9 +3,7 @@ import os
 
 struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @Binding var messageBeingRepliedTo: MessageViewModel?
-
-    @Binding var tappedReplyPreviewFromInputBar: Bool
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
         ScrollView {
@@ -24,10 +22,16 @@ struct MessagesScrollView: View {
                 .onChange(of: viewModel.messages.count) { _ in
                     scrollToLatestMessage(scrollView)
                 }
-                .onChange(of: tappedReplyPreviewFromInputBar) { _ in
-                    // the boolean feels very decoupled from the messageBeingRepliedTo. This could introduce bugs.
-                    scrollToMessage(scrollView, messageBeingRepliedTo)
-                    tappedReplyPreviewFromInputBar = false
+                .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
+                    guard let metadata = replyPreviewMetadata else {
+                        os_log("Info: replyPreviewMetadata is nil when detecting change.")
+                        return
+                    }
+
+                    if metadata.tappedReplyPreview {
+                        scrollToMessage(scrollView, metadata.messageBeingRepliedTo)
+                        replyPreviewMetadata?.tappedReplyPreview = false // value-type semantics. change directly
+                    }
                 }
                 .padding([.leading, .trailing])
             }
@@ -44,7 +48,7 @@ struct MessagesScrollView: View {
     }
 
     private func replyTo(message: MessageViewModel) {
-        messageBeingRepliedTo = message
+        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
 
     private func getMessage(withId id: String?) -> MessageViewModel? {

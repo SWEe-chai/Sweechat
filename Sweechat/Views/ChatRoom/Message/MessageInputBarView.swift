@@ -9,21 +9,18 @@ struct MessageInputBarView: View {
     @State private var showingActionSheet = false
     @State private var media: Any?
     @State private var mediaType: MediaType?
-    @Binding var messageBeingRepliedTo: MessageViewModel?
-
-    @Binding var tappedReplyPreviewFromInputBar: Bool
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
         VStack {
-            if let message = messageBeingRepliedTo {
+            if let message = replyPreviewMetadata?.messageBeingRepliedTo {
                 HStack {
-                    Button(action: { messageBeingRepliedTo = nil }) {
-                        // TODO: Make a nicer cancel button
+                    Button(action: { replyPreviewMetadata = nil }) {
                         Image(systemName: "xmark.circle.fill")
                     }
                     ReplyPreviewView(message: message, borderColor: Color.gray)
                         .onTapGesture {
-                            tappedReplyPreviewFromInputBar = true
+                            replyPreviewMetadata?.tappedReplyPreview = true
                         }
                 }
             }
@@ -70,9 +67,9 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(content, withParentId: messageBeingRepliedTo?.id)
+        viewModel.handleSendMessage(content, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         typingMessage = ""
-        messageBeingRepliedTo = nil
+        replyPreviewMetadata = nil
     }
 
     private func sendMedia() {
@@ -84,14 +81,14 @@ struct MessageInputBarView: View {
 
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendImage(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendVideo(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         }
 
         media = nil
         mediaType = nil
-        messageBeingRepliedTo = nil
+        replyPreviewMetadata = nil
     }
 
     func openActionSheet() {

@@ -3,22 +3,23 @@ import SwiftUI
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var messageBeingRepliedTo: MessageViewModel?
-
-    // TODO: Starting to pass a lot of variables.. Not sure what better way there is
-    @State var tappedReplyPreviewFromInputBar: Bool = false
+    @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
         VStack {
             MessagesScrollView(viewModel: viewModel,
-                               messageBeingRepliedTo: $messageBeingRepliedTo,
-                               tappedReplyPreviewFromInputBar: $tappedReplyPreviewFromInputBar)
+                               replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
-                                messageBeingRepliedTo: $messageBeingRepliedTo,
-                                tappedReplyPreviewFromInputBar: $tappedReplyPreviewFromInputBar)
+                                replyPreviewMetadata: $replyPreviewMetadata)
         }
         .navigationTitle(Text(viewModel.text))
     }
 
+}
+
+struct ReplyPreviewMetadata {
+    var messageBeingRepliedTo: MessageViewModel
+    var tappedReplyPreview: Bool = false
 }
 
 struct ChatRoomView_Previews: PreviewProvider {
@@ -30,7 +31,7 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ), tappedReplyPreviewFromInputBar: false
+            )
         )
     }
 }
