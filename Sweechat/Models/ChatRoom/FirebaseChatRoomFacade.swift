@@ -16,6 +16,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     private var db = Firestore.firestore()
     private var storage = Storage.storage().reference()
+    private var publicKeyBundlesReference: CollectionReference
     private var chatRoomReference: DocumentReference?
     private var chatRoomListener: ListenerRegistration?
     private var messagesReference: CollectionReference?
@@ -26,6 +27,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     init(chatRoomId: String, user: User) {
         self.chatRoomId = chatRoomId
         self.user = user
+        self.publicKeyBundlesReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.publicKeyBundles)
         setUpConnectionToChatRoom()
     }
 
@@ -140,6 +144,30 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 onCompletion?(url)
             }
         }
+    }
+
+    func getPublicKeyBundles(of users: [User]) -> [String: Data] {
+        var publicKeyBundles: [String: Data] = [:]
+
+        self.publicKeyBundlesReference
+            .whereField("userId", in: users.map({ $0.id }))
+            .getDocuments { querySnapshot, err in
+                if err != nil {
+                    os_log("Error fetching public key bundles")
+                }
+
+                if let documents = querySnapshot?.documents {
+                    documents.forEach({
+                        let data = $0.data()
+                        if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
+                           let bundleData = data[DatabaseConstant.PublicKeyBundle.bundleData] as? Data {
+                            publicKeyBundles[userId] = bundleData
+                        }
+                    })
+                }
+            }
+
+        return publicKeyBundles
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {

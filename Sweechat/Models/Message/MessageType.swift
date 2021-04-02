@@ -11,4 +11,5 @@ public enum MessageType: String {
     case video
     case location
     case emoji
+    case keyExchange
 }

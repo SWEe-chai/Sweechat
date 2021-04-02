@@ -50,7 +50,8 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String) {
-        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text)
+        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
+                              receiverId: ChatRoom.allUsersId)
         self.chatRoom.storeMessage(message: message)
     }
 
@@ -67,7 +68,8 @@ class ChatRoomViewModel: ObservableObject {
 
         self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
             let urlstring = url.absoluteString
-            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image)
+            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
+                                  receiverId: ChatRoom.allUsersId)
             self.chatRoom.storeMessage(message: message)
         }
     }
@@ -83,7 +85,8 @@ class ChatRoomViewModel: ObservableObject {
             let data = try Data(contentsOf: url)
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
                 let urlstring = url.absoluteString
-                let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video)
+                let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video,
+                                      receiverId: ChatRoom.allUsersId)
                 self.chatRoom.storeMessage(message: message)
             }
         } catch {

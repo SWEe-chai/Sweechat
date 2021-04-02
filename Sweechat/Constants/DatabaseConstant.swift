@@ -60,6 +60,7 @@ struct DatabaseConstant {
         static let senderId = "senderId"
         static let content = "content"
         static let type = "type"
+        static let receiverId = "receiverId"
     }
 
     struct PublicKeyBundle {

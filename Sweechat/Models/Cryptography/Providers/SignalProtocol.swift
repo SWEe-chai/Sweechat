@@ -50,9 +50,8 @@ struct SignalProtocol: GroupCryptographyProvider {
         // Generate chain key
         let chainKey = try generateChainKey()
 
-        // Store chain key (Replace with storage manager function)
-        // Use group ID to determine where to store keys
-        store(chainKey: chainKey)
+        // Store chain key
+        try storageManager.save(chainKeyData: chainKey.rawRepresentation, userId: userId, groupId: groupId)
 
         // Encrypt-then-sign chain key
         let (encryptedChainKeyData, chainKeySignature) = try encryptThenSign(encryptionKey: masterKey,
@@ -96,13 +95,13 @@ struct SignalProtocol: GroupCryptographyProvider {
         let chainKey = try decryptChainKey(encryptedKeyExchangeChainKeyData, using: masterKey)
 
         // Store chain key
-        self.chainKeyData = chainKey.rawRepresentation
+        try storageManager.save(chainKeyData: chainKey.rawRepresentation, userId: userId, groupId: groupId)
     }
 
     // MARK: encrypt
 
     func encrypt(plaintextData: Data, groupId: String) throws -> Data {
-        let chainKey = try getChainKey()
+        let chainKey = try getChainKey(groupId: groupId)
         let ciphertextData = try chainKey.encrypt(plaintextData: plaintextData)
         return ciphertextData
     }
@@ -110,7 +109,7 @@ struct SignalProtocol: GroupCryptographyProvider {
     // MARK: decrypt
 
     func decrypt(ciphertextData: Data, groupId: String) throws -> Data {
-        let chainKey = try getChainKey()
+        let chainKey = try getChainKey(groupId: groupId)
         let ciphertextData = try chainKey.decrypt(ciphertextData: ciphertextData)
         return ciphertextData
     }
@@ -332,8 +331,8 @@ struct SignalProtocol: GroupCryptographyProvider {
         return chainKey
     }
 
-    private func getChainKey() throws -> SharedKey {
-        guard let chainKeyData = chainKeyData else {
+    private func getChainKey(groupId: String) throws -> SharedKey {
+        guard let chainKeyData = try? storageManager.loadChainKeyData(userId: userId, groupId: groupId) else {
             throw SignalProtocolError(message: "Unable to get chain key data")
         }
 

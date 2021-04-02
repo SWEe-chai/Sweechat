@@ -19,6 +19,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
+    private var groupCryptographyProvider: GroupCryptographyProvider
+
+    static let allUsersId: String = "all"
 
     init(id: String,
          name: String,
@@ -31,6 +34,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
     }
 
     init(name: String,
@@ -44,6 +48,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
         insertAll(members: members)
     }
 
@@ -78,12 +83,57 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             return
         }
         self.messages.append(message)
+        self.messages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId || $0.receiverId == self.id })
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
+
+        if self.messages[0].type == MessageType.keyExchange {
+            processKeyExchangeMessage(self.messages[0])
+        }
     }
 
     func insertAll(messages: [Message]) {
-        let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
+        // Chat room is created
+        if messages.isEmpty, let publicKeyBundles = chatRoomFacade?.getPublicKeyBundles(of: members) {
+            performKeyExchange(publicKeyBundles: publicKeyBundles)
+        }
+
+        var newMessages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId || $0.receiverId == self.id })
+        newMessages.sort(by: { $0.creationTime < $1.creationTime })
+
+        if !newMessages.isEmpty && newMessages[0].type == MessageType.keyExchange {
+            processKeyExchangeMessage(newMessages[0])
+        }
+
         self.messages = newMessages
+    }
+
+    private func performKeyExchange(publicKeyBundles: [String: Data]) {
+        for member in members where member.id != currentUser.id {
+            guard let bundleData = publicKeyBundles[member.id] else {
+                // Replace fatalError with something else
+                fatalError("Member public key bundle not available")
+            }
+
+            guard let keyExchangeBundleData = try? groupCryptographyProvider
+                    .generateKeyExchangeDataFrom(serverKeyBundleData: bundleData, groupId: self.id) else {
+                // Replace fatalError with something else
+                fatalError("Unable to generate key exchange bundle for chat room member")
+            }
+
+            storeMessage(message: Message(senderId: currentUser.id,
+                                          content: keyExchangeBundleData,
+                                          type: MessageType.keyExchange,
+                                          receiverId: member.id))
+        }
+    }
+
+    private func processKeyExchangeMessage(_ message: Message) {
+        do {
+            try groupCryptographyProvider.process(keyExchangeBundleData: message.content, groupId: self.id)
+        } catch {
+            // Replace fatalError with something else
+            fatalError("Unable to process key exchange bundle from group creator")
+        }
     }
 
     func remove(message: Message) {

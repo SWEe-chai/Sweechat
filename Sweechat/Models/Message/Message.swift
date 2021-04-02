@@ -7,21 +7,24 @@ class Message: ObservableObject {
     var creationTime: Date
     var senderId: String
     var type: MessageType
+    var receiverId: String
 
-    init(senderId: String, content: Data, type: MessageType) {
+    init(senderId: String, content: Data, type: MessageType, receiverId: String) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
         self.id = UUID().uuidString
         self.type = type
+        self.receiverId = receiverId
     }
 
-    init(id: String, senderId: String, creationTime: Date, content: Data, type: MessageType) {
+    init(id: String, senderId: String, creationTime: Date, content: Data, type: MessageType, receiverId: String) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
         self.content = content
         self.type = type
+        self.receiverId = receiverId
     }
 
     func update(message: Message) {
