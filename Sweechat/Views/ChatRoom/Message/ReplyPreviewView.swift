@@ -21,7 +21,6 @@ struct ReplyPreviewView: View {
         .padding([.leading, .trailing], 10)
         .font(.caption)
         .border(width: 2, edges: [.leading, .trailing], color: borderColor)
-        // So that it does not stretch vertically
-        .fixedSize(horizontal: false, vertical: true)
+        .fixedSize(horizontal: false, vertical: true) // So that it does not stretch vertically
     }
 }
