@@ -11,6 +11,9 @@ struct MessageView: View {
     var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
 
+    // TODO: Change this to delegates in the future
+    var onReplyPreviewTapped: (() -> Void)?
+
     var body: some View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
@@ -21,6 +24,9 @@ struct MessageView: View {
                 VStack(alignment: .leading) {
                     if let parent = parentViewModel {
                         ReplyPreviewView(message: parent)
+                            .onTapGesture {
+                                onReplyPreviewTapped?()
+                            }
                     }
                     MessageContentViewFactory.makeView(viewModel: viewModel)
                 }

@@ -9,9 +9,12 @@ struct MessagesScrollView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
-                    MessageView(viewModel: messageViewModel, parentViewModel: getMessage(withId: messageViewModel.parentId))
-                        // TODO: This will clash with playing of video message
-                        .onTapGesture {
+                    let parentMessage = getMessage(withId: messageViewModel.parentId)
+                    MessageView(viewModel: messageViewModel,
+                                parentViewModel: parentMessage,
+                                onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
+                        // TODO: On VideoMessage, it might be hard to tap because the player takes precendence
+                        .onTapGesture(count: 2) {
                             replyTo(message: messageViewModel)
                         }
                 }
@@ -44,9 +47,13 @@ struct MessagesScrollView: View {
     }
 
     // TODO: Perhaps combine this with `scrollToLatesMessage`?
-    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel) {
+    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel?) {
         if viewModel.messages.isEmpty {
             os_log("messages are empty")
+            return
+        }
+        guard let message = message else {
+            os_log("nil MessageViewModel passed into scrollToMessage")
             return
         }
         guard let index = viewModel.messages.firstIndex(of: message) else {
