@@ -43,7 +43,7 @@ struct MessageInputBarView: View {
         .actionSheet(
             isPresented: $showingActionSheet) {
             ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
-                .default(Text("Image")) { openImagePicker() },
+                .default(Text("Image or Video")) { openMediaPicker() },
                 .default(Text("Canvas")) { openCanvas() },
                 .cancel()
             ])
@@ -52,7 +52,7 @@ struct MessageInputBarView: View {
             switch modalView {
             case .Canvas:
                 CanvasView(showingModal: $showingModal, media: $media, mediaType: $mediaType)
-            case .ImagePicker:
+            case .MediaPicker:
                 MediaPicker(media: $media, mediaType: $mediaType)
             default:
                 EmptyView()
@@ -71,10 +71,6 @@ struct MessageInputBarView: View {
         typingMessage = ""
         messageBeingRepliedTo = nil
     }
-
-    // func openMediaPicker() {
-    //     self.showingMediaPicker = true
-    // }
 
     private func sendMedia() {
         guard let choice = mediaType else {
@@ -99,8 +95,8 @@ struct MessageInputBarView: View {
         self.showingActionSheet = true
     }
 
-    func openImagePicker() {
-        self.modalView = .ImagePicker
+    func openMediaPicker() {
+        self.modalView = .MediaPicker
         self.showingModal = true
     }
 

@@ -29,6 +29,6 @@ struct ChatRoomView_Previews: PreviewProvider {
 }
 
 enum ModalView {
-    case ImagePicker
+    case MediaPicker
     case Canvas
 }
