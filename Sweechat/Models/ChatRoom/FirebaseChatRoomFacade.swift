@@ -86,7 +86,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            // TODO: This is a pain point, we need to get
+
             FirebaseUserChatRoomModulePairFacade.getUserChatRoomModulePair(
                 chatRoomId: self.chatRoomId,
                 userId: self.user.id) { pair in
