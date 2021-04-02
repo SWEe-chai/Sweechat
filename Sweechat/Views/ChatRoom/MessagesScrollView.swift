@@ -8,6 +8,10 @@ struct MessagesScrollView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
+                    if let parentMessage = getMessage(withId: messageViewModel.parentId) {
+                        // TODO: Make nicer view for the replied message
+                        Text("\(parentMessage.previewContent())")
+                    }
                     MessageView(viewModel: messageViewModel)
                         // TODO: This will clash with playing of video message
                         .onTapGesture {
@@ -23,10 +27,6 @@ struct MessagesScrollView: View {
         }
     }
 
-    private func replyTo(message: MessageViewModel) {
-        messageBeingRepliedTo = message
-    }
-
     func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
         if viewModel.messages.isEmpty {
             return
@@ -34,6 +34,16 @@ struct MessagesScrollView: View {
         let index = viewModel.messages.count - 1
         scrollView.scrollTo(viewModel.messages[index])
 
+    }
+
+    private func replyTo(message: MessageViewModel) {
+        messageBeingRepliedTo = message
+    }
+
+    private func getMessage(withId id: String?) -> MessageViewModel? {
+        viewModel.messages.first {
+            $0.id == id
+        }
     }
 }
 

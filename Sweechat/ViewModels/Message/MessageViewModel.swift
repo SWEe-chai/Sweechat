@@ -13,6 +13,10 @@ class MessageViewModel: ObservableObject {
         message.id
     }
 
+    var parentId: String? {
+        message.parentId
+    }
+
     // MARK: Messsage Bubble Properties
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
