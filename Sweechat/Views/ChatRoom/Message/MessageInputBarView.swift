@@ -19,10 +19,9 @@ struct MessageInputBarView: View {
                 HStack {
                     Button(action: { messageBeingRepliedTo = nil }) {
                         // TODO: Make a nicer cancel button
-                        Text("X")
+                        Image(systemName: "xmark.circle.fill")
                     }
-                    Text("\(message.previewContent())")
-                        .lineLimit(1)
+                    ReplyPreviewView(message: message, borderColor: Color.gray)
                         .onTapGesture {
                             tappedReplyPreviewFromInputBar = true
                         }
