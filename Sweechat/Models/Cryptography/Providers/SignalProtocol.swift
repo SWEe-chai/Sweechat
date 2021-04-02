@@ -11,7 +11,6 @@ struct SignalProtocol: GroupCryptographyProvider {
     private let storageManager: GroupCryptographyJSONStorageManager
     private var privateServerKeyBundle: [String: Data] = [:]
     private var publicServerKeyBundle: [String: Data] = [:]
-    private var chainKeyData: Data?
 
     init(userId: String) {
         self.userId = userId
@@ -48,10 +47,7 @@ struct SignalProtocol: GroupCryptographyProvider {
                                                        serverSignedPreKey: serverSignedPreKey)
 
         // Generate chain key
-        let chainKey = try generateChainKey()
-
-        // Store chain key
-        try storageManager.save(chainKeyData: chainKey.rawRepresentation, userId: userId, groupId: groupId)
+        let chainKey = try getOrGenerateChainKey(groupId: groupId)
 
         // Encrypt-then-sign chain key
         let (encryptedChainKeyData, chainKeySignature) = try encryptThenSign(encryptionKey: masterKey,
@@ -101,7 +97,8 @@ struct SignalProtocol: GroupCryptographyProvider {
     // MARK: encrypt
 
     func encrypt(plaintextData: Data, groupId: String) throws -> Data {
-        let chainKey = try getChainKey(groupId: groupId)
+        print("Encryption is amazing")
+        let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.encrypt(plaintextData: plaintextData)
         return ciphertextData
     }
@@ -109,7 +106,8 @@ struct SignalProtocol: GroupCryptographyProvider {
     // MARK: decrypt
 
     func decrypt(ciphertextData: Data, groupId: String) throws -> Data {
-        let chainKey = try getChainKey(groupId: groupId)
+        print("Decryption is amazing")
+        let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.decrypt(ciphertextData: ciphertextData)
         return ciphertextData
     }
@@ -226,25 +224,6 @@ struct SignalProtocol: GroupCryptographyProvider {
         return keyFactory.generateSharedKey(from: derivedKey.rawRepresentation)
     }
 
-    private func generateChainKey() throws -> SharedKey {
-        if let chainKeyData = chainKeyData {
-            return keyFactory.generateSharedKey(from: chainKeyData)
-        }
-
-        let (randomPrivateKey, randomPublicKey) = keyFactory.generateKeyPair()
-
-        guard let chainKey = try? randomPrivateKey.combine(with: randomPublicKey, salt: salt,
-                                                           outputKeyLength: outputKeyLength) else {
-            throw SignalProtocolError(message: "Unable to generate chain key")
-        }
-
-        return chainKey
-    }
-
-    private mutating func store(chainKey: SharedKey) {
-        chainKeyData = chainKey.rawRepresentation
-    }
-
     private func encryptThenSign(encryptionKey: SharedKey, signingKey: PrivateKey, data: Data) throws -> (Data, Data) {
         guard let encryptedData = try? encryptionKey.encrypt(plaintextData: data) else {
             throw SignalProtocolError(message: "Unable to encrypt data")
@@ -331,12 +310,25 @@ struct SignalProtocol: GroupCryptographyProvider {
         return chainKey
     }
 
-    private func getChainKey(groupId: String) throws -> SharedKey {
-        guard let chainKeyData = try? storageManager.loadChainKeyData(userId: userId, groupId: groupId) else {
-            throw SignalProtocolError(message: "Unable to get chain key data")
+    private func getOrGenerateChainKey(groupId: String) throws -> SharedKey {
+        if let chainKeyData = try? storageManager.loadChainKeyData(userId: userId, groupId: groupId) {
+            // Chain key already stored
+            return keyFactory.generateSharedKey(from: chainKeyData)
         }
 
-        let chainKey = keyFactory.generateSharedKey(from: chainKeyData)
+        let (randomPrivateKey, randomPublicKey) = keyFactory.generateKeyPair()
+
+        guard let chainKey = try? randomPrivateKey.combine(with: randomPublicKey, salt: salt,
+                                                           outputKeyLength: outputKeyLength) else {
+            throw SignalProtocolError(message: "Unable to generate chain key")
+        }
+
+        do {
+            try storageManager.save(chainKeyData: chainKey.rawRepresentation, userId: userId, groupId: groupId)
+        } catch {
+            throw SignalProtocolError(message: "Unable to save")
+        }
+
         return chainKey
     }
 }

@@ -58,6 +58,14 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func storeMessage(message: Message) {
+        if message.type != MessageType.keyExchange {
+            do {
+                message.content = try groupCryptographyProvider.encrypt(plaintextData: message.content, groupId: id)
+            } catch {
+                // Replace fatalError with something else
+                fatalError("Unable to encrypt message in chat room")
+            }
+        }
         self.chatRoomFacade?.save(message)
     }
 
@@ -82,13 +90,11 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         guard !self.messages.contains(message) else {
             return
         }
+
+        processMessage(message)
         self.messages.append(message)
         self.messages = self.messages.filter({ $0.receiverId == ChatRoom.allUsersId || $0.receiverId == self.id })
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
-
-        if self.messages[0].type == MessageType.keyExchange {
-            processKeyExchangeMessage(self.messages[0])
-        }
     }
 
     func insertAll(messages: [Message]) {
@@ -102,6 +108,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
         if !newMessages.isEmpty && newMessages[0].type == MessageType.keyExchange {
             processKeyExchangeMessage(newMessages[0])
+        }
+
+        for message in newMessages {
+            processMessage(message)
         }
 
         self.messages = newMessages
@@ -133,6 +143,20 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         } catch {
             // Replace fatalError with something else
             fatalError("Unable to process key exchange bundle from group creator")
+        }
+    }
+
+    private func processMessage(_ message: Message) {
+        if message.type == MessageType.keyExchange {
+            processKeyExchangeMessage(message)
+        } else {
+            do {
+                message.content = try groupCryptographyProvider.decrypt(ciphertextData: message.content,
+                                                                        groupId: self.id)
+            } catch {
+                // Replace fatalError with something else
+                fatalError("Could not decrypt chat room message")
+            }
         }
     }
 

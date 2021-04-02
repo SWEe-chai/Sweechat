@@ -38,7 +38,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
     }
 
     func save(chainKeyData: Data, userId: String, groupId: String) throws {
-        let url = getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId, groupId), with: fileExtension)
+        let url = getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
 
         do {
             try chainKeyData.write(to: url)
@@ -48,7 +48,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
     }
 
     func loadChainKeyData(userId: String, groupId: String) throws -> Data {
-        let url = getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId, groupId), with: fileExtension)
+        let url = getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
 
         guard let chainKeyData = try? Data(contentsOf: url) else {
             // Cannot find save file
