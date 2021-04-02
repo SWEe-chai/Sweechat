@@ -16,10 +16,10 @@ struct ChatRoomView: View {
                 .frame(idealHeight: 20, maxHeight: 60)
                 .multilineTextAlignment(.leading)
             Button(action: sendTypedMessage) {
-                Text("Send")
+                Image(systemName: "paperplane.fill")
             }
             Button(action: openActionSheet) {
-                Text("Attachment")
+                Image(systemName: "plus.circle")
             }
         }
         .frame(idealHeight: 20, maxHeight: 50)
@@ -97,6 +97,7 @@ struct ChatRoomView: View {
     }
 
     func sendImage() {
+        self.showingModal = false
         viewModel.handleSendImage(inputImage)
         inputImage = nil
     }

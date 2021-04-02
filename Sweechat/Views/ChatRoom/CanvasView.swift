@@ -15,12 +15,12 @@ struct CanvasView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Close")
+                Image(systemName: "xmark")
                     .onTapGesture {
                         showingModal = false
                     }
                 Spacer()
-                Text("Send")
+                Image(systemName: "square.and.arrow.up")
                     .onTapGesture {
                         inputImage = canvasView.drawing.image(
                             from: CGRect(
