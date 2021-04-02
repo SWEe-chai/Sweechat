@@ -160,20 +160,22 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 if err != nil {
                     os_log("Error fetching public key bundles")
                 }
-
-                if let documents = querySnapshot?.documents {
-                    var publicKeyBundles: [String: Data] = [:]
-
-                    documents.forEach({
-                        let data = $0.data()
-                        if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
-                           let bundleData = data[DatabaseConstant.PublicKeyBundle.bundleData] as? Data {
-                            publicKeyBundles[userId] = bundleData
-                        }
-                    })
-
-                    onCompletion?(publicKeyBundles)
+                
+                guard let documents = querySnapshot?.documents else {
+                    return
                 }
+
+                var publicKeyBundles: [String: Data] = [:]
+
+                documents.forEach({
+                    let data = $0.data()
+                    if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
+                       let bundleData = data[DatabaseConstant.PublicKeyBundle.bundleData] as? Data {
+                        publicKeyBundles[userId] = bundleData
+                    }
+                })
+
+                onCompletion?(publicKeyBundles)
             }
     }
 
