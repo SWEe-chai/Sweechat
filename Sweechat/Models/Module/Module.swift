@@ -52,11 +52,6 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
-    func update(module: Module) {
-        self.name = module.name
-        self.profilePictureUrl = module.profilePictureUrl
-    }
-
     func setModuleConnection() {
         self.moduleFacade = FirebaseModuleFacade(
             moduleId: self.id,
@@ -99,12 +94,6 @@ extension Module: ModuleFacadeDelegate {
         self.chatRooms = chatRooms
     }
 
-    func update(chatRoom: ChatRoom) {
-        if let index = chatRooms.firstIndex(of: chatRoom) {
-            self.chatRooms[index].update(chatRoom: chatRoom)
-        }
-    }
-
     func remove(chatRoom: ChatRoom) {
         if let index = chatRooms.firstIndex(of: chatRoom) {
             self.chatRooms.remove(at: index)
@@ -129,6 +118,11 @@ extension Module: ModuleFacadeDelegate {
         for user in users {
             self.userIdsToUsers[user.id] = user
         }
+    }
+
+    func update(module: Module) {
+        self.name = module.name
+        self.profilePictureUrl = module.profilePictureUrl
     }
 }
 

@@ -55,11 +55,4 @@ extension ModuleList: ModuleListFacadeDelegate {
             self.modules.remove(at: index)
         }
     }
-
-    func update(module: Module) {
-        if let index = modules.firstIndex(of: module) {
-            self.modules[index].update(module: module)
-        }
-    }
-
 }

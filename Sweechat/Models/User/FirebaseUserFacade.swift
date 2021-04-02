@@ -84,6 +84,5 @@ class FirebaseUserFacade: UserFacade {
             DatabaseConstant.User.name: user.name,
             DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
         ]
-
     }
 }

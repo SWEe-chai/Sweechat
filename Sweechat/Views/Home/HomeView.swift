@@ -9,11 +9,7 @@ struct HomeView: View {
         ZStack {
             VStack {
                 ForEach(viewModel.moduleViewModels) { moduleViewModel in
-                    NavigationLink(
-                        destination:
-                            LazyNavView(ModuleView(viewModel: moduleViewModel))) {
-                        Text(moduleViewModel.text)
-                    }
+                    ModuleItemView(viewModel: moduleViewModel)
                 }
 
                 NavigationLink(
@@ -43,6 +39,18 @@ struct HomeView: View {
         }
         .navigationTitle(Text(viewModel.text))
         .navigationBarBackButtonHidden(true)
+    }
+}
+
+// This is added so that the list item updates when the module updates
+struct ModuleItemView: View {
+    @ObservedObject var viewModel: ModuleViewModel
+    var body: some View {
+        NavigationLink(
+            destination:
+                LazyNavView(ModuleView(viewModel: viewModel))) {
+            Text(viewModel.text)
+        }
     }
 }
 
