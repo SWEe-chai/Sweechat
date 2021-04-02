@@ -19,7 +19,9 @@ class ModuleViewModel: ObservableObject {
         self.user = user
         self.module = module
         self.text = module.name
-        self.chatRoomViewModels = module.chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: user) }
+        self.chatRoomViewModels = module.chatRooms.map {
+            ChatRoomViewModelFactory.makeViewModel(chatRoom: $0)
+        }
         self.module.setModuleConnection()
         initialiseSubscriber()
     }
@@ -32,7 +34,9 @@ class ModuleViewModel: ObservableObject {
             self.text = newName
         }
         let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
-            self.chatRoomViewModels = chatRooms.map { ChatRoomViewModel(chatRoom: $0, user: self.user) }
+            self.chatRoomViewModels = chatRooms.map {
+                ChatRoomViewModelFactory.makeViewModel(chatRoom: $0)
+            }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)

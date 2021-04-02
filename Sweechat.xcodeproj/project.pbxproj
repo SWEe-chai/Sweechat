@@ -38,6 +38,10 @@
 		279CBAC7260AD840009A139C /* LazyNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279CBAC6260AD840009A139C /* LazyNavView.swift */; };
 		279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1B926170A5F001E4B37 /* ForumChatRoom.swift */; };
 		279DD1BF261718CE001E4B37 /* CreateForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1BE261718CE001E4B37 /* CreateForumView.swift */; };
+		279DD1C726172124001E4B37 /* ChatRoomViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1C626172124001E4B37 /* ChatRoomViewModelFactory.swift */; };
+		279DD1CD26172202001E4B37 /* PrivateChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1CC26172202001E4B37 /* PrivateChatRoomViewModel.swift */; };
+		279DD1D52617226C001E4B37 /* GroupChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1D42617226C001E4B37 /* GroupChatRoomViewModel.swift */; };
+		279DD1DA26172293001E4B37 /* ForumChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279DD1D926172293001E4B37 /* ForumChatRoomViewModel.swift */; };
 		279ECCD32612CB3900CBFFEB /* GroupChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279ECCD22612CB3900CBFFEB /* GroupChatRoom.swift */; };
 		279ECCD82612CC2F00CBFFEB /* PrivateChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279ECCD72612CC2F00CBFFEB /* PrivateChatRoom.swift */; };
 		279ECCDD2612FDC600CBFFEB /* ChatRoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279ECCDC2612FDC600CBFFEB /* ChatRoomType.swift */; };
@@ -193,6 +197,10 @@
 		279CBAC6260AD840009A139C /* LazyNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNavView.swift; sourceTree = "<group>"; };
 		279DD1B926170A5F001E4B37 /* ForumChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumChatRoom.swift; sourceTree = "<group>"; };
 		279DD1BE261718CE001E4B37 /* CreateForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateForumView.swift; sourceTree = "<group>"; };
+		279DD1C626172124001E4B37 /* ChatRoomViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelFactory.swift; sourceTree = "<group>"; };
+		279DD1CC26172202001E4B37 /* PrivateChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatRoomViewModel.swift; sourceTree = "<group>"; };
+		279DD1D42617226C001E4B37 /* GroupChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatRoomViewModel.swift; sourceTree = "<group>"; };
+		279DD1D926172293001E4B37 /* ForumChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumChatRoomViewModel.swift; sourceTree = "<group>"; };
 		279ECCD22612CB3900CBFFEB /* GroupChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatRoom.swift; sourceTree = "<group>"; };
 		279ECCD72612CC2F00CBFFEB /* PrivateChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatRoom.swift; sourceTree = "<group>"; };
 		279ECCDC2612FDC600CBFFEB /* ChatRoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomType.swift; sourceTree = "<group>"; };
@@ -435,6 +443,17 @@
 			path = ChatRoom;
 			sourceTree = "<group>";
 		};
+		279DD1CB261721E8001E4B37 /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+				279DD1C626172124001E4B37 /* ChatRoomViewModelFactory.swift */,
+				279DD1CC26172202001E4B37 /* PrivateChatRoomViewModel.swift */,
+				279DD1D42617226C001E4B37 /* GroupChatRoomViewModel.swift */,
+				279DD1D926172293001E4B37 /* ForumChatRoomViewModel.swift */,
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
 		3E591C4D26008B8200226DC2 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,6 +668,7 @@
 		45D6332325FDE2AC00C94D4F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				279DD1CB261721E8001E4B37 /* ChatRoom */,
 				272AA9662610D21400584D84 /* Delegate */,
 				3EFF012C2610828D008288C9 /* Message */,
 				2766C904260B0EC80066361F /* Login */,
@@ -1090,6 +1110,7 @@
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				77394C03260D97C10068B01F /* ModuleListFacade.swift in Sources */,
 				279ECD2026136A1000CBFFEB /* CreateGroupChatView.swift in Sources */,
+				279DD1CD26172202001E4B37 /* PrivateChatRoomViewModel.swift in Sources */,
 				775CA652260B4A930012C420 /* ModuleFacadeDelegate.swift in Sources */,
 				27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */,
 				3E74E095261054B200CB344E /* RemoteImage.swift in Sources */,
@@ -1097,6 +1118,7 @@
 				775B92372605007E0040B985 /* FirebaseChatRoomFacade.swift in Sources */,
 				3E74E09A2610591100CB344E /* MessageView.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
+				279DD1DA26172293001E4B37 /* ForumChatRoomViewModel.swift in Sources */,
 				45834C5726106C8200B888B5 /* Key.swift in Sources */,
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
 				272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */,
@@ -1110,6 +1132,7 @@
 				775CA65F260B4B0E0012C420 /* ModuleFacade.swift in Sources */,
 				27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */,
 				27598E3C2615C0AB00DF564F /* MessagesScrollView.swift in Sources */,
+				279DD1C726172124001E4B37 /* ChatRoomViewModelFactory.swift in Sources */,
 				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */,
 				279ECCD82612CC2F00CBFFEB /* PrivateChatRoom.swift in Sources */,
@@ -1147,6 +1170,7 @@
 				45834C5226106C8200B888B5 /* KeyFactoryImpl.swift in Sources */,
 				3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
+				279DD1D52617226C001E4B37 /* GroupChatRoomViewModel.swift in Sources */,
 				279ECCF22613197800CBFFEB /* ChooseGroupChatMembersView.swift in Sources */,
 				27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */,
 				3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */,
