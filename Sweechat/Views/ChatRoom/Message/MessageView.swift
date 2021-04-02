@@ -16,7 +16,7 @@ struct MessageView: View {
                 if let title = viewModel.title {
                     Text(title).font(.footnote)
                 }
-                VStack {
+                VStack(alignment: .leading) {
                     ReplyPreviewView()
                     MessageContentViewFactory.makeView(viewModel: viewModel)
                 }
@@ -34,12 +34,14 @@ struct MessageView: View {
 
  struct ReplyPreviewView: View {
     var body: some View {
-        VStack {
-            Text("Sender")
-                .fontWeight(.bold)
-            Text("Asdf")
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Sender")
+                    .fontWeight(.bold)
+                Text("Asdf")
+            }
+            .font(.caption)
         }
-        .font(.caption)
     }
  }
 
