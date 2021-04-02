@@ -12,17 +12,16 @@ struct MessageInputBarView: View {
     @Binding var messageBeingRepliedTo: MessageViewModel?
 
     var body: some View {
-        if let message = messageBeingRepliedTo {
-            HStack {
-                Button(action: { messageBeingRepliedTo = nil }) {
-                    // TODO: Make a nicer cancel button
-                    Text("X")
-                }
-                Text("\(message.previewContent())")
-            }
-        }
-
         VStack {
+            if let message = messageBeingRepliedTo {
+                HStack {
+                    Button(action: { messageBeingRepliedTo = nil }) {
+                        // TODO: Make a nicer cancel button
+                        Text("X")
+                    }
+                    Text("\(message.previewContent())")
+                }
+            }
             HStack {
                 TextEditor(text: $typingMessage)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -37,7 +36,6 @@ struct MessageInputBarView: View {
                 }
             }
         }
-        .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
         .actionSheet(
