@@ -35,6 +35,8 @@ struct MessageView: View {
  struct ReplyPreviewView: View {
     var body: some View {
         HStack {
+            // custom vertical divider
+            Rectangle().fill(Color.gray).frame(width: 2)
             VStack(alignment: .leading) {
                 Text("Sender")
                     .fontWeight(.bold)
@@ -42,6 +44,8 @@ struct MessageView: View {
             }
             .font(.caption)
         }
+        // So that it does not stretch vertically
+        .fixedSize(horizontal: false, vertical: true)
     }
  }
 
