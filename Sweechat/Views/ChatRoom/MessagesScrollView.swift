@@ -9,14 +9,7 @@ struct MessagesScrollView: View {
         ScrollView {
             ScrollViewReader { scrollView in
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
-                    if let parentMessage = getMessage(withId: messageViewModel.parentId) {
-                        // TODO: Make nicer view for the replied message
-                        Text("\(parentMessage.previewContent())")
-                            .onTapGesture {
-                                scrollToMessage(scrollView, parentMessage)
-                            }
-                    }
-                    MessageView(viewModel: messageViewModel)
+                    MessageView(viewModel: messageViewModel, parentViewModel: getMessage(withId: messageViewModel.parentId))
                         // TODO: This will clash with playing of video message
                         .onTapGesture {
                             replyTo(message: messageViewModel)

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MessageView: View {
     var viewModel: MessageViewModel
+    var parentViewModel: MessageViewModel?
+
     var body: some View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
@@ -17,7 +19,9 @@ struct MessageView: View {
                     Text(title).font(.footnote)
                 }
                 VStack(alignment: .leading) {
-                    ReplyPreviewView(message: viewModel)
+                    if let parent = parentViewModel {
+                        ReplyPreviewView(message: parent)
+                    }
                     MessageContentViewFactory.makeView(viewModel: viewModel)
                 }
                 .padding(10)
@@ -43,6 +47,7 @@ struct MessageView: View {
                 Text(message.senderName)
                     .fontWeight(.bold)
                 Text(message.previewContent())
+                    .lineLimit(1)
             }
             .font(.caption)
         }
