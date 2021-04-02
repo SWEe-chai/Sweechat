@@ -73,6 +73,7 @@ struct MessageInputBarView: View {
     }
 
     private func sendMedia() {
+        showingModal = false
         guard let choice = mediaType else {
             os_log("mediaType is nil")
             return
@@ -88,7 +89,6 @@ struct MessageInputBarView: View {
         media = nil
         mediaType = nil
         messageBeingRepliedTo = nil
-        showingModal = false
     }
 
     func openActionSheet() {
