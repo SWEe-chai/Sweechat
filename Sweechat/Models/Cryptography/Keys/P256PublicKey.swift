@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-struct PublicKeyImpl: PublicKey {
+struct P256PublicKey: PublicKey {
     let rawRepresentation: Data
 
     init(rawRepresentation: Data) {
@@ -14,7 +14,7 @@ struct PublicKeyImpl: PublicKey {
             let ecdsaSignature = try P256.Signing.ECDSASignature(rawRepresentation: signature)
             return signingKey.isValidSignature(ecdsaSignature, for: data)
         } catch {
-            throw SignalError(message: "Unable to verify signature using key")
+            throw SignalProtocolError(message: "Unable to verify signature using key")
         }
     }
 }
