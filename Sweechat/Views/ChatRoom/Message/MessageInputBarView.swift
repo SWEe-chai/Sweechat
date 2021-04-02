@@ -4,9 +4,11 @@ import os
 struct MessageInputBarView: View {
     var viewModel: ChatRoomViewModel
     @State var typingMessage: String = ""
-    @State private var showingMediaPicker = false
-    @State private var pickedMedia: Any?
-    @State private var pickedMediaType: PickedMediaType?
+    @State private var showingModal = false
+    @State private var modalView: ModalView?
+    @State private var showingActionSheet = false
+    @State private var media: Any?
+    @State private var mediaType: MediaType?
     @Binding var messageBeingRepliedTo: MessageViewModel?
 
     var body: some View {
@@ -19,6 +21,7 @@ struct MessageInputBarView: View {
                 Text("\(message.previewContent())")
             }
         }
+
         VStack {
             HStack {
                 TextEditor(text: $typingMessage)
@@ -27,17 +30,32 @@ struct MessageInputBarView: View {
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
                 Button(action: sendTypedMessage) {
-                    Text("Send")
+                    Image(systemName: "paperplane.fill")
                 }
-                Button(action: openMediaPicker) {
-                    Text("Media")
+                Button(action: openActionSheet) {
+                    Image(systemName: "plus.circle")
                 }
             }
-            .frame(idealHeight: 20, maxHeight: 50)
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .sheet(isPresented: $showingMediaPicker, onDismiss: sendMedia) {
-                MediaPicker(pickedMedia: $pickedMedia, pickedMediaType: $pickedMediaType)
+        }
+        .frame(idealHeight: 20, maxHeight: 50)
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .actionSheet(
+            isPresented: $showingActionSheet) {
+            ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
+                .default(Text("Image or Video")) { openMediaPicker() },
+                .default(Text("Canvas")) { openCanvas() },
+                .cancel()
+            ])
+        }
+        .sheet(isPresented: $showingModal, onDismiss: sendMedia) {
+            switch modalView {
+            case .Canvas:
+                CanvasView(showingModal: $showingModal, media: $media, mediaType: $mediaType)
+            case .MediaPicker:
+                MediaPicker(media: $media, mediaType: $mediaType)
+            default:
+                EmptyView()
             }
         }
     }
@@ -54,26 +72,37 @@ struct MessageInputBarView: View {
         messageBeingRepliedTo = nil
     }
 
-    func openMediaPicker() {
-        self.showingMediaPicker = true
-    }
-
     private func sendMedia() {
-        guard let choice = pickedMediaType else {
-            os_log("pickedMediaType is nil")
+        showingModal = false
+        guard let choice = mediaType else {
+            os_log("mediaType is nil")
             return
         }
 
         switch choice {
         case .image:
-            viewModel.handleSendImage(pickedMedia, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendImage(media, withParentId: messageBeingRepliedTo?.id)
         case .video:
-            viewModel.handleSendVideo(pickedMedia, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendVideo(media, withParentId: messageBeingRepliedTo?.id)
         }
 
-        pickedMedia = nil
-        pickedMediaType = nil
+        media = nil
+        mediaType = nil
         messageBeingRepliedTo = nil
+    }
+
+    func openActionSheet() {
+        self.showingActionSheet = true
+    }
+
+    func openMediaPicker() {
+        self.modalView = .MediaPicker
+        self.showingModal = true
+    }
+
+    func openCanvas() {
+        self.modalView = .Canvas
+        self.showingModal = true
     }
 }
 
