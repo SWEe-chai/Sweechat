@@ -92,6 +92,7 @@ struct MessageInputBarView: View {
         media = nil
         mediaType = nil
         messageBeingRepliedTo = nil
+        showingModal = false
     }
 
     func openActionSheet() {
@@ -99,13 +100,13 @@ struct MessageInputBarView: View {
     }
 
     func openImagePicker() {
-        self.showingModal = true
         self.modalView = .ImagePicker
+        self.showingModal = true
     }
 
     func openCanvas() {
-        self.showingModal = true
         self.modalView = .Canvas
+        self.showingModal = true
     }
 }
 
