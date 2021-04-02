@@ -72,11 +72,7 @@ struct MessagesScrollView: View {
             return
         }
         withAnimation {
-            // TODO: If we are scrolling to the bottom few messages, the entire ScrollView will
-            // keep moving up and ending with half the bottom view being white (i.e. empty spaces are
-            // pushed up)
-            // i.e. try replying to the bottommost message, and tapping that reply
-            scrollView.scrollTo(viewModel.messages[index], anchor: .center)
+            scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
         }
     }
 }
