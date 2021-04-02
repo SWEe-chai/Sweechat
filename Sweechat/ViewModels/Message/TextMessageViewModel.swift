@@ -18,4 +18,10 @@ class TextMessageViewModel: MessageViewModel {
             self.text = message.content.toString()
         }
     }
+
+    // MARK: Message Reply
+    override func previewContent() -> String {
+        // TODO: Might trim for long messages
+        text
+    }
 }
