@@ -17,7 +17,7 @@ struct MessageView: View {
                     Text(title).font(.footnote)
                 }
                 VStack(alignment: .leading) {
-                    ReplyPreviewView()
+                    ReplyPreviewView(message: viewModel)
                     MessageContentViewFactory.makeView(viewModel: viewModel)
                 }
                 .padding(10)
@@ -33,14 +33,16 @@ struct MessageView: View {
 }
 
  struct ReplyPreviewView: View {
+    var message: MessageViewModel
+
     var body: some View {
         HStack {
             // custom vertical divider
             Rectangle().fill(Color.gray).frame(width: 2)
             VStack(alignment: .leading) {
-                Text("Sender")
+                Text(message.senderName)
                     .fontWeight(.bold)
-                Text("Asdf")
+                Text(message.previewContent())
             }
             .font(.caption)
         }
@@ -52,13 +54,14 @@ struct MessageView: View {
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
         MessageView(viewModel:
-                        MessageViewModel(message: Message(id: "123",
-                                                          senderId: "123",
-                                                          creationTime: Date(),
-                                                          content: "Data".toData(),
-                                                          type: MessageType.text,
-                                                          parentId: nil),
-                                         sender: User(id: "123"),
+                        TextMessageViewModel(message: Message(id: "123",
+                                                              senderId: "123",
+                                                              creationTime: Date(),
+                                                              content: "Message being replied to!".toData(),
+                                                              type: MessageType.text,
+                                                              parentId: nil),
+                                         sender: User(id: "123",
+                                                      name: "Christine Jane Welly"),
                                          isSenderCurrentUser: false))
     }
 }
