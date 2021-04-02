@@ -2,11 +2,12 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
+    @State var messageBeingRepliedTo: MessageViewModel?
 
     var body: some View {
         VStack {
-            MessagesScrollView(viewModel: viewModel)
-            MessageInputBarView(viewModel: viewModel)
+            MessagesScrollView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
+            MessageInputBarView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
         }
         .navigationTitle(Text(viewModel.text))
     }
