@@ -23,7 +23,7 @@ struct MessageView: View {
                 }
                 VStack(alignment: .leading) {
                     if let parent = parentViewModel {
-                        ReplyPreviewView(message: parent)
+                        ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
                             .onTapGesture {
                                 onReplyPreviewTapped?()
                             }
