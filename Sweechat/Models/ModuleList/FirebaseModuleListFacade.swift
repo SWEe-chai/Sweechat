@@ -10,7 +10,8 @@ import os
 
 class FirebaseModuleListFacade: ModuleListFacade {
     weak var delegate: ModuleListFacadeDelegate?
-    private var userId: String
+    private var user: User
+    private var userId: String { user.id }
 
     private var db = Firestore.firestore()
     private var modulesReference: CollectionReference?
@@ -19,8 +20,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
     private var currentUserModulesListener: ListenerRegistration?
     private var currentUserModulesQuery: Query?
 
-    init(userId: String) {
-        self.userId = userId
+    init(user: User) {
+        self.user = user
         setUpConnectionToModuleList()
     }
 
@@ -64,33 +65,17 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
     private func loadModules(onCompletion: (() -> Void)?) {
         currentUserModulesQuery?.getDocuments { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
+            guard let documents = querySnapshot?.documents else {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            for document in snapshot.documents {
-                let data = document.data()
-                guard let moduleId = data[DatabaseConstant.UserModulePair.moduleId] as? String else {
-                    return
-                }
-                self.modulesReference?
-                    .document(moduleId)
-                    .getDocument(completion: { documentSnapshot, error in
-                        guard let snapshot = documentSnapshot else {
-                            return
-                        }
-
-                        if let err = error {
-                            os_log("Error getting chat rooms in module: \(err.localizedDescription)")
-                            return
-                        }
-                        if let module = FirebaseModuleFacade.convert(document: snapshot) {
-                            self.delegate?.insert(module: module)
-                        }
-                    }
-                    )
+            let modulePairs = documents.compactMap {
+                FirebaseUserModulePairFacade.convert(document: $0)
             }
-            onCompletion?()
+            FirebaseModuleQuery.getModules(pairs: modulePairs, user: self.user) { modules in
+                self.delegate?.insertAll(modules: modules)
+                onCompletion?()
+            }
         }
     }
 
@@ -102,15 +87,6 @@ class FirebaseModuleListFacade: ModuleListFacade {
             }
             snapshot.documentChanges.forEach { change in
                 self.handleUserModulePairDocumentChange(change)
-            }
-        }
-        modulesListener = modulesReference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-            snapshot.documentChanges.forEach { change in
-                self.handleModuleDocumentChange(change)
             }
         }
     }
@@ -147,50 +123,15 @@ class FirebaseModuleListFacade: ModuleListFacade {
         guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
             return
         }
-        modulesReference?
-            .document(userModulePair.moduleId)
-            .getDocument(completion: { documentSnapshot, error in
-                guard let snapshot = documentSnapshot else {
-                    return
-                }
-                if let err = error {
-                    os_log("Error getting users in module: \(err.localizedDescription)")
-                    return
-                }
-                if let module = FirebaseModuleFacade.convert(document: snapshot) {
-                    switch change.type {
-                    case .added:
-                        self.delegate?.insert(module: module)
-                    case .removed:
-                        self.delegate?.remove(module: module)
-                    default:
-                        break
-                    }
-                }
-            })
-    }
-
-    private func handleModuleDocumentChange(_ change: DocumentChange) {
-        if let module = FirebaseModuleFacade.convert(document: change.document) {
-            modulesReference?
-                .document(module.id)
-                .getDocument(completion: { documentSnapshot, error in
-                    guard documentSnapshot != nil else {
-                        return
-                    }
-                    if let err = error {
-                        os_log("Error getting sender in message: \(err.localizedDescription)")
-                        return
-                    }
-
-                    switch change.type {
-                    case .modified:
-                        self.delegate?.update(module: module)
-                    default:
-                        break
-                    }
-                })
+        FirebaseModuleQuery.getModule(pair: userModulePair, user: user) { module in
+            switch change.type {
+            case .added:
+                self.delegate?.insert(module: module)
+            case .removed:
+                self.delegate?.remove(module: module)
+            default:
+                break
+            }
         }
-
     }
 }

@@ -18,6 +18,8 @@ struct MemberItemView: View {
                 .cornerRadius(5)
 
             Text("\(viewModel.memberName)")
+        }.onTapGesture {
+            viewModel.toggleSelection()
         }
     }
 }

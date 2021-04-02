@@ -19,7 +19,7 @@ class MemberItemViewModel: ObservableObject {
     }
 
     func toggleSelection() {
-        isSelected = !self.isSelected
+        isSelected.toggle()
     }
 }
 

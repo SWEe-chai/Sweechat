@@ -32,6 +32,7 @@ struct DatabaseConstant {
         static let userId = "userId"
         static let chatRoomId = "chatRoomId"
         static let moduleId = "moduleId"
+        static let permissions = "permissions"
     }
 
     struct Module {
@@ -44,6 +45,7 @@ struct DatabaseConstant {
         static let id = "id"
         static let name = "name"
         static let profilePictureUrl = "profilePictureUrl"
+        static let type = "type"
     }
 
     struct User {

@@ -4,14 +4,14 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject {
-    private var chatRoom: ChatRoom
+    var chatRoom: ChatRoom
     private var user: User
     private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
 
-    var permissions: ChatRoomType {
-        ChatRoomType.convert(permission: chatRoom.permissions)
+    var permissions: ChatRoomViewModelType {
+        ChatRoomViewModelType.convert(permission: chatRoom.currentUserPermission)
     }
 
     var messageCount: Int {
@@ -54,9 +54,9 @@ class ChatRoomViewModel: ObservableObject {
         self.chatRoom.storeMessage(message: message)
     }
 
-    func handleSendImage(_ wrappedImage: UIImage?) {
-        guard let image = wrappedImage else {
-            os_log("wrappedImage is nil")
+    func handleSendImage(_ wrappedImage: Any?) {
+        guard let image = wrappedImage as? UIImage else {
+            os_log("wrappedImage is not UIImage")
             return
         }
 
@@ -69,6 +69,26 @@ class ChatRoomViewModel: ObservableObject {
             let urlstring = url.absoluteString
             let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image)
             self.chatRoom.storeMessage(message: message)
+        }
+    }
+
+    func handleSendVideo(_ mediaURL: Any?) {
+        guard let url = mediaURL as? URL else {
+            os_log("media url is not a url")
+            print("media url: \(String(describing: mediaURL))")
+            return
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
+                let urlstring = url.absoluteString
+                let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video)
+                self.chatRoom.storeMessage(message: message)
+            }
+        } catch {
+            os_log("failed to convert data: \(error.localizedDescription)")
+            return
         }
     }
 }

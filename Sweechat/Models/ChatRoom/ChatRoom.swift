@@ -7,37 +7,48 @@
 import Combine
 import Foundation
 
-class ChatRoom: ObservableObject {
+class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: String
     @Published var name: String
     var profilePictureUrl: String?
+    var currentUser: User
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
-    let permissions: ChatRoomPermissionBitmask
-    private var memberIdsToUsers: [String: User] = [:]
+    let currentUserPermission: ChatRoomPermissionBitmask
+    var memberIdsToUsers: [String: User] = [:]
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
 
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: String,
+         name: String,
+         currentUser: User,
+         currentUserPermission: ChatRoomPermissionBitmask,
+         profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.permissions = ChatRoomPermission.none
+        self.currentUserPermission = currentUserPermission
     }
 
-    init(name: String, members: [User], profilePictureUrl: String? = nil) {
+    init(name: String,
+         members: [User],
+         currentUser: User,
+         currentUserPermission: ChatRoomPermissionBitmask,
+         profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
-        self.permissions = ChatRoomPermission.none
+        self.currentUserPermission = currentUserPermission
         insertAll(members: members)
     }
 
     func setChatRoomConnection() {
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id)
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
         chatRoomFacade?.delegate = self
     }
 
@@ -60,10 +71,8 @@ class ChatRoom: ObservableObject {
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
     }
-}
 
-// MARK: ChatRoomFacadeDelegate
-extension ChatRoom: ChatRoomFacadeDelegate {
+    // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
         guard !self.messages.contains(message) else {
             return

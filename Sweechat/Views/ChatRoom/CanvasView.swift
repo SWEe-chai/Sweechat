@@ -9,7 +9,8 @@ import PencilKit
 
 struct CanvasView: View {
     @Binding var showingModal: Bool
-    @Binding var inputImage: UIImage?
+    @Binding var media: Any?
+    @Binding var mediaType: MediaType?
     var canvasView = PKCanvasView()
 
     var body: some View {
@@ -22,13 +23,14 @@ struct CanvasView: View {
                 Spacer()
                 Image(systemName: "square.and.arrow.up")
                     .onTapGesture {
-                        inputImage = canvasView.drawing.image(
+                        media = canvasView.drawing.image(
                             from: CGRect(
                                 x: 0,
                                 y: 0,
                                 width: UIScreen.main.bounds.size.width,
                                 height: UIScreen.main.bounds.size.height
                             ), scale: 1.0)
+                        mediaType = MediaType.image
                         showingModal = false
                     }
             }
