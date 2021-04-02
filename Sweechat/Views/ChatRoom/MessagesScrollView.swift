@@ -5,6 +5,8 @@ struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @Binding var messageBeingRepliedTo: MessageViewModel?
 
+    @Binding var tappedReplyPreviewFromInputBar: Bool
+
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollView in
@@ -21,6 +23,11 @@ struct MessagesScrollView: View {
                 .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
                     scrollToLatestMessage(scrollView)
+                }
+                .onChange(of: tappedReplyPreviewFromInputBar) { _ in
+                    // the boolean feels very decoupled from the messageBeingRepliedTo. This could introduce bugs.
+                    scrollToMessage(scrollView, messageBeingRepliedTo)
+                    tappedReplyPreviewFromInputBar = false
                 }
                 .padding([.leading, .trailing])
             }

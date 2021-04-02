@@ -11,6 +11,8 @@ struct MessageInputBarView: View {
     @State private var mediaType: MediaType?
     @Binding var messageBeingRepliedTo: MessageViewModel?
 
+    @Binding var tappedReplyPreviewFromInputBar: Bool
+
     var body: some View {
         VStack {
             if let message = messageBeingRepliedTo {
@@ -21,6 +23,9 @@ struct MessageInputBarView: View {
                     }
                     Text("\(message.previewContent())")
                         .lineLimit(1)
+                        .onTapGesture {
+                            tappedReplyPreviewFromInputBar = true
+                        }
                 }
             }
             HStack {

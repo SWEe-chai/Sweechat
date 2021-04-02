@@ -4,10 +4,17 @@ struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var messageBeingRepliedTo: MessageViewModel?
 
+    // TODO: Starting to pass a lot of variables.. Not sure what better way there is
+    @State var tappedReplyPreviewFromInputBar: Bool = false
+
     var body: some View {
         VStack {
-            MessagesScrollView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
-            MessageInputBarView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
+            MessagesScrollView(viewModel: viewModel,
+                               messageBeingRepliedTo: $messageBeingRepliedTo,
+                               tappedReplyPreviewFromInputBar: $tappedReplyPreviewFromInputBar)
+            MessageInputBarView(viewModel: viewModel,
+                                messageBeingRepliedTo: $messageBeingRepliedTo,
+                                tappedReplyPreviewFromInputBar: $tappedReplyPreviewFromInputBar)
         }
         .navigationTitle(Text(viewModel.text))
     }
@@ -23,7 +30,7 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            )
+            ), tappedReplyPreviewFromInputBar: false
         )
     }
 }
