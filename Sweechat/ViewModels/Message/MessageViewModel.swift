@@ -8,6 +8,12 @@ class MessageViewModel: ObservableObject {
     private var isSenderCurrentUser: Bool
     var subscriber: AnyCancellable?
 
+    // MARK: IDs
+    var id: String {
+        message.id
+    }
+
+    // MARK: Messsage Bubble Properties
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
     }
