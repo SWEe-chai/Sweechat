@@ -3,6 +3,19 @@ import FirebaseStorage
 import os
 
 class FirebaseChatRoomQuery {
+    static func getChatRoom(chatRoomId: String,
+                            user: User,
+                            onCompletion: @escaping (ChatRoom) -> Void) {
+        FirebaseUserChatRoomModulePairQuery
+            .getUserChatRoomModulePair(chatRoomId: chatRoomId, userId: user.id) { pair in
+                guard let pair = pair else {
+                    return
+                }
+                getChatRoom(pair: pair, user: user) { chatRoom in
+                    onCompletion(chatRoom)
+                }
+            }
+    }
     static func getChatRoom(pair: FirebaseUserChatRoomModulePair,
                             user: User,
                             onCompletion: @escaping (ChatRoom) -> Void) {

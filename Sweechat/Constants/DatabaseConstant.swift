@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "dev"
+        static let dev = "hai-chatroom-permission"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev

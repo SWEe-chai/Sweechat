@@ -81,22 +81,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func addListeners() {
-        chatRoomListener = chatRoomReference?.addSnapshotListener { documentChange, error in
-            guard let change = documentChange else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
-            }
-
-            FirebaseUserChatRoomModulePairFacade.getUserChatRoomModulePair(
-                chatRoomId: self.chatRoomId,
-                userId: self.user.id) { pair in
-                guard let pair = pair,
-                      let chatRoom = FirebaseChatRoomFacade
-                        .convert(document: change,
-                                 user: self.user,
-                                 withPermissions: pair.permissions) else {
-                    return
-                }
+        chatRoomListener = chatRoomReference?.addSnapshotListener { _, _ in
+            FirebaseChatRoomQuery.getChatRoom(chatRoomId: self.chatRoomId, user: self.user) { chatRoom in
                 self.delegate?.update(chatRoom: chatRoom)
             }
         }
