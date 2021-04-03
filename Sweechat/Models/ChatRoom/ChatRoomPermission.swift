@@ -21,4 +21,12 @@ struct ChatRoomPermission {
     static let all: ChatRoomPermissionBitmask =
         ChatRoomPermission.readWrite |
         ChatRoomPermission.invite | ChatRoomPermission.pin
+
+    static func canRead(permission: ChatRoomPermissionBitmask) -> Bool {
+        permission & read != 0
+    }
+
+    static func canWrite(permission: ChatRoomPermissionBitmask) -> Bool {
+        permission & write != 0
+    }
 }
