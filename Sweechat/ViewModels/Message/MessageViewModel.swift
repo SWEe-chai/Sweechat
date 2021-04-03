@@ -33,6 +33,9 @@ class MessageViewModel: ObservableObject {
     var messageContentType: MessageContentType {
         MessageContentType.convert(messageType: message.type)
     }
+    var senderName: String {
+        sender.name
+    }
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.message = message
