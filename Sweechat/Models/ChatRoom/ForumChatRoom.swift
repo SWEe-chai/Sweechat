@@ -1,6 +1,7 @@
 class ForumChatRoom: ChatRoom {
     override init(id: String,
                   name: String,
+                  ownerId: String,
                   currentUser: User,
                   currentUserPermission: ChatRoomPermissionBitmask,
                   profilePictureUrl: String? = nil) {
@@ -9,6 +10,7 @@ class ForumChatRoom: ChatRoom {
                "Assertion failed, forum user cannot read write")
         super.init(id: id,
                    name: name,
+                   ownerId: ownerId,
                    currentUser: currentUser,
                    currentUserPermission: currentUserPermission,
                    profilePictureUrl: profilePictureUrl)
