@@ -37,6 +37,7 @@ struct HomeToolbarView: View {
             }
 
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

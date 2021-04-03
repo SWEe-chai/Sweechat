@@ -46,20 +46,15 @@ struct HomeView: View {
         .navigationBarItems(
             leading: Text(viewModel.text)
                 .foregroundColor(ColorConstant.font2)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white)
+                )
+                .padding()
+                .frame(maxWidth: .infinity)
         )
         .navigationBarBackButtonHidden(true)
-    }
-}
-
-// This is added so that the list item updates when the module updates
-struct ModuleItemView: View {
-    @ObservedObject var viewModel: ModuleViewModel
-    var body: some View {
-        NavigationLink(
-            destination:
-                LazyNavView(ModuleView(viewModel: viewModel))) {
-            Text(viewModel.text)
-        }
     }
 }
 
