@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ColorConstant {
-    static let base = Color(red: 244 / 255, green: 248 / 255, blue: 254 / 255)
+    static let base = Color(red: 236 / 255, green: 241 / 255, blue: 248 / 255)
     static let font3 = Color(red: 169 / 255, green: 180 / 255, blue: 193 / 255)
     static let font2 = Color(red: 106 / 255, green: 108 / 255, blue: 144 / 255)
     static let font1 = Color(red: 80 / 255, green: 78 / 255, blue: 136 / 255)

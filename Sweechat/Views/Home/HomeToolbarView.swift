@@ -10,6 +10,17 @@ import SwiftUI
 struct HomeToolbarView: View {
     @ObservedObject var viewModel: HomeViewModel
     @Binding var isShowingJoinView: Bool
+
+    init(viewModel: HomeViewModel, isShowingJoinView: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._isShowingJoinView = isShowingJoinView
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.shadowColor = .clear
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
     var body: some View {
         HStack {
 
