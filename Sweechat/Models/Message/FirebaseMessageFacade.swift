@@ -16,7 +16,8 @@ class FirebaseMessageFacade {
         let data = document.data()
 
         guard let creationTime = data?[DatabaseConstant.Message.creationTime] as? Timestamp,
-              let senderId = data?[DatabaseConstant.Message.senderId] as? String else {
+              let senderId = data?[DatabaseConstant.Message.senderId] as? String,
+              let receiverId = data?[DatabaseConstant.Message.receiverId] as? String else {
             return nil
         }
 
@@ -43,6 +44,7 @@ class FirebaseMessageFacade {
             creationTime: creationTime.dateValue(),
             content: content,
             type: messageType,
+            receiverId: receiverId,
             parentId: parentId)
         }
         return nil
@@ -54,7 +56,8 @@ class FirebaseMessageFacade {
             DatabaseConstant.Message.creationTime: message.creationTime,
             DatabaseConstant.Message.senderId: message.senderId,
             DatabaseConstant.Message.content: message.content,
-            DatabaseConstant.Message.type: message.type.rawValue
+            DatabaseConstant.Message.type: message.type.rawValue,
+            DatabaseConstant.Message.receiverId: message.receiverId
         ]
 
         // This means that in Firestore, some Message document might have

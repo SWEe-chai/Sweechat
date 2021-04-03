@@ -1,16 +1,12 @@
-//
-//  ChatRoom.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 14/3/21.
-//
 import Combine
 import Foundation
+import os
 
 class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: String
     @Published var name: String
     var profilePictureUrl: String?
+    let ownerId: String
     var currentUser: User
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
@@ -19,21 +15,31 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
+    private var groupCryptographyProvider: GroupCryptographyProvider
 
+    static let allUsersId: String = "all"
+    static let failedEncryptionMessageContent = "This chat room message could not be encrypted"
+    static let failedDecryptionMessageContent = "This chat room message could not be decrypted"
+
+    // Pass owner ID here
     // This init is for the cloud service to create the chatroom and keep it in sync with the
     init(id: String,
          name: String,
+         ownerId: String,
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
+        self.ownerId = ownerId
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
     }
 
+    // Owner
     // This init is for frontend to create the ChatRoom, which we will then save on the cloud
     init(name: String,
          members: [User],
@@ -42,10 +48,12 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
+        self.ownerId = currentUser.id
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
         insertAll(members: members)
     }
 
@@ -55,7 +63,20 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func storeMessage(message: Message) {
+        if message.type != MessageType.keyExchange {
+            message.content = encryptMessageContent(message: message)
+        }
+
         self.chatRoomFacade?.save(message)
+    }
+
+    private func encryptMessageContent(message: Message) -> Data {
+        if let content = try? groupCryptographyProvider.encrypt(plaintextData: message.content, groupId: id) {
+            return content
+        }
+
+        os_log("Unable to encrypt chat room message")
+        return ChatRoom.failedEncryptionMessageContent.toData()
     }
 
     func getUser(userId: String) -> User {
@@ -76,16 +97,74 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
-        guard !self.messages.contains(message) else {
+        if self.messages.contains(message) {
             return
         }
+
+        processMessage(message)
         self.messages.append(message)
         self.messages.sort(by: { $0.creationTime < $1.creationTime })
     }
 
     func insertAll(messages: [Message]) {
+        // New chat room is created
+        if messages.isEmpty && self.messages.isEmpty && currentUser.id == ownerId {
+            chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
+        }
+
         let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
+
+        for message in newMessages {
+            processMessage(message)
+        }
+
         self.messages = newMessages
+    }
+
+    private func performKeyExchange(publicKeyBundles: [String: Data]) {
+        for member in members where member.id != currentUser.id {
+            guard let bundleData = publicKeyBundles[member.id] else {
+                os_log("Unable to get public key bundle from chat room member")
+                return
+            }
+
+            guard let keyExchangeBundleData = try? groupCryptographyProvider
+                    .generateKeyExchangeDataFrom(serverKeyBundleData: bundleData, groupId: self.id) else {
+                os_log("Unable to generate key exchange bundle")
+                return
+            }
+
+            storeMessage(message: Message(senderId: currentUser.id,
+                                          content: keyExchangeBundleData,
+                                          type: MessageType.keyExchange,
+                                          receiverId: member.id,
+                                          parentId: nil))
+        }
+    }
+
+    private func processKeyExchangeMessage(_ message: Message) {
+        do {
+            try groupCryptographyProvider.process(keyExchangeBundleData: message.content, groupId: self.id)
+        } catch {
+            os_log("Unable to process key exchange bundle from group creator")
+        }
+    }
+
+    private func processMessage(_ message: Message) {
+        if message.type == MessageType.keyExchange {
+            processKeyExchangeMessage(message)
+        } else {
+            message.content = decryptMessageContent(message: message)
+        }
+    }
+
+    private func decryptMessageContent(message: Message) -> Data {
+        if let content = try? groupCryptographyProvider.decrypt(ciphertextData: message.content, groupId: self.id) {
+            return content
+        }
+
+        os_log("Unable to decrypt chat room message")
+        return ChatRoom.failedEncryptionMessageContent.toData()
     }
 
     func remove(message: Message) {
@@ -96,6 +175,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func update(message: Message) {
         if let index = messages.firstIndex(of: message) {
+            processMessage(message)
             self.messages[index].update(message: message)
         }
     }

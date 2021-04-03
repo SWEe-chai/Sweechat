@@ -106,6 +106,20 @@ struct MessageInputBarView: View {
     }
 }
 
+struct MessageInputBarView_Previews: PreviewProvider {
+    static var previews: some View {
+        MessageInputBarView(
+            viewModel: ChatRoomViewModel(
+                chatRoom: ChatRoom(id: "0",
+                                   name: "CS4269",
+                                   ownerId: "Me",
+                                   currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
+                                   currentUserPermission: ChatRoomPermission.readWrite),
+                user: User(id: "", name: "Hello", profilePictureUrl: "")
+            ), replyPreviewMetadata: Binding.constant(nil))
+    }
+}
+
 // TODO: Currently removed because it is complaining due to the messageBeingRepliedTo
 // struct MessageInputBarView_Previews: PreviewProvider {
 //    static var previews: some View {

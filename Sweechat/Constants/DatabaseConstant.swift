@@ -21,6 +21,7 @@ struct DatabaseConstant {
         static let modules = "modules"
         static let userModulePairs = "userModulePairs"
         static let userChatRoomModulePairs = "userChatRoomModulePairs"
+        static let publicKeyBundles = "publicKeyBundles"
     }
 
     struct UserModulePair {
@@ -46,6 +47,7 @@ struct DatabaseConstant {
         static let name = "name"
         static let profilePictureUrl = "profilePictureUrl"
         static let type = "type"
+        static let ownerId = "ownerId"
     }
 
     struct User {
@@ -59,6 +61,12 @@ struct DatabaseConstant {
         static let senderId = "senderId"
         static let content = "content"
         static let type = "type"
+        static let receiverId = "receiverId"
         static let parentId = "parentId"
+    }
+
+    struct PublicKeyBundle {
+        static let userId = "userId"
+        static let bundleData = "bundleData"
     }
 }

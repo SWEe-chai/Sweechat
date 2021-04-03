@@ -1,4 +1,4 @@
-class SignalError: Error {
+class SignalProtocolError: Error {
     let message: String
 
     init(message: String) {

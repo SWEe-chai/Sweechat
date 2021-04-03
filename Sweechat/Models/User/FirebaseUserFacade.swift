@@ -9,12 +9,16 @@ class FirebaseUserFacade: UserFacade {
     private var usersReference: CollectionReference
     private var reference: DocumentReference?
     private var userListener: ListenerRegistration?
+    private var publicKeyBundlesReference: CollectionReference
 
     init(userId: String) {
         self.userId = userId
         self.usersReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.users)
+        self.publicKeyBundlesReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.publicKeyBundles)
     }
 
     func loginAndListenToUser(_ user: User) {
@@ -24,6 +28,7 @@ class FirebaseUserFacade: UserFacade {
                   document.exists else {
                 // In this case user is a new user
                 self.addUser(user)
+                self.uploadPublicKeyBundleData(for: user)
                 return
             }
             self.setUpConnectionAsUser()
@@ -39,6 +44,14 @@ class FirebaseUserFacade: UserFacade {
             self.setUpConnectionAsUser()
                     }
             )
+    }
+
+    private func uploadPublicKeyBundleData(for user: User) {
+        if let publicKeyBundleData = user.getPublicKeyBundleData() {
+            self.publicKeyBundlesReference
+                .document(user.id)
+                .setData(FirebaseUserFacade.convert(userId: user.id, publicKeyBundleData: publicKeyBundleData))
+        }
     }
 
     private func setUpConnectionAsUser() {
@@ -83,6 +96,13 @@ class FirebaseUserFacade: UserFacade {
             DatabaseConstant.User.id: user.id,
             DatabaseConstant.User.name: user.name,
             DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
+        ]
+    }
+
+    static func convert(userId: String, publicKeyBundleData: Data) -> [String: Any] {
+        [
+            DatabaseConstant.PublicKeyBundle.userId: userId,
+            DatabaseConstant.PublicKeyBundle.bundleData: publicKeyBundleData
         ]
     }
 }
