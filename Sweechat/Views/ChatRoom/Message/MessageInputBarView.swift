@@ -116,7 +116,7 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ), messageBeingRepliedTo: Binding.constant(nil))
+            ), replyPreviewMetadata: Binding.constant(nil))
     }
 }
 

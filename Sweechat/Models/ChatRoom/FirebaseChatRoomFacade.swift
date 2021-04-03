@@ -244,6 +244,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return ForumChatRoom(
                 id: id,
                 name: name,
+                ownerId: ownerId,
                 currentUser: user,
                 currentUserPermission: permissions,
                 profilePictureUrl: profilePictureUrl)
