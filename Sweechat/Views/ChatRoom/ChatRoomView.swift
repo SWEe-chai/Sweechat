@@ -3,15 +3,23 @@ import SwiftUI
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var messageBeingRepliedTo: MessageViewModel?
+    @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
         VStack {
-            MessagesScrollView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
-            MessageInputBarView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
+            MessagesScrollView(viewModel: viewModel,
+                               replyPreviewMetadata: $replyPreviewMetadata)
+            MessageInputBarView(viewModel: viewModel,
+                                replyPreviewMetadata: $replyPreviewMetadata)
         }
         .navigationTitle(Text(viewModel.text))
     }
 
+}
+
+struct ReplyPreviewMetadata {
+    var messageBeingRepliedTo: MessageViewModel
+    var tappedReplyPreview: Bool = false
 }
 
 struct ChatRoomView_Previews: PreviewProvider {
