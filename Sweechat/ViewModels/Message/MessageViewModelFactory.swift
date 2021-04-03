@@ -6,7 +6,7 @@
 //
 
 struct MessageViewModelFactory {
-    static func makeViewModel(message: Message, sender: User, isSenderCurrentUser: Bool) -> MessageViewModel {
+    static func makeViewModel(message: Message, sender: User, isSenderCurrentUser: Bool) -> MessageViewModel? {
         switch message.type {
         case .text:
             return TextMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
@@ -15,9 +15,9 @@ struct MessageViewModelFactory {
         case .video:
             return VideoMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
         default:
-            // TODO: Perhaps we can use a placeholder view model that will always return some
-            // content for a currently-unsupported type
-            return MessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+            // This means that the type of the message is not supported by the ViewModel
+            // And thus the view
+            return nil
         }
     }
 }
