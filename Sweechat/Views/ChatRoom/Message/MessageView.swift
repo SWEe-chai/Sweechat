@@ -18,8 +18,8 @@ struct MessageView: View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
             VStack(alignment: .leading) {
-                if let title = viewModel.title {
-                    Text(title).font(.footnote)
+                if !viewModel.isRightAlign {
+                    Text(viewModel.title).font(.footnote)
                 }
                 VStack(alignment: .leading) {
                     if let parent = parentViewModel {

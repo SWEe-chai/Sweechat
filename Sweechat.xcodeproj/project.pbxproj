@@ -58,6 +58,10 @@
 		27ABA39F26184F8E0072F591 /* ForumChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */; };
 		27ABA3A4261850810072F591 /* ForumPostReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3A3261850810072F591 /* ForumPostReplyView.swift */; };
 		27ABA3A92618517B0072F591 /* ForumPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3A82618517B0072F591 /* ForumPostView.swift */; };
+		27ABA3AF261856CE0072F591 /* ForumPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3AE261856CE0072F591 /* ForumPostsView.swift */; };
+		27ABA3B926185CDC0072F591 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3B826185CDC0072F591 /* PostViewModel.swift */; };
+		27ABA3BE261870F00072F591 /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3BD261870F00072F591 /* ThreadViewModel.swift */; };
+		27ABA3C32618734C0072F591 /* ThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3C22618734C0072F591 /* ThreadView.swift */; };
 		27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B5973D261449A900B69FEF /* UserPermissionPair.swift */; };
 		3E405A71261086A4005F2B49 /* UnsupportedMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E405A70261086A4005F2B49 /* UnsupportedMessageContentView.swift */; };
 		3E405A76261087EF005F2B49 /* MessageViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */; };
@@ -227,6 +231,10 @@
 		27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumChatRoomView.swift; sourceTree = "<group>"; };
 		27ABA3A3261850810072F591 /* ForumPostReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostReplyView.swift; sourceTree = "<group>"; };
 		27ABA3A82618517B0072F591 /* ForumPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostView.swift; sourceTree = "<group>"; };
+		27ABA3AE261856CE0072F591 /* ForumPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostsView.swift; sourceTree = "<group>"; };
+		27ABA3B826185CDC0072F591 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		27ABA3BD261870F00072F591 /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
+		27ABA3C22618734C0072F591 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		27B5973D261449A900B69FEF /* UserPermissionPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissionPair.swift; sourceTree = "<group>"; };
 		3E405A70261086A4005F2B49 /* UnsupportedMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedMessageContentView.swift; sourceTree = "<group>"; };
 		3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModelFactory.swift; sourceTree = "<group>"; };
@@ -461,6 +469,8 @@
 				27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */,
 				27ABA3A3261850810072F591 /* ForumPostReplyView.swift */,
 				27ABA3A82618517B0072F591 /* ForumPostView.swift */,
+				27ABA3AE261856CE0072F591 /* ForumPostsView.swift */,
+				27ABA3C22618734C0072F591 /* ThreadView.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -472,8 +482,17 @@
 				279DD1CC26172202001E4B37 /* PrivateChatRoomViewModel.swift */,
 				279DD1D42617226C001E4B37 /* GroupChatRoomViewModel.swift */,
 				279DD1D926172293001E4B37 /* ForumChatRoomViewModel.swift */,
+				27ABA3BD261870F00072F591 /* ThreadViewModel.swift */,
 			);
 			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		27ABA3B726185CD00072F591 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				27ABA3B826185CDC0072F591 /* PostViewModel.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		3E591C4D26008B8200226DC2 /* Constants */ = {
@@ -530,6 +549,7 @@
 		3EFF012C2610828D008288C9 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				27ABA3B726185CD00072F591 /* Post */,
 				3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */,
 				278DBC9F261204B700AA1018 /* MessageViewModel.swift */,
 				3E74E0A726106F3300CB344E /* MessageContentType.swift */,
@@ -1151,6 +1171,7 @@
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				4583D9922616055B0092AF87 /* SignalProtocolError.swift in Sources */,
 				3EFF012E26108318008288C9 /* TextMessageViewModel.swift in Sources */,
+				27ABA3C32618734C0072F591 /* ThreadView.swift in Sources */,
 				77394BBB260D0BE50068B01F /* FirebaseUserModulePair.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				4583D9952616055B0092AF87 /* P256PrivateKey.swift in Sources */,
@@ -1167,8 +1188,10 @@
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				279DD1DA26172293001E4B37 /* ForumChatRoomViewModel.swift in Sources */,
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
+				27ABA3B926185CDC0072F591 /* PostViewModel.swift in Sources */,
 				272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */,
 				27598E372615A9FC00DF564F /* AnnouncementView.swift in Sources */,
+				27ABA3BE261870F00072F591 /* ThreadViewModel.swift in Sources */,
 				77394BF3260D95C50068B01F /* ModuleList.swift in Sources */,
 				3EB99D4E25FDFF8800861D74 /* ChatRoomPermission.swift in Sources */,
 				2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */,
@@ -1182,6 +1205,7 @@
 				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */,
 				279ECCD82612CC2F00CBFFEB /* PrivateChatRoom.swift in Sources */,
+				27ABA3AF261856CE0072F591 /* ForumPostsView.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
 				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,

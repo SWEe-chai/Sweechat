@@ -27,8 +27,8 @@ class MessageViewModel: ObservableObject {
     var isRightAlign: Bool {
         isSenderCurrentUser
     }
-    var title: String? {
-        isSenderCurrentUser ? nil : sender.name
+    var title: String {
+        sender.name
     }
     var messageContentType: MessageContentType {
         MessageContentType.convert(messageType: message.type)

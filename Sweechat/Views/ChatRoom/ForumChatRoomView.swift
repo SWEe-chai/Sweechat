@@ -6,10 +6,11 @@ struct ForumChatRoomView: View {
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
-        MessagesScrollView(viewModel: viewModel,
-                           replyPreviewMetadata: $replyPreviewMetadata)
-        MessageInputBarView(viewModel: viewModel,
-                            replyPreviewMetadata: $replyPreviewMetadata)
+        VStack {
+            ForumPostsView(viewModel: viewModel)
+            MessageInputBarView(viewModel: viewModel,
+                                replyPreviewMetadata: $replyPreviewMetadata)
+        }.navigationTitle(viewModel.text)
     }
 }
 
