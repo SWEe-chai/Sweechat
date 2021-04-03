@@ -56,10 +56,8 @@
 		27A61A7E26047D5800226600 /* ALConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A7D26047D5800226600 /* ALConstants.swift */; };
 		27ABA37F26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA37E26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift */; };
 		27ABA39F26184F8E0072F591 /* ForumChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */; };
-		27ABA3A4261850810072F591 /* ForumPostReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3A3261850810072F591 /* ForumPostReplyView.swift */; };
 		27ABA3A92618517B0072F591 /* ForumPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3A82618517B0072F591 /* ForumPostView.swift */; };
 		27ABA3AF261856CE0072F591 /* ForumPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3AE261856CE0072F591 /* ForumPostsView.swift */; };
-		27ABA3B926185CDC0072F591 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3B826185CDC0072F591 /* PostViewModel.swift */; };
 		27ABA3BE261870F00072F591 /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3BD261870F00072F591 /* ThreadViewModel.swift */; };
 		27ABA3C32618734C0072F591 /* ThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3C22618734C0072F591 /* ThreadView.swift */; };
 		27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B5973D261449A900B69FEF /* UserPermissionPair.swift */; };
@@ -229,10 +227,8 @@
 		27A61A7D26047D5800226600 /* ALConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALConstants.swift; sourceTree = "<group>"; };
 		27ABA37E26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIrebaseUserChatRoomModulePairQuery.swift; sourceTree = "<group>"; };
 		27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumChatRoomView.swift; sourceTree = "<group>"; };
-		27ABA3A3261850810072F591 /* ForumPostReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostReplyView.swift; sourceTree = "<group>"; };
 		27ABA3A82618517B0072F591 /* ForumPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostView.swift; sourceTree = "<group>"; };
 		27ABA3AE261856CE0072F591 /* ForumPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostsView.swift; sourceTree = "<group>"; };
-		27ABA3B826185CDC0072F591 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		27ABA3BD261870F00072F591 /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
 		27ABA3C22618734C0072F591 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		27B5973D261449A900B69FEF /* UserPermissionPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissionPair.swift; sourceTree = "<group>"; };
@@ -467,7 +463,6 @@
 				27598E362615A9FB00DF564F /* AnnouncementView.swift */,
 				27598E3B2615C0AB00DF564F /* MessagesScrollView.swift */,
 				27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */,
-				27ABA3A3261850810072F591 /* ForumPostReplyView.swift */,
 				27ABA3A82618517B0072F591 /* ForumPostView.swift */,
 				27ABA3AE261856CE0072F591 /* ForumPostsView.swift */,
 				27ABA3C22618734C0072F591 /* ThreadView.swift */,
@@ -485,14 +480,6 @@
 				27ABA3BD261870F00072F591 /* ThreadViewModel.swift */,
 			);
 			path = ChatRoom;
-			sourceTree = "<group>";
-		};
-		27ABA3B726185CD00072F591 /* Post */ = {
-			isa = PBXGroup;
-			children = (
-				27ABA3B826185CDC0072F591 /* PostViewModel.swift */,
-			);
-			path = Post;
 			sourceTree = "<group>";
 		};
 		3E591C4D26008B8200226DC2 /* Constants */ = {
@@ -549,7 +536,6 @@
 		3EFF012C2610828D008288C9 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				27ABA3B726185CD00072F591 /* Post */,
 				3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */,
 				278DBC9F261204B700AA1018 /* MessageViewModel.swift */,
 				3E74E0A726106F3300CB344E /* MessageContentType.swift */,
@@ -1188,7 +1174,6 @@
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				279DD1DA26172293001E4B37 /* ForumChatRoomViewModel.swift in Sources */,
 				77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */,
-				27ABA3B926185CDC0072F591 /* PostViewModel.swift in Sources */,
 				272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */,
 				27598E372615A9FC00DF564F /* AnnouncementView.swift in Sources */,
 				27ABA3BE261870F00072F591 /* ThreadViewModel.swift in Sources */,
@@ -1245,7 +1230,6 @@
 				3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */,
 				4583D9902616055B0092AF87 /* KeyFactory.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
-				27ABA3A4261850810072F591 /* ForumPostReplyView.swift in Sources */,
 				279DD1D52617226C001E4B37 /* GroupChatRoomViewModel.swift in Sources */,
 				279ECCF22613197800CBFFEB /* ChooseChatRoomMembersView.swift in Sources */,
 				27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */,
