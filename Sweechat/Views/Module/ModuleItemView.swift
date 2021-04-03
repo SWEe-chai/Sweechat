@@ -26,7 +26,6 @@ struct ModuleItemView: View {
                         .shadow(color: .gray, radius: 5, x: 1, y: 7)
                 )
                 .padding()
-                .padding(.horizontal)
             }
         }
     }

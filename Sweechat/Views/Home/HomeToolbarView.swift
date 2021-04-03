@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeToolbarView: View {
     @ObservedObject var viewModel: HomeViewModel
     @Binding var isShowingJoinView: Bool
-    @Binding var isShowingAddView: Bool
     var body: some View {
         HStack {
 //            Button(action: {
@@ -44,13 +43,13 @@ struct HomeToolbarView: View {
     }
 }
 
-struct HomeToolbarView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeToolbarView(
-            viewModel: HomeViewModel(
-                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
-            ),
-            isShowingJoinView: .constant(false),
-            isShowingAddView: .constant(false))
-    }
-}
+// struct HomeToolbarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeToolbarView(
+//            viewModel: HomeViewModel(
+//                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
+//            ),
+//            isShowingJoinView: .constant(false),
+//            isShowingAddView: .constant(false))
+//    }
+// }

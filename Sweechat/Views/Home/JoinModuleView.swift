@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct JoinModuleView: View {
-    @Binding var isShowing: Bool
+//    @Binding var isShowing: Bool
     @State var moduleSecret: String = ""
     var viewModel: HomeViewModel
     var body: some View {
@@ -9,12 +9,12 @@ struct JoinModuleView: View {
             Text("Join a Module").font(.title2)
             TextField("Module secret", text: $moduleSecret).padding()
             HStack {
-                Button("Cancel") { close() }.padding()
+//                Button("Cancel") { close() }.padding()
                 Button("Join") { tappedCreate() }.padding()
             }
         }
         .padding()
-        .background(Color.white)
+        .background(ColorConstant.base)
     }
 
     func tappedCreate() {
@@ -25,13 +25,13 @@ struct JoinModuleView: View {
 
     func close() {
         moduleSecret = ""
-        isShowing = false
+//        isShowing = false
     }
 }
 
-struct JoinModuleView_Previews: PreviewProvider {
-    static var previews: some View {
-        JoinModuleView(isShowing: .constant(true),
-                       viewModel: HomeViewModel(user: User(id: "123")))
-    }
-}
+// struct JoinModuleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        JoinModuleView(isShowing: .constant(true),
+//                       viewModel: HomeViewModel(user: User(id: "123")))
+//    }
+// }

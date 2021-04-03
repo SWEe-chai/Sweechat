@@ -3,7 +3,6 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isShowingJoinView: Bool = false
-    @State var isShowingAddView: Bool = false
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -14,33 +13,24 @@ struct HomeView: View {
     }
 
     var body: some View {
-        ZStack {
-            ColorConstant.base.ignoresSafeArea()
-
+        VStack {
+            if isShowingJoinView {
+                JoinModuleView(viewModel: viewModel)
+            } else {
+                AddModuleView(viewModel: viewModel)
+            }
             VStack {
                 ForEach(viewModel.moduleViewModels) { moduleViewModel in
                     ModuleItemView(viewModel: moduleViewModel)
                 }
             }
-            if isShowingAddView {
-                AddModuleView(
-                    isShowing: $isShowingAddView,
-                    viewModel: viewModel
-                )
-            }
-            if isShowingJoinView {
-                JoinModuleView(
-                    isShowing: $isShowingJoinView,
-                    viewModel: viewModel
-                )
-            }
+            Spacer()
         }
         .background(ColorConstant.base)
         .toolbar {
             HomeToolbarView(
                 viewModel: viewModel,
-                isShowingJoinView: $isShowingJoinView,
-                isShowingAddView: $isShowingAddView
+                isShowingJoinView: $isShowingJoinView
             )
         }
         .navigationBarItems(
