@@ -17,13 +17,18 @@ struct HomeView: View {
             if isShowingJoinView {
                 JoinModuleView(viewModel: viewModel)
             } else {
-                AddModuleView(viewModel: viewModel)
+                CreateModuleView(viewModel: viewModel)
             }
-            VStack {
+            VStack(alignment: .leading) {
+                Text("Modules")
+                    .font(FontConstant.Heading1)
+                    .foregroundColor(ColorConstant.font1)
+
                 ForEach(viewModel.moduleViewModels) { moduleViewModel in
                     ModuleItemView(viewModel: moduleViewModel)
                 }
             }
+            .padding()
             Spacer()
         }
         .background(ColorConstant.base)
@@ -35,6 +40,7 @@ struct HomeView: View {
         }
         .navigationBarItems(
             leading: Text(viewModel.text)
+                .foregroundColor(ColorConstant.font1)
         )
         .navigationBarBackButtonHidden(true)
     }

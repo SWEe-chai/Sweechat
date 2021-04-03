@@ -5,9 +5,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Bold.ttf</string>
-		<string>Montserrat-ExtraBold.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
 		<string>Inter-Thin.ttf</string>
 		<string>Inter-Regular.ttf</string>
 	</array>

@@ -8,5 +8,7 @@
 import SwiftUI
 
 struct FontConstant {
-    static let font1 = Font.custom("Montserrat-Bold", size: 30)
+    static let ModuleTitle = Font.custom("Montserrat-Regular", size: 40)
+    static let ModuleDescription = Font.custom("OpenSans-LightItalic", size: 14)
+    static let Heading1 = Font.custom("OpenSans-Bold", size: 27)
 }

@@ -28,7 +28,7 @@
 		2787975A2601E24600124FA3 /* ALAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797522601E24600124FA3 /* ALAuth.swift */; };
 		2787975B2601E24600124FA3 /* ALAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797542601E24600124FA3 /* ALAuthDelegate.swift */; };
 		2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */; };
-		2788582B261046480058ADB2 /* AddModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2788582A261046480058ADB2 /* AddModuleView.swift */; };
+		2788582B261046480058ADB2 /* CreateModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2788582A261046480058ADB2 /* CreateModuleView.swift */; };
 		27885837261053ED0058ADB2 /* JoinModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885836261053ED0058ADB2 /* JoinModuleView.swift */; };
 		2788584826105DD30058ADB2 /* HomeToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2788584726105DD30058ADB2 /* HomeToolbarView.swift */; };
 		278DBCA0261204B700AA1018 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DBC9F261204B700AA1018 /* MessageViewModel.swift */; };
@@ -156,7 +156,6 @@
 		77F4F11726188129003CD601 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F11626188128003CD601 /* ColorConstant.swift */; };
 		77F4F14A26189E3C003CD601 /* ModuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F14926189E3C003CD601 /* ModuleItemView.swift */; };
 		77F4F1522618A727003CD601 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */; };
-		77F4F1532618A727003CD601 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F1502618A727003CD601 /* Montserrat-Black.ttf */; };
 		77F4F1542618A727003CD601 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F1512618A727003CD601 /* Montserrat-Bold.ttf */; };
 		77F4F1592618A7C1003CD601 /* FontConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F1582618A7C1003CD601 /* FontConstant.swift */; };
 		77F4F1622618C987003CD601 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F15D2618C987003CD601 /* OpenSans-Regular.ttf */; };
@@ -169,6 +168,7 @@
 		77F4F1702618CA91003CD601 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F16C2618CA91003CD601 /* Inter-Thin.ttf */; };
 		77F4F1712618CA91003CD601 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F16D2618CA91003CD601 /* Inter-Bold.ttf */; };
 		77F4F1842618D3DF003CD601 /* ModuleOperationToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */; };
+		77F4F18C2618E3D7003CD601 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F18B2618E3D7003CD601 /* Montserrat-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,7 +210,7 @@
 		278797522601E24600124FA3 /* ALAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuth.swift; sourceTree = "<group>"; };
 		278797542601E24600124FA3 /* ALAuthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthDelegate.swift; sourceTree = "<group>"; };
 		278797552601E24600124FA3 /* ALAuthHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandlerDelegate.swift; sourceTree = "<group>"; };
-		2788582A261046480058ADB2 /* AddModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModuleView.swift; sourceTree = "<group>"; };
+		2788582A261046480058ADB2 /* CreateModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleView.swift; sourceTree = "<group>"; };
 		27885836261053ED0058ADB2 /* JoinModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinModuleView.swift; sourceTree = "<group>"; };
 		2788584726105DD30058ADB2 /* HomeToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeToolbarView.swift; sourceTree = "<group>"; };
 		278DBC9F261204B700AA1018 /* MessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
@@ -343,7 +343,6 @@
 		77F4F11626188128003CD601 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		77F4F14926189E3C003CD601 /* ModuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleItemView.swift; sourceTree = "<group>"; };
 		77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
-		77F4F1502618A727003CD601 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		77F4F1512618A727003CD601 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		77F4F1582618A7C1003CD601 /* FontConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstant.swift; sourceTree = "<group>"; };
 		77F4F15D2618C987003CD601 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
@@ -356,6 +355,7 @@
 		77F4F16C2618CA91003CD601 /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
 		77F4F16D2618CA91003CD601 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleOperationToggleStyle.swift; sourceTree = "<group>"; };
+		77F4F18B2618E3D7003CD601 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -449,7 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				271CA0832612045300695F17 /* HomeView.swift */,
-				2788582A261046480058ADB2 /* AddModuleView.swift */,
+				2788582A261046480058ADB2 /* CreateModuleView.swift */,
 				27885836261053ED0058ADB2 /* JoinModuleView.swift */,
 				2788584726105DD30058ADB2 /* HomeToolbarView.swift */,
 				77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */,
@@ -964,7 +964,7 @@
 				77F4F1612618C987003CD601 /* OpenSans-Light.ttf */,
 				77F4F15F2618C987003CD601 /* OpenSans-LightItalic.ttf */,
 				77F4F15D2618C987003CD601 /* OpenSans-Regular.ttf */,
-				77F4F1502618A727003CD601 /* Montserrat-Black.ttf */,
+				77F4F18B2618E3D7003CD601 /* Montserrat-Regular.ttf */,
 				77F4F1512618A727003CD601 /* Montserrat-Bold.ttf */,
 				77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */,
 			);
@@ -1080,6 +1080,7 @@
 			files = (
 				77F4F1522618A727003CD601 /* Montserrat-ExtraBold.ttf in Resources */,
 				77F4F1652618C987003CD601 /* OpenSans-Italic.ttf in Resources */,
+				77F4F18C2618E3D7003CD601 /* Montserrat-Regular.ttf in Resources */,
 				778F08C625FDDA470059C2A0 /* LaunchScreen.storyboard in Resources */,
 				778F08C325FDDA470059C2A0 /* Preview Assets.xcassets in Resources */,
 				778F08C025FDDA470059C2A0 /* Assets.xcassets in Resources */,
@@ -1091,7 +1092,6 @@
 				77F4F1712618CA91003CD601 /* Inter-Bold.ttf in Resources */,
 				2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */,
 				77F4F1632618C987003CD601 /* OpenSans-Bold.ttf in Resources */,
-				77F4F1532618A727003CD601 /* Montserrat-Black.ttf in Resources */,
 				77F4F1622618C987003CD601 /* OpenSans-Regular.ttf in Resources */,
 				77F4F1542618A727003CD601 /* Montserrat-Bold.ttf in Resources */,
 			);
@@ -1245,7 +1245,7 @@
 				279ECCD82612CC2F00CBFFEB /* PrivateChatRoom.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
-				2788582B261046480058ADB2 /* AddModuleView.swift in Sources */,
+				2788582B261046480058ADB2 /* CreateModuleView.swift in Sources */,
 				778F08BE25FDDA420059C2A0 /* Sweechat.xcdatamodeld in Sources */,
 				4583D9932616055B0092AF87 /* SignalProtocol.swift in Sources */,
 				45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */,
