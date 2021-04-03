@@ -20,6 +20,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         Array(memberIdsToUsers.values)
     }
 
+    // This init is for the cloud service to create the chatroom and keep it in sync with the
     init(id: String,
          name: String,
          currentUser: User,
@@ -33,6 +34,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.currentUserPermission = currentUserPermission
     }
 
+    // This init is for frontend to create the ChatRoom, which we will then save on the cloud
     init(name: String,
          members: [User],
          currentUser: User,

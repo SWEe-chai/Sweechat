@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct ChooseGroupChatMembersView: View {
+struct ChooseChatRoomMembersView: View {
     var viewModel: CreateChatRoomViewModel
+    var viewAfterChoosingMembers: AnyView
     @Binding var isShowing: Bool
 
     var body: some View {
@@ -13,20 +14,16 @@ struct ChooseGroupChatMembersView: View {
             Spacer()
         }
         .toolbar {
-            NavigationLink("Next",
-                           destination: LazyNavView(
-                            CreateGroupChatView(
-                                viewModel: viewModel,
-                                isShowing: $isShowing)))
+            NavigationLink("Next", destination: viewAfterChoosingMembers)
         }.navigationTitle("Group Members")
 
     }
 }
 
-struct ChooseGroupChatMembersView_Previews: PreviewProvider {
+ struct ChooseChatRoomMembersView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ChooseGroupChatMembersView(
+            ChooseChatRoomMembersView(
                 viewModel: CreateChatRoomViewModel(
                     module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya")),
                     user: User(id: "1", name: "One Natasya"),
@@ -34,7 +31,8 @@ struct ChooseGroupChatMembersView_Previews: PreviewProvider {
                         User(id: "1", name: "One Natasya"),
                         User(id: "2", name: "Two Welly")
                     ]),
+                viewAfterChoosingMembers: AnyView(Text("Hello")),
                 isShowing: .constant(true))
         }
     }
-}
+ }
