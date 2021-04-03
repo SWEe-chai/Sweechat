@@ -5,18 +5,21 @@ struct HomeView: View {
     @State var isShowingJoinView: Bool = false
     @State var isShowingAddView: Bool = false
 
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowColor = .clear
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
     var body: some View {
         ZStack {
+            ColorConstant.base.ignoresSafeArea()
+
             VStack {
                 ForEach(viewModel.moduleViewModels) { moduleViewModel in
                     ModuleItemView(viewModel: moduleViewModel)
-                }
-
-                NavigationLink(
-                    destination:
-                        LazyNavView(
-                            SettingsView(viewModel: viewModel.settingsViewModel))) {
-                    Text("Settings")
                 }
             }
             if isShowingAddView {
@@ -32,12 +35,18 @@ struct HomeView: View {
                 )
             }
         }
+        .background(ColorConstant.base)
         .toolbar {
             HomeToolbarView(
+                viewModel: viewModel,
                 isShowingJoinView: $isShowingJoinView,
-                isShowingAddView: $isShowingAddView)
+                isShowingAddView: $isShowingAddView
+            )
         }
-        .navigationTitle(Text(viewModel.text))
+        .navigationBarItems(
+            leading: Text(viewModel.text)
+                .foregroundColor(ColorConstant.font2)
+        )
         .navigationBarBackButtonHidden(true)
     }
 }
