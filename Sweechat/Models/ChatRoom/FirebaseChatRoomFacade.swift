@@ -140,7 +140,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         self.publicKeyBundlesReference?
-            .whereField("userId", in: users.map({ $0.id }))
+            .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
                 if err != nil {
                     os_log("Error fetching public key bundles")
