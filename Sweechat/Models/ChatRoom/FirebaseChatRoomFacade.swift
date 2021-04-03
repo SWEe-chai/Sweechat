@@ -16,7 +16,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     private var db = Firestore.firestore()
     private var storage = Storage.storage().reference()
-    private var publicKeyBundlesReference: CollectionReference
+    private var publicKeyBundlesReference: CollectionReference?
     private var chatRoomReference: DocumentReference?
     private var chatRoomListener: ListenerRegistration?
     private var messagesReference: CollectionReference?
@@ -28,9 +28,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     init(chatRoomId: String, user: User) {
         self.chatRoomId = chatRoomId
         self.user = user
-        self.publicKeyBundlesReference = FirebaseUtils
-            .getEnvironmentReference(db)
-            .collection(DatabaseConstant.Collection.publicKeyBundles)
         setUpConnectionToChatRoom()
     }
 
@@ -39,15 +36,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
+        publicKeyBundlesReference = FirebaseUtils
+            .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.publicKeyBundles)
         userChatRoomModulePairsFilteredQuery = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
             .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
-        messagesReference = FirebaseUtils
-            .getEnvironmentReference(db)
-            .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
-            .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
             .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
         chatRoomReference = FirebaseUtils
@@ -144,7 +139,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
-        self.publicKeyBundlesReference
+        self.publicKeyBundlesReference?
             .whereField("userId", in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
                 if err != nil {
