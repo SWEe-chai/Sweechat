@@ -45,6 +45,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
         messagesReference = FirebaseUtils
             .getEnvironmentReference(db)
+            .collection(DatabaseConstant.Collection.chatRooms)
+            .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
             .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
