@@ -48,11 +48,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
-        filteredMessagesReference = FirebaseUtils
-            .getEnvironmentReference(db)
-            .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
-            .collection(DatabaseConstant.Collection.messages)
+        filteredMessagesReference = messagesReference?
             .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -78,7 +74,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        messagesReference?.getDocuments { querySnapshot, error in
+        filteredMessagesReference?.getDocuments { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
                 return
