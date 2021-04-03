@@ -6,7 +6,6 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     @Published var postViewModels: [MessageViewModel] = []
     @Published var replyViewModels: [MessageViewModel] = []
-    @Published var isThreadOpen: Bool = false
     var threadViewModel: ThreadViewModel!
     private var prominentThreadId: String?
 
