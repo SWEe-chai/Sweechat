@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ForumChatRoomView: View {
     @ObservedObject var viewModel: ForumChatRoomViewModel
-    @State var messageBeingRepliedTo: MessageViewModel?
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
