@@ -28,6 +28,6 @@ struct ChatRoomViewFactory {
     }
 
     static func makeView(viewModel: ForumChatRoomViewModel) -> some View {
-        Text("Forum!!!")
+        ForumChatRoomView(viewModel: viewModel)
     }
 }

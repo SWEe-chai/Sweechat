@@ -3,6 +3,7 @@ import os
 
 struct MessageInputBarView: View {
     var viewModel: ChatRoomViewModel
+    var isShowingReply: Bool
     @State var typingMessage: String = ""
     @State private var showingModal = false
     @State private var modalView: ModalView?
@@ -13,7 +14,8 @@ struct MessageInputBarView: View {
 
     var body: some View {
         VStack {
-            if let message = replyPreviewMetadata?.messageBeingRepliedTo {
+            if let message = replyPreviewMetadata?.messageBeingRepliedTo,
+               isShowingReply {
                 HStack {
                     Button(action: { replyPreviewMetadata = nil }) {
                         Image(systemName: "xmark.circle.fill")
@@ -116,7 +118,9 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ), replyPreviewMetadata: Binding.constant(nil))
+            ),
+            isShowingReply: true,
+            replyPreviewMetadata: Binding.constant(nil))
     }
 }
 
