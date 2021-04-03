@@ -13,20 +13,23 @@ struct HomeToolbarView: View {
     @Binding var isShowingAddView: Bool
     var body: some View {
         HStack {
-            Button(action: {
-                isShowingJoinView = true
-                isShowingAddView = false
-            }) {
-                Image(systemName: "plus.magnifyingglass")
-                    .foregroundColor(ColorConstant.font1)
-            }
-            Button(action: {
-                isShowingJoinView = false
-                isShowingAddView = true
-            }) {
-                Image(systemName: "plus.app")
-                    .foregroundColor(ColorConstant.font1)
-            }
+//            Button(action: {
+//                isShowingJoinView = true
+//                isShowingAddView = false
+//            }) {
+//                Image(systemName: "plus.magnifyingglass")
+//                    .foregroundColor(ColorConstant.font1)
+//            }
+//            Button(action: {
+//                isShowingJoinView = false
+//                isShowingAddView = true
+//            }) {
+//                Image(systemName: "plus.app")
+//                    .foregroundColor(ColorConstant.font1)
+//            }
+
+            Toggle(isOn: $isShowingJoinView, label: {})
+                .toggleStyle(ModuleOperationToggleStyle())
 
             NavigationLink(
                 destination:

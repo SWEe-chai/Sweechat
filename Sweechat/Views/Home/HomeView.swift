@@ -45,14 +45,6 @@ struct HomeView: View {
         }
         .navigationBarItems(
             leading: Text(viewModel.text)
-                .foregroundColor(ColorConstant.font2)
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white)
-                )
-                .padding()
-                .frame(maxWidth: .infinity)
         )
         .navigationBarBackButtonHidden(true)
     }

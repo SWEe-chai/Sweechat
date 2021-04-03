@@ -168,6 +168,7 @@
 		77F4F16F2618CA91003CD601 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F16B2618CA91003CD601 /* Inter-Regular.ttf */; };
 		77F4F1702618CA91003CD601 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F16C2618CA91003CD601 /* Inter-Thin.ttf */; };
 		77F4F1712618CA91003CD601 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F16D2618CA91003CD601 /* Inter-Bold.ttf */; };
+		77F4F1842618D3DF003CD601 /* ModuleOperationToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,6 +355,7 @@
 		77F4F16B2618CA91003CD601 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		77F4F16C2618CA91003CD601 /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
 		77F4F16D2618CA91003CD601 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleOperationToggleStyle.swift; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -450,6 +452,7 @@
 				2788582A261046480058ADB2 /* AddModuleView.swift */,
 				27885836261053ED0058ADB2 /* JoinModuleView.swift */,
 				2788584726105DD30058ADB2 /* HomeToolbarView.swift */,
+				77F4F1832618D3DF003CD601 /* ModuleOperationToggleStyle.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1238,6 +1241,7 @@
 				279DD1C726172124001E4B37 /* ChatRoomViewModelFactory.swift in Sources */,
 				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */,
+				77F4F1842618D3DF003CD601 /* ModuleOperationToggleStyle.swift in Sources */,
 				279ECCD82612CC2F00CBFFEB /* PrivateChatRoom.swift in Sources */,
 				45D6339125FE0B3400C94D4F /* HomeViewModel.swift in Sources */,
 				45D6333925FDE43F00C94D4F /* AppState.swift in Sources */,
