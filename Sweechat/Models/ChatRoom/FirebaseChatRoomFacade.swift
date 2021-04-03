@@ -142,11 +142,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         self.publicKeyBundlesReference?
             .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
-                if err != nil {
+                guard err == nil,
+                      let documents = querySnapshot?.documents else {
                     os_log("Error fetching public key bundles")
-                }
-
-                guard let documents = querySnapshot?.documents else {
                     return
                 }
 
