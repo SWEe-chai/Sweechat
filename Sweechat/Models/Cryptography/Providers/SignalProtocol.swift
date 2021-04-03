@@ -3,14 +3,20 @@ import Foundation
 
 struct SignalProtocol: GroupCryptographyProvider {
     private let userId: String
-    private let outputKeyLength = 32
-    private let salt = "Signal Protocol".data(using: .utf8)!
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
     private let keyFactory: KeyFactory
     private let storageManager: GroupCryptographyJSONStorageManager
     private var privateServerKeyBundle: [String: Data] = [:]
     private var publicServerKeyBundle: [String: Data] = [:]
+
+    private static let keyLength = 32
+    private static let salt = "Signal Protocol".data(using: .utf8)!
+    private static let identityKeyDictionaryKey = "ik"
+    private static let signedPreKeyDictionaryKey = "spk"
+    private static let ephemeralKeyDictionaryKey = "ek"
+    private static let chainKeyDictionaryKey = "ck"
+    private static let signatureDictionaryKey = "signature"
 
     init(userId: String) {
         self.userId = userId
@@ -123,18 +129,16 @@ struct SignalProtocol: GroupCryptographyProvider {
         let (privateIdentityKey, publicIdentityKey) = keyFactory.generateKeyPair()
         let (privateSignedPreKey, publicSignedPreKey) = keyFactory.generateKeyPair()
 
-        // Might want to remove fatalError here
         guard let signature = try? privateIdentityKey.sign(data: publicSignedPreKey.rawRepresentation) else {
             fatalError("Unable to sign signed pre-key")
         }
 
-        privateServerKeyBundle["ik"] = privateIdentityKey.rawRepresentation
-        privateServerKeyBundle["spk"] = privateSignedPreKey.rawRepresentation
-        publicServerKeyBundle["ik"] = publicIdentityKey.rawRepresentation
-        publicServerKeyBundle["spk"] = publicSignedPreKey.rawRepresentation
-        publicServerKeyBundle["signature"] = signature
+        privateServerKeyBundle[SignalProtocol.identityKeyDictionaryKey] = privateIdentityKey.rawRepresentation
+        privateServerKeyBundle[SignalProtocol.signedPreKeyDictionaryKey] = privateSignedPreKey.rawRepresentation
+        publicServerKeyBundle[SignalProtocol.identityKeyDictionaryKey] = publicIdentityKey.rawRepresentation
+        publicServerKeyBundle[SignalProtocol.signedPreKeyDictionaryKey] = publicSignedPreKey.rawRepresentation
+        publicServerKeyBundle[SignalProtocol.signatureDictionaryKey] = signature
 
-        // Might want to remove fatalError here
         do {
             try storageManager.save(userId: userId, privateServerKeyBundle: privateServerKeyBundle,
                                     publicServerKeyBundle: publicServerKeyBundle)
@@ -179,10 +183,10 @@ struct SignalProtocol: GroupCryptographyProvider {
     }
 
     private func getIdentityKeyPair() throws -> (PrivateKey, PublicKey) {
-        guard let privateIdentityKeyData = privateServerKeyBundle["ik"] else {
+        guard let privateIdentityKeyData = privateServerKeyBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Unable to get own private identity key")
         }
-        guard let publicIdentityKeyData = publicServerKeyBundle["ik"] else {
+        guard let publicIdentityKeyData = publicServerKeyBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Unable to get own public identity key")
         }
 
@@ -200,15 +204,15 @@ struct SignalProtocol: GroupCryptographyProvider {
     private func generateInitiatorMasterKey(privateIdentityKey: PrivateKey, privateEphemeralKey: PrivateKey,
                                             serverIdentityKey: PublicKey,
                                             serverSignedPreKey: PublicKey) throws -> SharedKey {
-        guard let key1 = try? privateIdentityKey.combine(with: serverSignedPreKey, salt: salt,
-                                                         outputKeyLength: outputKeyLength),
-              let key2 = try? privateEphemeralKey.combine(with: serverIdentityKey, salt: salt,
-                                                          outputKeyLength: outputKeyLength),
-              let key3 = try? privateEphemeralKey.combine(with: serverSignedPreKey, salt: salt,
-                                                          outputKeyLength: outputKeyLength) else {
+        guard let key1 = try? privateIdentityKey.combine(with: serverSignedPreKey, salt: SignalProtocol.salt,
+                                                         outputKeyLength: SignalProtocol.keyLength),
+              let key2 = try? privateEphemeralKey.combine(with: serverIdentityKey, salt: SignalProtocol.salt,
+                                                          outputKeyLength: SignalProtocol.keyLength),
+              let key3 = try? privateEphemeralKey.combine(with: serverSignedPreKey, salt: SignalProtocol.salt,
+                                                          outputKeyLength: SignalProtocol.keyLength) else {
             throw SignalProtocolError(message: "Unable to generate requisite keys for initiator master key")
         }
-        let masterKey = keyDerivationFunction(keys: [key1, key2, key3], outputKeyLength: outputKeyLength)
+        let masterKey = keyDerivationFunction(keys: [key1, key2, key3], outputKeyLength: SignalProtocol.keyLength)
         return masterKey
     }
 
@@ -238,10 +242,10 @@ struct SignalProtocol: GroupCryptographyProvider {
                                            signature: Data, encryptedChainKeyData: Data) -> [String: Data] {
         var keyExchangeBundle: [String: Data] = [:]
 
-        keyExchangeBundle["ik"] = publicIdentityKey.rawRepresentation
-        keyExchangeBundle["ek"] = publicEphemeralKey.rawRepresentation
-        keyExchangeBundle["ck"] = encryptedChainKeyData
-        keyExchangeBundle["signature"] = signature
+        keyExchangeBundle[SignalProtocol.identityKeyDictionaryKey] = publicIdentityKey.rawRepresentation
+        keyExchangeBundle[SignalProtocol.ephemeralKeyDictionaryKey] = publicEphemeralKey.rawRepresentation
+        keyExchangeBundle[SignalProtocol.chainKeyDictionaryKey] = encryptedChainKeyData
+        keyExchangeBundle[SignalProtocol.signatureDictionaryKey] = signature
 
         return keyExchangeBundle
     }
@@ -251,16 +255,16 @@ struct SignalProtocol: GroupCryptographyProvider {
             throw SignalProtocolError(message: "Unable to decode key exchange key bundle data")
         }
 
-        guard let keyExchangeIdentityKeyData = keyExchangeBundle["ik"] else {
+        guard let keyExchangeIdentityKeyData = keyExchangeBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing identity key data from key exchange bundle")
         }
-        guard let keyExchangeEphemeralKeyData = keyExchangeBundle["ek"] else {
+        guard let keyExchangeEphemeralKeyData = keyExchangeBundle[SignalProtocol.ephemeralKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing ephemeral key data from key exchange bundle")
         }
-        guard let encryptedKeyExchangeChainKeyData = keyExchangeBundle["ck"] else {
+        guard let encryptedKeyExchangeChainKeyData = keyExchangeBundle[SignalProtocol.chainKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing chain key data from key exchange bundle")
         }
-        guard let signature = keyExchangeBundle["signature"] else {
+        guard let signature = keyExchangeBundle[SignalProtocol.signatureDictionaryKey] else {
             throw SignalProtocolError(message: "Missing signature from key exchange bundle")
         }
 
@@ -273,24 +277,24 @@ struct SignalProtocol: GroupCryptographyProvider {
     private func generateReceiverMasterKey(identityKey: PrivateKey, signedPreKey: PrivateKey,
                                            keyExchangeIdentityKey: PublicKey,
                                            keyExchangeEphemeralKey: PublicKey) throws -> SharedKey {
-        guard let key1 = try? signedPreKey.combine(with: keyExchangeIdentityKey, salt: salt,
-                                                   outputKeyLength: outputKeyLength),
-              let key2 = try? identityKey.combine(with: keyExchangeEphemeralKey, salt: salt,
-                                                  outputKeyLength: outputKeyLength),
-              let key3 = try? signedPreKey.combine(with: keyExchangeEphemeralKey, salt: salt,
-                                                   outputKeyLength: outputKeyLength) else {
+        guard let key1 = try? signedPreKey.combine(with: keyExchangeIdentityKey, salt: SignalProtocol.salt,
+                                                   outputKeyLength: SignalProtocol.keyLength),
+              let key2 = try? identityKey.combine(with: keyExchangeEphemeralKey, salt: SignalProtocol.salt,
+                                                  outputKeyLength: SignalProtocol.keyLength),
+              let key3 = try? signedPreKey.combine(with: keyExchangeEphemeralKey, salt: SignalProtocol.salt,
+                                                   outputKeyLength: SignalProtocol.keyLength) else {
             throw SignalProtocolError(message: "Unable to generate requisite keys for receiver master key")
         }
 
-        let masterKey = keyDerivationFunction(keys: [key1, key2, key3], outputKeyLength: outputKeyLength)
+        let masterKey = keyDerivationFunction(keys: [key1, key2, key3], outputKeyLength: SignalProtocol.keyLength)
         return masterKey
     }
 
     private func getPrivateIdentityAndSignedPreKeys() throws -> (PrivateKey, PrivateKey) {
-        guard let identityKeyData = privateServerKeyBundle["ik"] else {
+        guard let identityKeyData = privateServerKeyBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Unable to get private server identity key data")
         }
-        guard let signedPreKeyData = privateServerKeyBundle["spk"] else {
+        guard let signedPreKeyData = privateServerKeyBundle[SignalProtocol.signedPreKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Unable to get private signed pre-key key data")
         }
 
@@ -317,8 +321,8 @@ struct SignalProtocol: GroupCryptographyProvider {
 
         let (randomPrivateKey, randomPublicKey) = keyFactory.generateKeyPair()
 
-        guard let chainKey = try? randomPrivateKey.combine(with: randomPublicKey, salt: salt,
-                                                           outputKeyLength: outputKeyLength) else {
+        guard let chainKey = try? randomPrivateKey.combine(with: randomPublicKey, salt: SignalProtocol.salt,
+                                                           outputKeyLength: SignalProtocol.keyLength) else {
             throw SignalProtocolError(message: "Unable to generate chain key")
         }
 
