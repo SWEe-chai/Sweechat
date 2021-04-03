@@ -19,6 +19,7 @@ struct ThreadView: View {
             }
             MessageInputBarView(
                 viewModel: viewModel,
+                isShowingReply: false,
                 replyPreviewMetadata:
                     .constant(
                         ReplyPreviewMetadata(

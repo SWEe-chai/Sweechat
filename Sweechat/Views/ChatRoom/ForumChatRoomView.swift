@@ -9,6 +9,7 @@ struct ForumChatRoomView: View {
         VStack {
             ForumPostsView(viewModel: viewModel)
             MessageInputBarView(viewModel: viewModel,
+                                isShowingReply: false,
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }.navigationTitle(viewModel.text)
     }

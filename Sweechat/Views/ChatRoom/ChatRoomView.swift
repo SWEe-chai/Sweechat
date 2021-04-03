@@ -10,6 +10,7 @@ struct ChatRoomView: View {
             MessagesScrollView(viewModel: viewModel,
                                replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
+                                isShowingReply: true,
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }
         .navigationTitle(Text(viewModel.text))
