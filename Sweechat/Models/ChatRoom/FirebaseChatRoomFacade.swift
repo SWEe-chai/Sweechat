@@ -92,16 +92,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func addListeners() {
-        chatRoomListener = chatRoomReference?.addSnapshotListener { documentChange, error in
-            guard let change = documentChange else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
+        chatRoomListener = chatRoomReference?.addSnapshotListener { _, _ in
+            FirebaseChatRoomQuery.getChatRoom(chatRoomId: self.chatRoomId, user: self.user) { chatRoom in
+                self.delegate?.update(chatRoom: chatRoom)
             }
-            guard let chatRoom = FirebaseChatRoomFacade
-                    .convert(document: change, user: self.user, withPermissions: ChatRoomPermission.none) else {
-                return
-            }
-            self.delegate?.update(chatRoom: chatRoom)
         }
 
         messagesListener = filteredMessagesReference?.addSnapshotListener { querySnapshot, error in
@@ -226,12 +220,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
               let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
-              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
+              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
+              let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") else {
             os_log("Error converting data for chat room")
             return nil
         }
-        let type = ChatRoomType(
-            rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") ?? .groupChat
+
         switch type {
         case .groupChat:
             return GroupChatRoom(
@@ -246,6 +240,13 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 id: id,
                 ownerId: ownerId,
                 currentUser: user)
+        case .forum:
+            return ForumChatRoom(
+                id: id,
+                name: name,
+                currentUser: user,
+                currentUserPermission: permissions,
+                profilePictureUrl: profilePictureUrl)
         }
     }
 
@@ -261,6 +262,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.privateChat.rawValue
         case chatRoom as GroupChatRoom:
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
+        case chatRoom as ForumChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.forum.rawValue
         default:
             os_log("Firebase ChatRoom Facade: Trying to convert abstract class ChatRoom")
             fatalError("ChatRoom must be either a group chat or private chat")

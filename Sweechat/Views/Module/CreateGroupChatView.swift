@@ -8,12 +8,7 @@ struct CreateGroupChatView: View {
     var body: some View {
         VStack {
             HStack {
-                TextField("Group name...", text: $groupName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .cornerRadius(5)
-                    .frame(idealHeight: 20, maxHeight: 60)
-                    .multilineTextAlignment(.leading)
-                    .padding()
+                ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
             .frame(idealHeight: 20, maxHeight: 50)
             .padding()

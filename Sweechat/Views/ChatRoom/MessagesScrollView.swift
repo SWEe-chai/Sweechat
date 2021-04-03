@@ -3,28 +3,35 @@ import os
 
 struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @Binding var messageBeingRepliedTo: MessageViewModel?
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
         ScrollView {
             ScrollViewReader { scrollView in
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
-                    if let parentMessage = getMessage(withId: messageViewModel.parentId) {
-                        // TODO: Make nicer view for the replied message
-                        Text("\(parentMessage.previewContent())")
-                            .onTapGesture {
-                                scrollToMessage(scrollView, parentMessage)
-                            }
-                    }
-                    MessageView(viewModel: messageViewModel)
-                        // TODO: This will clash with playing of video message
-                        .onTapGesture {
+                    let parentMessage = getMessage(withId: messageViewModel.parentId)
+                    MessageView(viewModel: messageViewModel,
+                                parentViewModel: parentMessage,
+                                onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
+                        // TODO: On VideoMessage, it might be hard to tap because the player takes precendence
+                        .onTapGesture(count: 2) {
                             replyTo(message: messageViewModel)
                         }
                 }
                 .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
                     scrollToLatestMessage(scrollView)
+                }
+                .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
+                    guard let metadata = replyPreviewMetadata else {
+                        os_log("Info: replyPreviewMetadata is nil when detecting change.")
+                        return
+                    }
+
+                    if metadata.tappedReplyPreview {
+                        scrollToMessage(scrollView, metadata.messageBeingRepliedTo)
+                        replyPreviewMetadata?.tappedReplyPreview = false // value-type semantics. change directly
+                    }
                 }
                 .padding([.leading, .trailing])
             }
@@ -41,7 +48,7 @@ struct MessagesScrollView: View {
     }
 
     private func replyTo(message: MessageViewModel) {
-        messageBeingRepliedTo = message
+        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
 
     private func getMessage(withId id: String?) -> MessageViewModel? {
@@ -51,19 +58,21 @@ struct MessagesScrollView: View {
     }
 
     // TODO: Perhaps combine this with `scrollToLatesMessage`?
-    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel) {
+    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel?) {
         if viewModel.messages.isEmpty {
             os_log("messages are empty")
+            return
+        }
+        guard let message = message else {
+            os_log("nil MessageViewModel passed into scrollToMessage")
             return
         }
         guard let index = viewModel.messages.firstIndex(of: message) else {
             os_log("could not find message in the list of messages")
             return
         }
-        withAnimation {
-            // NOTE: If the message you tapped is already shown on the screen, it won't scroll there
-            // Might need to find API that makes the bottom part of the screen scroll to it
-            scrollView.scrollTo(viewModel.messages[index])
+        withAnimation(Animation.easeIn(duration: 1.0)) {
+            scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
         }
     }
 }

@@ -54,4 +54,8 @@ class PrivateChatRoom: ChatRoom {
             insert(member: member)
         }
     }
+
+    override func update(chatRoom: ChatRoom) {
+        // Private chat does not update name and picture according to backend
+    }
 }

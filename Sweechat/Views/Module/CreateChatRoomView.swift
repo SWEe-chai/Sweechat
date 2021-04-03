@@ -26,12 +26,7 @@ struct CreateChatRoomView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("New Message")
             .toolbar {
-                NavigationLink("Group Chat",
-                               destination:
-                                LazyNavView(
-                                    ChooseGroupChatMembersView(
-                                        viewModel: viewModel,
-                                        isShowing: $isShowing)))
+                CreateChatRoomToolbarView(viewModel: viewModel, isShowing: $isShowing)
             }
         }
     }

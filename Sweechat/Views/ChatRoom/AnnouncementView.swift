@@ -2,11 +2,13 @@ import SwiftUI
 
 struct AnnouncementView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var messageBeingRepliedTo: MessageViewModel?
+    @State var replyPreviewMetadata: ReplyPreviewMetadata?
+
     var body: some View {
-        // TODO: Added messageBeingRepliedTo because of changes in MessagesScrollView. Change view in
+        // TODO: Added replyPreviewMetadata because of changes in MessagesScrollView. Change view in
         // the future
-        MessagesScrollView(viewModel: viewModel, messageBeingRepliedTo: $messageBeingRepliedTo)
+        MessagesScrollView(viewModel: viewModel,
+                           replyPreviewMetadata: $replyPreviewMetadata)
     }
 }
 

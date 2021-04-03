@@ -22,6 +22,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     static let failedDecryptionMessageContent = "This chat room message could not be decrypted"
 
     // Pass owner ID here
+    // This init is for the cloud service to create the chatroom and keep it in sync with the
     init(id: String,
          name: String,
          ownerId: String,
@@ -39,6 +40,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     // Owner
+    // This init is for frontend to create the ChatRoom, which we will then save on the cloud
     init(name: String,
          members: [User],
          currentUser: User,

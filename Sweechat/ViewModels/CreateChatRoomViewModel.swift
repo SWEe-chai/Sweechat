@@ -10,6 +10,10 @@ class CreateChatRoomViewModel: ObservableObject {
 
     @Published var isWritable: Bool = true
 
+    private var otherChosenMembers: [User] {
+        otherUsersViewModels.filter { $0.isSelected }.map { $0.member }
+    }
+
     init(module: Module, user: User, members: [User]) {
         self.module = module
         self.user = user
@@ -18,6 +22,7 @@ class CreateChatRoomViewModel: ObservableObject {
             .map { MemberItemViewModel(member: $0) }
     }
 
+    // TODO: Consider grouping all three methods as one, have a function in the
     func createPrivateGroupChatWith(memberViewModel: MemberItemViewModel) {
         // Return if private chat already exists
         for chatroom in module.chatRooms {
@@ -39,10 +44,26 @@ class CreateChatRoomViewModel: ObservableObject {
                      userPermissions: memberPermissions)
     }
 
+    func createForum(forumName: String) {
+        var members: [User] = otherChosenMembers
+        var memberPermissions = members.map {
+            UserPermissionPair(
+                userId: $0.id,
+                permissions: ChatRoomPermission.readWrite)
+        }
+        members.append(user)
+        // Creator gets all permissions
+        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
+        let newForumChat = ForumChatRoom(
+            name: forumName,
+            members: members,
+            currentUser: user)
+        module.store(chatRoom: newForumChat,
+                     userPermissions: memberPermissions)
+    }
+
     func createGroupChat(groupName: String) {
-        var members: [User] = otherUsersViewModels
-            .filter { $0.isSelected }
-            .map { $0.member }
+        var members: [User] = otherChosenMembers
         var memberPermissions = members.map {
             UserPermissionPair(
                 userId: $0.id,

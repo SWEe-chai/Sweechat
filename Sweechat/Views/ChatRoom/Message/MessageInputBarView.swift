@@ -9,20 +9,21 @@ struct MessageInputBarView: View {
     @State private var showingActionSheet = false
     @State private var media: Any?
     @State private var mediaType: MediaType?
-    @Binding var messageBeingRepliedTo: MessageViewModel?
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
-        if let message = messageBeingRepliedTo {
-            HStack {
-                Button(action: { messageBeingRepliedTo = nil }) {
-                    // TODO: Make a nicer cancel button
-                    Text("X")
-                }
-                Text("\(message.previewContent())")
-            }
-        }
-
         VStack {
+            if let message = replyPreviewMetadata?.messageBeingRepliedTo {
+                HStack {
+                    Button(action: { replyPreviewMetadata = nil }) {
+                        Image(systemName: "xmark.circle.fill")
+                    }
+                    ReplyPreviewView(message: message, borderColor: Color.gray)
+                        .onTapGesture {
+                            replyPreviewMetadata?.tappedReplyPreview = true
+                        }
+                }
+            }
             HStack {
                 TextEditor(text: $typingMessage)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -37,7 +38,6 @@ struct MessageInputBarView: View {
                 }
             }
         }
-        .frame(idealHeight: 20, maxHeight: 50)
         .padding()
         .background(Color.gray.opacity(0.1))
         .actionSheet(
@@ -67,9 +67,9 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(content, withParentId: messageBeingRepliedTo?.id)
+        viewModel.handleSendMessage(content, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         typingMessage = ""
-        messageBeingRepliedTo = nil
+        replyPreviewMetadata = nil
     }
 
     private func sendMedia() {
@@ -81,14 +81,14 @@ struct MessageInputBarView: View {
 
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendImage(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: messageBeingRepliedTo?.id)
+            viewModel.handleSendVideo(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
         }
 
         media = nil
         mediaType = nil
-        messageBeingRepliedTo = nil
+        replyPreviewMetadata = nil
     }
 
     func openActionSheet() {
