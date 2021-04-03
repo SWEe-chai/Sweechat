@@ -5,7 +5,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     var forumSubscribers: [AnyCancellable] = []
 
     @Published var postViewModels: [MessageViewModel] = []
-    @Published var postIdToReplyViewModel: [String: [MessageViewModel]] = [:]
+    @Published var replyViewModels: [MessageViewModel] = []
     @Published var isThreadOpen: Bool = false
     var threadViewModel: ThreadViewModel!
     private var prominentThreadId: String?
@@ -25,8 +25,15 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
-        let postIdToRepliesSubscriber = forumChatRoom.subscribeToMessages { messages in
-            self.updateThread(messages: messages)
+
+        let postIdToRepliesSubscriber = forumChatRoom.subscribeToReplies { replies in
+            self.replyViewModels = replies.map {
+                MessageViewModelFactory
+                    .makeViewModel(message: $0,
+                                   sender: self.chatRoom.getUser(userId: $0.senderId),
+                                   isSenderCurrentUser: self.user.id == $0.senderId)
+            }
+            self.updateThread(messages: replies)
         }
 
         forumSubscribers.append(postsSubscriber)
@@ -40,13 +47,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         }
         threadViewModel = ThreadViewModel(
             post: postViewModel,
-            replies: messages
-                .filter({ $0.parentId == prominentThreadId })
-                .map({ MessageViewModelFactory
-                        .makeViewModel(
-                            message: $0,
-                            sender: forumChatRoom.getUser(userId: user.id),
-                            isSenderCurrentUser: user.id == $0.senderId) })
+            replies: replyViewModels.filter { $0.parentId == postId }
         )
     }
 

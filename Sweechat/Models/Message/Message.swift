@@ -53,12 +53,6 @@ extension Message: Comparable {
     }
 }
 
-extension Message: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
 extension String {
     func toData() -> Data {
         Data(self.utf8)

@@ -2,7 +2,7 @@ import Combine
 
 class ForumChatRoom: ChatRoom {
     @Published var posts: [Message] = []
-    @Published var postIdToReplies: [String: [Message]] = [:]
+    @Published var replies: [Message] = []
 
     override init(id: String,
                   name: String,
@@ -36,52 +36,33 @@ class ForumChatRoom: ChatRoom {
         $posts.sink(receiveValue: function)
     }
 
-    func subscribeToPostIdToReplies(function: @escaping ([String: [Message]]) -> Void) -> AnyCancellable {
-        $postIdToReplies.sink(receiveValue: function)
+    func subscribeToReplies(function: @escaping ([Message]) -> Void) -> AnyCancellable {
+        $replies.sink(receiveValue: function)
     }
 
     override func insert(message: Message) {
         super.insert(message: message)
-        // After the insert we want to insert into posts
-        if message.type == .keyExchange {
+
+        guard let addedMessage = self.messages.first(where: { $0.id == message.id }),
+              message.type != .keyExchange else {
+            // Only try to insert if it's not key exchange and of type key exchange
             return
         }
-        guard let addedMessage = self.messages.first(where: { $0.id == message.id }) else {
-            // Super logic did not add this message
-            return
+
+        if addedMessage.parentId == nil && !posts.contains(addedMessage) {
+            posts.append(addedMessage)
         }
-        guard let parentId = addedMessage.parentId else { // Message is a post
-            if posts.contains(addedMessage) {
-                return
-            }
-            posts.append(message)
-            postIdToReplies[addedMessage.id] = []
-            return
+
+        if addedMessage.parentId != nil && !replies.contains(addedMessage) {
+            replies.append(addedMessage)
         }
-        // This means that parent ID exists and this is a reply to a post!
-        if (postIdToReplies[parentId]?.contains(addedMessage)) != nil {
-            return
-        }
-        postIdToReplies[parentId]?.append(addedMessage)
     }
 
     override func insertAll(messages: [Message]) {
         super.insertAll(messages: messages)
 
-        // Insert root level posts first
-        for rootLevelMessage in self.messages.filter({ $0.parentId == nil && $0.type != .keyExchange }) {
-            posts.append(rootLevelMessage)
-            self.postIdToReplies[rootLevelMessage.id] = []
-        }
-
-        // Now we insert the rest of the repplies
-        for message in self.messages {
-            guard let parentId = message.parentId else {
-                // This message is not a reply
-                continue
-            }
-            self.postIdToReplies[parentId]?.append(message)
-        }
+        posts = self.messages.filter { $0.parentId == nil && $0.type != .keyExchange }
+        replies = self.messages.filter { $0.parentId != nil }
     }
 
     override func remove(message: Message) {
