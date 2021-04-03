@@ -97,10 +97,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
-        let isBroadcastMessage = message.receiverId == ChatRoom.allUsersId
-        let isCurrUserRecipient = message.receiverId == self.currentUser.id
-
-        if self.messages.contains(message) || (!isBroadcastMessage && !isCurrUserRecipient) {
+        if self.messages.contains(message) {
             return
         }
 
