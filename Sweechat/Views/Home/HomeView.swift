@@ -8,28 +8,38 @@ struct HomeView: View {
         self.viewModel = viewModel
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
+        UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
+        UINavigationBar.appearance().barTintColor = UIColor(ColorConstant.base)
+        UINavigationBar.appearance().tintColor = UIColor(ColorConstant.base)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 
     var body: some View {
-        VStack {
-            if isShowingJoinView {
-                JoinModuleView(viewModel: viewModel)
-            } else {
-                CreateModuleView(viewModel: viewModel)
-            }
-            VStack(alignment: .leading) {
-                Text("Modules")
-                    .font(FontConstant.Heading1)
-                    .foregroundColor(ColorConstant.font1)
-
-                ForEach(viewModel.moduleViewModels) { moduleViewModel in
-                    ModuleItemView(viewModel: moduleViewModel)
+        GeometryReader { geometry in
+            VStack {
+                if isShowingJoinView {
+                    JoinModuleView(viewModel: viewModel)
+                } else {
+                    CreateModuleView(viewModel: viewModel)
                 }
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Modules")
+                        .font(FontConstant.Heading1)
+                        .foregroundColor(ColorConstant.dark)
+                        .padding(.horizontal)
+                    ScrollView(showsIndicators: false) {
+                        ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                            ModuleItemView(viewModel: moduleViewModel, index: index)
+                        }
+                        .padding()
+                    }
+                    .padding(.top, 3)
+                }
+
+                Spacer()
             }
-            .padding()
-            Spacer()
+            .frame(width: geometry.size.width)
         }
         .background(ColorConstant.base)
         .toolbar {
@@ -40,7 +50,7 @@ struct HomeView: View {
         }
         .navigationBarItems(
             leading: Text(viewModel.text)
-                .foregroundColor(ColorConstant.font1)
+                .foregroundColor(ColorConstant.dark)
         )
         .navigationBarBackButtonHidden(true)
     }

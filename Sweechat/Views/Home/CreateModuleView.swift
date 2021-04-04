@@ -4,16 +4,24 @@ struct CreateModuleView: View {
     @State var moduleName: String = ""
     var viewModel: HomeViewModel
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Create a Module")
                 .font(FontConstant.Heading1)
-                .foregroundColor(ColorConstant.font1)
+                .foregroundColor(ColorConstant.dark)
+                .padding(.top)
             HStack {
-                TextField("Module name", text: $moduleName).padding()
-                Button("Create") { tappedCreate() }.padding()
+                TextField("Module name", text: $moduleName)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(Color.white)
+                Image(systemName: "chevron.right.circle.fill")
+                    .foregroundColor(ColorConstant.dark)
+                    .onTapGesture { tappedCreate() }
             }
+            .padding(.top, 7)
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.bottom)
         .background(ColorConstant.base)
     }
 

@@ -32,7 +32,7 @@ struct HomeToolbarView: View {
                     LazyNavView(
                         SettingsView(viewModel: viewModel.settingsViewModel))) {
                 Image(systemName: "gear")
-                    .foregroundColor(ColorConstant.font1)
+                    .foregroundColor(ColorConstant.dark)
             }
 
         }

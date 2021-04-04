@@ -9,6 +9,7 @@ import SwiftUI
 // This is added so that the list item updates when the module updates
 struct ModuleItemView: View {
     @ObservedObject var viewModel: ModuleViewModel
+    var index: Int
     var body: some View {
         NavigationLink(
             destination:
@@ -17,13 +18,17 @@ struct ModuleItemView: View {
                 Circle()
                     .fill(ColorConstant.placeholder)
                     .frame(width: 70, height: 70)
+
                 Divider()
+                    .padding(.leading, 7)
+                    .padding(.trailing, 7)
+                    .foregroundColor(ColorConstant.dark)
                     .frame(height: 50, alignment: .center)
 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(viewModel.text.uppercased())
-                            .foregroundColor(.white)
+                        Text(viewModel.text)
+                            .foregroundColor(Color.white)
                             .font(FontConstant.ModuleTitle)
                         Spacer()
                     }
@@ -35,7 +40,7 @@ struct ModuleItemView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(ColorConstant.pastel1)
+                    .fill(ColorConstant.pastels[index % ColorConstant.pastels.count])
                     .shadow(color: .gray, radius: 5, x: 1, y: 7)
             )
             .padding(.bottom)
