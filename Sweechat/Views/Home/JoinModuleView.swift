@@ -17,6 +17,9 @@ struct JoinModuleView: View {
     }
 
     func tappedCreate() {
+        if moduleSecret.isEmpty {
+            return
+        }
         viewModel.handleJoinModule(secret: moduleSecret)
         moduleSecret = ""
     }

@@ -13,6 +13,12 @@ struct LoginView: View {
 
     var body: some View {
         VStack {
+            Spacer()
+            Text("Welcome to SweeChat!")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.font1)
+                .padding()
+            Divider().padding()
             ForEach(viewModel.loginButtonViewModels, id: \.self) { loginButtonVM in
                 LoginButtonView(viewModel: loginButtonVM)
             }
@@ -23,8 +29,9 @@ struct LoginView: View {
                 isActive: $viewModel.isLoggedIn
             )
             .hidden()
+            Spacer()
         }
+        .background(ColorConstant.base)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(Text(viewModel.text))
     }
 }
