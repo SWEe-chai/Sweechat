@@ -7,14 +7,17 @@ struct CreateGroupChatView: View {
 
     var body: some View {
         VStack {
+            Text("Set Group Name")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.font1)
+                .padding()
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
             .frame(idealHeight: 20, maxHeight: 50)
             .padding()
-            .background(Color.gray.opacity(0.1))
-            Text("Set permissions for other users").font(.callout)
-                .padding()
+            Divider().padding()
+            Text("Set permissions for other users").font(FontConstant.ModuleDescription)
             PermissionItemView(
                 isLit: $viewModel.isWritable,
                 onTap: viewModel.toggleIsWritable,
@@ -29,6 +32,7 @@ struct CreateGroupChatView: View {
                 groupName = ""
             }.disabled(groupName.isEmpty)
         }
+        .background(ColorConstant.base)
     }
 }
 
@@ -40,7 +44,7 @@ struct PermissionItemView: View {
     var body: some View {
         HStack {
             Rectangle()
-                .fill(isLit ? Color.blue : Color.white)
+                .fill(isLit ? ColorConstant.pastel1 : ColorConstant.transparent)
                 .cornerRadius(5)
                 .frame(width: 20, height: 20, alignment: .center)
                 .overlay(

@@ -1,34 +1,31 @@
-//
-//  MemberItemView.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 28/3/21.
-//
-
 import SwiftUI
 
 struct MemberItemView: View {
-    @ObservedObject var viewModel: MemberItemViewModel
-
+    var viewModel: MemberItemViewModel
     var body: some View {
         HStack {
-            Rectangle()
-                .fill(viewModel.isSelected ? Color.blue : Color(white: 0, opacity: 0))
-                .frame(width: 20, height: 20, alignment: .center)
-                .cornerRadius(5)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color(white: 0, opacity: 0.5), lineWidth: 1)
-                )
-            Text("\(viewModel.memberName)").padding(.leading, 10)
+            UserProfilePicture(url: viewModel.profilePictureUrl)
+            VStack(alignment: .leading) {
+                Text("\(viewModel.memberName)").font(FontConstant.Heading4)
+                Text("Some information...")
+                    .font(FontConstant.ModuleDescription)
+            }
             Spacer()
         }
-        .padding()
-        .border(width: 1,
-                edges: [.bottom],
-                color: Color(white: 0, opacity: 0.1))
-        .onTapGesture {
-            viewModel.toggleSelection()
-        }
+    }
+}
+
+struct MemberItemView_Previews: PreviewProvider {
+    static var previews: some View {
+        MemberItemView(viewModel:
+            MemberItemViewModel(
+                member:
+                    User(
+                        id: "1",
+                        name: "Hai Nguyen",
+                        profilePictureUrl: """
+                                    https://lh3.googleusercontent.com/
+                                    a-/AOh14Gh7yXK1BE34ZK09UVtZHy_lGrGaqbUP2VGMmxsHzw=s96-c
+                                    """)))
     }
 }
