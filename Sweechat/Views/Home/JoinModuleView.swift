@@ -10,7 +10,7 @@ struct JoinModuleView: View {
                 .foregroundColor(ColorConstant.dark)
                 .padding(.top)
             HStack {
-                TextField("Module secret", text: $moduleSecret)
+                TextField("Module Secret", text: $moduleSecret)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(Color.white)

@@ -10,7 +10,7 @@ struct CreateModuleView: View {
                 .foregroundColor(ColorConstant.dark)
                 .padding(.top)
             HStack {
-                TextField("Module name", text: $moduleName)
+                TextField("Module Name", text: $moduleName)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 20))
                     .foregroundColor(Color.white)

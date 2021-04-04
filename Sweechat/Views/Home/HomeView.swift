@@ -24,10 +24,12 @@ struct HomeView: View {
                     JoinModuleView(viewModel: viewModel)
                 }
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Modules")
-                        .font(FontConstant.Heading1)
-                        .foregroundColor(ColorConstant.dark)
-                        .padding(.horizontal)
+                    if !viewModel.moduleViewModels.isEmpty {
+                        Text("Modules")
+                            .font(FontConstant.Heading1)
+                            .foregroundColor(ColorConstant.dark)
+                            .padding(.horizontal)
+                    }
                     ScrollView(showsIndicators: false) {
                         ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
                             ModuleItemView(viewModel: moduleViewModel, index: index)
