@@ -34,9 +34,11 @@ struct MessageInputBarView: View {
                     .multilineTextAlignment(.leading)
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
+                        .foregroundColor(ColorConstant.dark)
                 }
                 Button(action: openActionSheet) {
                     Image(systemName: "plus.circle")
+                        .foregroundColor(ColorConstant.dark)
                 }
             }
         }
