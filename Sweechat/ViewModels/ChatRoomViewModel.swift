@@ -5,7 +5,7 @@ import os
 
 class ChatRoomViewModel: ObservableObject {
     var chatRoom: ChatRoom
-    private var user: User
+    var user: User
     private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
@@ -23,7 +23,7 @@ class ChatRoomViewModel: ObservableObject {
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
-        self.messages = chatRoom.messages.map {
+        self.messages = chatRoom.messages.compactMap {
             MessageViewModelFactory
                 .makeViewModel(message: $0,
                                sender: chatRoom.getUser(userId: $0.id),
@@ -35,7 +35,7 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            self.messages = messages.map {
+            self.messages = messages.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
