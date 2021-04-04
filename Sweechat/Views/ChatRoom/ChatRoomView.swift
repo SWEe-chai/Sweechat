@@ -14,6 +14,7 @@ struct ChatRoomView: View {
         }
         .background(ColorConstant.base)
         .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(false)
         .navigationTitle(Text(viewModel.text))
     }
 

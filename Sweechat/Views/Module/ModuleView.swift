@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
+    @Environment(\.presentationMode) var presentationMode
     @State private var showingCreateChatRoom = false
     @State private var isModuleSettingsOpened = false
 
@@ -47,7 +48,7 @@ struct ModuleView: View {
                                 .foregroundColor(ColorConstant.white)
                         }
                         Button(action: {
-                            isModuleSettingsOpened.toggle()
+                            presentationMode.wrappedValue.dismiss()
                         }) {
                             Image(systemName: "xmark")
                                 .foregroundColor(ColorConstant.white)
