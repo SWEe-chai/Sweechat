@@ -17,7 +17,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToPosts { posts in
-            self.postViewModels = posts.map {
+            self.postViewModels = posts.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
@@ -26,7 +26,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         }
 
         let postIdToRepliesSubscriber = forumChatRoom.subscribeToReplies { replies in
-            self.replyViewModels = replies.map {
+            self.replyViewModels = replies.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
