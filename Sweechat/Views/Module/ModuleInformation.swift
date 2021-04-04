@@ -21,7 +21,9 @@ struct ModuleInformation: View {
             if copied {
                 Text("Module Secret has been copied to clipboard!").font(.caption)
             }
-        }.navigationTitle("Module Information")
+        }
+        .navigationBarHidden(false)
+        .navigationTitle("Module Information")
     }
 }
 

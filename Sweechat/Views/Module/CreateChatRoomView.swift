@@ -23,10 +23,11 @@ struct CreateChatRoomView: View {
                             .padding()
                     })
                     .buttonStyle(PlainButtonStyle())
-                    Divider().padding([.leading, .trailing], 20)
+//                    Divider().padding([.leading, .trailing], 20)
                 }
                 Spacer()
             }
+            .navigationBarHidden(false)
             .background(ColorConstant.base)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Text("New Message")
