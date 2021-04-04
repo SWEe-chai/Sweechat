@@ -14,6 +14,9 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Spacer()
+            Image("Sweechat")
+                .resizable().scaledToFit()
+                .padding([.leading, .trailing], 30)
             Text("Welcome to SweeChat!")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.dark)
@@ -21,6 +24,7 @@ struct LoginView: View {
             Divider().padding()
             ForEach(viewModel.loginButtonViewModels, id: \.self) { loginButtonVM in
                 LoginButtonView(viewModel: loginButtonVM)
+                    .padding([.leading, .trailing])
             }
             NavigationLink(
                 "",
