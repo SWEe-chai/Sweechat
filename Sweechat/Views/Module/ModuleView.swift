@@ -60,6 +60,7 @@ struct ModuleView: View {
                                                         viewModel: chatRoomViewModel))) {
                                     ChatRoomItemView(viewModel: chatRoomViewModel)
                                 }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         Spacer()
