@@ -25,21 +25,18 @@ struct ChatRoomItemView: View {
             }
             .padding()
             .padding(.horizontal)
-            Divider()
-                .background(ColorConstant.dark)
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
-                .padding([.leading, .trailing])
 
+//            Divider()
+//                .background(ColorConstant.dark)
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
+//                .padding([.leading, .trailing])
         }
     }
 }

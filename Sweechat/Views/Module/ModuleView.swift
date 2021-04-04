@@ -46,9 +46,16 @@ struct ModuleView: View {
                             Image(systemName: "gearshape.fill")
                                 .foregroundColor(ColorConstant.white)
                         }
+                        Button(action: {
+                            isModuleSettingsOpened.toggle()
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(ColorConstant.white)
+                        }
                     }
                     .padding()
                 }
+                .padding(.horizontal)
                 VStack(alignment: .leading) {
                     ScrollView {
                         ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
