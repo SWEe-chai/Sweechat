@@ -13,7 +13,7 @@ struct MemberItemSelectView: View {
     var body: some View {
         HStack {
             Rectangle()
-                .fill(viewModel.isSelected ? ColorConstant.pastel1 : Color(white: 0, opacity: 0))
+                .fill(viewModel.isSelected ? ColorConstant.primary : Color(white: 0, opacity: 0))
                 .frame(width: 20, height: 20, alignment: .center)
                 .cornerRadius(5)
                 .overlay(

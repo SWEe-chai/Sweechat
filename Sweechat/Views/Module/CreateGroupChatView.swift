@@ -9,7 +9,7 @@ struct CreateGroupChatView: View {
         VStack {
             Text("Set Group Name")
                 .font(FontConstant.Heading1)
-                .foregroundColor(ColorConstant.font1)
+                .foregroundColor(ColorConstant.dark)
                 .padding()
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
@@ -44,7 +44,7 @@ struct PermissionItemView: View {
     var body: some View {
         HStack {
             Rectangle()
-                .fill(isLit ? ColorConstant.pastel1 : ColorConstant.transparent)
+                .fill(isLit ? ColorConstant.primary : ColorConstant.transparent)
                 .cornerRadius(5)
                 .frame(width: 20, height: 20, alignment: .center)
                 .overlay(
