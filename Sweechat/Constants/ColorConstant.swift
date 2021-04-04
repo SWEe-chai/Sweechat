@@ -15,6 +15,7 @@ struct ColorConstant {
     static let foreground = Color(red: 142 / 255, green: 147 / 255, blue: 237 / 255)
     static let secondary = Color.white
     static let pastel1 = Color(red: 131 / 255, green: 136 / 255, blue: 222 / 255)
+    static let transparent = Color(white: 0, opacity: 0)
 
     static let placeholder = Color.white
 

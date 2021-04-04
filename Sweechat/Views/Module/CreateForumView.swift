@@ -10,6 +10,7 @@ struct CreateForumView: View {
             Text("Set Forum Name")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.font1)
+                .padding()
             ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
             Spacer()
         }

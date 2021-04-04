@@ -18,7 +18,6 @@ class MemberItemViewModel: ObservableObject {
         self.memberName = member.name
         self.profilePictureUrl = member.profilePictureUrl
         self.isSelected = false
-        print(profilePictureUrl)
     }
 
     func toggleSelection() {
