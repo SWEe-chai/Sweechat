@@ -14,6 +14,7 @@ struct CreateForumView: View {
             ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
             Spacer()
         }
+        .background(ColorConstant.base)
         .navigationTitle("Create Forum")
         .toolbar {
             Button("Create") {
