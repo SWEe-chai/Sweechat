@@ -25,7 +25,6 @@ class ModuleViewModel: ObservableObject {
         self.chatRoomViewModels = module.chatRooms.map {
             ChatRoomViewModelFactory.makeViewModel(chatRoom: $0)
         }
-        self.module.setModuleConnection()
         initialiseSubscriber()
     }
 

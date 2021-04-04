@@ -14,7 +14,7 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Spacer()
-            Image("Sweechat")
+            Image("sweechat")
                 .resizable().scaledToFit()
                 .padding([.leading, .trailing], 30)
             Text("Welcome to SweeChat!")

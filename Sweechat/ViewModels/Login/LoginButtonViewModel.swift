@@ -6,6 +6,9 @@ class LoginButtonViewModel {
     var backgroundColor: Color {
         LoginButtonColor.getColor(type: authHandler.type)
     }
+    var picture: String {
+        authHandler.type.rawValue.lowercased()
+    }
 
     init(authHandler: ALAuthHandler) {
         self.authHandler = authHandler
