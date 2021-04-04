@@ -9,10 +9,13 @@
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-LightItalic.ttf</string>
+		<string>OpenSans-Light.ttf</string>
 		<string>Inter-Thin.ttf</string>
 		<string>Inter-Regular.ttf</string>
 		<string>LemonMilk-Bold.otf</string>
 		<string>LemonMilk-Regular.otf</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-Light.ttf</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>

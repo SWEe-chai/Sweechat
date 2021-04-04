@@ -14,6 +14,7 @@ struct ColorConstant {
     static let dark = Color(red: 99 / 255, green: 38 / 255, blue: 10 / 255)
     static let primary = Color(red: 176 / 255, green: 136 / 255, blue: 106 / 255)
     static let primary2 = Color(red: 196 / 255, green: 149 / 255, blue: 128 / 255)
+    static let transparent = Color(white: 0, opacity: 0)
     static let secondary = Color.white
     static let placeholder = Color.white
 }
