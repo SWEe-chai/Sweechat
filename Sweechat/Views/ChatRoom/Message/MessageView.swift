@@ -26,6 +26,7 @@ struct MessageView: View {
                         .onTapGesture {
                             onReplyPreviewTapped?()
                         }
+                        .padding(.vertical, 1)
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
