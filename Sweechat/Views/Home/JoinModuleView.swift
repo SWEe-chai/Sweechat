@@ -12,8 +12,9 @@ struct JoinModuleView: View {
             HStack {
                 TextField("Module Secret", text: $moduleSecret)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 20))
-                    .foregroundColor(Color.white)
+                    .background(RoundedRectangle(cornerRadius: 20).fill(Color.white))
+                    .font(FontConstant.Heading5)
+                    .foregroundColor(ColorConstant.medium)
                 Image(systemName: "chevron.right.circle.fill")
                     .foregroundColor(ColorConstant.dark)
                     .onTapGesture { tappedCreate() }
