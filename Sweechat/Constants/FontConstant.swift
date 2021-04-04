@@ -18,6 +18,7 @@ struct FontConstant {
     static let Heading4 = Font.custom("OpenSans-Bold", size: 18)
     static let Heading5 = Font.custom("OpenSans-Bold", size: 15)
     static let MessageSender = Font.custom(OpenSans_Bold, size: 16)
+    static let ForumPost = Font.custom("Inter-Regular", size: 20)
     static let MessageText = Font.custom(Inter_Light, size: 16)
     static let MessageReplySender = Font.custom(OpenSans_Bold, size: 14)
     static let MessageReplyText = Font.custom(Inter_Light, size: 14)
