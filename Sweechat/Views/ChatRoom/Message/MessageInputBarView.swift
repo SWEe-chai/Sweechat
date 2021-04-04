@@ -46,7 +46,7 @@ struct MessageInputBarView: View {
         .background(Color.gray.opacity(0.1))
         .actionSheet(
             isPresented: $showingActionSheet) {
-            ActionSheet(title: Text("Attachment"), message: Text("Select attachment"), buttons: [
+            ActionSheet(title: Text("Attachment"), buttons: [
                 .default(Text("Image or Video")) { openMediaPicker() },
                 .default(Text("Canvas")) { openCanvas() },
                 .cancel()
