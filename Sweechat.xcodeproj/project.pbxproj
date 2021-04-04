@@ -62,7 +62,7 @@
 		27ABA3C32618734C0072F591 /* ThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3C22618734C0072F591 /* ThreadView.swift */; };
 		27ABA4062618BE8B0072F591 /* ModuleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA4052618BE8B0072F591 /* ModuleInformation.swift */; };
 		27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B5973D261449A900B69FEF /* UserPermissionPair.swift */; };
-		27BD8F272619721600B0F7D7 /* UserProfilePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BD8F262619721600B0F7D7 /* UserProfilePicture.swift */; };
+		27BD8F272619721600B0F7D7 /* ProfilePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BD8F262619721600B0F7D7 /* ProfilePicture.swift */; };
 		27BD8F2F2619730A00B0F7D7 /* MemberItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */; };
 		3E405A71261086A4005F2B49 /* UnsupportedMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E405A70261086A4005F2B49 /* UnsupportedMessageContentView.swift */; };
 		3E405A76261087EF005F2B49 /* MessageViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */; };
@@ -179,6 +179,7 @@
 		77F4F18C2618E3D7003CD601 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F18B2618E3D7003CD601 /* Montserrat-Regular.ttf */; };
 		77F4F1A126196E0B003CD601 /* LemonMilk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F19F26196E0A003CD601 /* LemonMilk-Bold.otf */; };
 		77F4F1A226196E0B003CD601 /* LemonMilk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F1A026196E0A003CD601 /* LemonMilk-Regular.otf */; };
+		77F4F1DC2619B333003CD601 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F1DB2619B333003CD601 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,7 +255,7 @@
 		27ABA3C22618734C0072F591 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		27ABA4052618BE8B0072F591 /* ModuleInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleInformation.swift; sourceTree = "<group>"; };
 		27B5973D261449A900B69FEF /* UserPermissionPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissionPair.swift; sourceTree = "<group>"; };
-		27BD8F262619721600B0F7D7 /* UserProfilePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePicture.swift; sourceTree = "<group>"; };
+		27BD8F262619721600B0F7D7 /* ProfilePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicture.swift; sourceTree = "<group>"; };
 		27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemView.swift; sourceTree = "<group>"; };
 		3E405A70261086A4005F2B49 /* UnsupportedMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedMessageContentView.swift; sourceTree = "<group>"; };
 		3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModelFactory.swift; sourceTree = "<group>"; };
@@ -376,6 +377,7 @@
 		77F4F18B2618E3D7003CD601 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		77F4F19F26196E0A003CD601 /* LemonMilk-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Bold.otf"; sourceTree = "<group>"; };
 		77F4F1A026196E0A003CD601 /* LemonMilk-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Regular.otf"; sourceTree = "<group>"; };
+		77F4F1DB2619B333003CD601 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -480,9 +482,11 @@
 		279CBAC5260AD822009A139C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				27BD8F262619721600B0F7D7 /* ProfilePicture.swift */,
 				279CBAC6260AD840009A139C /* LazyNavView.swift */,
 				3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */,
 				3E74E094261054B200CB344E /* RemoteImage.swift */,
+				77F4F1DB2619B333003CD601 /* Color.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -967,7 +971,6 @@
 			isa = PBXGroup;
 			children = (
 				77C5D08A261034C3005D5504 /* MemberItemSelectView.swift */,
-				27BD8F262619721600B0F7D7 /* UserProfilePicture.swift */,
 				27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */,
 			);
 			path = User;
@@ -1247,6 +1250,7 @@
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				4583D9952616055B0092AF87 /* P256PrivateKey.swift in Sources */,
 				77394C03260D97C10068B01F /* ModuleListFacade.swift in Sources */,
+				77F4F1DC2619B333003CD601 /* Color.swift in Sources */,
 				279ECD2026136A1000CBFFEB /* CreateGroupChatView.swift in Sources */,
 				279DD1CD26172202001E4B37 /* PrivateChatRoomViewModel.swift in Sources */,
 				775CA652260B4A930012C420 /* ModuleFacadeDelegate.swift in Sources */,
@@ -1331,7 +1335,7 @@
 				77394B62260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift in Sources */,
 				3EFF013626108434008288C9 /* ImageMessageViewModel.swift in Sources */,
 				3E74E084261047DC00CB344E /* ImageMessageContentView.swift in Sources */,
-				27BD8F272619721600B0F7D7 /* UserProfilePicture.swift in Sources */,
+				27BD8F272619721600B0F7D7 /* ProfilePicture.swift in Sources */,
 				2787975C2601E24600124FA3 /* ALAuthHandlerDelegate.swift in Sources */,
 				778F08BB25FDDA420059C2A0 /* ContentView.swift in Sources */,
 				27598E5E26162FA000DF564F /* FirebaseModuleQuery.swift in Sources */,

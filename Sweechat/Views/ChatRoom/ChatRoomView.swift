@@ -13,6 +13,8 @@ struct ChatRoomView: View {
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }
         .background(ColorConstant.base)
+        .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(false)
         .navigationTitle(Text(viewModel.text))
     }
 

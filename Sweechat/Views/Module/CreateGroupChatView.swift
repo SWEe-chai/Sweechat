@@ -6,24 +6,25 @@ struct CreateGroupChatView: View {
     @Binding var isShowing: Bool
 
     var body: some View {
-        VStack {
-            Text("Set Group Name")
+        VStack(alignment: .leading) {
+            Text("Group Name")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.dark)
-                .padding()
+                .padding(.top)
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
-            .frame(idealHeight: 20, maxHeight: 50)
-            .padding()
-            Divider().padding()
-            Text("Set permissions for other users").font(FontConstant.ModuleDescription)
+            Text("Members Permissions")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.dark)
+                .padding(.top)
             PermissionItemView(
                 isLit: $viewModel.isWritable,
                 onTap: viewModel.toggleIsWritable,
                 text: "Send messages")
             Spacer()
         }
+        .padding()
         .navigationTitle("Create Group")
         .toolbar {
             Button("Create") {

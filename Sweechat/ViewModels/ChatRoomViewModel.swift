@@ -9,6 +9,7 @@ class ChatRoomViewModel: ObservableObject {
     private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
+    @Published var profilePictureUrl: String?
 
     var permissions: ChatRoomViewModelType {
         ChatRoomViewModelType.convert(permission: chatRoom.currentUserPermission)
@@ -30,6 +31,7 @@ class ChatRoomViewModel: ObservableObject {
                                isSenderCurrentUser: user.id == $0.senderId)
         }
         self.text = chatRoom.name
+        self.profilePictureUrl = chatRoom.profilePictureUrl
         initialiseSubscriber()
     }
 

@@ -5,11 +5,12 @@ struct ChatRoomNameTextField: View {
     @Binding var name: String
     var body: some View {
         TextField(placeholder, text: $name)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .cornerRadius(5)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 20).fill(Color.white))
+            .font(FontConstant.Heading5)
+            .foregroundColor(ColorConstant.medium)
             .frame(idealHeight: 20, maxHeight: 60)
             .multilineTextAlignment(.leading)
-            .padding()
     }
 }
 

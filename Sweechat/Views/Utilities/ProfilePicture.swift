@@ -1,23 +1,28 @@
 import SwiftUI
 
-struct UserProfilePicture: View {
+struct ProfilePicture: View {
     var url: String?
     var body: some View {
-        if let profilePictureUrl = url {
+        if let profilePictureUrl = url, !profilePictureUrl.isEmpty {
             RemoteImage(url: profilePictureUrl,
                         failure: Image(systemName: "person"))
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "person")
+            Circle()
+                .fill(Color.random)
                 .frame(width: 50, height: 50)
-                .clipShape(Circle())
+//                .clipShape(Circle())
+                .overlay(
+//                    Circle().fill(Color.random)
+                    Image(systemName: "person")
+                )
         }
     }
 }
 
 struct UserProfilePicture_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfilePicture(url: "")
+        ProfilePicture(url: "")
     }
 }

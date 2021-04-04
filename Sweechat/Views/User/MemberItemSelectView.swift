@@ -19,6 +19,7 @@ struct MemberItemSelectView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(Color(white: 0, opacity: 0.5), lineWidth: 1))
+                .padding(.trailing)
             MemberItemView(viewModel: viewModel)
             Spacer()
         }

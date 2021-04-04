@@ -17,11 +17,15 @@ struct CanvasView: View {
         VStack {
             HStack {
                 Image(systemName: "xmark")
+                    .padding()
+                    .foregroundColor(ColorConstant.dark)
                     .onTapGesture {
                         showingModal = false
                     }
                 Spacer()
                 Image(systemName: "square.and.arrow.up")
+                    .padding()
+                    .foregroundColor(ColorConstant.dark)
                     .onTapGesture {
                         media = canvasView.drawing.image(
                             from: CGRect(
