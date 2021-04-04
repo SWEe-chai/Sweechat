@@ -14,12 +14,12 @@ struct ReplyPreviewView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(message.senderName)
-                .fontWeight(.bold)
+                .font(FontConstant.MessageReplySender)
             Text(message.previewContent())
+                .font(FontConstant.MessageReplyText)
                 .lineLimit(1)
         }
         .padding([.leading, .trailing], 10)
-        .font(.caption)
         .border(width: 2, edges: [.leading, .trailing], color: borderColor)
         .fixedSize(horizontal: false, vertical: true) // So that it does not stretch vertically
     }
