@@ -9,7 +9,7 @@ struct ForumPostsView: View {
             ScrollView {
                     ForEach(viewModel.postViewModels, id: \.self) { postViewModel in
                         ForumPostView(viewModel: postViewModel)
-                            .onTapGesture(count: 2) {
+                            .onTapGesture(count: 1) {
                                 viewModel.setThread(postViewModel)
                                 isThreadOpen = true
                             }
