@@ -18,9 +18,7 @@ struct MessageView: View {
         HStack(alignment: .bottom, spacing: 15) {
             if viewModel.isRightAlign { Spacer() }
             VStack(alignment: .leading) {
-                if let title = viewModel.title {
-                    Text(title).font(FontConstant.MessageSender)
-                }
+                Text(viewModel.senderName).font(FontConstant.MessageSender)
                 if let parent = parentViewModel {
                     ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
                         .onTapGesture {

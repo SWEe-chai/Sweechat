@@ -10,7 +10,6 @@ struct ChooseChatRoomMembersView: View {
             ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
                 MemberItemSelectView(viewModel: memberItemViewModel)
                     .padding()
-                Divider().padding([.leading, .trailing])
             }
         }
         .background(ColorConstant.base)

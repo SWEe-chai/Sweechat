@@ -6,14 +6,15 @@ struct CreateForumView: View {
     @Binding var isShowing: Bool
 
     var body: some View {
-        VStack {
-            Text("Set Forum Name")
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Forum Name")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.dark)
-                .padding()
+                .padding(.top)
             ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
             Spacer()
         }
+        .padding()
         .background(ColorConstant.base)
         .navigationTitle("Create Forum")
         .toolbar {

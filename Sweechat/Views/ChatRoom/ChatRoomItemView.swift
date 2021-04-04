@@ -10,6 +10,21 @@ import SwiftUI
 struct ChatRoomItemView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     var body: some View {
-        Text(viewModel.text)
+        VStack(alignment: .leading) {
+            HStack {
+                ProfilePicture(url: viewModel.profilePictureUrl)
+                VStack(alignment: .leading) {
+                    Text("\(viewModel.text)")
+                        .font(FontConstant.Heading4)
+                        .foregroundColor(ColorConstant.dark)
+                    Text("Last message...")
+                        .font(FontConstant.ModuleDescription)
+                        .foregroundColor(ColorConstant.dark)
+                }
+                .padding(.horizontal)
+            }
+            .padding()
+            .padding(.horizontal)
+        }
     }
 }

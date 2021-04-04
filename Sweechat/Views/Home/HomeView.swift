@@ -9,40 +9,40 @@ struct HomeView: View {
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
-        UINavigationBar.appearance().barTintColor = UIColor(ColorConstant.base)
-        UINavigationBar.appearance().tintColor = UIColor(ColorConstant.base)
+        UINavigationBar.appearance().barTintColor = UIColor(ColorConstant.dark)
+        UINavigationBar.appearance().tintColor = UIColor(ColorConstant.dark)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                if isShowingCreateView {
-                    CreateModuleView(viewModel: viewModel)
-                } else {
-                    JoinModuleView(viewModel: viewModel)
-                }
-                VStack(alignment: .leading, spacing: 0) {
-                    if !viewModel.moduleViewModels.isEmpty {
-                        Text("Modules")
-                            .font(FontConstant.Heading1)
-                            .foregroundColor(ColorConstant.dark)
-                            .padding(.horizontal)
+            GeometryReader { geometry in
+                VStack {
+                    if isShowingCreateView {
+                        CreateModuleView(viewModel: viewModel)
+                    } else {
+                        JoinModuleView(viewModel: viewModel)
                     }
-                    ScrollView(showsIndicators: false) {
-                        ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
-                            ModuleItemView(viewModel: moduleViewModel, index: index)
+                    VStack(alignment: .leading, spacing: 0) {
+                        if !viewModel.moduleViewModels.isEmpty {
+                            Text("Modules")
+                                .font(FontConstant.Heading1)
+                                .foregroundColor(ColorConstant.dark)
+                                .padding(.horizontal)
                         }
-                        .padding()
+                        ScrollView(showsIndicators: false) {
+                            ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                                ModuleItemView(viewModel: moduleViewModel, index: index)
+                            }
+                            .padding()
+                        }
+                        .padding(.top, 3)
                     }
-                    .padding(.top, 3)
-                }
 
-                Spacer()
+                    Spacer()
+                }
+                .frame(width: geometry.size.width)
             }
-            .frame(width: geometry.size.width)
-        }
         .background(ColorConstant.base)
         .toolbar {
             HomeToolbarView(
