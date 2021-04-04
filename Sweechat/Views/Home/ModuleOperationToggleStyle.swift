@@ -13,7 +13,7 @@ struct ModuleOperationToggleStyle: ToggleStyle {
             configuration.label
             Spacer()
             Rectangle()
-                .foregroundColor(ColorConstant.foreground)
+                .foregroundColor(ColorConstant.primary)
                 .frame(width: 51, height: 31, alignment: .center)
                 .overlay(
                     Circle()

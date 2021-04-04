@@ -41,7 +41,7 @@ struct ModuleItemView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(ColorConstant.pastels[index % ColorConstant.pastels.count])
+                    .fill(ColorConstant.primary)
                     .shadow(color: .gray, radius: 5, x: 1, y: 7)
             )
             .padding(.bottom)
