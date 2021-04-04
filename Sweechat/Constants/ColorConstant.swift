@@ -17,4 +17,8 @@ struct ColorConstant {
     static let transparent = Color(white: 0, opacity: 0)
     static let secondary = Color.white
     static let placeholder = Color.white
+
+    // Login button colors
+    static let facebookButton = Color(red: 206 / 255, green: 159 / 255, blue: 138 / 255)
+    static let googleButton = Color(red: 174 / 255, green: 140 / 255, blue: 124 / 255)
 }

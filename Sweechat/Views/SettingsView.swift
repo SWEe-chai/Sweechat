@@ -5,11 +5,28 @@ struct SettingsView: View {
 
     var body: some View {
         VStack {
-            Text(viewModel.text)
+            Spacer()
             Button(action: viewModel.didTapLogoutButton) {
-                Text("Logout")
+                HStack {
+                    Spacer()
+                    Text("Logout")
+                        .font(FontConstant.Heading4)
+                    Spacer()
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(ColorConstant.medium)
+                .cornerRadius(10)
             }
-            .foregroundColor(.red)
-        }
+            Spacer()
+        }.padding()
+        .background(ColorConstant.base)
+        .navigationTitle("Settings")
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView(viewModel: SettingsViewModel())
     }
 }
