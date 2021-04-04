@@ -11,4 +11,5 @@ struct FontConstant {
     static let ModuleTitle = Font.custom("Montserrat-Regular", size: 40)
     static let ModuleDescription = Font.custom("OpenSans-LightItalic", size: 14)
     static let Heading1 = Font.custom("OpenSans-Bold", size: 27)
+    static let Heading4 = Font.custom("OpenSans-Bold", size: 18)
 }

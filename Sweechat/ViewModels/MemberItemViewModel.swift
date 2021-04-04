@@ -11,11 +11,14 @@ class MemberItemViewModel: ObservableObject {
     var member: User
     @Published var isSelected: Bool
     @Published var memberName: String
+    @Published var profilePictureUrl: String?
 
     init(member: User) {
         self.member = member
         self.memberName = member.name
+        self.profilePictureUrl = member.profilePictureUrl
         self.isSelected = false
+        print(profilePictureUrl)
     }
 
     func toggleSelection() {

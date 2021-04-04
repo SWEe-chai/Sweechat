@@ -7,12 +7,16 @@ struct CreateGroupChatView: View {
 
     var body: some View {
         VStack {
+            Text("Set Forum Name")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.font1)
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
             .frame(idealHeight: 20, maxHeight: 50)
             .padding()
             .background(Color.gray.opacity(0.1))
+            Divider().padding()
             Text("Set permissions for other users").font(.callout)
                 .padding()
             PermissionItemView(

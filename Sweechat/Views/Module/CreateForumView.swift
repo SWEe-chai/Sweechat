@@ -7,6 +7,9 @@ struct CreateForumView: View {
 
     var body: some View {
         VStack {
+            Text("Set Forum Name")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.font1)
             ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
             Spacer()
         }
