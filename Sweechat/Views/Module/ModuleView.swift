@@ -10,6 +10,7 @@ import SwiftUI
 struct ModuleView: View {
     @ObservedObject var viewModel: ModuleViewModel
     @State private var showingCreateChatRoom = false
+    @State private var isModuleSettingsOpened = false
 
     var body: some View {
         VStack {
@@ -23,12 +24,22 @@ struct ModuleView: View {
                     ChatRoomItemView(viewModel: chatRoomViewModel)
                 }
             }
+            NavigationLink("",
+                           destination: ModuleInformation(viewModel: viewModel),
+                           isActive: $isModuleSettingsOpened)
         }
         .toolbar {
-            Button(action: {
-                showingCreateChatRoom.toggle()
-            }) {
-                Image(systemName: "square.and.pencil")
+            HStack {
+                Button(action: {
+                    showingCreateChatRoom.toggle()
+                }) {
+                    Image(systemName: "square.and.pencil")
+                }
+                Button(action: {
+                    isModuleSettingsOpened.toggle()
+                }) {
+                    Image(systemName: "gearshape.fill")
+                }
             }
         }
         .sheet(isPresented: $showingCreateChatRoom) {

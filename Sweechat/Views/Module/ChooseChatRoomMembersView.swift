@@ -9,7 +9,6 @@ struct ChooseChatRoomMembersView: View {
         VStack {
             ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
                 MemberItemView(viewModel: memberItemViewModel)
-                    .padding([.top])
             }
             Spacer()
         }

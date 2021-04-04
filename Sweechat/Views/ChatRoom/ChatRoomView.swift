@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var messageBeingRepliedTo: MessageViewModel?
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
@@ -10,6 +9,7 @@ struct ChatRoomView: View {
             MessagesScrollView(viewModel: viewModel,
                                replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
+                                isShowingReply: true,
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }
         .navigationTitle(Text(viewModel.text))
