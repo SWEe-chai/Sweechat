@@ -19,23 +19,21 @@ struct MessageView: View {
             if viewModel.isRightAlign { Spacer() }
             VStack(alignment: .leading) {
                 if let title = viewModel.title {
-                    Text(title).font(.footnote)
+                    Text(title).font(FontConstant.MessageSender)
                 }
-                VStack(alignment: .leading) {
-                    if let parent = parentViewModel {
-                        ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
-                            .onTapGesture {
-                                onReplyPreviewTapped?()
-                            }
-                    }
-                    MessageContentViewFactory.makeView(viewModel: viewModel)
+                if let parent = parentViewModel {
+                    ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
+                        .onTapGesture {
+                            onReplyPreviewTapped?()
+                        }
                 }
-                .padding(10)
-                .foregroundColor(viewModel.foregroundColor)
-                .background(viewModel.backgroundColor)
-                .cornerRadius(10)
-
+                MessageContentViewFactory.makeView(viewModel: viewModel)
+                    .font(FontConstant.MessageText)
             }
+            .padding(10)
+            .foregroundColor(viewModel.foregroundColor)
+            .background(viewModel.backgroundColor)
+            .cornerRadius(10)
             if !viewModel.isRightAlign { Spacer() }
         }
         .frame(maxWidth: .infinity)
