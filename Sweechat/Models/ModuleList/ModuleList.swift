@@ -43,10 +43,12 @@ extension ModuleList: ModuleListFacadeDelegate {
         guard !self.modules.contains(module) else {
             return
         }
+        module.setModuleConnection()
         self.modules.append(module)
     }
 
     func insertAll(modules: [Module]) {
+        modules.forEach { $0.setModuleConnection() }
         self.modules = modules
     }
 
