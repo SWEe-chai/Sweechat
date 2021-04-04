@@ -7,7 +7,7 @@ struct HomeView: View {
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         let appearance = UINavigationBarAppearance()
-//        appearance.shadowColor = .clear
+        appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
         UINavigationBar.appearance().barTintColor = UIColor(ColorConstant.dark)
         UINavigationBar.appearance().tintColor = UIColor(ColorConstant.dark)

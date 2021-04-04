@@ -15,7 +15,7 @@ struct HomeToolbarView: View {
         self.viewModel = viewModel
         self._isShowingCreateView = isShowingCreateView
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
+//        appearance.configureWithTransparentBackground()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
