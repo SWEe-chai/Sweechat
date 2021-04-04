@@ -5,6 +5,7 @@ struct ThreadView: View {
     var body: some View {
         VStack {
             ForumPostView(viewModel: viewModel.threadViewModel.post)
+                .padding()
             ScrollView {
                 ForEach(viewModel.threadViewModel.replies, id: \.self) { reply in
                     MessageView(viewModel: reply)
