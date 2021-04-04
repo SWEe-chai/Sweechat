@@ -11,6 +11,8 @@
 		<string>OpenSans-LightItalic.ttf</string>
 		<string>Inter-Thin.ttf</string>
 		<string>Inter-Regular.ttf</string>
+		<string>LemonMilk-Bold.otf</string>
+		<string>LemonMilk-Regular.otf</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
