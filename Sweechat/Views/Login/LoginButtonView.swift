@@ -10,6 +10,7 @@ struct LoginButtonView: View {
                 Image(viewModel.text)
                     .resizable()
                     .frame(width: 30, height: 30)
+                    .padding(.trailing)
                 Text("Login with \(viewModel.text)")
                     .font(FontConstant.Heading4)
                 Spacer()
