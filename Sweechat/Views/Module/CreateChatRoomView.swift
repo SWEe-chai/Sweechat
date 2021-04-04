@@ -30,7 +30,7 @@ struct CreateChatRoomView: View {
             .background(ColorConstant.base)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Text("New Message")
-                .foregroundColor(ColorConstant.font1))
+                .foregroundColor(ColorConstant.dark))
             .toolbar {
                 CreateChatRoomToolbarView(viewModel: viewModel, isShowing: $isShowing)
             }

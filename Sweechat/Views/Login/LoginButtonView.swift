@@ -7,7 +7,7 @@ struct LoginButtonView: View {
         Button(action: viewModel.tapped) {
             HStack {
                 Text("Login with \(viewModel.text)")
-                    .font(FontConstant.Heading1)
+                    .font(FontConstant.Heading4)
                     .foregroundColor(.white)
                     .padding()
                     .background(viewModel.backgroundColor)

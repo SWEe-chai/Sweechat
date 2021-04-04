@@ -16,7 +16,7 @@ struct LoginView: View {
             Spacer()
             Text("Welcome to SweeChat!")
                 .font(FontConstant.Heading1)
-                .foregroundColor(ColorConstant.font1)
+                .foregroundColor(ColorConstant.dark)
                 .padding()
             Divider().padding()
             ForEach(viewModel.loginButtonViewModels, id: \.self) { loginButtonVM in
