@@ -7,7 +7,7 @@ struct LoginButtonView: View {
         Button(action: viewModel.tapped) {
             HStack {
                 Spacer()
-                Image(viewModel.text)
+                Image(viewModel.picture)
                     .resizable()
                     .frame(width: 30, height: 30)
                     .padding(.trailing)
