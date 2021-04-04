@@ -38,7 +38,8 @@ extension LoginViewModel: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
         user = User(
             id: details.id,
-            name: details.name
+            name: details.name,
+            profilePictureUrl: details.profilePictureUrl
         )
         user?.setUserConnection()
         isLoggedIn = true

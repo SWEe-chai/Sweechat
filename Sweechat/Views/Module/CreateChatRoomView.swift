@@ -15,16 +15,22 @@ struct CreateChatRoomView: View {
         NavigationView {
             VStack(alignment: .leading) {
                 ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
-                    Button(memberItemViewModel.memberName) {
-                        viewModel.createPrivateGroupChatWith(
-                            memberViewModel: memberItemViewModel)
+                    Button(action: {
+                        viewModel.createPrivateGroupChatWith(memberViewModel: memberItemViewModel)
                         isShowing = false
-                    }.padding()
+                    }, label: {
+                        MemberItemView(viewModel: memberItemViewModel)
+                            .padding()
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    Divider().padding([.leading, .trailing], 20)
                 }
                 Spacer()
             }
+            .background(ColorConstant.base)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("New Message")
+            .navigationBarItems(leading: Text("New Message")
+                .foregroundColor(ColorConstant.font1))
             .toolbar {
                 CreateChatRoomToolbarView(viewModel: viewModel, isShowing: $isShowing)
             }

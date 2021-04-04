@@ -15,6 +15,6 @@ struct ChatRoomNameTextField: View {
 
 struct ChatRoomNameTextField_Previews: PreviewProvider {
     static var previews: some View {
-        ChatRoomNameTextField(placeholder: "Hello", name: .constant("What"))
+        ChatRoomNameTextField(placeholder: "Group Name", name: .constant(""))
     }
 }

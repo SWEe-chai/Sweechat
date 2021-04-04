@@ -6,12 +6,14 @@ struct ChooseChatRoomMembersView: View {
     @Binding var isShowing: Bool
 
     var body: some View {
-        VStack {
+        ScrollView {
             ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
-                MemberItemView(viewModel: memberItemViewModel)
+                MemberItemSelectView(viewModel: memberItemViewModel)
+                    .padding()
+                Divider().padding([.leading, .trailing])
             }
-            Spacer()
         }
+        .background(ColorConstant.base)
         .toolbar {
             NavigationLink("Next", destination: viewAfterChoosingMembers)
         }.navigationTitle("Group Members")
@@ -28,7 +30,8 @@ struct ChooseChatRoomMembersView: View {
                     user: User(id: "1", name: "One Natasya"),
                     members: [
                         User(id: "1", name: "One Natasya"),
-                        User(id: "2", name: "Two Welly")
+                        User(id: "2", name: "Christian James Welly"),
+                        User(id: "2", name: "Hai Nguyen")
                     ]),
                 viewAfterChoosingMembers: AnyView(Text("Hello")),
                 isShowing: .constant(true))
