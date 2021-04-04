@@ -8,30 +8,44 @@
 import SwiftUI
 
 struct HomeToolbarView: View {
+    @ObservedObject var viewModel: HomeViewModel
     @Binding var isShowingJoinView: Bool
-    @Binding var isShowingAddView: Bool
+
+    init(viewModel: HomeViewModel, isShowingJoinView: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._isShowingJoinView = isShowingJoinView
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.shadowColor = .clear
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+
     var body: some View {
         HStack {
-            Button(action: {
-                isShowingJoinView = true
-                isShowingAddView = false
-            }) {
-                Image(systemName: "plus.magnifyingglass")
+
+            Toggle(isOn: $isShowingJoinView, label: {})
+                .toggleStyle(ModuleOperationToggleStyle())
+
+            NavigationLink(
+                destination:
+                    LazyNavView(
+                        SettingsView(viewModel: viewModel.settingsViewModel))) {
+                Image(systemName: "gear")
+                    .foregroundColor(ColorConstant.font1)
             }
-            Button(action: {
-                isShowingJoinView = false
-                isShowingAddView = true
-            }) {
-                Image(systemName: "plus.app")
-            }
+
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
-struct HomeToolbarView_Previews: PreviewProvider {
+ struct HomeToolbarView_Previews: PreviewProvider {
     static var previews: some View {
         HomeToolbarView(
-            isShowingJoinView: .constant(false),
-            isShowingAddView: .constant(false))
+            viewModel: HomeViewModel(
+                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
+            ),
+            isShowingJoinView: .constant(false))
     }
-}
+ }

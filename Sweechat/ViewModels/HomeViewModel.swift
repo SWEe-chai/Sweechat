@@ -11,7 +11,7 @@ class HomeViewModel: ObservableObject {
 
     init(user: User) {
         self.user = user
-        self.text = "Welcome home \(user.name)"
+        self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
         settingsViewModel.delegate = self
@@ -23,7 +23,7 @@ class HomeViewModel: ObservableObject {
             return
         }
         let nameSubscriber = user.subscribeToName { newName in
-            self.text = "Welcome home \(newName)"
+            self.text = "Welcome, \(newName)!"
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
             self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }

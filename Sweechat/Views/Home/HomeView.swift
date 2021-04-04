@@ -3,54 +3,46 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isShowingJoinView: Bool = false
-    @State var isShowingAddView: Bool = false
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowColor = .clear
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
 
     var body: some View {
-        ZStack {
-            VStack {
+        VStack {
+            if isShowingJoinView {
+                JoinModuleView(viewModel: viewModel)
+            } else {
+                CreateModuleView(viewModel: viewModel)
+            }
+            VStack(alignment: .leading) {
+                Text("Modules")
+                    .font(FontConstant.Heading1)
+                    .foregroundColor(ColorConstant.font1)
+
                 ForEach(viewModel.moduleViewModels) { moduleViewModel in
                     ModuleItemView(viewModel: moduleViewModel)
                 }
-
-                NavigationLink(
-                    destination:
-                        LazyNavView(
-                            SettingsView(viewModel: viewModel.settingsViewModel))) {
-                    Text("Settings")
-                }
             }
-            if isShowingAddView {
-                AddModuleView(
-                    isShowing: $isShowingAddView,
-                    viewModel: viewModel
-                )
-            }
-            if isShowingJoinView {
-                JoinModuleView(
-                    isShowing: $isShowingJoinView,
-                    viewModel: viewModel
-                )
-            }
+            .padding()
+            Spacer()
         }
+        .background(ColorConstant.base)
         .toolbar {
             HomeToolbarView(
-                isShowingJoinView: $isShowingJoinView,
-                isShowingAddView: $isShowingAddView)
+                viewModel: viewModel,
+                isShowingJoinView: $isShowingJoinView
+            )
         }
-        .navigationTitle(Text(viewModel.text))
+        .navigationBarItems(
+            leading: Text(viewModel.text)
+                .foregroundColor(ColorConstant.font1)
+        )
         .navigationBarBackButtonHidden(true)
-    }
-}
-
-// This is added so that the list item updates when the module updates
-struct ModuleItemView: View {
-    @ObservedObject var viewModel: ModuleViewModel
-    var body: some View {
-        NavigationLink(
-            destination:
-                LazyNavView(ModuleView(viewModel: viewModel))) {
-            Text(viewModel.text)
-        }
     }
 }
 
