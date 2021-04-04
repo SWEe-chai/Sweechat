@@ -59,6 +59,7 @@ struct ModuleView: View {
                 .padding(.horizontal)
                 VStack(alignment: .leading) {
                     ScrollView {
+                        Text("").lineLimit(nil)
                         ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
                             NavigationLink(
                                 destination:

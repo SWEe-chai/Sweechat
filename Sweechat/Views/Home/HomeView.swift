@@ -55,7 +55,6 @@ struct HomeView: View {
                 .foregroundColor(ColorConstant.dark)
         )
         .navigationBarBackButtonHidden(true)
-        .navigationBarHidden(true)
     }
 }
 
