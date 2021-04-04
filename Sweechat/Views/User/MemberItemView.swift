@@ -7,9 +7,12 @@ struct MemberItemView: View {
             ProfilePicture(url: viewModel.profilePictureUrl)
 
             VStack(alignment: .leading) {
-                Text("\(viewModel.memberName)").font(FontConstant.Heading4)
+                Text("\(viewModel.memberName)")
+                    .font(FontConstant.Heading4)
+                    .foregroundColor(ColorConstant.dark)
                 Text("Some information...")
                     .font(FontConstant.ModuleDescription)
+                    .foregroundColor(ColorConstant.dark)
             }
             .padding(.horizontal)
             Spacer()

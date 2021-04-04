@@ -49,20 +49,22 @@ struct ModuleView: View {
                     }
                     .padding()
                 }
-                VStack {
-                    HStack {
-                        ScrollView {
-                            ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
-                                NavigationLink(
-                                    destination:
-                                        LazyNavView(
-                                            ChatRoomViewFactory.makeView(
-                                                        viewModel: chatRoomViewModel))) {
+                VStack(alignment: .leading) {
+                    ScrollView {
+                        ForEach(viewModel.chatRoomViewModels) { chatRoomViewModel in
+                            NavigationLink(
+                                destination:
+                                    LazyNavView(
+                                        ChatRoomViewFactory.makeView(
+                                                    viewModel: chatRoomViewModel))) {
+                                HStack {
                                     ChatRoomItemView(viewModel: chatRoomViewModel)
+                                    Spacer()
                                 }
-                                .buttonStyle(PlainButtonStyle())
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
+
                         Spacer()
                     }
                     Spacer()

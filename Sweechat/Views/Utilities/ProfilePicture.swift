@@ -9,10 +9,14 @@ struct ProfilePicture: View {
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
         } else {
-            Image(systemName: "person")
+            Circle()
+                .fill(Color.random)
                 .frame(width: 50, height: 50)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.primary, lineWidth: 5))
+//                .clipShape(Circle())
+                .overlay(
+//                    Circle().fill(Color.random)
+                    Image(systemName: "person")
+                )
         }
     }
 }

@@ -10,16 +10,36 @@ import SwiftUI
 struct ChatRoomItemView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     var body: some View {
-        HStack {
-            ProfilePicture(url: viewModel.profilePictureUrl)
-            VStack(alignment: .leading) {
-                Text("\(viewModel.text)").font(FontConstant.Heading4)
-                Text("Last message...")
-                    .font(FontConstant.ModuleDescription)
+        VStack(alignment: .leading) {
+            HStack {
+                ProfilePicture(url: viewModel.profilePictureUrl)
+                VStack(alignment: .leading) {
+                    Text("\(viewModel.text)")
+                        .font(FontConstant.Heading4)
+                        .foregroundColor(ColorConstant.dark)
+                    Text("Last message...")
+                        .font(FontConstant.ModuleDescription)
+                        .foregroundColor(ColorConstant.dark)
+                }
+                .padding(.horizontal)
             }
+            .padding()
             .padding(.horizontal)
-        }
-        .padding()
+            Divider()
+                .background(ColorConstant.dark)
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
+                .padding([.leading, .trailing])
 
+        }
     }
 }
