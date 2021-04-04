@@ -8,14 +8,12 @@ struct ForumPostView: View {
             MessageContentViewFactory.makeView(viewModel: viewModel)
             HStack {
                 Spacer()
-                Text(viewModel.senderName).font(.footnote)
+                Text(viewModel.senderName)
+                    .font(FontConstant.MessageSender)
             }
         }
         .padding(10)
-        .background(Color(red: 0.5, green: 0.5, blue: 0.5, opacity: 0.1))
-        .border(width: 1,
-                edges: [.bottom],
-                color: Color(red: 0, green: 0, blue: 0, opacity: 0.5))
+        .background(ColorConstant.dark)
         .cornerRadius(10)
         .frame(maxWidth: .infinity)
     }
