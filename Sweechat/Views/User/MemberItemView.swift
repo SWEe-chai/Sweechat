@@ -1,10 +1,3 @@
-//
-//  MemberItemView.swift
-//  Sweechat
-//
-//  Created by Hai Nguyen on 4/4/21.
-//
-
 import SwiftUI
 
 struct MemberItemView: View {
