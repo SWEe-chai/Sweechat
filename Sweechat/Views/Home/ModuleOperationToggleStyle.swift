@@ -13,7 +13,7 @@ struct ModuleOperationToggleStyle: ToggleStyle {
             configuration.label
             Spacer()
             Rectangle()
-                .foregroundColor(ColorConstant.foreground)
+                .foregroundColor(ColorConstant.primary)
                 .frame(width: 51, height: 31, alignment: .center)
                 .overlay(
                     Circle()
@@ -23,11 +23,11 @@ struct ModuleOperationToggleStyle: ToggleStyle {
                             GeometryReader { proxy in
                                 if !configuration.isOn {
                                     Image(systemName: "plus.magnifyingglass")
-                                        .foregroundColor(ColorConstant.font1)
+                                        .foregroundColor(ColorConstant.dark)
                                         .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
                                 } else {
                                     Image(systemName: "plus.app")
-                                        .foregroundColor(ColorConstant.font1)
+                                        .foregroundColor(ColorConstant.dark)
                                         .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
                                 }
 

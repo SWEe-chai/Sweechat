@@ -9,11 +9,11 @@ import SwiftUI
 
 struct HomeToolbarView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @Binding var isShowingJoinView: Bool
+    @Binding var isShowingCreateView: Bool
 
-    init(viewModel: HomeViewModel, isShowingJoinView: Binding<Bool>) {
+    init(viewModel: HomeViewModel, isShowingCreateView: Binding<Bool>) {
         self.viewModel = viewModel
-        self._isShowingJoinView = isShowingJoinView
+        self._isShowingCreateView = isShowingCreateView
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.shadowColor = .clear
@@ -24,7 +24,7 @@ struct HomeToolbarView: View {
     var body: some View {
         HStack {
 
-            Toggle(isOn: $isShowingJoinView, label: {})
+            Toggle(isOn: $isShowingCreateView, label: {})
                 .toggleStyle(ModuleOperationToggleStyle())
 
             NavigationLink(
@@ -32,7 +32,7 @@ struct HomeToolbarView: View {
                     LazyNavView(
                         SettingsView(viewModel: viewModel.settingsViewModel))) {
                 Image(systemName: "gear")
-                    .foregroundColor(ColorConstant.font1)
+                    .foregroundColor(ColorConstant.dark)
             }
 
         }
@@ -46,6 +46,6 @@ struct HomeToolbarView: View {
             viewModel: HomeViewModel(
                 user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
             ),
-            isShowingJoinView: .constant(false))
+            isShowingCreateView: .constant(false))
     }
  }
