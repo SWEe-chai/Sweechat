@@ -4,15 +4,24 @@ struct JoinModuleView: View {
     @State var moduleSecret: String = ""
     var viewModel: HomeViewModel
     var body: some View {
-        VStack {
-            Text("Join a Module").font(.title2)
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Join a Module")
+                .font(FontConstant.Heading1)
+                .foregroundColor(ColorConstant.dark)
+                .padding(.top)
             HStack {
                 TextField("Module secret", text: $moduleSecret)
                     .padding()
-                Button("Join") { tappedCreate() }.padding()
+                    .background(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(Color.white)
+                Image(systemName: "chevron.right.circle.fill")
+                    .foregroundColor(ColorConstant.dark)
+                    .onTapGesture { tappedCreate() }
             }
+            .padding(.top, 7)
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.bottom)
         .background(ColorConstant.base)
     }
 

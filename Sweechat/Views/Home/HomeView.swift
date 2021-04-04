@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @State var isShowingJoinView: Bool = false
+    @State var isShowingCreateView: Bool = false
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -18,10 +18,10 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                if isShowingJoinView {
-                    JoinModuleView(viewModel: viewModel)
-                } else {
+                if isShowingCreateView {
                     CreateModuleView(viewModel: viewModel)
+                } else {
+                    JoinModuleView(viewModel: viewModel)
                 }
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Modules")
@@ -45,7 +45,7 @@ struct HomeView: View {
         .toolbar {
             HomeToolbarView(
                 viewModel: viewModel,
-                isShowingJoinView: $isShowingJoinView
+                isShowingCreateView: $isShowingCreateView
             )
         }
         .navigationBarItems(

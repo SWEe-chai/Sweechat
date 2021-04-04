@@ -28,6 +28,7 @@ struct ModuleItemView: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(viewModel.text)
+                            .lineLimit(1)
                             .foregroundColor(Color.white)
                             .font(FontConstant.ModuleTitle)
                         Spacer()
