@@ -41,7 +41,7 @@ class FirebaseUserFacade: UserFacade {
             .setData(
                 FirebaseUserFacade
                     .convert(user: user), completion: { _ in
-            self.setUpConnectionAsUser()
+                        self.setUpConnectionAsUser()
                     }
             )
     }
@@ -81,7 +81,7 @@ class FirebaseUserFacade: UserFacade {
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            // os_log("Error converting data for user")
+            os_log("Error converting data for User, data: %s", String(describing: data))
             return User.createUnavailableUser()
         }
         return User(

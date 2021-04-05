@@ -203,7 +203,7 @@ class FirebaseModuleFacade: ModuleFacade {
         guard let id = data?[DatabaseConstant.Module.id] as? String,
               let name = data?[DatabaseConstant.Module.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            os_log("Error converting data for chat room")
+            os_log("Error converting data for Module, data: %s", String(describing: data))
             return nil
         }
         return Module(
