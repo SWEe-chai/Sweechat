@@ -10,6 +10,11 @@ class CreateChatRoomViewModel: ObservableObject {
 
     @Published var isWritable: Bool = true
 
+    // MARK: Permission Properties
+    var canCreateAnnouncement: Bool {
+        ModulePermission.canCreateAnnouncement(permission: module.currentUserPermission)
+    }
+
     private var otherChosenMembers: [User] {
         otherUsersViewModels.filter { $0.isSelected }.map { $0.member }
     }

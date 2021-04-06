@@ -14,14 +14,16 @@ struct CreateGroupChatView: View {
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
-            Text("Members Permissions")
-                .font(FontConstant.Heading1)
-                .foregroundColor(ColorConstant.dark)
-                .padding(.top)
-            PermissionItemView(
-                isLit: $viewModel.isWritable,
-                onTap: viewModel.toggleIsWritable,
-                text: "Send messages")
+            if viewModel.canCreateAnnouncement {
+                Text("Members Permissions")
+                    .font(FontConstant.Heading1)
+                    .foregroundColor(ColorConstant.dark)
+                    .padding(.top)
+                PermissionItemView(
+                    isLit: $viewModel.isWritable,
+                    onTap: viewModel.toggleIsWritable,
+                    text: "Send messages")
+            }
             Spacer()
         }
         .padding()
