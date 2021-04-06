@@ -20,6 +20,9 @@ struct ThreadView: View {
                         ReplyPreviewMetadata(
                             messageBeingRepliedTo: viewModel.threadViewModel.post))
             )
-        }
+        }.background(ColorConstant.base)
+        .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(false)
+        .navigationTitle(Text("Thread"))
     }
 }
