@@ -24,8 +24,8 @@ class ModuleList: ObservableObject {
         self.moduleListFacade = nil
     }
 
-    func store(module: Module) {
-        self.moduleListFacade?.save(module: module)
+    func store(module: Module, userModulePermissions: [UserModulePermissionPair]) {
+        self.moduleListFacade?.save(module: module, userModulePermissions: userModulePermissions)
     }
 
     func joinModule(moduleId: String) {

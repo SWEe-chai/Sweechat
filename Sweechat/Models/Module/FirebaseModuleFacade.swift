@@ -120,12 +120,6 @@ class FirebaseModuleFacade: ModuleFacade {
         }
     }
 
-    func save(user: User) {
-        userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(
-            pair: FirebaseUserModulePair(userId: user.id, moduleId: moduleId))
-        )
-    }
-
     func save(chatRoom: ChatRoom,
               userPermissions: [UserPermissionPair]) {
         chatRoomsReference?

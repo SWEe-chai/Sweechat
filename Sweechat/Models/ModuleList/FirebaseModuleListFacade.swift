@@ -43,7 +43,10 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
     func joinModule(moduleId: String) {
         runIfModuleExists(moduleId: moduleId) {
-            let pair = FirebaseUserModulePair(userId: self.userId, moduleId: moduleId)
+            let permissions = ModulePermission.student
+            let pair = FirebaseUserModulePair(userId: self.userId,
+                                              moduleId: moduleId,
+                                              permissions: permissions)
             self.userModulePairsReference?.addDocument(
                 data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {
@@ -91,7 +94,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
         }
     }
 
-    func save(module: Module) {
+    func save(module: Module, userModulePermissions: [UserModulePermissionPair]) {
         // TODO: generate id using a synchronous call
         let id = randomString(length: 8)
         module.id = id
@@ -103,8 +106,10 @@ class FirebaseModuleListFacade: ModuleListFacade {
             }
         }
 
-        for user in module.members {
-            let pair = FirebaseUserModulePair(userId: user.id, moduleId: module.id)
+        for userModulePermission in userModulePermissions {
+            let pair = FirebaseUserModulePair(userId: userModulePermission.userId,
+                                              moduleId: module.id,
+                                              permissions: userModulePermission.permissions)
             userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {
                     os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
