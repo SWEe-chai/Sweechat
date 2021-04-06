@@ -9,6 +9,10 @@ struct AnnouncementView: View {
         // the future
         MessagesScrollView(viewModel: viewModel,
                            replyPreviewMetadata: $replyPreviewMetadata)
+            .background(ColorConstant.base)
+            .navigationBarHidden(false)
+            .navigationBarBackButtonHidden(false)
+            .navigationTitle(Text(viewModel.text))
     }
 }
 
