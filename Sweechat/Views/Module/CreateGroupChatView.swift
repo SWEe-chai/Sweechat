@@ -63,12 +63,13 @@ struct CreateGroupChatView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CreateGroupChatView(viewModel: CreateChatRoomViewModel(
-                module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya")),
-                user: User(id: "1", name: "One Natasya"),
-                members: [
-                    User(id: "1", name: "One Natasya"),
-                    User(id: "2", name: "Two Welly")
-                ]), isShowing: .constant(true))
+                                    module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya"),
+                                                   currentUserPermission: ModulePermission.moduleOwner),
+                                    user: User(id: "1", name: "One Natasya"),
+                                    members: [
+                                        User(id: "1", name: "One Natasya"),
+                                        User(id: "2", name: "Two Welly")
+                                    ]), isShowing: .constant(true))
         }
     }
 }

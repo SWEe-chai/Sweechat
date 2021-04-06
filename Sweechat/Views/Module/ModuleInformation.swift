@@ -32,7 +32,7 @@ struct ModuleInformation_Previews: PreviewProvider {
         ModuleInformation(
             viewModel:
                 ModuleViewModel(
-                    module: Module(id: "1", name: "Name", currentUser: User(id: "1")),
+                    module: Module(id: "1", name: "Name", currentUser: User(id: "1"), currentUserPermission: ModulePermission.moduleOwner),
                     user: User(id: "2", name: "Name")))
     }
 }
