@@ -21,6 +21,7 @@ class FirebaseUserChatRoomModulePairFacade {
               let moduleId = data?[DatabaseConstant.UserChatRoomModulePair.moduleId] as? String,
               let permissions = data?[DatabaseConstant.UserChatRoomModulePair.permissions]
                 as? ChatRoomPermissionBitmask else {
+            os_log("Error converting data for UserChatRoomModulePair, data: %s", String(describing: data))
             return nil
         }
 
