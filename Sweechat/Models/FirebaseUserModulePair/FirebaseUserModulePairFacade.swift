@@ -17,6 +17,7 @@ class FirebaseUserModulePairFacade {
 
         guard let userId = data?[DatabaseConstant.UserModulePair.userId] as? String,
               let moduleId = data?[DatabaseConstant.UserModulePair.moduleId] as? String else {
+            os_log("Error converting data for UserModulePair, data: %s", String(describing: data))
             return nil
         }
 

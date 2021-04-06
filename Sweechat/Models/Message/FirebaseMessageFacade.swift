@@ -17,22 +17,15 @@ class FirebaseMessageFacade {
 
         guard let creationTime = data?[DatabaseConstant.Message.creationTime] as? Timestamp,
               let senderId = data?[DatabaseConstant.Message.senderId] as? String,
-              let receiverId = data?[DatabaseConstant.Message.receiverId] as? String else {
-            return nil
-        }
-
-        guard let messageTypeStr = data?[DatabaseConstant.Message.type] as? String else {
-            os_log("Failed to convert message type as string")
-            return nil
-        }
-
-        guard let parentId = data?[DatabaseConstant.Message.parentId] as? String? else {
-            os_log("Failed to convert parentId as String?")
+              let receiverId = data?[DatabaseConstant.Message.receiverId] as? String,
+              let messageTypeStr = data?[DatabaseConstant.Message.type] as? String,
+              let parentId = data?[DatabaseConstant.Message.parentId] as? String? else {
+            os_log("Error converting data for Message, data: %s", String(describing: data))
             return nil
         }
 
         guard let messageType = MessageType(rawValue: messageTypeStr) else {
-            os_log("Unable to initialise MessageType enum")
+            os_log("Unable to initialise MessageType enum, obtained messageTypeStr: \(messageTypeStr)")
             return nil
         }
 

@@ -216,7 +216,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
               let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
               let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") else {
-            os_log("Error converting data for chat room")
+            os_log("Error converting data for ChatRoom, data: %s", String(describing: data))
             return nil
         }
 
