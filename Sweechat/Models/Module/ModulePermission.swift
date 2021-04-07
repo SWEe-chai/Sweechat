@@ -18,4 +18,8 @@ struct ModulePermission {
 
     static let moduleOwner = all
     static let student = privateChatRoomCreation | groupChatRoomCreation
+
+    static func canCreateForum(permission: ModulePermissionBitmask) -> Bool {
+        permission & forumCreation != 0
+    }
 }
