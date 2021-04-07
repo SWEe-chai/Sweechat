@@ -15,16 +15,18 @@ struct CreateChatRoomToolbarView: View {
                                                         viewModel: viewModel,
                                                         isShowing: $isShowing))),
                                     isShowing: $isShowing)))
-            NavigationLink("Forum",
-                           destination:
-                            LazyNavView(
-                                ChooseChatRoomMembersView(
-                                    viewModel: viewModel,
-                                    viewAfterChoosingMembers:
-                                        AnyView(LazyNavView(CreateForumView(
-                                                                viewModel: viewModel,
-                                                                isShowing: $isShowing))),
-                                    isShowing: $isShowing)))
+            if viewModel.canCreateForum {
+                NavigationLink("Forum",
+                               destination:
+                                LazyNavView(
+                                    ChooseChatRoomMembersView(
+                                        viewModel: viewModel,
+                                        viewAfterChoosingMembers:
+                                            AnyView(LazyNavView(CreateForumView(
+                                                                    viewModel: viewModel,
+                                                                    isShowing: $isShowing))),
+                                        isShowing: $isShowing)))
+            }
         }
     }
 }

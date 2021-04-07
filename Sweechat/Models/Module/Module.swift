@@ -23,14 +23,17 @@ class Module: ObservableObject {
     var currentUser: User
     private var moduleFacade: ModuleFacade?
     var userIdsToUsers: [String: User] = [:]
+    let currentUserPermission: ModulePermissionBitmask
 
     init(id: String,
          name: String,
          currentUser: User,
+         currentUserPermission: ModulePermissionBitmask,
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.currentUser = currentUser
+        self.currentUserPermission = currentUserPermission
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.members = []
@@ -41,10 +44,12 @@ class Module: ObservableObject {
     init(name: String,
          users: [User],
          currentUser: User,
+         currentUserPermission: ModulePermissionBitmask,
          profilePictureUrl: String? = nil) {
         self.id = UUID().uuidString
         self.name = name
         self.currentUser = currentUser
+        self.currentUserPermission = currentUserPermission
         self.profilePictureUrl = profilePictureUrl
         self.chatRooms = []
         self.members = users

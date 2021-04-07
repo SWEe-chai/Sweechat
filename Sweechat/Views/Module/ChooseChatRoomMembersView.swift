@@ -25,7 +25,8 @@ struct ChooseChatRoomMembersView: View {
         NavigationView {
             ChooseChatRoomMembersView(
                 viewModel: CreateChatRoomViewModel(
-                    module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya")),
+                    module: Module(id: "", name: "", currentUser: User(id: "1", name: "One Natasya"),
+                                   currentUserPermission: ModulePermission.moduleOwner),
                     user: User(id: "1", name: "One Natasya"),
                     members: [
                         User(id: "1", name: "One Natasya"),
