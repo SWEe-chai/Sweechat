@@ -14,9 +14,8 @@ struct ModulePermission {
     static let all: ModulePermissionBitmask = UInt32.max
     static let privateChatRoomCreation: ModulePermissionBitmask = 0b1
     static let groupChatRoomCreation: ModulePermissionBitmask = 0b1 << 1
-    static let announcementCreation: ModulePermissionBitmask = 0b1 << 2
-    static let forumCreation: ModulePermissionBitmask = 0b1 << 3
+    static let forumCreation: ModulePermissionBitmask = 0b1 << 2
 
     static let moduleOwner = all
-    static let student = privateChatRoomCreation | groupChatRoomCreation | forumCreation
+    static let student = privateChatRoomCreation | groupChatRoomCreation
 }
