@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "dev"
+        static let dev = "module-permissions"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev
@@ -27,6 +27,7 @@ struct DatabaseConstant {
     struct UserModulePair {
         static let moduleId = "moduleId"
         static let userId = "userId"
+        static let permissions = "permissions"
     }
 
     struct UserChatRoomModulePair {
