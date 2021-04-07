@@ -33,6 +33,25 @@ struct MessageView: View {
             .foregroundColor(viewModel.foregroundColor)
             .background(viewModel.backgroundColor)
             .cornerRadius(10)
+            .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .contextMenu {
+                Button {
+                    print("Replied")
+                } label: {
+                    Label("Reply", systemImage: "arrowshape.turn.up.left")
+                }
+                Button {
+                    print("Edited")
+                } label: {
+                    Label("Edit", systemImage: "square.and.pencil")
+                }
+                Divider()
+                Button {
+                    print("Deleted")
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
             if !viewModel.isRightAlign { Spacer() }
         }
         .frame(maxWidth: .infinity)
