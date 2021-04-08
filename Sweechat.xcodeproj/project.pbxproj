@@ -755,7 +755,6 @@
 			isa = PBXGroup;
 			children = (
 				3EC8C1912617322D008672C4 /* Extension */,
-				77C5D09026103728005D5504 /* Message */,
 				77C5D08F2610371C005D5504 /* User */,
 				77C5D07926102F51005D5504 /* Module */,
 				27885832261053A00058ADB2 /* Home */,
@@ -983,13 +982,6 @@
 				27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */,
 			);
 			path = User;
-			sourceTree = "<group>";
-		};
-		77C5D09026103728005D5504 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Message;
 			sourceTree = "<group>";
 		};
 		77F4F14E2618A707003CD601 /* Fonts */ = {
