@@ -6,6 +6,7 @@ import os
 class ChatRoomViewModel: ObservableObject {
     var chatRoom: ChatRoom
     var user: User
+    private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
 
     @Published var text: String
@@ -19,19 +20,21 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    @Published var messages: [MessageViewModel]
+    @Published var messages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
+        self.text = chatRoom.name
+        self.profilePictureUrl = chatRoom.profilePictureUrl
+        self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
         self.messages = chatRoom.messages.compactMap {
             MessageViewModelFactory
                 .makeViewModel(message: $0,
                                sender: chatRoom.getUser(userId: $0.id),
+                               delegate: self,
                                isSenderCurrentUser: user.id == $0.senderId)
         }
-        self.text = chatRoom.name
-        self.profilePictureUrl = chatRoom.profilePictureUrl
         initialiseSubscriber()
     }
 
@@ -41,6 +44,7 @@ class ChatRoomViewModel: ObservableObject {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
+                                   delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
@@ -63,7 +67,7 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
 
-        guard let data = image.jpegData(compressionQuality: 0.7) else {
+        guard let data = image.jpegData(compressionQuality: 0.05) else {
             os_log("unable to get jpeg data for image")
             return
         }
@@ -95,6 +99,13 @@ class ChatRoomViewModel: ObservableObject {
             os_log("failed to convert data: \(error.localizedDescription)")
             return
         }
+    }
+}
+
+// MARK: MediaMessageViewModelDelegate
+extension ChatRoomViewModel: MediaMessageViewModelDelegate {
+    func fetchData(fromUrl url: String) -> Data? {
+        chatRoomMediaCache.getData(url: url)
     }
 }
 

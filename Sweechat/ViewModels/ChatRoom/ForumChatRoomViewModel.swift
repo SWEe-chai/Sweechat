@@ -21,6 +21,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
+                                   delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
         }
@@ -30,6 +31,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
+                                   delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
             self.updateThread(messages: replies)
