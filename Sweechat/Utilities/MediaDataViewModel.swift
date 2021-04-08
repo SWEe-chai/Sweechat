@@ -10,35 +10,26 @@ class MediaDataViewModel: ObservableObject {
     init(url: String, delegate: MediaMessageViewModelDelegate) {
         self.url = url
         self.delegate = delegate
-        self.fetchDataFromUrl()
+        self.fetchData()
     }
 
-    func fetchDataFromUrl() {
-        if let data = delegate?.fetchData(fromUrl: url) {
-            self.data = data
-            self.state = .success
-            return
-        }
-        guard let parsedURL = URL(string: url) else {
-            state = .failed
-            return
-        }
-        URLSession.shared.dataTask(with: parsedURL) { data, _, _ in
+    func fetchData() {
+        delegate?.fetchData(fromUrl: url) { data in
             DispatchQueue.main.async {
-                if let data = data, !data.isEmpty {
-                        self.data = data
-                        self.state = .success
-                } else {
+                guard let data = data, !data.isEmpty else {
                     self.state = .failed
+                    return
                 }
+                self.data = data
+                self.state = .success
             }
-        }.resume()
+        }
     }
 
     func updateUrl(url: String) {
         self.url = url
         self.state = .loading
-        fetchDataFromUrl()
+        fetchData()
     }
 
 }

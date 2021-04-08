@@ -13,10 +13,10 @@
 		271CA0842612045300695F17 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CA0832612045300695F17 /* HomeView.swift */; };
 		2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF25261E058E00F22CC4 /* Persistence.swift */; };
 		2726AF2E261E05C700F22CC4 /* PersistenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF2D261E05C700F22CC4 /* PersistenceType.swift */; };
-		2726AF3E261E095000F22CC4 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF3C261E095000F22CC4 /* Item+CoreDataClass.swift */; };
 		2726AF47261E0A1000F22CC4 /* ChatRoomPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */; };
 		272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */; };
 		272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */; };
+		27475AD1261F789000504568 /* StoredItemData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */; };
 		27598E372615A9FC00DF564F /* AnnouncementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E362615A9FB00DF564F /* AnnouncementView.swift */; };
 		27598E3C2615C0AB00DF564F /* MessagesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E3B2615C0AB00DF564F /* MessagesScrollView.swift */; };
 		27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E482615C41500DF564F /* MessageInputBarView.swift */; };
@@ -218,10 +218,10 @@
 		271CA0832612045300695F17 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2726AF25261E058E00F22CC4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2726AF2D261E05C700F22CC4 /* PersistenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceType.swift; sourceTree = "<group>"; };
-		2726AF3C261E095000F22CC4 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Item+CoreDataClass.swift"; path = "/Users/hai/school/y3s2/cs3217/assignments/Sweechat/Sweechat/Persistence/Item+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPersistence.swift; sourceTree = "<group>"; };
 		272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
 		272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelDelegate.swift; sourceTree = "<group>"; };
+		27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StoredItemData+CoreDataClass.swift"; path = "/Users/hai/school/y3s2/cs3217/assignments/Sweechat/Sweechat/Persistence/StoredItemData+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		27598E362615A9FB00DF564F /* AnnouncementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementView.swift; sourceTree = "<group>"; };
 		27598E3B2615C0AB00DF564F /* MessagesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesScrollView.swift; sourceTree = "<group>"; };
 		27598E482615C41500DF564F /* MessageInputBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputBarView.swift; sourceTree = "<group>"; };
@@ -436,7 +436,7 @@
 		2726AF24261E056C00F22CC4 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				2726AF3C261E095000F22CC4 /* Item+CoreDataClass.swift */,
+				27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */,
 				2726AF25261E058E00F22CC4 /* Persistence.swift */,
 				2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */,
 				2726AF2D261E05C700F22CC4 /* PersistenceType.swift */,
@@ -1351,7 +1351,7 @@
 				279ECCDD2612FDC600CBFFEB /* ChatRoomType.swift in Sources */,
 				77C5D08B261034C3005D5504 /* MemberItemSelectView.swift in Sources */,
 				77C5D07526102EC8005D5504 /* CreateChatRoomView.swift in Sources */,
-				2726AF3E261E095000F22CC4 /* Item+CoreDataClass.swift in Sources */,
+				27475AD1261F789000504568 /* StoredItemData+CoreDataClass.swift in Sources */,
 				3E746B5B260ED4DE008CF3F6 /* FirebaseUtils.swift in Sources */,
 				27061E09261780B600777AB3 /* CreateChatRoomToolbarView.swift in Sources */,
 				278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */,

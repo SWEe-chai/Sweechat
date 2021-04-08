@@ -1,5 +1,5 @@
 import Foundation
 
 protocol MediaMessageViewModelDelegate: AnyObject {
-    func fetchData(fromUrl: String) -> Data?
+    func fetchData(fromUrl url: String, onCompletion: @escaping (Data?) -> Void)
 }

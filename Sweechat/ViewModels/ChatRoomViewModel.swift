@@ -35,6 +35,7 @@ class ChatRoomViewModel: ObservableObject {
                                delegate: self,
                                isSenderCurrentUser: user.id == $0.senderId)
         }
+        print("init chat room in view model \(chatRoom.name) \(chatRoom.id)")
         initialiseSubscriber()
     }
 
@@ -72,12 +73,20 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
 
-        self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
-            let urlstring = url.absoluteString
-            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
-                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
-            self.chatRoom.storeMessage(message: message)
-        }
+        let message = Message(
+            senderId: self.user.id,
+            content: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg".toData(),
+            type: MessageType.image,
+            receiverId: ChatRoom.allUsersId,
+            parentId: parentId)
+        self.chatRoom.storeMessage(message: message)
+
+//        self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
+//            let urlstring = url.absoluteString
+//            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
+//                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
+//            self.chatRoom.storeMessage(message: message)
+//        }
     }
 
     func handleSendVideo(_ mediaURL: Any?, withParentId parentId: String?) {
@@ -104,8 +113,8 @@ class ChatRoomViewModel: ObservableObject {
 
 // MARK: MediaMessageViewModelDelegate
 extension ChatRoomViewModel: MediaMessageViewModelDelegate {
-    func fetchData(fromUrl url: String) -> Data? {
-        chatRoomMediaCache.getData(url: url)
+    func fetchData(fromUrl url: String, onCompletion: @escaping (Data?) -> Void) {
+        chatRoomMediaCache.getData(url: url, onCompletion: onCompletion)
     }
 }
 
