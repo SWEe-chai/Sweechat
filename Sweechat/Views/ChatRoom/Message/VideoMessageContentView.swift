@@ -28,7 +28,9 @@ struct LocalVideoPlayer: View {
                 Text("The link to this video is broken.")
             }
         case .loading:
-            Text("Loading...")
+            Image(systemName: "video.circle")
+                .resizable()
+                .frame(width: 200, height: 200)
         case .failed:
             Text("The link to this video is broken.")
         }
