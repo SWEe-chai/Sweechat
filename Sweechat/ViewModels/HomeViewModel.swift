@@ -37,8 +37,9 @@ class HomeViewModel: ObservableObject {
         let user = User(id: self.user.id)
         let users = [user]
         // The module owner is the only one in the module
-        let currentUserPermissionPair = UserModulePermissionPair(userId: user.id,
-                                                             permissions: ModulePermission.moduleOwner)
+        let currentUserPermissionPair = UserModulePermissionPair(
+            userId: user.id,
+            permissions: ModulePermission.moduleOwner)
         let userModulePermissionPairs = [currentUserPermissionPair]
         let module = Module(
             name: name,

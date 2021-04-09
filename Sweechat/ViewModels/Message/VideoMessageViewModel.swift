@@ -8,14 +8,17 @@
 import Foundation
 
 class VideoMessageViewModel: MessageViewModel {
-    @Published var url: URL?
+    var localFileViewModel: LocalFileViewModel
 
-    override init(message: Message, sender: User, isSenderCurrentUser: Bool) {
-        self.url = URL(string: message.content.toString())
+    init(message: Message,
+         sender: User,
+         delegate: MediaMessageViewModelDelegate,
+         isSenderCurrentUser: Bool) {
+        self.localFileViewModel = LocalFileViewModel(onlineUrlString: message.content.toString(), delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 
-        subscriber = message.subscribeToContent { content in
-            self.url = URL(string: content.toString())
+        subscriber = message.subscribeToContent { newContent in
+            self.localFileViewModel.updateOnlineUrl(newUrl: newContent.toString())
         }
     }
 

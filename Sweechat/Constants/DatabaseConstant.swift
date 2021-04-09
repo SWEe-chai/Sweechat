@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "message-edit-delete"
+        static let dev = "media-cache"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev

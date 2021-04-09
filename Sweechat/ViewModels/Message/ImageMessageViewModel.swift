@@ -6,16 +6,22 @@
 //
 
 import Foundation
+import Combine
 
 class ImageMessageViewModel: MessageViewModel {
-    @Published var url: String
+    var mediaData: ImageDataViewModel
 
-    override init(message: Message, sender: User, isSenderCurrentUser: Bool) {
-        self.url = message.content.toString()
+    init(message: Message,
+         sender: User,
+         delegate: MediaMessageViewModelDelegate,
+         isSenderCurrentUser: Bool) {
+        self.mediaData = ImageDataViewModel(
+            urlString: message.content.toString(),
+            delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 
-        subscriber = message.subscribeToContent { content in
-            self.url = message.content.toString()
+        subscriber = message.subscribeToContent { newContent in
+            self.mediaData.updateUrl(url: newContent.toString())
         }
     }
 
