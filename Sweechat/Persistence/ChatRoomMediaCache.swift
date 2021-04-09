@@ -8,9 +8,7 @@ class ChatRoomMediaCache {
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
-        DispatchQueue.global().async {
-            self.fillImageCache()
-        }
+        self.fillImageCache()
     }
 
     // MARK: Handle images

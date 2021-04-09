@@ -9,13 +9,23 @@ import AVKit
 import SwiftUI
 
 struct VideoMessageContentView: View {
-    @ObservedObject var viewModel: VideoMessageViewModel
+    var viewModel: VideoMessageViewModel
     var body: some View {
-        if let url = viewModel.url {
-            VideoPlayer(player: AVPlayer(url: url))
+        LocalVideoPlayer(viewModel: viewModel.localFileViewModel)
+    }
+}
+
+struct LocalVideoPlayer: View {
+    @ObservedObject var viewModel: LocalFileViewModel
+    var body: some View {
+        switch viewModel.state {
+        case .success:
+            VideoPlayer(player: AVPlayer(url: viewModel.localUrl))
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
-        } else {
+        case .loading:
+            Text("Loading...")
+        case .failed:
             Text("The link to this video is broken.")
         }
     }
