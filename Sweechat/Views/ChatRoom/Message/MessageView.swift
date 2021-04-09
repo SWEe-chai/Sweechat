@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageView: View {
     var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     // TODO: Change this to delegates in the future
     var onReplyPreviewTapped: (() -> Void)?
@@ -35,26 +36,46 @@ struct MessageView: View {
             .cornerRadius(10)
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .contextMenu {
-                Button {
-                    print("Replied")
-                } label: {
-                    Label("Reply", systemImage: "arrowshape.turn.up.left")
-                }
-                Button {
-                    print("Edited")
-                } label: {
-                    Label("Edit", systemImage: "square.and.pencil")
-                }
-                Divider()
-                Button {
-                    print("Deleted")
-                } label: {
-                    Label("Delete", systemImage: "trash")
+                contextMenuReplyButton()
+                if viewModel.isRightAlign {
+                    contextMenuEditButton()
+                    Divider()
+                    contextMenuDeleteButton()
                 }
             }
             if !viewModel.isRightAlign { Spacer() }
         }
         .frame(maxWidth: .infinity)
+    }
+
+    // MARK: Context Menu Buttons
+    private func contextMenuReplyButton() -> some View {
+        Button {
+            replyTo(message: viewModel)
+        } label: {
+            Label("Reply", systemImage: "arrowshape.turn.up.left")
+        }
+    }
+
+    private func contextMenuEditButton() -> some View {
+        Button {
+            print("Edited")
+        } label: {
+            Label("Edit", systemImage: "square.and.pencil")
+        }
+    }
+
+    private func contextMenuDeleteButton() -> some View {
+        Button {
+            print("Deleted")
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+    }
+
+    // MARK: Context Menu Button functionalities
+    private func replyTo(message: MessageViewModel) {
+        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
 }
 
@@ -86,6 +107,6 @@ struct MessageView_Previews: PreviewProvider {
                                                           name: "Nguyen Chakra Bai"),
                                              isSenderCurrentUser: false)
     static var previews: some View {
-        MessageView(viewModel: message, parentViewModel: parent)
+        MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
     }
 }
