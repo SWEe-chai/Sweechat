@@ -36,25 +36,11 @@ struct MessageView: View {
             .cornerRadius(10)
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .contextMenu {
-                Button {
-                    replyTo(message: viewModel)
-                } label: {
-                    Label("Reply", systemImage: "arrowshape.turn.up.left")
-                }
+                contextMenuReplyButton()
                 if viewModel.isRightAlign {
-                    Button {
-                        print("Edited")
-                    } label: {
-                        Label("Edit", systemImage: "square.and.pencil")
-                    }
-                }
-                if viewModel.isRightAlign {
+                    contextMenuEditButton()
                     Divider()
-                    Button {
-                        print("Deleted")
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                    }
+                    contextMenuDeleteButton()
                 }
             }
             if !viewModel.isRightAlign { Spacer() }
@@ -62,6 +48,32 @@ struct MessageView: View {
         .frame(maxWidth: .infinity)
     }
 
+    // MARK: Context Menu Buttons
+    private func contextMenuReplyButton() -> some View {
+        Button {
+            replyTo(message: viewModel)
+        } label: {
+            Label("Reply", systemImage: "arrowshape.turn.up.left")
+        }
+    }
+
+    private func contextMenuEditButton() -> some View {
+        Button {
+            print("Edited")
+        } label: {
+            Label("Edit", systemImage: "square.and.pencil")
+        }
+    }
+
+    private func contextMenuDeleteButton() -> some View {
+        Button {
+            print("Deleted")
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+    }
+
+    // MARK: Context Menu Button functionalities
     private func replyTo(message: MessageViewModel) {
         replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
