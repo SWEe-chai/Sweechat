@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CustomImage: View {
-    @ObservedObject var viewModel: MediaDataViewModel
+    @ObservedObject var viewModel: ImageDataViewModel
 
     var failureImage: Image {
         Image(systemName: "multiply.circle")

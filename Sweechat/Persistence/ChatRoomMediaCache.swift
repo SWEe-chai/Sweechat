@@ -4,7 +4,7 @@ import os
 class ChatRoomMediaCache {
     private var cacheSizeLimitInBytes = 200 * 1_024
     private var chatRoomId: String
-    private var urlToData: [String: Data] = [:]
+    private var urlStringToImageData: [String: Data] = [:]
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
@@ -22,19 +22,19 @@ class ChatRoomMediaCache {
                     os_log("Unable to translate StoredImageData, data: \(itemData)")
                     return
                 }
-                urlToData[url] = data
+                urlStringToImageData[url] = data
             }
         } catch let error as NSError {
             os_log("Fetch error \(error)")
         }
     }
 
-    private func loadImage(fromUrl url: String) -> Data? {
+    private func loadImage(fromURlString urlString: String) -> Data? {
         do {
             let itemData = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemInChatRoom(url: url, chatRoomId: chatRoomId))
+                .fetch(StoredImageData.fetchItemInChatRoom(url: urlString, chatRoomId: chatRoomId))
             guard let data = itemData.first?.data else {
-                os_log("Data with url \(url) does not exist")
+                os_log("Data with url \(urlString) does not exist")
                 return nil
             }
             return data
@@ -44,20 +44,20 @@ class ChatRoomMediaCache {
         }
     }
 
-    func getData(url: String, onCompletion: @escaping (Data?) -> Void) {
+    func getData(urlString: String, onCompletion: @escaping (Data?) -> Void) {
         // If it's in immediate cache
-        if let data = urlToData[url] {
+        if let data = urlStringToImageData[urlString] {
             onCompletion(data)
             return
         }
 
         // Check if in storage
-        if let data = loadImage(fromUrl: url) {
+        if let data = loadImage(fromURlString: urlString) {
             onCompletion(data)
             return
         }
         // Data is not in cache, must fetch
-        guard let parsedURL = URL(string: url) else {
+        guard let parsedURL = URL(string: urlString) else {
             onCompletion(nil)
             return
         }
@@ -67,13 +67,13 @@ class ChatRoomMediaCache {
             guard let data = data, !data.isEmpty else {
                 return
             }
-            self.delete(imageWithUrl: url)
-            self.save(imageWithUrl: url, data: data)
+            self.delete(imageWithUrlString: urlString)
+            self.save(imageWithUrlString: urlString, data: data)
         }.resume()
     }
 
-    private func delete(imageWithUrl url: String) {
-        let deleteRequest = StoredImageData.delete(url: url, from: chatRoomId)
+    private func delete(imageWithUrlString urlString: String) {
+        let deleteRequest = StoredImageData.delete(url: urlString, from: chatRoomId)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -81,12 +81,12 @@ class ChatRoomMediaCache {
         }
     }
 
-    private func save(imageWithUrl url: String, data: Data) {
+    private func save(imageWithUrlString urlString: String, data: Data) {
         let storageItem = StoredImageData(context: Persistence.shared().context)
         storageItem.chatRoomId = chatRoomId
         storageItem.data = data
         storageItem.size = Int64(MemoryLayout.size(ofValue: data))
-        storageItem.url = url
+        storageItem.url = urlString
         do {
             try Persistence.shared().context.save()
         } catch {
@@ -96,8 +96,8 @@ class ChatRoomMediaCache {
 
     // MARK: Handle videos
 
-    private func delete(videoWithLocalUrl url: String) {
-        let deleteRequest = StoredVideoData.delete(url: url, from: chatRoomId)
+    private func delete(videoWithLocalUrlString urlString: String) {
+        let deleteRequest = StoredVideoData.delete(url: urlString, from: chatRoomId)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -105,10 +105,10 @@ class ChatRoomMediaCache {
         }
     }
 
-    private func save(videoWithLocalUrl url: String) {
+    private func save(videoWithLocalUrlString urlString: String) {
         let storageItem = StoredVideoData(context: Persistence.shared().context)
         storageItem.chatRoomId = chatRoomId
-        storageItem.localUrl = url
+        storageItem.localUrl = urlString
         do {
             try Persistence.shared().context.save()
         } catch {
@@ -116,8 +116,8 @@ class ChatRoomMediaCache {
         }
     }
 
-    func getLocalUrl(fromOnlineUrl onlineUrl: String, onCompletion: @escaping (URL?) -> Void) {
-        guard let destinationUrl = getDestinationUrlFrom(onlineUrl: onlineUrl) else {
+    func getLocalUrl(fromOnlineUrlString onlineUrlString: String, onCompletion: @escaping (URL?) -> Void) {
+        guard let destinationUrl = getDestinationUrlFrom(onlineUrlString: onlineUrlString) else {
             // Cannot fetch from the URL, URL probably invalid
             onCompletion(nil)
             return
@@ -128,7 +128,7 @@ class ChatRoomMediaCache {
             return
         }
 
-        guard let url = URL(string: onlineUrl) else {
+        guard let url = URL(string: onlineUrlString) else {
             onCompletion(nil)
             os_log("Video exists")
             return
@@ -154,17 +154,17 @@ class ChatRoomMediaCache {
                 }
             }
             onCompletion(destinationUrl)
-            self.delete(videoWithLocalUrl: destinationUrl.path)
-            self.save(videoWithLocalUrl: destinationUrl.path)
+            self.delete(videoWithLocalUrlString: destinationUrl.path)
+            self.save(videoWithLocalUrlString: destinationUrl.path)
         }).resume()
 
     }
 
-    private func getDestinationUrlFrom(onlineUrl: String) -> URL? {
+    private func getDestinationUrlFrom(onlineUrlString: String) -> URL? {
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-              let hash = onlineUrl.split(separator: "/").last,
+              let hash = onlineUrlString.split(separator: "/").last,
               let url = hash.split(separator: ".").first else {
-            os_log("Unexpected online url, please check with developers. url: \(onlineUrl)")
+            os_log("Unexpected online url, please check with developers. url: \(onlineUrlString)")
             return nil
         }
         return docsUrl.appendingPathComponent("\(url).MOV")

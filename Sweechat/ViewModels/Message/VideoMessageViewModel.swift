@@ -14,7 +14,7 @@ class VideoMessageViewModel: MessageViewModel {
          sender: User,
          delegate: MediaMessageViewModelDelegate,
          isSenderCurrentUser: Bool) {
-        self.localFileViewModel = LocalFileViewModel(onlineUrl: message.content.toString(), delegate: delegate)
+        self.localFileViewModel = LocalFileViewModel(onlineUrlString: message.content.toString(), delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 
         subscriber = message.subscribeToContent { newContent in

@@ -2,19 +2,19 @@ import Combine
 import Foundation
 
 class LocalFileViewModel: ObservableObject {
-    var onlineUrl: String
+    var onlineUrlString: String
     weak var delegate: MediaMessageViewModelDelegate?
     @Published var state: MediaFetchState = .loading
     @Published var localUrl: URL!
 
-    init(onlineUrl: String, delegate: MediaMessageViewModelDelegate) {
-        self.onlineUrl = onlineUrl
+    init(onlineUrlString: String, delegate: MediaMessageViewModelDelegate) {
+        self.onlineUrlString = onlineUrlString
         self.delegate = delegate
-        getLocalVideoUrl()
+        getLocalUrl()
     }
 
-    private func getLocalVideoUrl() {
-        delegate?.fetchVideoLocalUrl(fromUrl: onlineUrl) { localUrl in
+    private func getLocalUrl() {
+        delegate?.fetchVideoLocalUrl(fromUrlString: onlineUrlString) { localUrl in
             guard let localUrl = localUrl else {
                 self.state = .failed
                 return
@@ -27,9 +27,9 @@ class LocalFileViewModel: ObservableObject {
     }
 
     func updateOnlineUrl(newUrl: String) {
-        if newUrl != onlineUrl {
-            self.onlineUrl = newUrl
-            getLocalVideoUrl()
+        if newUrl != onlineUrlString {
+            self.onlineUrlString = newUrl
+            getLocalUrl()
         }
     }
 }

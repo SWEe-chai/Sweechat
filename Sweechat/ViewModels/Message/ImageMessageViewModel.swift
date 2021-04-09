@@ -9,14 +9,14 @@ import Foundation
 import Combine
 
 class ImageMessageViewModel: MessageViewModel {
-    var mediaData: MediaDataViewModel
+    var mediaData: ImageDataViewModel
 
     init(message: Message,
          sender: User,
          delegate: MediaMessageViewModelDelegate,
          isSenderCurrentUser: Bool) {
-        self.mediaData = MediaDataViewModel(
-            url: message.content.toString(),
+        self.mediaData = ImageDataViewModel(
+            urlString: message.content.toString(),
             delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 

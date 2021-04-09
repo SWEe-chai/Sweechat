@@ -57,7 +57,7 @@
 		27A2D940261EE58000267C7D /* MediaMessageViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D93F261EE58000267C7D /* MediaMessageViewModelDelegate.swift */; };
 		27A2D945261F00B700267C7D /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D944261F00B700267C7D /* CustomImage.swift */; };
 		27A2D96E261F4CC100267C7D /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D96D261F4CC100267C7D /* RemoteImage.swift */; };
-		27A2D994261F65ED00267C7D /* MediaDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D993261F65ED00267C7D /* MediaDataViewModel.swift */; };
+		27A2D994261F65ED00267C7D /* ImageDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D993261F65ED00267C7D /* ImageDataViewModel.swift */; };
 		27A61A6426046ACF00226600 /* UserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6326046ACF00226600 /* UserFacade.swift */; };
 		27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */; };
 		27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A7526046E7F00226600 /* UserFacadeDelegate.swift */; };
@@ -263,7 +263,7 @@
 		27A2D93F261EE58000267C7D /* MediaMessageViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageViewModelDelegate.swift; sourceTree = "<group>"; };
 		27A2D944261F00B700267C7D /* CustomImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
 		27A2D96D261F4CC100267C7D /* RemoteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
-		27A2D993261F65ED00267C7D /* MediaDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDataViewModel.swift; sourceTree = "<group>"; };
+		27A2D993261F65ED00267C7D /* ImageDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataViewModel.swift; sourceTree = "<group>"; };
 		27A61A6326046ACF00226600 /* UserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacade.swift; sourceTree = "<group>"; };
 		27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserFacade.swift; sourceTree = "<group>"; };
 		27A61A7526046E7F00226600 /* UserFacadeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacadeDelegate.swift; sourceTree = "<group>"; };
@@ -843,7 +843,7 @@
 			children = (
 				45D6333825FDE43F00C94D4F /* AppState.swift */,
 				3E746B5A260ED4DE008CF3F6 /* FirebaseUtils.swift */,
-				27A2D993261F65ED00267C7D /* MediaDataViewModel.swift */,
+				27A2D993261F65ED00267C7D /* ImageDataViewModel.swift */,
 				27D2362026205F1E00116F13 /* LocalFileViewModel.swift */,
 			);
 			path = Utilities;
@@ -1341,7 +1341,7 @@
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
 				3E20EAF4261CB18B0060E4C4 /* ModulePermission.swift in Sources */,
 				3E20EAF9261CB8C70060E4C4 /* UserModulePermissionPair.swift in Sources */,
-				27A2D994261F65ED00267C7D /* MediaDataViewModel.swift in Sources */,
+				27A2D994261F65ED00267C7D /* ImageDataViewModel.swift in Sources */,
 				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,
 				27598E59261609F600DF564F /* FirebaseChatRoomQuery.swift in Sources */,
 				27598E542616074E00DF564F /* FirebaseUserQuery.swift in Sources */,
