@@ -13,7 +13,6 @@
 		271CA0842612045300695F17 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CA0832612045300695F17 /* HomeView.swift */; };
 		2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF25261E058E00F22CC4 /* Persistence.swift */; };
 		2726AF2E261E05C700F22CC4 /* PersistenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF2D261E05C700F22CC4 /* PersistenceType.swift */; };
-		2726AF47261E0A1000F22CC4 /* ChatRoomPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */; };
 		272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */; };
 		272AA9702610D2F900584D84 /* SettingsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */; };
 		27475AD1261F789000504568 /* StoredItemData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */; };
@@ -218,7 +217,6 @@
 		271CA0832612045300695F17 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2726AF25261E058E00F22CC4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2726AF2D261E05C700F22CC4 /* PersistenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceType.swift; sourceTree = "<group>"; };
-		2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPersistence.swift; sourceTree = "<group>"; };
 		272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelDelegate.swift; sourceTree = "<group>"; };
 		272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelDelegate.swift; sourceTree = "<group>"; };
 		27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StoredItemData+CoreDataClass.swift"; path = "/Users/hai/school/y3s2/cs3217/assignments/Sweechat/Sweechat/Persistence/StoredItemData+CoreDataClass.swift"; sourceTree = "<absolute>"; };
@@ -438,7 +436,6 @@
 			children = (
 				27475ACF261F789000504568 /* StoredItemData+CoreDataClass.swift */,
 				2726AF25261E058E00F22CC4 /* Persistence.swift */,
-				2726AF46261E0A1000F22CC4 /* ChatRoomPersistence.swift */,
 				2726AF2D261E05C700F22CC4 /* PersistenceType.swift */,
 				27A2D935261EDF3F00267C7D /* ChatRoomMediaCache.swift */,
 			);
@@ -1279,7 +1276,6 @@
 				775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */,
 				27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */,
 				4583D9972616055B0092AF87 /* PublicKey.swift in Sources */,
-				2726AF47261E0A1000F22CC4 /* ChatRoomPersistence.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				4583D9922616055B0092AF87 /* SignalProtocolError.swift in Sources */,

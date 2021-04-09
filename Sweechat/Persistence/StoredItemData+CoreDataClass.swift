@@ -11,9 +11,9 @@ import CoreData
 
 @objc(StoredItemData)
 public class StoredItemData: NSManagedObject {
-    static func fetchItemsInChatRoom(chatRoomId: String) -> NSFetchRequest<StoredItemData> {
+    static func fetchItemsInChatRoom(chatRoomId: String, limitSize: Int) -> NSFetchRequest<StoredItemData> {
         let request: NSFetchRequest<StoredItemData> = StoredItemData.fetchRequest()
-        request.predicate = NSPredicate(format: "chatRoomId = %@", chatRoomId as CVarArg)
+        request.predicate = NSPredicate(format: "chatRoomId = %@ AND #size < %i", chatRoomId as CVarArg, limitSize)
         return request
     }
 

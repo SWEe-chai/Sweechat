@@ -35,12 +35,13 @@ class ChatRoomViewModel: ObservableObject {
                                delegate: self,
                                isSenderCurrentUser: user.id == $0.senderId)
         }
-        print("init chat room in view model \(chatRoom.name) \(chatRoom.id)")
         initialiseSubscriber()
     }
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
+            // TODO: This resets all messages everytime a message gets changed,
+            // might want to consider getting the new messages / deleted messages instead
             self.messages = messages.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
@@ -68,6 +69,7 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
 
+        // TODO: Change this back when uploading files messages are okay
         guard let data = image.jpegData(compressionQuality: 0.05) else {
             os_log("unable to get jpeg data for image")
             return
