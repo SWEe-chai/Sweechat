@@ -41,16 +41,20 @@ struct MessageView: View {
                 } label: {
                     Label("Reply", systemImage: "arrowshape.turn.up.left")
                 }
-                Button {
-                    print("Edited")
-                } label: {
-                    Label("Edit", systemImage: "square.and.pencil")
+                if viewModel.isRightAlign {
+                    Button {
+                        print("Edited")
+                    } label: {
+                        Label("Edit", systemImage: "square.and.pencil")
+                    }
                 }
-                Divider()
-                Button {
-                    print("Deleted")
-                } label: {
-                    Label("Delete", systemImage: "trash")
+                if viewModel.isRightAlign {
+                    Divider()
+                    Button {
+                        print("Deleted")
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
                 }
             }
             if !viewModel.isRightAlign { Spacer() }
