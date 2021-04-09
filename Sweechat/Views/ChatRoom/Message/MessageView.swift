@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageView: View {
     var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
+    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
     // TODO: Change this to delegates in the future
     var onReplyPreviewTapped: (() -> Void)?
@@ -36,7 +37,7 @@ struct MessageView: View {
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .contextMenu {
                 Button {
-                    print("Replied")
+                    replyTo(message: viewModel)
                 } label: {
                     Label("Reply", systemImage: "arrowshape.turn.up.left")
                 }
@@ -55,6 +56,10 @@ struct MessageView: View {
             if !viewModel.isRightAlign { Spacer() }
         }
         .frame(maxWidth: .infinity)
+    }
+
+    private func replyTo(message: MessageViewModel) {
+        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
 }
 
@@ -86,6 +91,6 @@ struct MessageView_Previews: PreviewProvider {
                                                           name: "Nguyen Chakra Bai"),
                                              isSenderCurrentUser: false)
     static var previews: some View {
-        MessageView(viewModel: message, parentViewModel: parent)
+        MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
     }
 }

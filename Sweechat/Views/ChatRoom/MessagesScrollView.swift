@@ -11,12 +11,8 @@ struct MessagesScrollView: View {
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
                     let parentMessage = getMessage(withId: messageViewModel.parentId)
                     MessageView(viewModel: messageViewModel,
-                                parentViewModel: parentMessage,
+                                parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
                                 onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
-                        // TODO: On VideoMessage, it might be hard to tap because the player takes precendence
-                        .onTapGesture(count: 2) {
-                            replyTo(message: messageViewModel)
-                        }
                 }
                 .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
@@ -45,10 +41,6 @@ struct MessagesScrollView: View {
         let index = viewModel.messages.count - 1
         scrollView.scrollTo(viewModel.messages[index])
 
-    }
-
-    private func replyTo(message: MessageViewModel) {
-        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
     }
 
     private func getMessage(withId id: String?) -> MessageViewModel? {

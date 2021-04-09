@@ -8,7 +8,7 @@ struct ThreadView: View {
                 .padding()
             ScrollView {
                 ForEach(viewModel.threadViewModel.replies, id: \.self) { reply in
-                    MessageView(viewModel: reply)
+                    MessageView(viewModel: reply, replyPreviewMetadata: .constant(nil))
                 }
                 .padding([.leading, .trailing])
             }
