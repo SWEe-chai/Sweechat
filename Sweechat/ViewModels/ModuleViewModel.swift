@@ -36,6 +36,7 @@ class ModuleViewModel: ObservableObject {
             self.text = newName
         }
         let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
+            // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
             self.chatRoomViewModels = chatRooms.map {
                 ChatRoomViewModelFactory.makeViewModel(chatRoom: $0)
             }

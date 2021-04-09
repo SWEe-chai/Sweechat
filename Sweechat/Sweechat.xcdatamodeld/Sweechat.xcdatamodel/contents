@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="StoredImageData" representedClassName="StoredImageData" syncable="YES" codeGenerationType="category">
+        <attribute name="chatRoomId" optional="YES" attributeType="String"/>
+        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="urlString" optional="YES" attributeType="String"/>
+        <userInfo>
+            <entry key="key" value="chatRoomId,url"/>
+        </userInfo>
+    </entity>
+    <entity name="StoredVideoData" representedClassName="StoredVideoData" syncable="YES" codeGenerationType="category">
+        <attribute name="chatRoomId" optional="YES" attributeType="String"/>
+        <attribute name="localUrlString" optional="YES" attributeType="String"/>
+        <userInfo>
+            <entry key="key" value="chatRoomId,localUrlString"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="StoredImageData" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="StoredVideoData" positionX="-63" positionY="9" width="128" height="59"/>
+    </elements>
 </model>
