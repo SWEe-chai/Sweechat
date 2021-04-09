@@ -107,7 +107,7 @@ class ChatRoomViewModel: ObservableObject {
 
 // MARK: MediaMessageViewModelDelegate
 extension ChatRoomViewModel: MediaMessageViewModelDelegate {
-    func fetchVideoLocalUrl(fromUrl url: String, onCompletion: @escaping (String?) -> Void) {
+    func fetchVideoLocalUrl(fromUrl url: String, onCompletion: @escaping (URL?) -> Void) {
         chatRoomMediaCache.getLocalUrl(fromOnlineUrl: url, onCompletion: onCompletion)
     }
 

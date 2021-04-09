@@ -111,7 +111,7 @@ class ChatRoomMediaCache {
         }
     }
 
-    func getLocalUrl(fromOnlineUrl onlineUrl: String, onCompletion: @escaping (String?) -> Void) {
+    func getLocalUrl(fromOnlineUrl onlineUrl: String, onCompletion: @escaping (URL?) -> Void) {
         guard let destinationUrl = getDestinationUrlFrom(onlineUrl: onlineUrl) else {
             // Cannot fetch from the URL, URL probably invalid
             onCompletion(nil)
@@ -119,7 +119,7 @@ class ChatRoomMediaCache {
         }
 
         if FileManager().fileExists(atPath: destinationUrl.path) {
-            onCompletion(destinationUrl.path)
+            onCompletion(destinationUrl)
             return
         }
 
@@ -148,7 +148,7 @@ class ChatRoomMediaCache {
                     try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
                 }
             }
-            onCompletion(destinationUrl.path)
+            onCompletion(destinationUrl)
             self.delete(videoWithLocalUrl: destinationUrl.path)
             self.save(videoWithLocalUrl: destinationUrl.path)
         }).resume()

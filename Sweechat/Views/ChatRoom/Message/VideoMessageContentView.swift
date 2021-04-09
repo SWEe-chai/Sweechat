@@ -20,9 +20,13 @@ struct LocalVideoPlayer: View {
     var body: some View {
         switch viewModel.state {
         case .success:
-            VideoPlayer(player: AVPlayer(url: viewModel.localUrl))
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 200, height: 200)
+            if let localUrl = viewModel.localUrl {
+                VideoPlayer(player: AVPlayer(url: localUrl))
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200, height: 200)
+            } else {
+                Text("The link to this video is broken.")
+            }
         case .loading:
             Text("Loading...")
         case .failed:

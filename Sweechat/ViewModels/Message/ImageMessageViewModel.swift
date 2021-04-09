@@ -20,8 +20,8 @@ class ImageMessageViewModel: MessageViewModel {
             delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 
-        subscriber = message.subscribeToContent { _ in
-            self.mediaData.updateUrl(url: message.content.toString())
+        subscriber = message.subscribeToContent { newContent in
+            self.mediaData.updateUrl(url: newContent.toString())
         }
     }
 

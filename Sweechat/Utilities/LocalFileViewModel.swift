@@ -14,14 +14,14 @@ class LocalFileViewModel: ObservableObject {
     }
 
     private func getLocalVideoUrl() {
-        delegate?.fetchVideoLocalUrl(fromUrl: onlineUrl) { localUrlString in
-            guard let localUrlString = localUrlString else {
+        delegate?.fetchVideoLocalUrl(fromUrl: onlineUrl) { localUrl in
+            guard let localUrl = localUrl else {
                 self.state = .failed
                 return
             }
             DispatchQueue.main.async {
                 self.state = .success
-                self.localUrl = URL(fileURLWithPath: localUrlString)
+                self.localUrl = localUrl
             }
         }
     }
