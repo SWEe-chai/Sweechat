@@ -6,8 +6,5 @@ struct ImageMessageContentView: View {
         CustomImage(viewModel: viewModel.mediaData)
             .scaledToFit()
             .frame(width: 200)
-            .onTapGesture {
-                viewModel.swapUrl()
-            }
     }
 }

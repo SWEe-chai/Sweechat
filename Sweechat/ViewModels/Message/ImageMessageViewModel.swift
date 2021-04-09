@@ -25,12 +25,6 @@ class ImageMessageViewModel: MessageViewModel {
         }
     }
 
-    // TODO: REMOVE THIS FUNCTION AFTER TESTS
-    func swapUrl() {
-        self.mediaData.updateUrl(
-            url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg")
-    }
-
     // MARK: Message Reply
     override func previewContent() -> String {
         "Image"
