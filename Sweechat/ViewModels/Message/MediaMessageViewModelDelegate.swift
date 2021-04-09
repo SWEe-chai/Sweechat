@@ -1,6 +1,6 @@
 import Foundation
 
 protocol MediaMessageViewModelDelegate: AnyObject {
-    func fetchData(fromUrl url: String, onCompletion: @escaping (Data?) -> Void)
-    func fetchLocalUrl(fromUrl url: String, onCompletion: @escaping (String?) -> Void)
+    func fetchImageData(fromUrl url: String, onCompletion: @escaping (Data?) -> Void)
+    func fetchVideoLocalUrl(fromUrl url: String, onCompletion: @escaping (String?) -> Void)
 }

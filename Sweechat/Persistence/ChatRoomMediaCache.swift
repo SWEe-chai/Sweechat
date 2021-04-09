@@ -8,10 +8,13 @@ class ChatRoomMediaCache {
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
-        loadAllChatRoomData()
+        DispatchQueue.global().async {
+            self.fillImageCache()
+        }
     }
 
-    private func loadAllChatRoomData() {
+    // MARK: Handle images
+    private func fillImageCache() {
         do {
             let itemDatas = try Persistence.shared().context
                 .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimit))
@@ -27,7 +30,7 @@ class ChatRoomMediaCache {
         }
     }
 
-    private func loadData(url: String) -> Data? {
+    private func loadImage(fromUrl url: String) -> Data? {
         do {
             let itemData = try Persistence.shared().context
                 .fetch(StoredImageData.fetchItemInChatRoom(url: url, chatRoomId: chatRoomId))
@@ -46,7 +49,7 @@ class ChatRoomMediaCache {
         }
 
         // Check if in storage
-        if let data = loadData(url: url) {
+        if let data = loadImage(fromUrl: url) {
             onCompletion(data)
             return
         }
@@ -75,15 +78,6 @@ class ChatRoomMediaCache {
         }
     }
 
-    private func delete(videoWithLocalUrl url: String) {
-        let deleteRequest = StoredVideoData.delete(url: url, from: chatRoomId)
-        do {
-            try Persistence.shared().context.execute(deleteRequest)
-        } catch {
-            os_log("Failed to execute delete request: \(error.localizedDescription)")
-        }
-    }
-
     private func save(imageWithUrl url: String, data: Data) {
         let storageItem = StoredImageData(context: Persistence.shared().context)
         storageItem.chatRoomId = chatRoomId
@@ -94,6 +88,17 @@ class ChatRoomMediaCache {
             try Persistence.shared().context.save()
         } catch {
             os_log("Failed to save: \(error.localizedDescription)")
+        }
+    }
+
+    // MARK: Handle videos
+
+    private func delete(videoWithLocalUrl url: String) {
+        let deleteRequest = StoredVideoData.delete(url: url, from: chatRoomId)
+        do {
+            try Persistence.shared().context.execute(deleteRequest)
+        } catch {
+            os_log("Failed to execute delete request: \(error.localizedDescription)")
         }
     }
 
@@ -142,7 +147,6 @@ class ChatRoomMediaCache {
             DispatchQueue.main.async {
                 if let data = data,
                    !FileManager().fileExists(atPath: destinationUrl.path) {
-                    print("local: \(destinationUrl.absoluteString)")
                     try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
                 }
             }

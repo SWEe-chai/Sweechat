@@ -26,7 +26,7 @@ class VideoMessageViewModel: MessageViewModel {
             }
         }
 
-        self.delegate?.fetchLocalUrl(fromUrl: message.content.toString()) { localUrlString in
+        self.delegate?.fetchVideoLocalUrl(fromUrl: message.content.toString()) { localUrlString in
             guard let localUrlString = localUrlString else {
                 return
             }

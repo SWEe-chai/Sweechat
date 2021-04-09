@@ -14,7 +14,7 @@ class MediaDataViewModel: ObservableObject {
     }
 
     func fetchData() {
-        delegate?.fetchData(fromUrl: url) { data in
+        delegate?.fetchImageData(fromUrl: url) { data in
             DispatchQueue.main.async {
                 guard let data = data, !data.isEmpty else {
                     self.state = .failed
