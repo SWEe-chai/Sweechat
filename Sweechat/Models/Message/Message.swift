@@ -32,12 +32,9 @@ class Message: ObservableObject {
     }
 
     func update(message: Message) {
-//        self.senderId = message.senderId
-//        self.creationTime = message.creationTime
         if self.content != message.content {
             self.content = message.content
         }
-//        self.type = message.type
     }
 
     func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
