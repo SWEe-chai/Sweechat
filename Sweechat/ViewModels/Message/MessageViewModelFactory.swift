@@ -21,7 +21,11 @@ struct MessageViewModelFactory {
                 delegate: delegate,
                 isSenderCurrentUser: isSenderCurrentUser)
         case .video:
-            return VideoMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+            return VideoMessageViewModel(
+                message: message,
+                sender: sender,
+                delegate: delegate,
+                isSenderCurrentUser: isSenderCurrentUser)
         default:
             // This means that the type of the message is not supported by the ViewModel
             // And thus the view

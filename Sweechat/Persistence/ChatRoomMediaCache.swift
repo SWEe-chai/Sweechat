@@ -2,7 +2,7 @@ import Foundation
 import os
 
 class ChatRoomMediaCache {
-    private var oneMb = 1_024 * 1_024
+    private var cacheSizeLimit = 200 * 1_024
     private var chatRoomId: String
     private var urlToData: [String: Data] = [:]
 
@@ -14,7 +14,7 @@ class ChatRoomMediaCache {
     private func loadAllChatRoomData() {
         do {
             let itemDatas = try Persistence.shared().context
-                .fetch(StoredItemData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: oneMb))
+                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimit))
             for itemData in itemDatas {
                 guard let url = itemData.url,
                       let data = itemData.data else {
@@ -30,7 +30,7 @@ class ChatRoomMediaCache {
     private func loadData(url: String) -> Data? {
         do {
             let itemData = try Persistence.shared().context
-                .fetch(StoredItemData.fetchItemInChatRoom(url: url, chatRoomId: chatRoomId))
+                .fetch(StoredImageData.fetchItemInChatRoom(url: url, chatRoomId: chatRoomId))
             return itemData.first?.data
         } catch let error as NSError {
             os_log("Fetch error \(error)")
@@ -50,7 +50,6 @@ class ChatRoomMediaCache {
             onCompletion(data)
             return
         }
-
         // Data is not in cache, must fetch
         guard let parsedURL = URL(string: url) else {
             onCompletion(nil)
@@ -62,23 +61,31 @@ class ChatRoomMediaCache {
             guard let data = data, !data.isEmpty else {
                 return
             }
-            self.delete(url: url)
-            self.save(url: url, data: data)
+            self.delete(imageWithUrl: url)
+            self.save(imageWithUrl: url, data: data)
         }.resume()
     }
 
-    private func delete(url: String) {
-        let deleteRequest = StoredItemData.delete(url: url, from: chatRoomId)
+    private func delete(imageWithUrl url: String) {
+        let deleteRequest = StoredImageData.delete(url: url, from: chatRoomId)
         do {
-            try Persistence.shared().context
-                .execute(deleteRequest)
+            try Persistence.shared().context.execute(deleteRequest)
         } catch {
             os_log("Failed to execute delete request: \(error.localizedDescription)")
         }
     }
 
-    private func save(url: String, data: Data) {
-        let storageItem = StoredItemData(context: Persistence.shared().context)
+    private func delete(videoWithLocalUrl url: String) {
+        let deleteRequest = StoredVideoData.delete(url: url, from: chatRoomId)
+        do {
+            try Persistence.shared().context.execute(deleteRequest)
+        } catch {
+            os_log("Failed to execute delete request: \(error.localizedDescription)")
+        }
+    }
+
+    private func save(imageWithUrl url: String, data: Data) {
+        let storageItem = StoredImageData(context: Persistence.shared().context)
         storageItem.chatRoomId = chatRoomId
         storageItem.data = data
         storageItem.size = Int64(MemoryLayout.size(ofValue: data))
@@ -89,12 +96,77 @@ class ChatRoomMediaCache {
             os_log("Failed to save: \(error.localizedDescription)")
         }
     }
+
+    private func save(videoWithLocalUrl url: String) {
+        let storageItem = StoredVideoData(context: Persistence.shared().context)
+        storageItem.chatRoomId = chatRoomId
+        storageItem.localUrl = url
+        do {
+            try Persistence.shared().context.save()
+        } catch {
+            os_log("Failed to save: \(error.localizedDescription)")
+        }
+    }
+
+    func getLocalUrl(fromOnlineUrl onlineUrl: String, onCompletion: @escaping (String?) -> Void) {
+        guard let destinationUrl = getDestinationUrlFrom(onlineUrl: onlineUrl) else {
+            // Cannot fetch from the URL, URL probably invalid
+            onCompletion(nil)
+            return
+        }
+
+        if FileManager().fileExists(atPath: destinationUrl.path) {
+            onCompletion(destinationUrl.path)
+            return
+        }
+
+        guard let url = URL(string: onlineUrl) else {
+            onCompletion(nil)
+            os_log("Video exists")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            if let error = error {
+                os_log("Video Fetch Error: \(error.localizedDescription)")
+                return
+            }
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else {
+                os_log("Video fetch: Non 200 response")
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let data = data,
+                   !FileManager().fileExists(atPath: destinationUrl.path) {
+                    print("local: \(destinationUrl.absoluteString)")
+                    try? data.write(to: destinationUrl, options: Data.WritingOptions.atomic)
+                }
+            }
+            onCompletion(destinationUrl.path)
+            self.delete(videoWithLocalUrl: destinationUrl.path)
+            self.save(videoWithLocalUrl: destinationUrl.path)
+        }).resume()
+
+    }
+
+    private func getDestinationUrlFrom(onlineUrl: String) -> URL? {
+        guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let hash = onlineUrl.split(separator: "/").last,
+              let url = hash.split(separator: ".").first else {
+            return nil
+        }
+        return docsUrl.appendingPathComponent("\(url).MOV")
+    }
 }
 
 extension ChatRoomMediaCache {
     // Put this separately for dev util
     private func deleteAll() {
-        let deleteRequest = StoredItemData.deleteAll()
+        let deleteRequest = StoredImageData.deleteAll()
         do {
             try Persistence.shared().context
                 .execute(deleteRequest)

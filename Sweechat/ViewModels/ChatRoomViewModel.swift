@@ -91,6 +91,7 @@ class ChatRoomViewModel: ObservableObject {
 
         do {
             let data = try Data(contentsOf: url)
+            print(MemoryLayout.size(ofValue: data))
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
                 let urlstring = url.absoluteString
                 let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.video,
@@ -106,6 +107,10 @@ class ChatRoomViewModel: ObservableObject {
 
 // MARK: MediaMessageViewModelDelegate
 extension ChatRoomViewModel: MediaMessageViewModelDelegate {
+    func fetchLocalUrl(fromUrl url: String, onCompletion: @escaping (String?) -> Void) {
+        chatRoomMediaCache.getLocalUrl(fromOnlineUrl: url, onCompletion: onCompletion)
+    }
+
     func fetchData(fromUrl url: String, onCompletion: @escaping (Data?) -> Void) {
         chatRoomMediaCache.getData(url: url, onCompletion: onCompletion)
     }
