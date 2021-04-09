@@ -17,12 +17,12 @@ class ChatRoomMediaCache {
             let itemDatas = try Persistence.shared().context
                 .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimitInBytes))
             for itemData in itemDatas {
-                guard let url = itemData.url,
+                guard let urlString = itemData.urlString,
                       let data = itemData.data else {
                     os_log("Unable to translate StoredImageData, data: \(itemData)")
                     return
                 }
-                urlStringToImageData[url] = data
+                urlStringToImageData[urlString] = data
             }
         } catch let error as NSError {
             os_log("Fetch error \(error)")
@@ -32,7 +32,7 @@ class ChatRoomMediaCache {
     private func loadImage(fromURlString urlString: String) -> Data? {
         do {
             let itemData = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemInChatRoom(url: urlString, chatRoomId: chatRoomId))
+                .fetch(StoredImageData.fetchItemInChatRoom(urlString: urlString, chatRoomId: chatRoomId))
             guard let data = itemData.first?.data else {
                 os_log("Data with url \(urlString) does not exist")
                 return nil
@@ -73,7 +73,7 @@ class ChatRoomMediaCache {
     }
 
     private func delete(imageWithUrlString urlString: String) {
-        let deleteRequest = StoredImageData.delete(url: urlString, from: chatRoomId)
+        let deleteRequest = StoredImageData.delete(urlString: urlString, from: chatRoomId)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -86,7 +86,7 @@ class ChatRoomMediaCache {
         storageItem.chatRoomId = chatRoomId
         storageItem.data = data
         storageItem.size = Int64(MemoryLayout.size(ofValue: data))
-        storageItem.url = urlString
+        storageItem.urlString = urlString
         do {
             try Persistence.shared().context.save()
         } catch {
@@ -97,7 +97,7 @@ class ChatRoomMediaCache {
     // MARK: Handle videos
 
     private func delete(videoWithLocalUrlString urlString: String) {
-        let deleteRequest = StoredVideoData.delete(url: urlString, from: chatRoomId)
+        let deleteRequest = StoredVideoData.delete(urlString: urlString, from: chatRoomId)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -108,7 +108,7 @@ class ChatRoomMediaCache {
     private func save(videoWithLocalUrlString urlString: String) {
         let storageItem = StoredVideoData(context: Persistence.shared().context)
         storageItem.chatRoomId = chatRoomId
-        storageItem.localUrl = urlString
+        storageItem.localUrlString = urlString
         do {
             try Persistence.shared().context.save()
         } catch {

@@ -9,10 +9,10 @@ public class StoredImageData: NSManagedObject {
         return request
     }
 
-    static func fetchItemInChatRoom(url: String, chatRoomId: String) -> NSFetchRequest<StoredImageData> {
+    static func fetchItemInChatRoom(urlString: String, chatRoomId: String) -> NSFetchRequest<StoredImageData> {
         let request: NSFetchRequest<StoredImageData> = StoredImageData.fetchRequest()
         let chatRoomIdPredicate = NSPredicate(format: "chatRoomId = %@", chatRoomId as CVarArg)
-        let urlPredicate = NSPredicate(format: "url = %@", url as CVarArg)
+        let urlPredicate = NSPredicate(format: "urlString = %@", urlString as CVarArg)
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
             chatRoomIdPredicate, urlPredicate
         ])
@@ -25,10 +25,10 @@ public class StoredImageData: NSManagedObject {
         return deleteRequest
     }
 
-    static func delete(url: String, from chatRoomId: String) -> NSBatchDeleteRequest {
+    static func delete(urlString: String, from chatRoomId: String) -> NSBatchDeleteRequest {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "StoredImageData")
         let chatRoomIdPredicate = NSPredicate(format: "chatRoomId = %@", chatRoomId as CVarArg)
-        let urlPredicate = NSPredicate(format: "url = %@", url as CVarArg)
+        let urlPredicate = NSPredicate(format: "urlString = %@", urlString as CVarArg)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
             chatRoomIdPredicate, urlPredicate
         ])
