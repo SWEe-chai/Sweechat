@@ -69,26 +69,17 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
 
-        // TODO: Change this back when uploading files messages are okay
         guard let data = image.jpegData(compressionQuality: 0.05) else {
             os_log("unable to get jpeg data for image")
             return
         }
 
-        let message = Message(
-            senderId: self.user.id,
-            content: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg".toData(),
-            type: MessageType.image,
-            receiverId: ChatRoom.allUsersId,
-            parentId: parentId)
-        self.chatRoom.storeMessage(message: message)
-
-//        self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
-//            let urlstring = url.absoluteString
-//            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
-//                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
-//            self.chatRoom.storeMessage(message: message)
-//        }
+        self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
+            let urlstring = url.absoluteString
+            let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
+                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 
     func handleSendVideo(_ mediaURL: Any?, withParentId parentId: String?) {

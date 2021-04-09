@@ -15,15 +15,13 @@ class ImageMessageViewModel: MessageViewModel {
          sender: User,
          delegate: MediaMessageViewModelDelegate,
          isSenderCurrentUser: Bool) {
-        // TODO: Load correct url 
         self.mediaData = MediaDataViewModel(
-//            url: message.content.toString()
-            url: "https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg",
+            url: message.content.toString(),
             delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
 
         subscriber = message.subscribeToContent { _ in
-//            self.mediaData.updateUrl(url: message.content.toString())
+            self.mediaData.updateUrl(url: message.content.toString())
         }
     }
 

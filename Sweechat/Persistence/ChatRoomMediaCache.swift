@@ -8,7 +8,7 @@ class ChatRoomMediaCache {
 
     init(chatRoomId: String) {
         self.chatRoomId = chatRoomId
-//        loadAllChatRoomData()
+        loadAllChatRoomData()
     }
 
     private func loadAllChatRoomData() {
@@ -41,14 +41,12 @@ class ChatRoomMediaCache {
     func getData(url: String, onCompletion: @escaping (Data?) -> Void) {
         // If it's in immediate cache
         if let data = urlToData[url] {
-            print("in cache")
             onCompletion(data)
             return
         }
 
         // Check if in storage
         if let data = loadData(url: url) {
-            print("in disk")
             onCompletion(data)
             return
         }
@@ -60,7 +58,6 @@ class ChatRoomMediaCache {
         }
 
         URLSession.shared.dataTask(with: parsedURL) { data, _, _ in
-            print("queried")
             onCompletion(data)
             guard let data = data, !data.isEmpty else {
                 return
