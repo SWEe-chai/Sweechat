@@ -2,7 +2,7 @@ import Foundation
 import os
 
 class ChatRoomMediaCache {
-    private var cacheSizeLimit = 200 * 1_024
+    private var cacheSizeLimitInBytes = 200 * 1_024
     private var chatRoomId: String
     private var urlToData: [String: Data] = [:]
 
@@ -15,10 +15,11 @@ class ChatRoomMediaCache {
     private func fillImageCache() {
         do {
             let itemDatas = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimit))
+                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimitInBytes))
             for itemData in itemDatas {
                 guard let url = itemData.url,
                       let data = itemData.data else {
+                    os_log("Unable to translate StoredImageData, data: \(itemData)")
                     return
                 }
                 urlToData[url] = data
@@ -32,7 +33,11 @@ class ChatRoomMediaCache {
         do {
             let itemData = try Persistence.shared().context
                 .fetch(StoredImageData.fetchItemInChatRoom(url: url, chatRoomId: chatRoomId))
-            return itemData.first?.data
+            guard let data = itemData.first?.data else {
+                os_log("Data with url \(url) does not exist")
+                return nil
+            }
+            return data
         } catch let error as NSError {
             os_log("Fetch error \(error)")
             return nil
@@ -159,6 +164,7 @@ class ChatRoomMediaCache {
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
               let hash = onlineUrl.split(separator: "/").last,
               let url = hash.split(separator: ".").first else {
+            os_log("Unexpected online url, please check with developers. url: \(onlineUrl)")
             return nil
         }
         return docsUrl.appendingPathComponent("\(url).MOV")
