@@ -99,11 +99,16 @@ class CreateChatRoomViewModel: ObservableObject {
 
 // MARK: ForumViewModelDelegate
 extension CreateChatRoomViewModel: ForumViewModelDelegate {
-    func createThreadChatRoom(id: String, currentUser: User, forumMembers: [User]) {
+    func createThreadChatRoom(id: String,
+                              currentUser: User,
+                              forumMembers: [User],
+                              onCompletion: (() -> Void)? = nil) {
         let threadChatRoom = ThreadChatRoom(postId: id, sender: currentUser, forumMembers: forumMembers)
         let permissionPairs = forumMembers.map {
             UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)
         }
-        module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs)
+        module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs) {
+            onCompletion?()
+        }
     }
 }

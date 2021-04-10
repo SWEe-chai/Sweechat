@@ -146,9 +146,6 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
-        if users.isEmpty {
-            print("No users you bozo")
-        }
         self.publicKeyBundlesReference?
             .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in

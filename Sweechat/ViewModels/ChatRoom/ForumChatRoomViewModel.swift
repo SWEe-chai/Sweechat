@@ -55,17 +55,15 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     override func handleSendMessage(_ text: String, withParentId parentId: String?) {
         let id = UUID().uuidString
-        // TODO: Slight fear, what if the message is persisted before the message. Other people get the message and try
-        // to query for the chat room and the chat room has not been created?
-        threadCreator?.createThreadChatRoom(id: id, currentUser: user, forumMembers: forumChatRoom.members)
-
-        let message = Message(
-            senderId: user.id,
-            content: text.toData(),
-            type: MessageType.text,
-            receiverId: ChatRoom.allUsersId,
-            parentId: parentId, id: id)
-        self.chatRoom.storeMessage(message: message)
+        threadCreator?.createThreadChatRoom(id: id, currentUser: user, forumMembers: forumChatRoom.members) {
+            let message = Message(
+                senderId: self.user.id,
+                content: text.toData(),
+                type: MessageType.text,
+                receiverId: ChatRoom.allUsersId,
+                parentId: parentId, id: id)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 
     func setThread(_ postViewModel: MessageViewModel) {
@@ -74,8 +72,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     func getSelectedThread() -> ThreadChatRoomViewModel {
         guard let threadChatRoomVM = threads.first(where: { $0.id == prominentThreadId }) else {
-            os_log("Thread is selected but no thread is set as prominent thread. Please contact our dev team.")
-            fatalError()
+            fatalError("Thread is selected but no thread is set as prominent thread. Please contact our dev team.")
         }
         return threadChatRoomVM
     }
