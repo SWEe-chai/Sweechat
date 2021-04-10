@@ -242,6 +242,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 currentUser: user,
                 currentUserPermission: permissions,
                 profilePictureUrl: profilePictureUrl)
+        case .thread:
+            return ThreadChatRoom(
+                id: id,
+                ownerId: ownerId,
+                currentUser: user,
+                permission: permissions)
         }
     }
 
@@ -259,6 +265,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
         case chatRoom as ForumChatRoom:
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.forum.rawValue
+        case chatRoom as ThreadChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.thread.rawValue
         default:
             os_log("Firebase ChatRoom Facade: Trying to convert abstract class ChatRoom")
             fatalError("ChatRoom must be either a group chat or private chat")

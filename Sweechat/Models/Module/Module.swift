@@ -87,7 +87,8 @@ class Module: ObservableObject {
 // MARK: ModuleFacadeDelegate
 extension Module: ModuleFacadeDelegate {
     func insert(chatRoom: ChatRoom) {
-        guard !self.chatRooms.contains(chatRoom) else {
+        guard !self.chatRooms.contains(chatRoom),
+              chatRoom as? ThreadChatRoom == nil else {
             return
         }
         chatRoom.setChatRoomConnection()
@@ -95,8 +96,9 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
-        chatRooms.forEach { $0.setChatRoomConnection() }
-        self.chatRooms = chatRooms
+        let newChatRooms = chatRooms.filter({ $0 as? ThreadChatRoom == nil })
+        newChatRooms.forEach { $0.setChatRoomConnection() }
+        self.chatRooms = newChatRooms
     }
 
     func remove(chatRoom: ChatRoom) {

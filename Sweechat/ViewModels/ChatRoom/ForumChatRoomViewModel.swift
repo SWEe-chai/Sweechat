@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 class ForumChatRoomViewModel: ChatRoomViewModel {
     var forumChatRoom: ForumChatRoom
@@ -8,9 +9,11 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     @Published var replyViewModels: [MessageViewModel] = []
     var threadViewModel: ThreadViewModel!
     private var prominentThreadId: String?
+    private var threadCreator: ForumViewModelDelegate?
 
-    init(forumChatRoom: ForumChatRoom) {
+    init(forumChatRoom: ForumChatRoom, delegate: ForumViewModelDelegate) {
         self.forumChatRoom = forumChatRoom
+        self.threadCreator = delegate
         super.init(chatRoom: forumChatRoom, user: forumChatRoom.currentUser)
         initialiseForumSubscribers()
     }
@@ -39,6 +42,21 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
         forumSubscribers.append(postsSubscriber)
         forumSubscribers.append(postIdToRepliesSubscriber)
+    }
+
+    override func handleSendMessage(_ text: String, withParentId parentId: String?) {
+        let id = UUID().uuidString
+        // TODO: Slight fear, what if the message is persisted before the message. Other people get the message and try
+        // to query for the chat room and the chat room has not been created?
+        threadCreator?.createThreadChatRoom(id: id, currentUser: user, forumMembers: forumChatRoom.members)
+
+        let message = Message(
+            senderId: user.id,
+            content: text.toData(),
+            type: MessageType.text,
+            receiverId: ChatRoom.allUsersId,
+            parentId: parentId, id: id)
+        self.chatRoom.storeMessage(message: message)
     }
 
     private func updateThread(messages: [Message]) {
