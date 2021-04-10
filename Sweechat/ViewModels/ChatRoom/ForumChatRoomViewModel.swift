@@ -21,6 +21,8 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
+            let updatedPostIds = Set(posts.map({ $0.id }))
+            self.postViewModels = self.postViewModels.filter({ updatedPostIds.contains($0.id) })
             let currentPostsIds = Set(self.postViewModels.map { $0.id })
             let newPosts = posts.filter { !currentPostsIds.contains($0.id) }
             self.threads.append(contentsOf: newPosts.compactMap {
@@ -35,7 +37,6 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                                    delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             })
-            // TODO: When delete is implemented we should also get postIds of deleted messages and update
         }
 
         forumSubscribers.append(postsSubscriber)

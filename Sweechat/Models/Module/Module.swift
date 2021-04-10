@@ -97,9 +97,9 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
-        let newChatRooms = chatRooms.filter({ $0 as? ThreadChatRoom == nil })
+        let newChatRooms = chatRooms.filter({ $0 as? ThreadChatRoom == nil }).filter({ !chatRooms.contains($0) })
         newChatRooms.forEach { $0.setChatRoomConnection() }
-        self.chatRooms = newChatRooms
+        self.chatRooms.append(contentsOf: newChatRooms)
     }
 
     func remove(chatRoom: ChatRoom) {
