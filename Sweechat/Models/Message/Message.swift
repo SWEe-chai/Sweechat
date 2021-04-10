@@ -10,6 +10,7 @@ class Message: ObservableObject {
     var type: MessageType
     var receiverId: String
 
+    // This message init is for creating new messages in the front end
     init(senderId: String, content: Data, type: MessageType,
          receiverId: String, parentId: String?, id: String = UUID().uuidString) {
         self.senderId = senderId
@@ -21,6 +22,7 @@ class Message: ObservableObject {
         self.parentId = parentId
     }
 
+    // This message init is for facade to translate
     init(id: String, senderId: String, creationTime: Date,
          content: Data, type: MessageType, receiverId: String, parentId: String?) {
         self.id = id
