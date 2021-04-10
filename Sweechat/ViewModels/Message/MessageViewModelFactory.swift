@@ -9,11 +9,14 @@ struct MessageViewModelFactory {
     static func makeViewModel(
         message: Message,
         sender: User,
-        delegate: MediaMessageViewModelDelegate,
+        delegate: MediaMessageViewModelDelegate & MessageActionsViewModelDelegate,
         isSenderCurrentUser: Bool) -> MessageViewModel? {
         switch message.type {
         case .text:
-            return TextMessageViewModel(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+            return TextMessageViewModel(
+                message: message,
+                sender: sender,
+                isSenderCurrentUser: isSenderCurrentUser)
         case .image:
             return ImageMessageViewModel(
                 message: message,

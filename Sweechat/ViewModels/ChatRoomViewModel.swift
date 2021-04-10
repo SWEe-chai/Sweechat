@@ -29,11 +29,13 @@ class ChatRoomViewModel: ObservableObject {
         self.profilePictureUrl = chatRoom.profilePictureUrl
         self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
         self.messages = chatRoom.messages.compactMap {
-            MessageViewModelFactory
-                .makeViewModel(message: $0,
-                               sender: chatRoom.getUser(userId: $0.id),
-                               delegate: self,
-                               isSenderCurrentUser: user.id == $0.senderId)
+            let viewModel = MessageViewModelFactory
+                                .makeViewModel(message: $0,
+                                               sender: chatRoom.getUser(userId: $0.id),
+                                               delegate: self,
+                                               isSenderCurrentUser: user.id == $0.senderId)
+            viewModel?.delegate = self
+            return viewModel
         }
         initialiseSubscriber()
     }
@@ -43,11 +45,13 @@ class ChatRoomViewModel: ObservableObject {
             // TODO: This resets all messages everytime a message gets changed,
             // might want to consider getting the new messages / deleted messages instead
             self.messages = messages.compactMap {
-                MessageViewModelFactory
-                    .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                   delegate: self,
-                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                let viewModel = MessageViewModelFactory
+                                    .makeViewModel(message: $0,
+                                                   sender: self.chatRoom.getUser(userId: $0.senderId),
+                                                   delegate: self,
+                                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                viewModel?.delegate = self
+                return viewModel
             }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
@@ -117,4 +121,15 @@ extension ChatRoomViewModel: MediaMessageViewModelDelegate {
 
 // MARK: Identifiable
 extension ChatRoomViewModel: Identifiable {
+}
+
+// MARK: MessageActionsViewModelDelegate
+extension ChatRoomViewModel: MessageActionsViewModelDelegate {
+    func edit(message: Message) {
+        print("Edited")
+    }
+
+    func delete(message: Message) {
+        print("Deleted")
+    }
 }

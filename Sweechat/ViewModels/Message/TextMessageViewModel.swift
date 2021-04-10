@@ -10,9 +10,9 @@ import Foundation
 class TextMessageViewModel: MessageViewModel {
     @Published var text: String
 
-    override init(message: Message, sender: User, isSenderCurrentUser: Bool) {
+    init(message: Message, sender: User, isSenderCurrentUser: Bool) {
         self.text = message.content.toString()
-        super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser)
+        super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser, isEditable: true)
 
         subscriber = message.subscribeToContent { content in
             self.text = message.content.toString()
