@@ -9,11 +9,11 @@ class ThreadChatRoom: ChatRoom {
     }
 
     // This init is when the thread is already created
-    init(id: String, ownerId: String, currentUser: User, permission: ChatRoomPermissionBitmask) {
+    init(id: String, ownerId: String, currentUser: User) {
         super.init(id: id,
                    name: "Thread",
                    ownerId: ownerId,
                    currentUser: currentUser,
-                   currentUserPermission: permission)
+                   currentUserPermission: ChatRoomPermission.readWrite)
     }
 }

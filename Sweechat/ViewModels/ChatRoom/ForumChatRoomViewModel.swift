@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import os
 
 class ForumChatRoomViewModel: ChatRoomViewModel {
     var forumChatRoom: ForumChatRoom
@@ -7,7 +8,8 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     @Published var postViewModels: [MessageViewModel] = []
     @Published var replyViewModels: [MessageViewModel] = []
-    var threadViewModel: ThreadViewModel!
+    @Published private var threads: [ThreadChatRoomViewModel] = []
+    var threadId: ThreadViewModel!
     private var prominentThreadId: String?
     private var threadCreator: ForumViewModelDelegate?
 
@@ -20,13 +22,21 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToPosts { posts in
-            self.postViewModels = posts.compactMap {
+            let currentPostsIds = Set(self.postViewModels.map { $0.id })
+            let newPosts = posts.filter { !currentPostsIds.contains($0.id) }
+            self.threads.append(contentsOf: newPosts.compactMap {
+                ThreadChatRoomViewModel(post: $0,
+                                        postSender: self.chatRoom.getUser(userId: $0.senderId),
+                                        user: self.forumChatRoom.currentUser)
+            })
+            self.postViewModels.append(contentsOf: newPosts.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
                                    delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
-            }
+            })
+            // TODO: When delete is implemented we should also get postIds of deleted messages and update
         }
 
         let postIdToRepliesSubscriber = forumChatRoom.subscribeToReplies { replies in
@@ -37,7 +47,6 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                                    delegate: self,
                                    isSenderCurrentUser: self.user.id == $0.senderId)
             }
-            self.updateThread(messages: replies)
         }
 
         forumSubscribers.append(postsSubscriber)
@@ -59,22 +68,15 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         self.chatRoom.storeMessage(message: message)
     }
 
-    private func updateThread(messages: [Message]) {
-        guard let postId = prominentThreadId,
-              let postViewModel = postViewModels.first(where: { $0.id == postId }) else {
-            return
-        }
-        threadViewModel = ThreadViewModel(
-            post: postViewModel,
-            replies: replyViewModels.filter { $0.parentId == postId }
-        )
-    }
-
     func setThread(_ postViewModel: MessageViewModel) {
         prominentThreadId = postViewModel.id
-        threadViewModel = ThreadViewModel(
-            post: postViewModel,
-            replies: messages.filter({ $0.parentId == prominentThreadId })
-        )
+    }
+
+    func getSelectedThread() -> ThreadChatRoomViewModel {
+        guard let threadChatRoomVM = threads.first(where: { $0.id == prominentThreadId }) else {
+            os_log("Thread is selected but no thread is set as prominent thread. Please contact our dev team.")
+            fatalError()
+        }
+        return threadChatRoomVM
     }
 }

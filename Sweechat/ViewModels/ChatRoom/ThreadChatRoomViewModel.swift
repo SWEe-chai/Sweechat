@@ -1,8 +1,18 @@
 class ThreadChatRoomViewModel: ChatRoomViewModel {
+    var id: String {
+        threadChatRoom.id
+    }
     private var threadChatRoom: ThreadChatRoom
 
-    init(threadChatRoom: ThreadChatRoom) {
-        self.threadChatRoom = threadChatRoom
-        super.init(chatRoom: threadChatRoom, user: threadChatRoom.currentUser)
+    var post: MessageViewModel
+
+    init(post: Message, postSender: User, user: User) {
+        self.threadChatRoom = ThreadChatRoom(id: post.id, ownerId: post.senderId, currentUser: user)
+        self.post = TextMessageViewModel(
+            message: post,
+            sender: postSender,
+            isSenderCurrentUser: user.id == postSender.id)
+        super.init(chatRoom: threadChatRoom, user: user)
+        threadChatRoom.setChatRoomConnection()
     }
 }

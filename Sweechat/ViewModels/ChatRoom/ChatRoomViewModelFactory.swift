@@ -1,3 +1,5 @@
+import os
+
 class ChatRoomViewModelFactory {
     static func makeViewModel(chatRoom: ChatRoom, inModule moduleVM: ModuleViewModel) -> ChatRoomViewModel {
         switch chatRoom {
@@ -8,7 +10,7 @@ class ChatRoomViewModelFactory {
         case let chatRoom as ForumChatRoom:
             return ForumChatRoomViewModel(forumChatRoom: chatRoom, delegate: moduleVM.createChatRoomViewModel)
         case let chatRoom as ThreadChatRoom:
-            return ThreadChatRoomViewModel(threadChatRoom: chatRoom)
+            fatalError("ChatRoomViewModelFactory trying to get a thread chat room")
         default:
             fatalError("Abstract type ChatRoom was initiated")
         }

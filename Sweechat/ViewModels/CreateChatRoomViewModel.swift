@@ -100,7 +100,6 @@ class CreateChatRoomViewModel: ObservableObject {
 // MARK: ForumViewModelDelegate
 extension CreateChatRoomViewModel: ForumViewModelDelegate {
     func createThreadChatRoom(id: String, currentUser: User, forumMembers: [User]) {
-        print("Creating your thread")
         let threadChatRoom = ThreadChatRoom(postId: id, sender: currentUser, forumMembers: forumMembers)
         let permissionPairs = forumMembers.map {
             UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)

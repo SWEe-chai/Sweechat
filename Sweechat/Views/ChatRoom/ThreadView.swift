@@ -1,25 +1,16 @@
 import SwiftUI
 
 struct ThreadView: View {
-    @ObservedObject var viewModel: ForumChatRoomViewModel
+    @ObservedObject var viewModel: ThreadChatRoomViewModel
+    @State var replyPreviewMetadata: ReplyPreviewMetadata?
     var body: some View {
         VStack {
-            ForumPostView(viewModel: viewModel.threadViewModel.post)
-                .padding()
-            ScrollView {
-                ForEach(viewModel.threadViewModel.replies, id: \.self) { reply in
-                    MessageView(viewModel: reply, replyPreviewMetadata: .constant(nil))
-                }
-                .padding([.leading, .trailing])
-            }
-            MessageInputBarView(
-                viewModel: viewModel,
-                isShowingReply: false,
-                replyPreviewMetadata:
-                    .constant(
-                        ReplyPreviewMetadata(
-                            messageBeingRepliedTo: viewModel.threadViewModel.post))
-            )
+            ForumPostView(viewModel: viewModel.post).padding()
+            MessagesScrollView(viewModel: viewModel,
+                               replyPreviewMetadata: $replyPreviewMetadata)
+            MessageInputBarView(viewModel: viewModel,
+                                isShowingReply: true,
+                                replyPreviewMetadata: $replyPreviewMetadata)
         }.background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)

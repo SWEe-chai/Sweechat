@@ -117,12 +117,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
-        messagesReference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
-            if let e = error {
-                os_log("Error sending message: \(e.localizedDescription)")
-                return
+        messagesReference?
+            .document(message.id)
+            .setData(FirebaseMessageFacade.convert(message: message)) { error in
+                if let e = error {
+                    os_log("Error sending message: \(e.localizedDescription)")
+                    return
+                }
             }
-        }
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
@@ -144,6 +146,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
+        if users.isEmpty {
+            print("No users you bozo")
+        }
         self.publicKeyBundlesReference?
             .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
@@ -246,8 +251,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return ThreadChatRoom(
                 id: id,
                 ownerId: ownerId,
-                currentUser: user,
-                permission: permissions)
+                currentUser: user)
         }
     }
 
