@@ -7,7 +7,6 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     var forumSubscribers: [AnyCancellable] = []
 
     @Published var postViewModels: [MessageViewModel] = []
-    @Published var replyViewModels: [MessageViewModel] = []
     @Published private var threads: [ThreadChatRoomViewModel] = []
     var threadId: ThreadViewModel!
     private var prominentThreadId: String?
@@ -21,7 +20,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     }
 
     private func initialiseForumSubscribers() {
-        let postsSubscriber = forumChatRoom.subscribeToPosts { posts in
+        let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
             let currentPostsIds = Set(self.postViewModels.map { $0.id })
             let newPosts = posts.filter { !currentPostsIds.contains($0.id) }
             self.threads.append(contentsOf: newPosts.compactMap {
@@ -39,18 +38,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
             // TODO: When delete is implemented we should also get postIds of deleted messages and update
         }
 
-        let postIdToRepliesSubscriber = forumChatRoom.subscribeToReplies { replies in
-            self.replyViewModels = replies.compactMap {
-                MessageViewModelFactory
-                    .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                   delegate: self,
-                                   isSenderCurrentUser: self.user.id == $0.senderId)
-            }
-        }
-
         forumSubscribers.append(postsSubscriber)
-        forumSubscribers.append(postIdToRepliesSubscriber)
     }
 
     override func handleSendMessage(_ text: String, withParentId parentId: String?) {
