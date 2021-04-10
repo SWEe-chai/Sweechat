@@ -11,11 +11,11 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     @Published private var threads: [ThreadChatRoomViewModel] = []
     var threadId: ThreadViewModel!
     private var prominentThreadId: String?
-    private var threadCreator: ForumViewModelDelegate?
+    private var threadCreator: ThreadCreator?
 
-    init(forumChatRoom: ForumChatRoom, delegate: ForumViewModelDelegate) {
+    init(forumChatRoom: ForumChatRoom, creator: ThreadCreator) {
         self.forumChatRoom = forumChatRoom
-        self.threadCreator = delegate
+        self.threadCreator = creator
         super.init(chatRoom: forumChatRoom, user: forumChatRoom.currentUser)
         initialiseForumSubscribers()
     }

@@ -98,7 +98,7 @@ class CreateChatRoomViewModel: ObservableObject {
 }
 
 // MARK: ForumViewModelDelegate
-extension CreateChatRoomViewModel: ForumViewModelDelegate {
+extension CreateChatRoomViewModel: ThreadCreator {
     func createThreadChatRoom(id: String,
                               currentUser: User,
                               forumMembers: [User],
