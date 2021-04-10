@@ -147,6 +147,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         self.publicKeyBundlesReference?
+            // TODO: Chunk this users array so that we can ensure that it's less than 10
             .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
                 guard err == nil,

@@ -5,10 +5,8 @@ struct AnnouncementView: View {
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
-        // TODO: Added replyPreviewMetadata because of changes in MessagesScrollView. Change view in
-        // the future
         MessagesScrollView(viewModel: viewModel,
-                           replyPreviewMetadata: $replyPreviewMetadata)
+                           replyPreviewMetadata: .constant(nil))
             .background(ColorConstant.base)
             .navigationBarHidden(false)
             .navigationBarBackButtonHidden(false)
