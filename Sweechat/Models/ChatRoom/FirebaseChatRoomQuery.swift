@@ -48,7 +48,7 @@ class FirebaseChatRoomQuery {
                     let chatRooms: [ChatRoom] = documents.compactMap { document in
                         guard let chatRoomId = document[DatabaseConstant.ChatRoom.id] as? String,
                               let pair = pairs.first(where: { $0.chatRoomId == chatRoomId }) else {
-                            os_log("Unable extract \(document)")
+                            os_log("ChatRoomQuery: Unable extract chatRoomId from \(document) or pair not in \(pairs)")
                             return nil
                         }
                         return FirebaseChatRoomFacade.convert(
