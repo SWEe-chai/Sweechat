@@ -90,7 +90,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageFacade.convert(document: $0)
                 })
-                if delegate.provideKeyExchangeMesssages(messages: messages) {
+                if delegate.handleKeyExchangeMessages(keyExchangeMessages: messages) {
                     onCompletion?()
                 } else {
                     os_log("Key exchange failed, waiting for new keys")

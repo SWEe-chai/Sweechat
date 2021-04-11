@@ -169,10 +169,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = chatRoom.profilePictureUrl
     }
 
-    func provideKeyExchangeMesssages(messages: [Message]) -> Bool {
+    func handleKeyExchangeMessages(keyExchangeMessages: [Message]) -> Bool {
         // No key exchange messages and user is owner
         if currentUser.id == ownerId {
-            if messages.isEmpty {
+            if keyExchangeMessages.isEmpty {
                 os_log("Key bundles sent")
                 chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
                 storeMessage(
@@ -186,11 +186,11 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         }
 
         // This is for non group creators
-        guard let keyBundleMessage = messages.first else {
-            os_log("Key bundles not yet sent, number of key bundle messages: \(messages.count)")
+        guard let keyBundleMessage = keyExchangeMessages.first else {
+            os_log("Key bundles not yet sent, number of key bundle messages: \(keyExchangeMessages.count)")
             return false
         }
-        os_log("Received key bundles of size \(messages.count)")
+        os_log("Received key bundles of size \(keyExchangeMessages.count)")
         // process single key bundle message
         processKeyExchangeMessage(keyBundleMessage)
         return true
