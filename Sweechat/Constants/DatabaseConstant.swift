@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "forum-thread2"
+        static let dev = "type-safe-identifier"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev
