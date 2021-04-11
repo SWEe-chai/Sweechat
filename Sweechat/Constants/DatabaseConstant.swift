@@ -55,6 +55,7 @@ struct DatabaseConstant {
         static let id = "id"
         static let name = "name"
         static let profilePictureUrl = "profilePictureUrl"
+        static let token = "token"
     }
 
     struct Message {

@@ -1,4 +1,5 @@
 import FirebaseFirestore
+import FirebaseInstanceID
 import os
 
 class FirebaseUserFacade: UserFacade {
@@ -59,6 +60,9 @@ class FirebaseUserFacade: UserFacade {
             os_log("Error loading user: User id is empty")
             return
         }
+        usersReference
+            .document(userId)
+            .setData(["token": FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
