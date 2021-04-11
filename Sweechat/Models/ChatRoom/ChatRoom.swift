@@ -171,26 +171,27 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func provideKeyExchangeMesssages(messages: [Message]) -> Bool {
         // No key exchange messages and user is owner
-        if messages.isEmpty && currentUser.id == ownerId {
-            chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
-            storeMessage(
-                message: Message(
-                    senderId: currentUser.id,
-                    content: Data(),
-                    type: .keyExchange,
-                    receiverId: currentUser.id, parentId: nil))
+        if currentUser.id == ownerId {
+            if messages.isEmpty {
+                chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
+                storeMessage(
+                    message: Message(
+                        senderId: currentUser.id,
+                        content: Data(),
+                        type: .keyExchange,
+                        receiverId: currentUser.id, parentId: nil))
+            }
             return true
         }
 
-        // Extracting the single key bundle message
-        guard let keyBundleMessage = messages.first,
-              messages.count == 1 else {
+        // This is for non group creators
+        guard let keyBundleMessage = messages.first else {
             os_log("Key bundles not yet sent, number of key bundle messages: \(messages.count)")
             return false
         }
 
         // process single key bundle message
-        processMessage(keyBundleMessage)
+        processKeyExchangeMessage(keyBundleMessage)
         return true
     }
 

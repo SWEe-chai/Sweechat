@@ -49,12 +49,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
-            .whereField(DatabaseConstant.Message.receiverId, in: [ChatRoom.allUsersId])
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId)
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
-        loadMembers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
+        loadMembers(onCompletion: {
+            self.loadKeyExchangeMessages(onCompletion: {
+                self.loadMessages(onCompletion: self.addListeners)
+            })
+        })
     }
 
     private func loadMembers(onCompletion: (() -> Void)?) {
@@ -75,8 +79,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     private func loadKeyExchangeMessages(onCompletion: (() -> Void)?) {
         messagesReference?
-            .whereField(DatabaseConstant.Message.type, in: [MessageType.keyExchange.rawValue])
-            .whereField(DatabaseConstant.Message.receiverId, in: [user.id])
+            .whereField(DatabaseConstant.Message.type, isEqualTo: MessageType.keyExchange.rawValue)
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: user.id)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let delegate = self.delegate else {
