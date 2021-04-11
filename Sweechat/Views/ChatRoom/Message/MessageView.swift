@@ -66,11 +66,8 @@ struct MessageView: View {
             viewModel.toggleLike()
         } label: {
             let countLabel = "\(viewModel.likesCount)"
-            if viewModel.isCurrentUserLiking {
-                Label(countLabel, systemImage: "hand.thumbsup.fill")
-            } else {
-                Label(countLabel, systemImage: "hand.thumbsup")
-            }
+            let systemImage = viewModel.isCurrentUserLiking ? "hand.thumbsup.fill" : "hand.thumbsup"
+            Label(countLabel, systemImage: systemImage)
         }
     }
 
