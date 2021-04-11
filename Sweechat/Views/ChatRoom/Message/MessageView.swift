@@ -29,7 +29,8 @@ struct MessageView: View {
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
-                Text("Likes: \(viewModel.likesCount)")
+                likeButton()
+                    .padding(.vertical, 1)
             }
             .padding(10)
             .foregroundColor(viewModel.foregroundColor)
@@ -38,7 +39,6 @@ struct MessageView: View {
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .contextMenu {
                 contextMenuReplyButton()
-                contextMenuLikeButton()
                 if viewModel.isRightAlign {
                     if viewModel.isEditable {
                         contextMenuEditButton()
@@ -61,14 +61,15 @@ struct MessageView: View {
         }
     }
 
-    private func contextMenuLikeButton() -> some View {
+    private func likeButton() -> some View {
         Button {
             viewModel.toggleLike()
         } label: {
+            let countLabel = "\(viewModel.likesCount)"
             if viewModel.isCurrentUserLiking {
-                Label("Unlike", systemImage: "hand.thumbsdown")
+                Label(countLabel, systemImage: "hand.thumbsup.fill")
             } else {
-                Label("Like", systemImage: "hand.thumbsup")
+                Label(countLabel, systemImage: "hand.thumbsup")
             }
         }
     }
@@ -104,7 +105,7 @@ struct MessageView_Previews: PreviewProvider {
                                                                parentId: nil, likers: []),
                                               sender: User(id: "123",
                                                            name: "Christine Jane Welly"),
-                                              currentUserId: "123")
+                                              currentUserId: "1234")
 
     static var longMessage = """
     Hello this is a very long message. I hope you are able to bear with me for this one. I am just previewing afterall.
