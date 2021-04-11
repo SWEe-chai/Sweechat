@@ -8,5 +8,6 @@
 protocol ModuleFacade {
     var delegate: ModuleFacadeDelegate? { get set }
     func save(chatRoom: ChatRoom,
-              userPermissions: [UserPermissionPair])
+              userPermissions: [UserPermissionPair],
+              onCompletion: (() -> Void)?)
 }

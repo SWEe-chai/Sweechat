@@ -45,8 +45,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          members: [User],
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
+         givenChatRoomId: String = UUID().uuidString,
          profilePictureUrl: String? = nil) {
-        self.id = UUID().uuidString
+        self.id = givenChatRoomId
         self.name = name
         self.ownerId = currentUser.id
         self.currentUser = currentUser
