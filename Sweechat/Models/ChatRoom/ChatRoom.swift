@@ -204,6 +204,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.name = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
     }
+
+    func delete(message: Message) {
+        chatRoomFacade?.delete(message)
+    }
 }
 
 extension ChatRoom: Equatable {

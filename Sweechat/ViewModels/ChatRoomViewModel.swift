@@ -130,6 +130,6 @@ extension ChatRoomViewModel: MessageActionsViewModelDelegate {
     }
 
     func delete(message: Message) {
-        print("Deleted")
+        chatRoom.delete(message: message)
     }
 }
