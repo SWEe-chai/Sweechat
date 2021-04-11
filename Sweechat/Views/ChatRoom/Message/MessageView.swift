@@ -37,6 +37,7 @@ struct MessageView: View {
             .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .contextMenu {
                 contextMenuReplyButton()
+                contextMenuLikeButton()
                 if viewModel.isRightAlign {
                     if viewModel.isEditable {
                         contextMenuEditButton()
@@ -56,6 +57,14 @@ struct MessageView: View {
             replyTo(message: viewModel)
         } label: {
             Label("Reply", systemImage: "arrowshape.turn.up.left")
+        }
+    }
+
+    private func contextMenuLikeButton() -> some View {
+        Button {
+            print("Liked")
+        } label: {
+            Label("Like", systemImage: "hand.thumbsup")
         }
     }
 

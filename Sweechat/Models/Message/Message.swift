@@ -1,7 +1,6 @@
 import Combine
 import Foundation
 
-
 typealias UserId = String // TODO: Make use of type-safe identifiers
 
 class Message: ObservableObject {
