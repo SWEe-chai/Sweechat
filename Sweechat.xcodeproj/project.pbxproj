@@ -110,6 +110,7 @@
 		45210D862607582000B54155 /* HomeViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D852607582000B54155 /* HomeViewModelIntegrationTests.swift */; };
 		45210D8B260758FC00B54155 /* SettingsViewModelIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D8A260758FC00B54155 /* SettingsViewModelIntegrationTests.swift */; };
 		45210D9026075B1900B54155 /* MessageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45210D8F26075B1900B54155 /* MessageViewModelTests.swift */; };
+		4575A8292621D6D400B144A5 /* MessageActionsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */; };
 		4583D9902616055B0092AF87 /* KeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4583D9812616055B0092AF87 /* KeyFactory.swift */; };
 		4583D9912616055B0092AF87 /* P256KeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4583D9822616055B0092AF87 /* P256KeyFactory.swift */; };
 		4583D9922616055B0092AF87 /* SignalProtocolError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4583D9842616055B0092AF87 /* SignalProtocolError.swift */; };
@@ -320,6 +321,7 @@
 		45210D852607582000B54155 /* HomeViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelIntegrationTests.swift; sourceTree = "<group>"; };
 		45210D8A260758FC00B54155 /* SettingsViewModelIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelIntegrationTests.swift; sourceTree = "<group>"; };
 		45210D8F26075B1900B54155 /* MessageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModelTests.swift; sourceTree = "<group>"; };
+		4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionsViewModelDelegate.swift; sourceTree = "<group>"; };
 		4583D9812616055B0092AF87 /* KeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyFactory.swift; sourceTree = "<group>"; };
 		4583D9822616055B0092AF87 /* P256KeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P256KeyFactory.swift; sourceTree = "<group>"; };
 		4583D9842616055B0092AF87 /* SignalProtocolError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalProtocolError.swift; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 			children = (
 				272AA9672610D22700584D84 /* HomeViewModelDelegate.swift */,
 				272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */,
+				4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */,
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
 			);
 			path = Delegate;
@@ -1431,6 +1434,7 @@
 				271CA0842612045300695F17 /* HomeView.swift in Sources */,
 				4583D9982616055B0092AF87 /* PrivateKey.swift in Sources */,
 				2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */,
+				4575A8292621D6D400B144A5 /* MessageActionsViewModelDelegate.swift in Sources */,
 				775CA65A260B4AF30012C420 /* FirebaseModuleFacade.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				4583D9962616055B0092AF87 /* P256PublicKey.swift in Sources */,

@@ -169,6 +169,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = chatRoom.profilePictureUrl
     }
 
+    func delete(message: Message) {
+        chatRoomFacade?.delete(message)
+    }
+
     func handleKeyExchangeMessages(keyExchangeMessages: [Message]) -> Bool {
         // No key exchange messages and user is owner
         if currentUser.id == ownerId {
