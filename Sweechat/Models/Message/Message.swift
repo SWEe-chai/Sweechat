@@ -1,6 +1,9 @@
 import Combine
 import Foundation
 
+
+typealias UserId = String // TODO: Make use of type-safe identifiers
+
 class Message: ObservableObject {
     let parentId: String?
     var id: String
@@ -9,6 +12,7 @@ class Message: ObservableObject {
     var senderId: String
     var type: MessageType
     var receiverId: String
+    var likers: Set<UserId>
 
     // This message init is for creating new messages in the front end
     init(senderId: String, content: Data, type: MessageType,
@@ -20,6 +24,7 @@ class Message: ObservableObject {
         self.type = type
         self.receiverId = receiverId
         self.parentId = parentId
+        self.likers = []
     }
 
     // This message init is for facade to translate
@@ -32,6 +37,7 @@ class Message: ObservableObject {
         self.type = type
         self.receiverId = receiverId
         self.parentId = parentId
+        self.likers = []
     }
 
     func update(message: Message) {
