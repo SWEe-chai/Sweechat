@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "forum-thread4"
+        static let dev = "so-i-herd-u-liek-mudkipz"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = dev
@@ -64,6 +64,7 @@ struct DatabaseConstant {
         static let type = "type"
         static let receiverId = "receiverId"
         static let parentId = "parentId"
+        static let likers = "likers"
     }
 
     struct PublicKeyBundle {

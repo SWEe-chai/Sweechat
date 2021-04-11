@@ -64,11 +64,12 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func storeMessage(message: Message) {
-        if message.type != MessageType.keyExchange {
-            message.content = encryptMessageContent(message: message)
+        let messageCopy = message.copy()
+        if messageCopy.type != MessageType.keyExchange {
+            messageCopy.content = encryptMessageContent(message: messageCopy)
         }
 
-        self.chatRoomFacade?.save(message)
+        self.chatRoomFacade?.save(messageCopy)
     }
 
     private func encryptMessageContent(message: Message) -> Data {

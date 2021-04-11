@@ -10,14 +10,14 @@ import Foundation
 class TextMessageViewModel: MessageViewModel {
     @Published var text: String
 
-    init(message: Message, sender: User, isSenderCurrentUser: Bool) {
+    init(message: Message, sender: User, currentUserId: UserId) {
         self.text = message.content.toString()
-        super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser, isEditable: true)
+        super.init(message: message, sender: sender, currentUserId: currentUserId, isEditable: true)
 
-        subscriber = message.subscribeToContent { content in
+        subscribers.append(message.subscribeToContent { content in
             self.text = content.toString()
             super.objectWillChange.send()
-        }
+        })
     }
 
     // MARK: Message Reply
