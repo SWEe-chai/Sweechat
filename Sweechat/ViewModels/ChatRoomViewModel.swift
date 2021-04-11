@@ -145,19 +145,7 @@ extension ChatRoomViewModel: MessageActionsViewModelDelegate {
     }
 
     func toggleLike(messageViewModel: MessageViewModel) {
-        if messageViewModel.message.likers.contains(user.id) {
-            os_log("""
-                Unliking: The messageViewModel.message with id: \(messageViewModel.id)
-                already contains user \(self.user.id) as liker
-                """)
-            messageViewModel.message.likers.remove(user.id)
-        } else {
-            os_log("""
-                Liking: The messageViewModel.message with id: \(messageViewModel.id)
-                does not contain user \(self.user.id) as liker
-                """)
-            messageViewModel.message.likers.insert(user.id)
-        }
+        messageViewModel.message.toggleLike(of: user.id)
         self.chatRoom.storeMessage(message: messageViewModel.message)
     }
 }

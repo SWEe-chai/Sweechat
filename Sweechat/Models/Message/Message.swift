@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import os
 
 typealias UserId = String // TODO: Make use of type-safe identifiers
 
@@ -45,6 +46,17 @@ class Message: ObservableObject {
         }
     }
 
+    func toggleLike(of userId: UserId) {
+        if likers.contains(userId) {
+            os_log("INFO: user \(userId) is in message \(self.id)'s likers")
+            likers.remove(userId)
+        } else {
+            os_log("INFO: user \(userId) is NOT in message \(self.id)'s likers")
+            likers.insert(userId)
+        }
+    }
+
+    // MARK: Subscriptions
     func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
         $content.sink(receiveValue: function)
     }
