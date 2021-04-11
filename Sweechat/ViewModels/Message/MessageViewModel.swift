@@ -3,11 +3,11 @@ import Combine
 import os
 
 class MessageViewModel: ObservableObject {
-    private var message: Message
     private var sender: User
     private var isSenderCurrentUser: Bool
     weak var delegate: MessageActionsViewModelDelegate?
     var isEditable: Bool
+    var message: Message
     var subscriber: AnyCancellable?
 
     // MARK: IDs
@@ -51,11 +51,11 @@ class MessageViewModel: ObservableObject {
     }
 
     func edit() {
-        delegate?.edit(message: message)
+        delegate?.edit(messageViewModel: self)
     }
 
     func delete() {
-        delegate?.delete(message: message)
+        delegate?.delete(messageViewModel: self)
     }
 }
 

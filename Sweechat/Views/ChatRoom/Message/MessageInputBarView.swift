@@ -2,7 +2,7 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    var viewModel: ChatRoomViewModel
+    @ObservedObject var viewModel: ChatRoomViewModel
     var isShowingReply: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
@@ -12,7 +12,6 @@ struct MessageInputBarView: View {
     @State private var media: Any?
     @State private var mediaType: MediaType?
     @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
-    @Binding var editedMessageContent: String?
 
     var body: some View {
         VStack {
@@ -34,10 +33,8 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
-                    .onChange(of: editedMessageContent) { _ in
-                        if let editedMessageContent = editedMessageContent {
-                            typingMessage = editedMessageContent
-                        }
+                    .onChange(of: viewModel.editedMessageViewModel) { _ in
+                        typingMessage = viewModel.editedMessageContent
                     }
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
@@ -131,8 +128,7 @@ struct MessageInputBarView_Previews: PreviewProvider {
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ),
             isShowingReply: true,
-            replyPreviewMetadata: Binding.constant(nil),
-            editedMessageContent: Binding.constant(nil))
+            replyPreviewMetadata: Binding.constant(nil))
     }
 }
 
