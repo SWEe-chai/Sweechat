@@ -96,7 +96,7 @@ struct MessageView_Previews: PreviewProvider {
                                                                creationTime: Date(),
                                                                content: "The message I sent".toData(),
                                                                type: MessageType.text, receiverId: "111",
-                                                               parentId: nil),
+                                                               parentId: nil, likers: []),
                                               sender: User(id: "123",
                                                            name: "Christine Jane Welly"),
                                               isSenderCurrentUser: false)
@@ -113,7 +113,7 @@ struct MessageView_Previews: PreviewProvider {
                                                               content: longMessage.toData(),
                                                               type: MessageType.text,
                                                               receiverId: "111",
-                                                              parentId: nil),
+                                                              parentId: nil, likers: []),
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
                                              isSenderCurrentUser: false)

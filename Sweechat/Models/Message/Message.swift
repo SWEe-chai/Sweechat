@@ -28,7 +28,7 @@ class Message: ObservableObject {
 
     // This message init is for facade to translate
     init(id: String, senderId: String, creationTime: Date,
-         content: Data, type: MessageType, receiverId: String, parentId: String?) {
+         content: Data, type: MessageType, receiverId: String, parentId: String?, likers: Set<UserId>) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
@@ -36,7 +36,7 @@ class Message: ObservableObject {
         self.type = type
         self.receiverId = receiverId
         self.parentId = parentId
-        self.likers = []
+        self.likers = likers
     }
 
     func update(message: Message) {

@@ -64,6 +64,7 @@ struct DatabaseConstant {
         static let type = "type"
         static let receiverId = "receiverId"
         static let parentId = "parentId"
+        static let likers = "likers"
     }
 
     struct PublicKeyBundle {
