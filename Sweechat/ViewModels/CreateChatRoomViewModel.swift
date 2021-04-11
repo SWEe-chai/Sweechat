@@ -107,8 +107,6 @@ extension CreateChatRoomViewModel: ThreadCreator {
         let permissionPairs = forumMembers.map {
             UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)
         }
-        module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs) {
-            onCompletion?()
-        }
+        module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs, onCompletion: onCompletion)
     }
 }

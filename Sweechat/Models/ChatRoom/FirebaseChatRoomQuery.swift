@@ -48,6 +48,7 @@ class FirebaseChatRoomQuery {
                     let chatRooms: [ChatRoom] = documents.compactMap { document in
                         guard let chatRoomId = document[DatabaseConstant.ChatRoom.id] as? String,
                               let pair = pairs.first(where: { $0.chatRoomId == chatRoomId }) else {
+                            os_log("Unable extract \(document)")
                             return nil
                         }
                         return FirebaseChatRoomFacade.convert(
@@ -57,14 +58,6 @@ class FirebaseChatRoomQuery {
                     }
                     onCompletion(chatRooms)
                 }
-        }
-    }
-}
-
-extension Array {
-    func chunked(into size: Int) -> [[Element]] {
-        stride(from: 0, to: count, by: size).map {
-            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }

@@ -21,6 +21,7 @@
 		27598E542616074E00DF564F /* FirebaseUserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E532616074E00DF564F /* FirebaseUserQuery.swift */; };
 		27598E59261609F600DF564F /* FirebaseChatRoomQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E58261609F600DF564F /* FirebaseChatRoomQuery.swift */; };
 		27598E5E26162FA000DF564F /* FirebaseModuleQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598E5D26162FA000DF564F /* FirebaseModuleQuery.swift */; };
+		276476B32622A45D0074786E /* Array+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276476B22622A45D0074786E /* Array+Chunk.swift */; };
 		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
 		2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
@@ -230,6 +231,7 @@
 		27598E532616074E00DF564F /* FirebaseUserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserQuery.swift; sourceTree = "<group>"; };
 		27598E58261609F600DF564F /* FirebaseChatRoomQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseChatRoomQuery.swift; sourceTree = "<group>"; };
 		27598E5D26162FA000DF564F /* FirebaseModuleQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModuleQuery.swift; sourceTree = "<group>"; };
+		276476B22622A45D0074786E /* Array+Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunk.swift"; sourceTree = "<group>"; };
 		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
 		2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelType.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
@@ -461,6 +463,14 @@
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
 			);
 			path = Delegate;
+			sourceTree = "<group>";
+		};
+		276476B12622A44D0074786E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				276476B22622A45D0074786E /* Array+Chunk.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		2766C904260B0EC80066361F /* Login */ = {
@@ -834,6 +844,7 @@
 		45D6332425FDE2B100C94D4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				276476B12622A44D0074786E /* Extensions */,
 				45834C3226106C8200B888B5 /* Cryptography */,
 				77394BF1260D95590068B01F /* ModuleList */,
 				77394BEA260D94B60068B01F /* FirebaseUserChatRoomModulePair */,
@@ -1344,6 +1355,7 @@
 				4583D9932616055B0092AF87 /* SignalProtocol.swift in Sources */,
 				45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */,
 				3E96F2E526144AFA003E9C27 /* VideoMessageViewModel.swift in Sources */,
+				276476B32622A45D0074786E /* Array+Chunk.swift in Sources */,
 				27885837261053ED0058ADB2 /* JoinModuleView.swift in Sources */,
 				77C5D08626103403005D5504 /* MemberItemViewModel.swift in Sources */,
 				3EA4BD4C26206A82008C21C8 /* StoredVideoData+CoreDataClass.swift in Sources */,
