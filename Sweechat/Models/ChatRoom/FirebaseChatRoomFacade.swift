@@ -195,6 +195,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
+    func delete(_ message: Message) {
+        self.messagesReference?
+            .document(message.id)
+            .delete { err in
+                if err != nil {
+                    os_log("Error deleting message")
+                }
+            }
+    }
+
     private func handleMessageDocumentChange(_ change: DocumentChange) {
         guard let message = FirebaseMessageFacade.convert(document: change.document) else {
             return

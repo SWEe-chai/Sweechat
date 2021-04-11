@@ -3,9 +3,11 @@ import Combine
 import os
 
 class MessageViewModel: ObservableObject {
-    private var message: Message
     private var sender: User
     private var isSenderCurrentUser: Bool
+    weak var delegate: MessageActionsViewModelDelegate?
+    var isEditable: Bool
+    var message: Message
     var subscriber: AnyCancellable?
 
     // MARK: IDs
@@ -34,10 +36,11 @@ class MessageViewModel: ObservableObject {
         sender.name
     }
 
-    init(message: Message, sender: User, isSenderCurrentUser: Bool) {
+    init(message: Message, sender: User, isSenderCurrentUser: Bool, isEditable: Bool) {
         self.message = message
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
+        self.isEditable = isEditable
     }
 
     // MARK: Message Reply
@@ -45,6 +48,14 @@ class MessageViewModel: ObservableObject {
     func previewContent() -> String {
         os_log("previewContent() in MessageViewModel called. Did you forget to implement in a subclass?")
         return "Message"
+    }
+
+    func edit() {
+        delegate?.edit(messageViewModel: self)
+    }
+
+    func delete() {
+        delegate?.delete(messageViewModel: self)
     }
 }
 

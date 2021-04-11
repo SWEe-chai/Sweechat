@@ -38,7 +38,9 @@ struct MessageView: View {
             .contextMenu {
                 contextMenuReplyButton()
                 if viewModel.isRightAlign {
-                    contextMenuEditButton()
+                    if viewModel.isEditable {
+                        contextMenuEditButton()
+                    }
                     Divider()
                     contextMenuDeleteButton()
                 }
@@ -59,7 +61,7 @@ struct MessageView: View {
 
     private func contextMenuEditButton() -> some View {
         Button {
-            print("Edited")
+            viewModel.edit()
         } label: {
             Label("Edit", systemImage: "square.and.pencil")
         }
@@ -67,7 +69,7 @@ struct MessageView: View {
 
     private func contextMenuDeleteButton() -> some View {
         Button {
-            print("Deleted")
+            viewModel.delete()
         } label: {
             Label("Delete", systemImage: "trash")
         }
