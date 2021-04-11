@@ -40,6 +40,9 @@ class MessageViewModel: ObservableObject {
         sender.name
     }
     @Published var likesCount: Int
+    var isCurrentUserLiking: Bool {
+        message.likers.contains(currentUserId)
+    }
 
     init(message: Message, sender: User, currentUserId: UserId, isEditable: Bool) {
         self.message = message

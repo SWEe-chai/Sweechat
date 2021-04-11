@@ -65,7 +65,11 @@ struct MessageView: View {
         Button {
             viewModel.toggleLike()
         } label: {
-            Label("Like", systemImage: "hand.thumbsup")
+            if viewModel.isCurrentUserLiking {
+                Label("Unlike", systemImage: "hand.thumbsdown")
+            } else {
+                Label("Like", systemImage: "hand.thumbsup")
+            }
         }
     }
 
