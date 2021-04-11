@@ -4,6 +4,7 @@ import os
 struct MessageInputBarView: View {
     var viewModel: ChatRoomViewModel
     var isShowingReply: Bool
+    var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
     @State private var showingModal = false
     @State private var modalView: ModalView?
@@ -42,9 +43,11 @@ struct MessageInputBarView: View {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(ColorConstant.dark)
                 }
-                Button(action: openActionSheet) {
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(ColorConstant.dark)
+                if allowSendMedia {
+                    Button(action: openActionSheet) {
+                        Image(systemName: "plus.circle")
+                            .foregroundColor(ColorConstant.dark)
+                    }
                 }
             }
         }

@@ -32,28 +32,30 @@ class FirebaseModuleQuery {
             onCompletion([])
             return
         }
-        FirebaseUtils
-            .getEnvironmentReference(Firestore.firestore())
-            .collection(DatabaseConstant.Collection.modules)
-            .whereField(DatabaseConstant.Module.id, in: moduleIds)
-            .getDocuments { snapshots, error in
-                guard let documents = snapshots?.documents else {
-                    os_log("Error getting Modules from: \(pairs)")
-                    os_log("Error \(error?.localizedDescription ?? "No error")")
-                    return
-                }
-                let modules: [Module] = documents.compactMap { document in
-                    guard let moduleId = document[DatabaseConstant.Module.id] as? String,
-                          let pair = pairs.first(where: { $0.moduleId == moduleId }) else {
-                        os_log("Unable to find pair with the desired moduleId. Document: %s",
-                               String(describing: document))
-                        return nil
+        for moduleIdChunk in moduleIds.chunked(into: 10) {
+            FirebaseUtils
+                .getEnvironmentReference(Firestore.firestore())
+                .collection(DatabaseConstant.Collection.modules)
+                .whereField(DatabaseConstant.Module.id, in: moduleIdChunk)
+                .getDocuments { snapshots, error in
+                    guard let documents = snapshots?.documents else {
+                        os_log("Error getting Modules from: \(pairs)")
+                        os_log("Error \(error?.localizedDescription ?? "No error")")
+                        return
                     }
-                    return FirebaseModuleFacade.convert(document: document,
-                                                        user: user,
-                                                        withPermissions: pair.permissions)
+                    let modules: [Module] = documents.compactMap { document in
+                        guard let moduleId = document[DatabaseConstant.Module.id] as? String,
+                              let pair = pairs.first(where: { $0.moduleId == moduleId }) else {
+                            os_log("Unable to find pair with the desired moduleId. Document: %s",
+                                   String(describing: document))
+                            return nil
+                        }
+                        return FirebaseModuleFacade.convert(document: document,
+                                                            user: user,
+                                                            withPermissions: pair.permissions)
+                    }
+                    onCompletion(modules)
                 }
-                onCompletion(modules)
-            }
+        }
     }
 }

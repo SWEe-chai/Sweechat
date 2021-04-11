@@ -17,19 +17,21 @@ class FirebaseUserQuery {
             onCompletion([])
             return
         }
-        FirebaseUtils
-            .getEnvironmentReference(Firestore.firestore())
-            .collection(DatabaseConstant.Collection.users)
-            .whereField(DatabaseConstant.User.id, in: ids)
-            .getDocuments { snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                    return
+        for idsChunk in ids.chunked(into: 10) {
+            FirebaseUtils
+                .getEnvironmentReference(Firestore.firestore())
+                .collection(DatabaseConstant.Collection.users)
+                .whereField(DatabaseConstant.User.id, in: idsChunk)
+                .getDocuments { snapshot, error in
+                    guard let documents = snapshot?.documents else {
+                        os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                        return
+                    }
+                    let users: [User] = documents.compactMap {
+                        FirebaseUserFacade.convert(document: $0)
+                    }
+                    onCompletion(users)
                 }
-                let users: [User] = documents.compactMap {
-                    FirebaseUserFacade.convert(document: $0)
-                }
-                onCompletion(users)
-            }
+        }
     }
 }

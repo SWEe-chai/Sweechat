@@ -34,27 +34,30 @@ class FirebaseChatRoomQuery {
             onCompletion([])
             return
         }
-        FirebaseUtils
-            .getEnvironmentReference(Firestore.firestore())
-            .collection(DatabaseConstant.Collection.chatRooms)
-            .whereField(DatabaseConstant.ChatRoom.id, in: chatRoomIds)
-            .getDocuments { snapshots, error in
-                guard let documents = snapshots?.documents else {
-                    os_log("Getting chatrooms: ChatRooms with Id: \(chatRoomIds) does not exist")
-                    os_log("Error \(error?.localizedDescription ?? "No error")")
-                    return
-                }
-                let chatRooms: [ChatRoom] = documents.compactMap { document in
-                    guard let chatRoomId = document[DatabaseConstant.ChatRoom.id] as? String,
-                          let pair = pairs.first(where: { $0.chatRoomId == chatRoomId }) else {
-                        return nil
+        for chatRoomIdChunk in chatRoomIds.chunked(into: 10) {
+            FirebaseUtils
+                .getEnvironmentReference(Firestore.firestore())
+                .collection(DatabaseConstant.Collection.chatRooms)
+                .whereField(DatabaseConstant.ChatRoom.id, in: chatRoomIdChunk)
+                .getDocuments { snapshots, error in
+                    guard let documents = snapshots?.documents else {
+                        os_log("Getting chatrooms: ChatRooms with Id: \(chatRoomIdChunk) does not exist")
+                        os_log("Error \(error?.localizedDescription ?? "No error")")
+                        return
                     }
-                    return FirebaseChatRoomFacade.convert(
-                        document: document,
-                        user: user,
-                        withPermissions: pair.permissions)
+                    let chatRooms: [ChatRoom] = documents.compactMap { document in
+                        guard let chatRoomId = document[DatabaseConstant.ChatRoom.id] as? String,
+                              let pair = pairs.first(where: { $0.chatRoomId == chatRoomId }) else {
+                            os_log("ChatRoomQuery: Unable extract chatRoomId from \(document) or pair not in \(pairs)")
+                            return nil
+                        }
+                        return FirebaseChatRoomFacade.convert(
+                            document: document,
+                            user: user,
+                            withPermissions: pair.permissions)
+                    }
+                    onCompletion(chatRooms)
                 }
-                onCompletion(chatRooms)
-            }
+        }
     }
 }

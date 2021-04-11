@@ -117,12 +117,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func save(_ message: Message) {
-        messagesReference?.addDocument(data: FirebaseMessageFacade.convert(message: message)) { error in
-            if let e = error {
-                os_log("Error sending message: \(e.localizedDescription)")
-                return
+        messagesReference?
+            .document(message.id)
+            .setData(FirebaseMessageFacade.convert(message: message)) { error in
+                if let e = error {
+                    os_log("Error sending message: \(e.localizedDescription)")
+                    return
+                }
             }
-        }
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
@@ -145,6 +147,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         self.publicKeyBundlesReference?
+            // TODO: Chunk this users array so that we can ensure that it's less than 10
             .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
             .getDocuments { querySnapshot, err in
                 guard err == nil,
@@ -252,6 +255,11 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 currentUser: user,
                 currentUserPermission: permissions,
                 profilePictureUrl: profilePictureUrl)
+        case .thread:
+            return ThreadChatRoom(
+                id: id,
+                ownerId: ownerId,
+                currentUser: user)
         }
     }
 
@@ -269,6 +277,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.groupChat.rawValue
         case chatRoom as ForumChatRoom:
             document[DatabaseConstant.ChatRoom.type] = ChatRoomType.forum.rawValue
+        case chatRoom as ThreadChatRoom:
+            document[DatabaseConstant.ChatRoom.type] = ChatRoomType.thread.rawValue
         default:
             os_log("Firebase ChatRoom Facade: Trying to convert abstract class ChatRoom")
             fatalError("ChatRoom must be either a group chat or private chat")

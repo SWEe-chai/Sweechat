@@ -64,11 +64,12 @@ class Module: ObservableObject {
         self.moduleFacade?.delegate = self
     }
 
-    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair]) {
+    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair], onCompletion: (() -> Void)? = nil) {
         assert(chatRoom.members.count == userPermissions.count)
         self.moduleFacade?.save(
             chatRoom: chatRoom,
-            userPermissions: userPermissions)
+            userPermissions: userPermissions,
+            onCompletion: onCompletion)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
@@ -87,7 +88,8 @@ class Module: ObservableObject {
 // MARK: ModuleFacadeDelegate
 extension Module: ModuleFacadeDelegate {
     func insert(chatRoom: ChatRoom) {
-        guard !self.chatRooms.contains(chatRoom) else {
+        guard !self.chatRooms.contains(chatRoom),
+              chatRoom as? ThreadChatRoom == nil else {
             return
         }
         chatRoom.setChatRoomConnection()
@@ -95,8 +97,9 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
-        chatRooms.forEach { $0.setChatRoomConnection() }
-        self.chatRooms = chatRooms
+        let newChatRooms = chatRooms.filter({ $0 as? ThreadChatRoom == nil }).filter({ !chatRooms.contains($0) })
+        newChatRooms.forEach { $0.setChatRoomConnection() }
+        self.chatRooms.append(contentsOf: newChatRooms)
     }
 
     func remove(chatRoom: ChatRoom) {
