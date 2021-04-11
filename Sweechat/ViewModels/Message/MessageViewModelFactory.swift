@@ -9,7 +9,7 @@ struct MessageViewModelFactory {
     static func makeViewModel(
         message: Message,
         sender: User,
-        delegate: MediaMessageViewModelDelegate & MessageActionsViewModelDelegate,
+        delegate: MediaMessageViewModelDelegate,
         isSenderCurrentUser: Bool) -> MessageViewModel? {
         switch message.type {
         case .text:
