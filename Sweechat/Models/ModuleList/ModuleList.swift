@@ -48,8 +48,9 @@ extension ModuleList: ModuleListFacadeDelegate {
     }
 
     func insertAll(modules: [Module]) {
-        modules.forEach { $0.setModuleConnection() }
-        self.modules = modules
+        let newModules = modules.filter({ !modules.contains($0) })
+        newModules.forEach { $0.setModuleConnection() }
+        self.modules.append(contentsOf: newModules)
     }
 
     func remove(module: Module) {
