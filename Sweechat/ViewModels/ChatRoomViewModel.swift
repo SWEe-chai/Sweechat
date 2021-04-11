@@ -38,7 +38,7 @@ class ChatRoomViewModel: ObservableObject {
                                 .makeViewModel(message: $0,
                                                sender: chatRoom.getUser(userId: $0.id),
                                                delegate: self,
-                                               isSenderCurrentUser: user.id == $0.senderId)
+                                               currentUserId: user.id)
             viewModel?.delegate = self
             return viewModel
         }
@@ -54,7 +54,7 @@ class ChatRoomViewModel: ObservableObject {
                                     .makeViewModel(message: $0,
                                                    sender: self.chatRoom.getUser(userId: $0.senderId),
                                                    delegate: self,
-                                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                                                   currentUserId: self.user.id)
                 viewModel?.delegate = self
                 return viewModel
             }
@@ -142,5 +142,12 @@ extension ChatRoomViewModel: MessageActionsViewModelDelegate {
 
     func delete(messageViewModel: MessageViewModel) {
         chatRoom.delete(message: messageViewModel.message)
+    }
+
+    func toggleLike(messageViewModel: MessageViewModel) {
+        messageViewModel.message.toggleLike(of: user.id)
+        // NOTE: This may cause a race condition if two likes are sent at around the same time.
+        // However, it will be a no-fix for now because of the small scale of the application
+        self.chatRoom.storeMessage(message: messageViewModel.message)
     }
 }
