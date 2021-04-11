@@ -100,7 +100,7 @@ struct MessageView_Previews: PreviewProvider {
                                                                parentId: nil, likers: []),
                                               sender: User(id: "123",
                                                            name: "Christine Jane Welly"),
-                                              isSenderCurrentUser: false)
+                                              currentUserId: "123")
 
     static var longMessage = """
     Hello this is a very long message. I hope you are able to bear with me for this one. I am just previewing afterall.
@@ -117,7 +117,7 @@ struct MessageView_Previews: PreviewProvider {
                                                               parentId: nil, likers: []),
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
-                                             isSenderCurrentUser: false)
+                                             currentUserId: "123")
     static var previews: some View {
         MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
     }

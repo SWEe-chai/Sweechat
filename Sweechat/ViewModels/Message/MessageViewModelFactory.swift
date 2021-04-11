@@ -10,25 +10,25 @@ struct MessageViewModelFactory {
         message: Message,
         sender: User,
         delegate: MediaMessageViewModelDelegate,
-        isSenderCurrentUser: Bool) -> MessageViewModel? {
+        currentUserId: UserId) -> MessageViewModel? {
         switch message.type {
         case .text:
             return TextMessageViewModel(
                 message: message,
                 sender: sender,
-                isSenderCurrentUser: isSenderCurrentUser)
+                currentUserId: currentUserId)
         case .image:
             return ImageMessageViewModel(
                 message: message,
                 sender: sender,
                 delegate: delegate,
-                isSenderCurrentUser: isSenderCurrentUser)
+                currentUserId: currentUserId)
         case .video:
             return VideoMessageViewModel(
                 message: message,
                 sender: sender,
                 delegate: delegate,
-                isSenderCurrentUser: isSenderCurrentUser)
+                currentUserId: currentUserId)
         default:
             // This means that the type of the message is not supported by the ViewModel
             // And thus the view

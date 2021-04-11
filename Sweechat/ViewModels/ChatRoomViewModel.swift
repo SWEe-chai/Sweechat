@@ -38,7 +38,7 @@ class ChatRoomViewModel: ObservableObject {
                                 .makeViewModel(message: $0,
                                                sender: chatRoom.getUser(userId: $0.id),
                                                delegate: self,
-                                               isSenderCurrentUser: user.id == $0.senderId)
+                                               currentUserId: user.id)
             viewModel?.delegate = self
             return viewModel
         }
@@ -54,7 +54,7 @@ class ChatRoomViewModel: ObservableObject {
                                     .makeViewModel(message: $0,
                                                    sender: self.chatRoom.getUser(userId: $0.senderId),
                                                    delegate: self,
-                                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                                                   currentUserId: self.user.id)
                 viewModel?.delegate = self
                 return viewModel
             }
