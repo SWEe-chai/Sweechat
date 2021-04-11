@@ -9,7 +9,8 @@ struct ForumChatRoomView: View {
             ForumPostsView(viewModel: viewModel)
             MessageInputBarView(viewModel: viewModel,
                                 isShowingReply: false,
-                                replyPreviewMetadata: $replyPreviewMetadata)
+                                replyPreviewMetadata: $replyPreviewMetadata,
+                                editedMessageContent: $viewModel.editedMessageContent)
         }.navigationTitle(viewModel.text)
     }
 }

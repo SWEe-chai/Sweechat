@@ -70,8 +70,8 @@ class ForumChatRoom: ChatRoom {
         super.remove(message: message)
     }
 
-    override func update(message: Message) {
+    override func update(message: Message, isEdited: Bool) {
         // TODO: Implement update not in FE yet so it's fine
-        super.update(message: message)
+        super.update(message: message, isEdited: isEdited)
     }
 }

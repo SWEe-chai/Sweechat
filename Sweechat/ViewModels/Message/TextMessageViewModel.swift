@@ -15,7 +15,8 @@ class TextMessageViewModel: MessageViewModel {
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser, isEditable: true)
 
         subscriber = message.subscribeToContent { content in
-            self.text = message.content.toString()
+            self.text = content.toString()
+            super.objectWillChange.send()
         }
     }
 

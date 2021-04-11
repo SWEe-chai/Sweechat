@@ -18,8 +18,8 @@ struct ThreadView: View {
                 replyPreviewMetadata:
                     .constant(
                         ReplyPreviewMetadata(
-                            messageBeingRepliedTo: viewModel.threadViewModel.post))
-            )
+                            messageBeingRepliedTo: viewModel.threadViewModel.post)),
+                editedMessageContent: $viewModel.editedMessageContent)
         }.background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)

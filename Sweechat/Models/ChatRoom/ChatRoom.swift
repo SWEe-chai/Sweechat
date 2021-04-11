@@ -173,11 +173,16 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         }
     }
 
-    func update(message: Message) {
-        if let index = messages.firstIndex(of: message) {
-            processMessage(message)
-            self.messages[index].update(message: message)
+    func update(message: Message, isEdited: Bool) {
+        guard let index = messages.firstIndex(of: message) else {
+            return
         }
+
+        if !isEdited {
+            processMessage(message)
+        }
+
+        self.messages[index].update(message: message)
     }
 
     func insert(member: User) {

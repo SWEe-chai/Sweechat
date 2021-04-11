@@ -10,7 +10,8 @@ struct ChatRoomView: View {
                                replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
                                 isShowingReply: true,
-                                replyPreviewMetadata: $replyPreviewMetadata)
+                                replyPreviewMetadata: $replyPreviewMetadata,
+                                editedMessageContent: $viewModel.editedMessageContent)
         }
         .background(ColorConstant.base)
         .navigationBarHidden(false)

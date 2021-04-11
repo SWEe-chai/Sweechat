@@ -9,6 +9,7 @@ class ChatRoomViewModel: ObservableObject {
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
 
+    @Published var editedMessage: Message?
     @Published var text: String
     @Published var profilePictureUrl: String?
 
@@ -18,6 +19,17 @@ class ChatRoomViewModel: ObservableObject {
 
     var messageCount: Int {
         chatRoom.messages.count
+    }
+
+    var editedMessageContent: String? {
+        get {
+            if let editedMessage = editedMessage {
+                return editedMessage.content.toString()
+            }
+            return nil
+        } set {
+            editedMessage?.content = newValue?.toData() ?? "".toData()
+        }
     }
 
     @Published var messages: [MessageViewModel] = []
@@ -62,9 +74,15 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: String?) {
-        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
-                              receiverId: ChatRoom.allUsersId, parentId: parentId)
-        self.chatRoom.storeMessage(message: message)
+        if var editedMessage = editedMessage {
+            editedMessage.content = text.toData()
+            self.chatRoom.update(message: editedMessage, isEdited: true)
+            self.editedMessage = nil
+        } else {
+            let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
+                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 
     func handleSendImage(_ wrappedImage: Any?, withParentId parentId: String?) {
@@ -126,7 +144,7 @@ extension ChatRoomViewModel: Identifiable {
 // MARK: MessageActionsViewModelDelegate
 extension ChatRoomViewModel: MessageActionsViewModelDelegate {
     func edit(message: Message) {
-        print("Edited")
+        editedMessage = message
     }
 
     func delete(message: Message) {
