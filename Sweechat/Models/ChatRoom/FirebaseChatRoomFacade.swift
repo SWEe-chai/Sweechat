@@ -92,6 +92,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 })
                 if delegate.provideKeyExchangeMesssages(messages: messages) {
                     onCompletion?()
+                } else {
+                    os_log("Key exchange failed, waiting for new keys")
                 }
             }
     }

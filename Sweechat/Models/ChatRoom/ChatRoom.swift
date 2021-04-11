@@ -173,6 +173,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         // No key exchange messages and user is owner
         if currentUser.id == ownerId {
             if messages.isEmpty {
+                os_log("Key bundles sent")
                 chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
                 storeMessage(
                     message: Message(
@@ -189,7 +190,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             os_log("Key bundles not yet sent, number of key bundle messages: \(messages.count)")
             return false
         }
-
+        os_log("Received key bundles of size \(messages.count)")
         // process single key bundle message
         processKeyExchangeMessage(keyBundleMessage)
         return true
