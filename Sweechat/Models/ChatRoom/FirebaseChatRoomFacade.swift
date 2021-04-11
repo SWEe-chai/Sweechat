@@ -49,7 +49,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
-            .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
+            .whereField(DatabaseConstant.Message.receiverId, in: [ChatRoom.allUsersId])
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
@@ -71,6 +71,25 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 onCompletion?()
             }
         }
+    }
+
+    private func loadKeyExchangeMessages(onCompletion: (() -> Void)?) {
+        messagesReference?
+            .whereField(DatabaseConstant.Message.type, in: [MessageType.keyExchange.rawValue])
+            .whereField(DatabaseConstant.Message.receiverId, in: [user.id])
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let delegate = self.delegate else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageFacade.convert(document: $0)
+                })
+                if delegate.provideKeyExchangeMesssages(messages: messages) {
+                    onCompletion?()
+                }
+            }
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
