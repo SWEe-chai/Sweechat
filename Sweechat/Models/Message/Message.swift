@@ -40,6 +40,12 @@ class Message: ObservableObject {
         self.likers = likers
     }
 
+    func copy() -> Message {
+        Message(id: id, senderId: senderId, creationTime: creationTime,
+                content: content, type: type, receiverId: receiverId,
+                parentId: parentId, likers: likers)
+    }
+
     func update(message: Message) {
         if self.content != message.content {
             self.content = message.content
