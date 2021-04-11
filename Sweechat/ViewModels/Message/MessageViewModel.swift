@@ -57,6 +57,10 @@ class MessageViewModel: ObservableObject {
     func delete() {
         delegate?.delete(messageViewModel: self)
     }
+
+    func toggleLike() {
+        delegate?.toggleLike(messageViewModel: self)
+    }
 }
 
 // MARK: Hashable

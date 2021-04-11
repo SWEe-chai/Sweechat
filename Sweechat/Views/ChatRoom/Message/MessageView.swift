@@ -62,7 +62,7 @@ struct MessageView: View {
 
     private func contextMenuLikeButton() -> some View {
         Button {
-            print("Liked")
+            viewModel.toggleLike()
         } label: {
             Label("Like", systemImage: "hand.thumbsup")
         }

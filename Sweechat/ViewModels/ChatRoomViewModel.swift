@@ -143,4 +143,8 @@ extension ChatRoomViewModel: MessageActionsViewModelDelegate {
     func delete(messageViewModel: MessageViewModel) {
         chatRoom.delete(message: messageViewModel.message)
     }
+
+    func toggleLike(messageViewModel: MessageViewModel) {
+        print("toggle like")
+    }
 }
