@@ -74,9 +74,9 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: String?) {
-        if var editedMessage = editedMessage {
+        if let editedMessage = editedMessage {
             editedMessage.content = text.toData()
-            self.chatRoom.update(message: editedMessage, isEdited: true)
+            self.chatRoom.storeMessage(message: editedMessage)
             self.editedMessage = nil
         } else {
             let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,

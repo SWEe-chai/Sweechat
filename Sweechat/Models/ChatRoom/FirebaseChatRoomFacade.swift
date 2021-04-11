@@ -192,7 +192,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         case .added:
             self.delegate?.insert(message: message)
         case .modified:
-            self.delegate?.update(message: message, isEdited: false)
+            self.delegate?.update(message: message)
         case .removed:
             self.delegate?.remove(message: message)
         default:
