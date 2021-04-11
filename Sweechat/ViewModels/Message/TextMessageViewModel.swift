@@ -14,10 +14,10 @@ class TextMessageViewModel: MessageViewModel {
         self.text = message.content.toString()
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser, isEditable: true)
 
-        subscriber = message.subscribeToContent { content in
+        subscribers.append(message.subscribeToContent { content in
             self.text = content.toString()
             super.objectWillChange.send()
-        }
+        })
     }
 
     // MARK: Message Reply

@@ -8,7 +8,7 @@ class MessageViewModel: ObservableObject {
     weak var delegate: MessageActionsViewModelDelegate?
     var isEditable: Bool
     var message: Message
-    var subscriber: AnyCancellable?
+    var subscribers: [AnyCancellable] = []
 
     // MARK: IDs
     var id: String {
@@ -35,12 +35,17 @@ class MessageViewModel: ObservableObject {
     var senderName: String {
         sender.name
     }
+    @Published var likesCount: Int
 
     init(message: Message, sender: User, isSenderCurrentUser: Bool, isEditable: Bool) {
         self.message = message
         self.sender = sender
         self.isSenderCurrentUser = isSenderCurrentUser
         self.isEditable = isEditable
+        self.likesCount = message.likers.count
+        subscribers.append(message.subscribeToLikers { userIdSet in
+            self.likesCount = userIdSet.count
+        })
     }
 
     // MARK: Message Reply

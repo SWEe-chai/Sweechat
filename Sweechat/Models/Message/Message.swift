@@ -11,7 +11,7 @@ class Message: ObservableObject {
     var senderId: String
     var type: MessageType
     var receiverId: String
-    var likers: Set<UserId>
+    @Published var likers: Set<UserId>
 
     // This message init is for creating new messages in the front end
     init(senderId: String, content: Data, type: MessageType,
@@ -47,6 +47,10 @@ class Message: ObservableObject {
 
     func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
         $content.sink(receiveValue: function)
+    }
+
+    func subscribeToLikers(function: @escaping (Set<UserId>) -> Void) -> AnyCancellable {
+        $likers.sink(receiveValue: function)
     }
 }
 

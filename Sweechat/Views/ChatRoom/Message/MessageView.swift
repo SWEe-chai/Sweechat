@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MessageView: View {
-    var viewModel: MessageViewModel
+    @ObservedObject var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
     @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
@@ -29,6 +29,7 @@ struct MessageView: View {
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
+                Text("Likes: \(viewModel.likesCount)")
             }
             .padding(10)
             .foregroundColor(viewModel.foregroundColor)

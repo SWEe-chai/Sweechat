@@ -20,9 +20,9 @@ class ImageMessageViewModel: MessageViewModel {
             delegate: delegate)
         super.init(message: message, sender: sender, isSenderCurrentUser: isSenderCurrentUser, isEditable: false)
 
-        subscriber = message.subscribeToContent { newContent in
+        subscribers.append(message.subscribeToContent { newContent in
             self.mediaData.updateUrl(url: newContent.toString())
-        }
+        })
     }
 
     // MARK: Message Reply
