@@ -29,7 +29,7 @@ class FirebaseMessageFacade {
             return nil
         }
 
-        let id = document.documentID
+        let id: Identifier<Message> = Identifier(val: document.documentID)
         if let content = data?[DatabaseConstant.Message.content] as? Data {
         return Message(
             id: id,

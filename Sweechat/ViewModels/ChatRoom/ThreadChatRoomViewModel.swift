@@ -7,7 +7,8 @@ class ThreadChatRoomViewModel: ChatRoomViewModel {
     var post: MessageViewModel
 
     init(post: Message, postSender: User, user: User) {
-        self.threadChatRoom = ThreadChatRoom(id: post.id, ownerId: post.senderId, currentUser: user)
+        // TODO: id here convert to type Chatroom
+        self.threadChatRoom = ThreadChatRoom(id: post.id.val, ownerId: post.senderId, currentUser: user)
         self.post = TextMessageViewModel(
             message: post,
             sender: postSender,

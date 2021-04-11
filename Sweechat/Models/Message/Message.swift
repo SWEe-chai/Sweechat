@@ -3,7 +3,7 @@ import Foundation
 
 class Message: ObservableObject {
     let parentId: String?
-    var id: String
+    var id: Identifier<Message>
     @Published var content: Data
     var creationTime: Date
     var senderId: String
@@ -11,8 +11,12 @@ class Message: ObservableObject {
     var receiverId: String
 
     // This message init is for creating new messages in the front end
-    init(senderId: String, content: Data, type: MessageType,
-         receiverId: String, parentId: String?, id: String = UUID().uuidString) {
+    init(senderId: String,
+         content: Data,
+         type: MessageType,
+         receiverId: String,
+         parentId: String?,
+         id: Identifier<Message> = Identifier(val: UUID().uuidString)) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
@@ -23,8 +27,13 @@ class Message: ObservableObject {
     }
 
     // This message init is for facade to translate
-    init(id: String, senderId: String, creationTime: Date,
-         content: Data, type: MessageType, receiverId: String, parentId: String?) {
+    init(id: Identifier<Message>,
+         senderId: String,
+         creationTime: Date,
+         content: Data,
+         type: MessageType,
+         receiverId: String,
+         parentId: String?) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime

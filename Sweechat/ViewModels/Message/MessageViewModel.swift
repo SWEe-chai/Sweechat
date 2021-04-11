@@ -10,7 +10,7 @@ class MessageViewModel: ObservableObject {
 
     // MARK: IDs
     var id: String {
-        message.id
+        message.id.val
     }
 
     var parentId: String? {

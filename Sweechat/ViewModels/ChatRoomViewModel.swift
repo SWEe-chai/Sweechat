@@ -28,13 +28,6 @@ class ChatRoomViewModel: ObservableObject {
         self.text = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
         self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
-        self.messages = chatRoom.messages.compactMap {
-            MessageViewModelFactory
-                .makeViewModel(message: $0,
-                               sender: chatRoom.getUser(userId: $0.id),
-                               delegate: self,
-                               isSenderCurrentUser: user.id == $0.senderId)
-        }
         initialiseSubscriber()
     }
 

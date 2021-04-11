@@ -21,10 +21,10 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
 
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
-            let updatedPostIds = Set(posts.map({ $0.id }))
+            let updatedPostIds = Set(posts.map({ $0.id.val }))
             self.postViewModels = self.postViewModels.filter({ updatedPostIds.contains($0.id) })
             let currentPostsIds = Set(self.postViewModels.map { $0.id })
-            let newPosts = posts.filter { !currentPostsIds.contains($0.id) }
+            let newPosts = posts.filter { !currentPostsIds.contains($0.id.val) }
             self.threads.append(contentsOf: newPosts.compactMap {
                 ThreadChatRoomViewModel(post: $0,
                                         postSender: self.chatRoom.getUser(userId: $0.senderId),
@@ -43,8 +43,9 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     }
 
     override func handleSendMessage(_ text: String, withParentId parentId: String?) {
-        let id = UUID().uuidString
-        threadCreator?.createThreadChatRoom(id: id, currentUser: user, forumMembers: forumChatRoom.members) {
+        let id = Identifier<Message>(val: UUID().uuidString)
+        // TODO: Change this to Identifier<ChatRoom>
+        threadCreator?.createThreadChatRoom(id: id.val, currentUser: user, forumMembers: forumChatRoom.members) {
             let message = Message(
                 senderId: self.user.id,
                 content: text.toData(),
