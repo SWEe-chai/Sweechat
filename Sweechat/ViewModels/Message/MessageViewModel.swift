@@ -3,18 +3,24 @@ import Combine
 import os
 
 class MessageViewModel: ObservableObject {
-    private var message: Message
     private var sender: User
-    private var isSenderCurrentUser: Bool
-    var subscriber: AnyCancellable?
+    private var currentUserId: UserId
+    weak var delegate: MessageActionsViewModelDelegate?
+    var isEditable: Bool
+    var message: Message
+    var subscribers: [AnyCancellable] = []
+
+    var isSenderCurrentUser: Bool {
+        sender.id == currentUserId
+    }
 
     // MARK: IDs
     var id: String {
-        message.id
+        message.id.val
     }
 
     var parentId: String? {
-        message.parentId
+        message.parentId?.val
     }
 
     // MARK: Messsage Bubble Properties
@@ -33,11 +39,20 @@ class MessageViewModel: ObservableObject {
     var senderName: String {
         sender.name
     }
+    @Published var likesCount: Int
+    var isCurrentUserLiking: Bool {
+        message.likers.contains(currentUserId)
+    }
 
-    init(message: Message, sender: User, isSenderCurrentUser: Bool) {
+    init(message: Message, sender: User, currentUserId: UserId, isEditable: Bool) {
         self.message = message
         self.sender = sender
-        self.isSenderCurrentUser = isSenderCurrentUser
+        self.currentUserId = currentUserId
+        self.isEditable = isEditable
+        self.likesCount = message.likers.count
+        subscribers.append(message.subscribeToLikers { userIdSet in
+            self.likesCount = userIdSet.count
+        })
     }
 
     // MARK: Message Reply
@@ -45,6 +60,18 @@ class MessageViewModel: ObservableObject {
     func previewContent() -> String {
         os_log("previewContent() in MessageViewModel called. Did you forget to implement in a subclass?")
         return "Message"
+    }
+
+    func edit() {
+        delegate?.edit(messageViewModel: self)
+    }
+
+    func delete() {
+        delegate?.delete(messageViewModel: self)
+    }
+
+    func toggleLike() {
+        delegate?.toggleLike(messageViewModel: self)
     }
 }
 

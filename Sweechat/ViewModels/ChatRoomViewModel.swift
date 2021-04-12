@@ -9,6 +9,7 @@ class ChatRoomViewModel: ObservableObject {
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
 
+    @Published var editedMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
 
@@ -20,6 +21,10 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
+    var editedMessageContent: String {
+        editedMessageViewModel?.previewContent() ?? ""
+    }
+
     @Published var messages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
@@ -28,13 +33,6 @@ class ChatRoomViewModel: ObservableObject {
         self.text = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
         self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
-        self.messages = chatRoom.messages.compactMap {
-            MessageViewModelFactory
-                .makeViewModel(message: $0,
-                               sender: chatRoom.getUser(userId: $0.id),
-                               delegate: self,
-                               isSenderCurrentUser: user.id == $0.senderId)
-        }
         initialiseSubscriber()
     }
 
@@ -43,11 +41,13 @@ class ChatRoomViewModel: ObservableObject {
             // TODO: This resets all messages everytime a message gets changed,
             // might want to consider getting the new messages / deleted messages instead
             self.messages = messages.compactMap {
-                MessageViewModelFactory
-                    .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                   delegate: self,
-                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                let viewModel = MessageViewModelFactory
+                                    .makeViewModel(message: $0,
+                                                   sender: self.chatRoom.getUser(userId: $0.senderId),
+                                                   delegate: self,
+                                                   currentUserId: self.user.id)
+                viewModel?.delegate = self
+                return viewModel
             }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
@@ -57,13 +57,19 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func handleSendMessage(_ text: String, withParentId parentId: String?) {
-        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
-                              receiverId: ChatRoom.allUsersId, parentId: parentId)
-        self.chatRoom.storeMessage(message: message)
+    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
+        if let editedMessageViewModel = editedMessageViewModel {
+            editedMessageViewModel.message.content = text.toData()
+            self.chatRoom.storeMessage(message: editedMessageViewModel.message)
+            self.editedMessageViewModel = nil
+        } else {
+            let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
+                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
+            self.chatRoom.storeMessage(message: message)
+        }
     }
 
-    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: String?) {
+    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: Identifier<Message>?) {
         guard let image = wrappedImage as? UIImage else {
             os_log("wrappedImage is not UIImage")
             return
@@ -82,7 +88,7 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: String?) {
+    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: Identifier<Message>?) {
         guard let url = mediaURL as? URL else {
             os_log("media url is not a url")
             print("media url: \(String(describing: mediaURL))")
@@ -117,4 +123,22 @@ extension ChatRoomViewModel: MediaMessageViewModelDelegate {
 
 // MARK: Identifiable
 extension ChatRoomViewModel: Identifiable {
+}
+
+// MARK: MessageActionsViewModelDelegate
+extension ChatRoomViewModel: MessageActionsViewModelDelegate {
+    func edit(messageViewModel: MessageViewModel) {
+        editedMessageViewModel = messageViewModel
+    }
+
+    func delete(messageViewModel: MessageViewModel) {
+        chatRoom.delete(message: messageViewModel.message)
+    }
+
+    func toggleLike(messageViewModel: MessageViewModel) {
+        messageViewModel.message.toggleLike(of: user.id)
+        // NOTE: This may cause a race condition if two likes are sent at around the same time.
+        // However, it will be a no-fix for now because of the small scale of the application
+        self.chatRoom.storeMessage(message: messageViewModel.message)
+    }
 }

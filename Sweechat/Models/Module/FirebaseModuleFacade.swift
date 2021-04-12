@@ -10,7 +10,7 @@ import os
 
 class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
-    private var moduleId: String
+    private var moduleId: Identifier<Module>
     private var user: User
     private var userId: String { user.id }
 
@@ -25,14 +25,14 @@ class FirebaseModuleFacade: ModuleFacade {
     private var moduleReference: DocumentReference?
     private var moduleListener: ListenerRegistration?
 
-    init(moduleId: String, user: User) {
+    init(moduleId: Identifier<Module>, user: User) {
         self.moduleId = moduleId
         self.user = user
         setUpConnectionToModule()
     }
 
     func setUpConnectionToModule() {
-        if moduleId.isEmpty {
+        if moduleId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
@@ -40,7 +40,7 @@ class FirebaseModuleFacade: ModuleFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentModuleUsersQuery = userModulePairsReference?
-            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
         chatRoomsReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
@@ -49,11 +49,11 @@ class FirebaseModuleFacade: ModuleFacade {
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
         currentUserChatRoomsQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId)
-            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
         moduleReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.modules)
-            .document(moduleId)
+            .document(moduleId.val)
         loadUsers(onCompletion: { self.loadChatRooms(onCompletion: self.addListeners) })
     }
 
@@ -119,14 +119,16 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     func save(chatRoom: ChatRoom,
-              userPermissions: [UserPermissionPair]) {
+              userPermissions: [UserPermissionPair],
+              onCompletion: (() -> Void)?) {
         chatRoomsReference?
-            .document(chatRoom.id)
+            .document(chatRoom.id.val)
             .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
                 if let e = error {
                     os_log("Error sending chatRoom: \(e.localizedDescription)")
                     return
                 }
+                onCompletion?()
             }
         for userPermission in userPermissions {
             let pair = FirebaseUserChatRoomModulePair(
@@ -186,12 +188,14 @@ class FirebaseModuleFacade: ModuleFacade {
             return nil
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.Module.id] as? String,
+        guard let idStr = data?[DatabaseConstant.Module.id] as? String,
               let name = data?[DatabaseConstant.Module.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for Module, data: %s", String(describing: data))
             return nil
         }
+
+        let id = Identifier<Module>(val: idStr)
         return Module(
             id: id,
             name: name,
@@ -203,7 +207,7 @@ class FirebaseModuleFacade: ModuleFacade {
 
     static func convert(module: Module) -> [String: Any] {
         [
-            DatabaseConstant.Module.id: module.id,
+            DatabaseConstant.Module.id: module.id.val,
             DatabaseConstant.Module.name: module.name,
             DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
         ]

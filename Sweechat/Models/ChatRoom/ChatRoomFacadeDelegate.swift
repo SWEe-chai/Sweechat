@@ -8,6 +8,7 @@
 protocol ChatRoomFacadeDelegate: AnyObject {
     func insert(message: Message)
     func insertAll(messages: [Message])
+    func handleKeyExchangeMessages(keyExchangeMessages: [Message]) -> Bool
     func update(message: Message)
     func remove(message: Message)
     func insert(member: User)

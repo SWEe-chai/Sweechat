@@ -19,7 +19,7 @@ struct ForumPostsView: View {
             NavigationLink(
                 "",
                 destination: LazyNavView(
-                    ThreadView(viewModel: viewModel)),
+                    ThreadView(viewModel: viewModel.getSelectedThread())),
                 isActive: $isThreadOpen
             ).hidden()
         }

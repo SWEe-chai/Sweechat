@@ -96,3 +96,17 @@ class CreateChatRoomViewModel: ObservableObject {
         isWritable.toggle()
     }
 }
+
+// MARK: ForumViewModelDelegate
+extension CreateChatRoomViewModel: ThreadCreator {
+    func createThreadChatRoom(id: Identifier<ChatRoom>,
+                              currentUser: User,
+                              forumMembers: [User],
+                              onCompletion: (() -> Void)? = nil) {
+        let threadChatRoom = ThreadChatRoom(postId: id, sender: currentUser, forumMembers: forumMembers)
+        let permissionPairs = forumMembers.map {
+            UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)
+        }
+        module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs, onCompletion: onCompletion)
+    }
+}

@@ -8,5 +8,5 @@
 protocol ModuleListFacade {
     var delegate: ModuleListFacadeDelegate? { get set }
     func save(module: Module, userModulePermissions: [UserModulePermissionPair])
-    func joinModule(moduleId: String)
+    func joinModule(moduleId: Identifier<Module>)
 }

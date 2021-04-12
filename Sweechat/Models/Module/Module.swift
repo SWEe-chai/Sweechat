@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 class Module: ObservableObject {
-    var id: String
+    var id: Identifier<Module>
     @Published var name: String
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom]
@@ -25,7 +25,7 @@ class Module: ObservableObject {
     var userIdsToUsers: [String: User] = [:]
     let currentUserPermission: ModulePermissionBitmask
 
-    init(id: String,
+    init(id: Identifier<Module>,
          name: String,
          currentUser: User,
          currentUserPermission: ModulePermissionBitmask,
@@ -46,7 +46,7 @@ class Module: ObservableObject {
          currentUser: User,
          currentUserPermission: ModulePermissionBitmask,
          profilePictureUrl: String? = nil) {
-        self.id = UUID().uuidString
+        self.id = Identifier<Module>(val: UUID().uuidString)
         self.name = name
         self.currentUser = currentUser
         self.currentUserPermission = currentUserPermission
@@ -64,11 +64,12 @@ class Module: ObservableObject {
         self.moduleFacade?.delegate = self
     }
 
-    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair]) {
+    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair], onCompletion: (() -> Void)? = nil) {
         assert(chatRoom.members.count == userPermissions.count)
         self.moduleFacade?.save(
             chatRoom: chatRoom,
-            userPermissions: userPermissions)
+            userPermissions: userPermissions,
+            onCompletion: onCompletion)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
@@ -87,7 +88,8 @@ class Module: ObservableObject {
 // MARK: ModuleFacadeDelegate
 extension Module: ModuleFacadeDelegate {
     func insert(chatRoom: ChatRoom) {
-        guard !self.chatRooms.contains(chatRoom) else {
+        guard !self.chatRooms.contains(chatRoom),
+              chatRoom as? ThreadChatRoom == nil else {
             return
         }
         chatRoom.setChatRoomConnection()
@@ -95,8 +97,9 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
-        chatRooms.forEach { $0.setChatRoomConnection() }
-        self.chatRooms = chatRooms
+        let newChatRooms = chatRooms.filter({ $0 as? ThreadChatRoom == nil }).filter({ !chatRooms.contains($0) })
+        newChatRooms.forEach { $0.setChatRoomConnection() }
+        self.chatRooms.append(contentsOf: newChatRooms)
     }
 
     func remove(chatRoom: ChatRoom) {

@@ -9,9 +9,15 @@ struct ChatRoomViewFactory {
             return AnyView(makeView(viewModel: viewModel))
         case let viewModel as ForumChatRoomViewModel:
             return AnyView(makeView(viewModel: viewModel))
+        case let viewModel as ThreadChatRoomViewModel:
+            return AnyView(makeView(viewModel: viewModel))
         default:
             fatalError("Abstract ChatRoomViewModel was instantiated!")
         }
+    }
+
+    static func makeView(viewModel: ThreadChatRoomViewModel) -> some View {
+        ChatRoomView(viewModel: viewModel)
     }
 
     static func makeView(viewModel: PrivateChatRoomViewModel) -> some View {

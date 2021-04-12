@@ -2,8 +2,9 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    var viewModel: ChatRoomViewModel
+    @ObservedObject var viewModel: ChatRoomViewModel
     var isShowingReply: Bool
+    var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
     @State private var showingModal = false
     @State private var modalView: ModalView?
@@ -32,13 +33,18 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
+                    .onChange(of: viewModel.editedMessageViewModel) { _ in
+                        typingMessage = viewModel.editedMessageContent
+                    }
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(ColorConstant.dark)
                 }
-                Button(action: openActionSheet) {
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(ColorConstant.dark)
+                if allowSendMedia {
+                    Button(action: openActionSheet) {
+                        Image(systemName: "plus.circle")
+                            .foregroundColor(ColorConstant.dark)
+                    }
                 }
             }
         }
@@ -71,7 +77,8 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(content, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        viewModel.handleSendMessage(content, withParentId: parentId)
         typingMessage = ""
         replyPreviewMetadata = nil
     }
@@ -83,11 +90,12 @@ struct MessageInputBarView: View {
             return
         }
 
+        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+            viewModel.handleSendImage(media, withParentId: parentId)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+            viewModel.handleSendVideo(media, withParentId: parentId)
         }
 
         media = nil
