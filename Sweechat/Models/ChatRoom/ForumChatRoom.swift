@@ -1,7 +1,7 @@
 import Combine
 
 class ForumChatRoom: ChatRoom {
-    override init(id: String,
+    override init(id: Identifier<ChatRoom>,
                   name: String,
                   ownerId: String,
                   currentUser: User,

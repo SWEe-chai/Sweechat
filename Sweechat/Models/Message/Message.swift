@@ -5,8 +5,8 @@ import os
 typealias UserId = String // TODO: Make use of type-safe identifiers
 
 class Message: ObservableObject {
-    let parentId: String?
-    var id: String
+    let parentId: Identifier<Message>?
+    var id: Identifier<Message>
     @Published var content: Data
     var creationTime: Date
     var senderId: String
@@ -15,8 +15,12 @@ class Message: ObservableObject {
     @Published var likers: Set<UserId>
 
     // This message init is for creating new messages in the front end
-    init(senderId: String, content: Data, type: MessageType,
-         receiverId: String, parentId: String?, id: String = UUID().uuidString) {
+    init(senderId: String,
+         content: Data,
+         type: MessageType,
+         receiverId: String,
+         parentId: Identifier<Message>?,
+         id: Identifier<Message> = Identifier(val: UUID().uuidString)) {
         self.senderId = senderId
         self.content = content
         self.creationTime = Date()
@@ -28,8 +32,14 @@ class Message: ObservableObject {
     }
 
     // This message init is for facade to translate
-    init(id: String, senderId: String, creationTime: Date,
-         content: Data, type: MessageType, receiverId: String, parentId: String?, likers: Set<UserId>) {
+    init(id: Identifier<Message>,
+         senderId: String,
+         creationTime: Date,
+         content: Data,
+         type: MessageType,
+         receiverId: String,
+         parentId: Identifier<Message>?,
+         likers: Set<UserId>) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime

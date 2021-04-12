@@ -11,7 +11,7 @@ import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
-    private var chatRoomId: String
+    private var chatRoomId: Identifier<ChatRoom>
     private var user: User
 
     private var db = Firestore.firestore()
@@ -25,14 +25,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
 
-    init(chatRoomId: String, user: User) {
+    init(chatRoomId: Identifier<ChatRoom>, user: User) {
         self.chatRoomId = chatRoomId
         self.user = user
         setUpConnectionToChatRoom()
     }
 
     func setUpConnectionToChatRoom() {
-        if chatRoomId.isEmpty {
+        if chatRoomId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
@@ -42,18 +42,18 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         userChatRoomModulePairsFilteredQuery = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
-            .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
+            .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId.val)
         messagesReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
+            .document(chatRoomId.val)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
             .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId)
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
+            .document(chatRoomId.val)
         loadMembers(onCompletion: {
             self.loadKeyExchangeMessages(onCompletion: {
                 self.loadMessages(onCompletion: self.addListeners)
@@ -143,7 +143,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func save(_ message: Message) {
         messagesReference?
-            .document(message.id)
+            .document(message.id.val)
             .setData(FirebaseMessageFacade.convert(message: message)) { error in
                 if let e = error {
                     os_log("Error sending message: \(e.localizedDescription)")
@@ -197,7 +197,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func delete(_ message: Message) {
         self.messagesReference?
-            .document(message.id)
+            .document(message.id.val)
             .delete { err in
                 if err != nil {
                     os_log("Error deleting message")
@@ -249,7 +249,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return nil
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
+        guard let idString = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
               let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
@@ -258,6 +258,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return nil
         }
 
+        let id = Identifier<ChatRoom>(val: idString)
         switch type {
         case .groupChat:
             return GroupChatRoom(
@@ -289,8 +290,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     static func convert(chatRoom: ChatRoom) -> [String: Any] {
-        var document = [
-            DatabaseConstant.ChatRoom.id: chatRoom.id,
+        var document: [String: Any] = [
+            DatabaseConstant.ChatRoom.id: chatRoom.id.val,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""

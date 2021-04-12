@@ -19,7 +19,7 @@ class FirebaseMessageFacade {
               let senderId = data?[DatabaseConstant.Message.senderId] as? String,
               let receiverId = data?[DatabaseConstant.Message.receiverId] as? String,
               let messageTypeStr = data?[DatabaseConstant.Message.type] as? String,
-              let parentId = data?[DatabaseConstant.Message.parentId] as? String?,
+              let parentIdStr = data?[DatabaseConstant.Message.parentId] as? String?,
               let likers = data?[DatabaseConstant.Message.likers] as? [UserId] else {
             os_log("Error converting data for Message, data: %s", String(describing: data))
             return nil
@@ -30,7 +30,8 @@ class FirebaseMessageFacade {
             return nil
         }
 
-        let id = document.documentID
+        let id: Identifier<Message> = Identifier(val: document.documentID)
+        let parentId: Identifier<Message>? = IdentifierConverter.toOptionalMessageId(from: parentIdStr)
         if let content = data?[DatabaseConstant.Message.content] as? Data {
         return Message(
             id: id,
@@ -59,7 +60,7 @@ class FirebaseMessageFacade {
         // This means that in Firestore, some Message document might have
         // a parentId, some might not. Non-existence of parentId is used
         // to translate it to `nil`
-        if let parentId = message.parentId {
+        if let parentId = message.parentId?.val {
             map[DatabaseConstant.Message.parentId] = parentId
         }
 

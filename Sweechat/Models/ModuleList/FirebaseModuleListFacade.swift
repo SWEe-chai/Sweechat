@@ -41,7 +41,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
         self.loadModules(onCompletion: self.addListeners)
     }
 
-    func joinModule(moduleId: String) {
+    func joinModule(moduleId: Identifier<Module>) {
         runIfModuleExists(moduleId: moduleId) {
             let permissions = ModulePermission.student
             let pair = FirebaseUserModulePair(userId: self.userId,
@@ -57,8 +57,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
         }
     }
 
-    func runIfModuleExists(moduleId: String, onCompletion: (() -> Void)?) {
-        modulesReference?.document(moduleId).getDocument { querySnapshot, _ in
+    func runIfModuleExists(moduleId: Identifier<Module>, onCompletion: (() -> Void)?) {
+        modulesReference?.document(moduleId.val).getDocument { querySnapshot, _ in
             if let snapshot = querySnapshot,
                snapshot.exists {
                 onCompletion?()
@@ -97,9 +97,9 @@ class FirebaseModuleListFacade: ModuleListFacade {
     func save(module: Module, userModulePermissions: [UserModulePermissionPair]) {
         // TODO: generate id using a synchronous call
         let id = randomString(length: 8)
-        module.id = id
+        module.id = Identifier<Module>(val: id)
 
-        modulesReference?.document(module.id).setData(FirebaseModuleFacade.convert(module: module)) { error in
+        modulesReference?.document(module.id.val).setData(FirebaseModuleFacade.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return

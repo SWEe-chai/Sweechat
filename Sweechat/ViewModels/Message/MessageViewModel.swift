@@ -16,11 +16,11 @@ class MessageViewModel: ObservableObject {
 
     // MARK: IDs
     var id: String {
-        message.id
+        message.id.val
     }
 
     var parentId: String? {
-        message.parentId
+        message.parentId?.val
     }
 
     // MARK: Messsage Bubble Properties

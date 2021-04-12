@@ -51,7 +51,7 @@ class HomeViewModel: ObservableObject {
     }
 
     func handleJoinModule(secret: String) {
-        let id = secret
+        let id = Identifier<Module>(val: secret)
         moduleList.joinModule(moduleId: id)
     }
 }

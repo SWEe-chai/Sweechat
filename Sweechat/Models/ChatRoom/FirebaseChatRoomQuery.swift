@@ -3,7 +3,7 @@ import FirebaseStorage
 import os
 
 class FirebaseChatRoomQuery {
-    static func getChatRoom(chatRoomId: String,
+    static func getChatRoom(chatRoomId: Identifier<ChatRoom>,
                             user: User,
                             onCompletion: @escaping (ChatRoom) -> Void) {
         FirebaseUserChatRoomModulePairQuery
@@ -29,25 +29,25 @@ class FirebaseChatRoomQuery {
     static func getChatRooms(pairs: [FirebaseUserChatRoomModulePair],
                              user: User,
                              onCompletion: @escaping ([ChatRoom]) -> Void) {
-        let chatRoomIds = pairs.map { $0.chatRoomId }
-        if chatRoomIds.isEmpty {
+        let chatRoomIdStrs = pairs.map { $0.chatRoomId.val }
+        if chatRoomIdStrs.isEmpty {
             onCompletion([])
             return
         }
-        for chatRoomIdChunk in chatRoomIds.chunked(into: 10) {
+        for chatRoomIdStrChunk in chatRoomIdStrs.chunked(into: 10) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.chatRooms)
-                .whereField(DatabaseConstant.ChatRoom.id, in: chatRoomIdChunk)
+                .whereField(DatabaseConstant.ChatRoom.id, in: chatRoomIdStrChunk)
                 .getDocuments { snapshots, error in
                     guard let documents = snapshots?.documents else {
-                        os_log("Getting chatrooms: ChatRooms with Id: \(chatRoomIdChunk) does not exist")
+                        os_log("Getting chatrooms: ChatRooms with Id: \(chatRoomIdStrChunk) does not exist")
                         os_log("Error \(error?.localizedDescription ?? "No error")")
                         return
                     }
                     let chatRooms: [ChatRoom] = documents.compactMap { document in
-                        guard let chatRoomId = document[DatabaseConstant.ChatRoom.id] as? String,
-                              let pair = pairs.first(where: { $0.chatRoomId == chatRoomId }) else {
+                        guard let chatRoomIdStr = document[DatabaseConstant.ChatRoom.id] as? String,
+                              let pair = pairs.first(where: { $0.chatRoomId.val == chatRoomIdStr }) else {
                             os_log("ChatRoomQuery: Unable extract chatRoomId from \(document) or pair not in \(pairs)")
                             return nil
                         }
