@@ -198,6 +198,7 @@
 		77F4F1A126196E0B003CD601 /* LemonMilk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F19F26196E0A003CD601 /* LemonMilk-Bold.otf */; };
 		77F4F1A226196E0B003CD601 /* LemonMilk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F1A026196E0A003CD601 /* LemonMilk-Regular.otf */; };
 		77F4F1DC2619B333003CD601 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F1DB2619B333003CD601 /* Color.swift */; };
+		B5247D942A7A96F2CC6B18F2 /* Pods_NotificationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36942365482352E5F6B380F /* Pods_NotificationServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -437,8 +438,11 @@
 		77F4F19F26196E0A003CD601 /* LemonMilk-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Bold.otf"; sourceTree = "<group>"; };
 		77F4F1A026196E0A003CD601 /* LemonMilk-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Regular.otf"; sourceTree = "<group>"; };
 		77F4F1DB2619B333003CD601 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		8C74D97A485DC288A58E95FD /* Pods-NotificationServices.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServices.debug.xcconfig"; path = "Target Support Files/Pods-NotificationServices/Pods-NotificationServices.debug.xcconfig"; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
+		A36942365482352E5F6B380F /* Pods_NotificationServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E81CB88C3453705DB5491C42 /* Pods-NotificationServices.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServices.release.xcconfig"; path = "Target Support Files/Pods-NotificationServices/Pods-NotificationServices.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -447,6 +451,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5247D942A7A96F2CC6B18F2 /* Pods_NotificationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */,
+				A36942365482352E5F6B380F /* Pods_NotificationServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -895,6 +901,8 @@
 			children = (
 				9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */,
 				A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */,
+				8C74D97A485DC288A58E95FD /* Pods-NotificationServices.debug.xcconfig */,
+				E81CB88C3453705DB5491C42 /* Pods-NotificationServices.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1129,6 +1137,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 772418512623E27C00A5E422 /* Build configuration list for PBXNativeTarget "NotificationServices" */;
 			buildPhases = (
+				120E5EDA23D6E3AE639C523B /* [CP] Check Pods Manifest.lock */,
 				772418452623E27C00A5E422 /* Sources */,
 				772418462623E27C00A5E422 /* Frameworks */,
 				772418472623E27C00A5E422 /* Resources */,
@@ -1297,6 +1306,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		120E5EDA23D6E3AE639C523B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NotificationServices-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		45D633A525FE0D1B00C94D4F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1609,12 +1640,13 @@
 /* Begin XCBuildConfiguration section */
 		772418522623E27C00A5E422 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C74D97A485DC288A58E95FD /* Pods-NotificationServices.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W76H98A34A;
 				INFOPLIST_FILE = NotificationServices/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1630,12 +1662,13 @@
 		};
 		772418532623E27C00A5E422 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E81CB88C3453705DB5491C42 /* Pods-NotificationServices.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W76H98A34A;
 				INFOPLIST_FILE = NotificationServices/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1769,7 +1802,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
@@ -1796,7 +1828,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
