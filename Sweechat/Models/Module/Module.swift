@@ -59,7 +59,7 @@ class Module: ObservableObject {
 
     func setModuleConnection() {
         self.moduleFacade = FirebaseModuleFacade(
-            moduleId: self.id.val,
+            moduleId: self.id,
             user: currentUser)
         self.moduleFacade?.delegate = self
     }

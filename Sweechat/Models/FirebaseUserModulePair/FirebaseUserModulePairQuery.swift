@@ -2,13 +2,13 @@ import FirebaseFirestore
 import os
 
 class FirebaseUserModulePairQuery {
-    static func getUserModulePair(moduleId: String,
+    static func getUserModulePair(moduleId: Identifier<Module>,
                                   userId: String,
                                   onCompletion: @escaping (FirebaseUserModulePair?) -> Void) {
         FirebaseUtils
             .getEnvironmentReference(Firestore.firestore())
             .collection(DatabaseConstant.Collection.userModulePairs)
-            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
             .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
             .getDocuments { snapshot, error in
                 guard let document = snapshot?.documents.first else {

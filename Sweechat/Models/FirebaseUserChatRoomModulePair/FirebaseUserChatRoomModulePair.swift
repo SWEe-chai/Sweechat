@@ -8,10 +8,10 @@
 class FirebaseUserChatRoomModulePair {
     let userId: String
     let chatRoomId: Identifier<ChatRoom>
-    let moduleId: String
+    let moduleId: Identifier<Module>
     let permissions: UInt32
 
-    init(userId: String, chatRoomId: Identifier<ChatRoom>, moduleId: String, permissions: UInt32) {
+    init(userId: String, chatRoomId: Identifier<ChatRoom>, moduleId: Identifier<Module>, permissions: UInt32) {
         self.userId = userId
         self.chatRoomId = chatRoomId
         self.moduleId = moduleId

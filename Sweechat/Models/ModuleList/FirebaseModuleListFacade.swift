@@ -41,7 +41,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
         self.loadModules(onCompletion: self.addListeners)
     }
 
-    func joinModule(moduleId: String) {
+    func joinModule(moduleId: Identifier<Module>) {
         runIfModuleExists(moduleId: moduleId) {
             let permissions = ModulePermission.student
             let pair = FirebaseUserModulePair(userId: self.userId,
@@ -57,8 +57,8 @@ class FirebaseModuleListFacade: ModuleListFacade {
         }
     }
 
-    func runIfModuleExists(moduleId: String, onCompletion: (() -> Void)?) {
-        modulesReference?.document(moduleId).getDocument { querySnapshot, _ in
+    func runIfModuleExists(moduleId: Identifier<Module>, onCompletion: (() -> Void)?) {
+        modulesReference?.document(moduleId.val).getDocument { querySnapshot, _ in
             if let snapshot = querySnapshot,
                snapshot.exists {
                 onCompletion?()
@@ -108,7 +108,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
         for userModulePermission in userModulePermissions {
             let pair = FirebaseUserModulePair(userId: userModulePermission.userId,
-                                              moduleId: module.id.val,
+                                              moduleId: module.id,
                                               permissions: userModulePermission.permissions)
             userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {

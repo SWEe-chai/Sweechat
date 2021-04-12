@@ -10,7 +10,7 @@ import os
 
 class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
-    private var moduleId: String
+    private var moduleId: Identifier<Module>
     private var user: User
     private var userId: String { user.id }
 
@@ -25,14 +25,14 @@ class FirebaseModuleFacade: ModuleFacade {
     private var moduleReference: DocumentReference?
     private var moduleListener: ListenerRegistration?
 
-    init(moduleId: String, user: User) {
+    init(moduleId: Identifier<Module>, user: User) {
         self.moduleId = moduleId
         self.user = user
         setUpConnectionToModule()
     }
 
     func setUpConnectionToModule() {
-        if moduleId.isEmpty {
+        if moduleId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
@@ -40,7 +40,7 @@ class FirebaseModuleFacade: ModuleFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentModuleUsersQuery = userModulePairsReference?
-            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
         chatRoomsReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
@@ -49,11 +49,11 @@ class FirebaseModuleFacade: ModuleFacade {
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
         currentUserChatRoomsQuery = userChatRoomModulePairsReference?
             .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId)
-            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId)
+            .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
         moduleReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.modules)
-            .document(moduleId)
+            .document(moduleId.val)
         loadUsers(onCompletion: { self.loadChatRooms(onCompletion: self.addListeners) })
     }
 
