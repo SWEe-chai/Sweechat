@@ -197,7 +197,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     func delete(_ message: Message) {
         self.messagesReference?
-            .document(message.id)
+            .document(message.id.val)
             .delete { err in
                 if err != nil {
                     os_log("Error deleting message")
