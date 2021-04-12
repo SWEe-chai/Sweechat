@@ -9,16 +9,16 @@ class Message: ObservableObject {
     var id: Identifier<Message>
     @Published var content: Data
     var creationTime: Date
-    var senderId: String
+    var senderId: Identifier<User>
     var type: MessageType
-    var receiverId: String
-    @Published var likers: Set<UserId>
+    var receiverId: Identifier<User>
+    @Published var likers: Set<Identifier<User>>
 
     // This message init is for creating new messages in the front end
-    init(senderId: String,
+    init(senderId: Identifier<User>,
          content: Data,
          type: MessageType,
-         receiverId: String,
+         receiverId: Identifier<User>,
          parentId: Identifier<Message>?,
          id: Identifier<Message> = Identifier(val: UUID().uuidString)) {
         self.senderId = senderId
@@ -33,13 +33,13 @@ class Message: ObservableObject {
 
     // This message init is for facade to translate
     init(id: Identifier<Message>,
-         senderId: String,
+         senderId: Identifier<User>,
          creationTime: Date,
          content: Data,
          type: MessageType,
-         receiverId: String,
+         receiverId: Identifier<User>,
          parentId: Identifier<Message>?,
-         likers: Set<UserId>) {
+         likers: Set<Identifier<User>>) {
         self.id = id
         self.senderId = senderId
         self.creationTime = creationTime
@@ -62,7 +62,7 @@ class Message: ObservableObject {
         }
     }
 
-    func toggleLike(of userId: UserId) {
+    func toggleLike(of userId: Identifier<User>) {
         if likers.contains(userId) {
             os_log("INFO: user \(userId) is in message \(self.id)'s likers")
             likers.remove(userId)
@@ -77,7 +77,7 @@ class Message: ObservableObject {
         $content.sink(receiveValue: function)
     }
 
-    func subscribeToLikers(function: @escaping (Set<UserId>) -> Void) -> AnyCancellable {
+    func subscribeToLikers(function: @escaping (Set<Identifier<User>>) -> Void) -> AnyCancellable {
         $likers.sink(receiveValue: function)
     }
 }

@@ -7,7 +7,7 @@ class FirebaseModuleQuery {
                           user: User,
                           onCompletion: @escaping (Module) -> Void) {
         FirebaseUserModulePairQuery
-            .getUserModulePair(moduleId: moduleId, userId: user.id) { pair in
+            .getUserModulePair(moduleId: moduleId, userId: user.id.val) { pair in
                 guard let pair = pair else {
                     return
                 }

@@ -12,7 +12,7 @@ class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
     private var moduleId: Identifier<Module>
     private var user: User
-    private var userId: String { user.id }
+    private var userId: String { user.id.val }
 
     private var db = Firestore.firestore()
     private var chatRoomsReference: CollectionReference?

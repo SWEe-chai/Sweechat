@@ -14,7 +14,7 @@ class ImageMessageViewModel: MessageViewModel {
     init(message: Message,
          sender: User,
          delegate: MediaMessageViewModelDelegate,
-         currentUserId: UserId) {
+         currentUserId: Identifier<User>) {
         self.mediaData = ImageDataViewModel(
             urlString: message.content.toString(),
             delegate: delegate)

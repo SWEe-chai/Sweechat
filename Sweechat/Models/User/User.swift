@@ -2,10 +2,10 @@ import Combine
 import Foundation
 
 class User: ObservableObject {
-    static let unvailableUserId = ""
+    static let unvailableUserId: Identifier<User> = ""
     static let unvailableUserName = "Unavailable User"
 
-    @Published var id: String
+    @Published var id: Identifier<User>
     @Published var name: String
     @Published var profilePictureUrl: String?
     private var userFacade: UserFacade?
@@ -16,22 +16,22 @@ class User: ObservableObject {
         User(id: unvailableUserId, name: unvailableUserName)
     }
 
-    init(id: String) {
+    init(id: Identifier<User>) {
         self.id = id
         self.name = ""
         self.profilePictureUrl = ""
-        self.groupCryptographyProvider = SignalProtocol(userId: id)
+        self.groupCryptographyProvider = SignalProtocol(userId: id.val)
     }
 
-    init(id: String, name: String, profilePictureUrl: String? = nil) {
+    init(id: Identifier<User>, name: String, profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
         self.profilePictureUrl = profilePictureUrl
-        self.groupCryptographyProvider = SignalProtocol(userId: id)
+        self.groupCryptographyProvider = SignalProtocol(userId: id.val)
     }
 
     func setUserConnection() {
-        self.userFacade = FirebaseUserFacade(userId: id)
+        self.userFacade = FirebaseUserFacade(userId: id.val)
         userFacade?.delegate = self
         userFacade?.loginAndListenToUser(
             User(
@@ -70,7 +70,7 @@ extension User: Equatable, Comparable {
     }
 
     static func < (lhs: User, rhs: User) -> Bool {
-        lhs.id < rhs.id
+        lhs.id.val < rhs.id.val
     }
 }
 
