@@ -7,7 +7,7 @@
 
 import UserNotifications
 import os
-//@testable import Sweechat
+// @testable import Sweechat
 
 class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
@@ -22,8 +22,11 @@ class NotificationService: UNNotificationServiceExtension {
 //            let receiverId = bestAttemptContent.userInfo["gcm.notification.receiverId"]
 //            let chatRoomId = bestAttemptContent.userInfo["gcm.notification.chatRoomId"]
 //            let groupCryptographyProvider = SignalProtocol(userId: receiverId as! String)
-//            let decryptMessage = decryptMessageContent(groupCryptographyProvider: groupCryptographyProvider, chatRoomId: chatRoomId as! String, messageContent: bestAttemptContent.body as! Data)
-            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
+//            let decryptMessage = decryptMessageContent(
+//            groupCryptographyProvider: groupCryptographyProvider, chatRoom
+//            messageContent: bestAttemptContent.body as! Data
+//            )
+            bestAttemptContent.title = "\(bestAttemptContent.title)"
 //            bestAttemptContent.body = decryptMessage as! String
 
             contentHandler(bestAttemptContent)
