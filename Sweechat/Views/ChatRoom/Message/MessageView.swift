@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MessageView: View {
-    var viewModel: MessageViewModel
+    @ObservedObject var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
     @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
@@ -29,6 +29,8 @@ struct MessageView: View {
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
+                likeButton()
+                    .padding(.vertical, 1)
             }
             .padding(10)
             .foregroundColor(viewModel.foregroundColor)
@@ -38,7 +40,9 @@ struct MessageView: View {
             .contextMenu {
                 contextMenuReplyButton()
                 if viewModel.isRightAlign {
-                    contextMenuEditButton()
+                    if viewModel.isEditable {
+                        contextMenuEditButton()
+                    }
                     Divider()
                     contextMenuDeleteButton()
                 }
@@ -57,9 +61,19 @@ struct MessageView: View {
         }
     }
 
+    private func likeButton() -> some View {
+        Button {
+            viewModel.toggleLike()
+        } label: {
+            let countLabel = "\(viewModel.likesCount)"
+            let systemImage = viewModel.isCurrentUserLiking ? "hand.thumbsup.fill" : "hand.thumbsup"
+            Label(countLabel, systemImage: systemImage)
+        }
+    }
+
     private func contextMenuEditButton() -> some View {
         Button {
-            print("Edited")
+            viewModel.edit()
         } label: {
             Label("Edit", systemImage: "square.and.pencil")
         }
@@ -67,7 +81,7 @@ struct MessageView: View {
 
     private func contextMenuDeleteButton() -> some View {
         Button {
-            print("Deleted")
+            viewModel.delete()
         } label: {
             Label("Delete", systemImage: "trash")
         }
@@ -85,10 +99,10 @@ struct MessageView_Previews: PreviewProvider {
                                                                creationTime: Date(),
                                                                content: "The message I sent".toData(),
                                                                type: MessageType.text, receiverId: "111",
-                                                               parentId: nil),
+                                                               parentId: nil, likers: []),
                                               sender: User(id: "123",
                                                            name: "Christine Jane Welly"),
-                                              isSenderCurrentUser: false)
+                                              currentUserId: "1234")
 
     static var longMessage = """
     Hello this is a very long message. I hope you are able to bear with me for this one. I am just previewing afterall.
@@ -102,10 +116,10 @@ struct MessageView_Previews: PreviewProvider {
                                                               content: longMessage.toData(),
                                                               type: MessageType.text,
                                                               receiverId: "111",
-                                                              parentId: nil),
+                                                              parentId: nil, likers: []),
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
-                                             isSenderCurrentUser: false)
+                                             currentUserId: "123")
     static var previews: some View {
         MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
     }

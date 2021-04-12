@@ -2,7 +2,7 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    var viewModel: ChatRoomViewModel
+    @ObservedObject var viewModel: ChatRoomViewModel
     var isShowingReply: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
@@ -33,6 +33,9 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
+                    .onChange(of: viewModel.editedMessageViewModel) { _ in
+                        typingMessage = viewModel.editedMessageContent
+                    }
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(ColorConstant.dark)

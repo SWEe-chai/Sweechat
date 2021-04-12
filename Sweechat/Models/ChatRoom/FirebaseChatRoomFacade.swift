@@ -49,12 +49,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .document(chatRoomId)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
-            .whereField(DatabaseConstant.Message.receiverId, in: [user.id, ChatRoom.allUsersId])
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId)
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
             .document(chatRoomId)
-        loadMembers(onCompletion: { self.loadMessages(onCompletion: self.addListeners) })
+        loadMembers(onCompletion: {
+            self.loadKeyExchangeMessages(onCompletion: {
+                self.loadMessages(onCompletion: self.addListeners)
+            })
+        })
     }
 
     private func loadMembers(onCompletion: (() -> Void)?) {
@@ -71,6 +75,27 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 onCompletion?()
             }
         }
+    }
+
+    private func loadKeyExchangeMessages(onCompletion: (() -> Void)?) {
+        messagesReference?
+            .whereField(DatabaseConstant.Message.type, isEqualTo: MessageType.keyExchange.rawValue)
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: user.id)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let delegate = self.delegate else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageFacade.convert(document: $0)
+                })
+                if delegate.handleKeyExchangeMessages(keyExchangeMessages: messages) {
+                    onCompletion?()
+                } else {
+                    os_log("Key exchange failed, waiting for new keys")
+                }
+            }
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
@@ -167,6 +192,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 })
 
                 onCompletion?(publicKeyBundles)
+            }
+    }
+
+    func delete(_ message: Message) {
+        self.messagesReference?
+            .document(message.id)
+            .delete { err in
+                if err != nil {
+                    os_log("Error deleting message")
+                }
             }
     }
 

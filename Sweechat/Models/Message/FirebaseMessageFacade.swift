@@ -19,7 +19,8 @@ class FirebaseMessageFacade {
               let senderId = data?[DatabaseConstant.Message.senderId] as? String,
               let receiverId = data?[DatabaseConstant.Message.receiverId] as? String,
               let messageTypeStr = data?[DatabaseConstant.Message.type] as? String,
-              let parentId = data?[DatabaseConstant.Message.parentId] as? String? else {
+              let parentId = data?[DatabaseConstant.Message.parentId] as? String?,
+              let likers = data?[DatabaseConstant.Message.likers] as? [UserId] else {
             os_log("Error converting data for Message, data: %s", String(describing: data))
             return nil
         }
@@ -38,7 +39,8 @@ class FirebaseMessageFacade {
             content: content,
             type: messageType,
             receiverId: receiverId,
-            parentId: parentId)
+            parentId: parentId,
+            likers: Set(likers))
         }
         return nil
     }
@@ -50,7 +52,8 @@ class FirebaseMessageFacade {
             DatabaseConstant.Message.senderId: message.senderId,
             DatabaseConstant.Message.content: message.content,
             DatabaseConstant.Message.type: message.type.rawValue,
-            DatabaseConstant.Message.receiverId: message.receiverId
+            DatabaseConstant.Message.receiverId: message.receiverId,
+            DatabaseConstant.Message.likers: Array(message.likers)
         ]
 
         // This means that in Firestore, some Message document might have

@@ -35,7 +35,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
                                    delegate: self,
-                                   isSenderCurrentUser: self.user.id == $0.senderId)
+                                   currentUserId: self.user.id)
             })
         }
 
