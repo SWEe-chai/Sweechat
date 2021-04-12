@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
-
+    
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
         let appearance = UINavigationBarAppearance()
@@ -28,8 +28,10 @@ struct LoginView: View {
             }
             NavigationLink(
                 "",
-                destination: LazyNavView(
-                    HomeView(viewModel: viewModel.homeViewModel)),
+                destination:
+                    LazyNavView(
+                        HomeView(viewModel: viewModel.homeViewModel)
+                    ),
                 isActive: $viewModel.isLoggedIn
             )
             .hidden()

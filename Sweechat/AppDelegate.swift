@@ -162,6 +162,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+var isFromNotif: Bool = false
+var directChatRoomId: String = ""
+var directModuleId: String = ""
 // [START ios_10_message_handling]
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -174,7 +177,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     // With swizzling disabled you must let Messaging know about the message, for Analytics
     // Messaging.messaging().appDidReceiveMessage(userInfo)
-
+    isFromNotif = true
+    
+    directModuleId = userInfo["gcm.notification.moduleId"] as! String
+    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as! String
+    
+    print(directModuleId)
+    print(directChatRoomId)
     // [START_EXCLUDE]
     // Print message ID.
     if let messageID = userInfo[gcmMessageIDKey] {

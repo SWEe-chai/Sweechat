@@ -26,6 +26,9 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     @Published var messages: [MessageViewModel] = []
+    var id: String {
+        chatRoom.id.val
+    }
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom

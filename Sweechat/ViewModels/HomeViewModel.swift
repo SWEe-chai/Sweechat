@@ -54,6 +54,10 @@ class HomeViewModel: ObservableObject {
         let id = Identifier<Module>(val: secret)
         moduleList.joinModule(moduleId: id)
     }
+    
+    func getModuleViewModel(moduleId: String) -> ModuleViewModel {
+        self.moduleViewModels.filter { $0.id == moduleId }[0]
+    }
 }
 
 // MARK: SettingsViewModelDelegate
