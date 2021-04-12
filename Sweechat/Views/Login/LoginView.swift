@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
-    
+
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
         let appearance = UINavigationBarAppearance()

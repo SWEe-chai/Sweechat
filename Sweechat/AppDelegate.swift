@@ -69,8 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Print message ID.
     if let messageID = userInfo[gcmMessageIDKey] {
-      print("Message ID: \(messageID)")
+      print("Message ID 33: \(messageID)")
     }
+    isFromNotif = true
+
+    directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
+    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
 
     // Print full message.
     print(userInfo)
@@ -88,8 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Print message ID.
     if let messageID = userInfo[gcmMessageIDKey] {
-      print("Message ID: \(messageID)")
+      print("Message ID 11: \(messageID)")
     }
+    isFromNotif = true
 
     // Print full message.
     print(userInfo)
@@ -178,16 +183,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // With swizzling disabled you must let Messaging know about the message, for Analytics
     // Messaging.messaging().appDidReceiveMessage(userInfo)
     isFromNotif = true
-    
-    directModuleId = userInfo["gcm.notification.moduleId"] as! String
-    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as! String
-    
+
+    directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
+    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
+
     print(directModuleId)
     print(directChatRoomId)
     // [START_EXCLUDE]
     // Print message ID.
     if let messageID = userInfo[gcmMessageIDKey] {
-      print("Message ID: \(messageID)")
+      print("Message ID 1: \(messageID)")
     }
     // [END_EXCLUDE]
 
@@ -206,9 +211,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // [START_EXCLUDE]
     // Print message ID.
     if let messageID = userInfo[gcmMessageIDKey] {
-      print("Message ID: \(messageID)")
+      print("Message ID 5: \(messageID)")
     }
     // [END_EXCLUDE]
+    isFromNotif = true
+
+    directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
+    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
+
+    print(directModuleId)
+    print(directChatRoomId)
 
     // With swizzling disabled you must let Messaging know about the message, for Analytics
     // Messaging.messaging().appDidReceiveMessage(userInfo)

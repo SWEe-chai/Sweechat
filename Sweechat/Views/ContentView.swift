@@ -11,18 +11,20 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            if (isFromNotif) {
-                ChatRoomViewFactory
-                    .makeView(
-                        viewModel: appViewModel.loginViewModel
-                            .homeViewModel
-                            .getModuleViewModel(moduleId: directModuleId)
-                            .getChatRoomViewModel(chatRoomId: directChatRoomId)
-                
-                        )
-        
+            if isFromNotif {
+                Text("A")
+//                ChatRoomViewFactory
+//                    .makeView(
+//                        viewModel: appViewModel.loginViewModel
+//                            .homeViewModel
+//                            .getModuleViewModel(moduleId: directModuleId)
+//                            .getChatRoomViewModel(chatRoomId: directChatRoomId)
+//
+//                        )
+
             } else {
-                LoginView(viewModel: appViewModel.loginViewModel)
+                Text("B")
+                // LoginView(viewModel: appViewModel.loginViewModel)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
