@@ -57,9 +57,8 @@ class Message: ObservableObject {
     }
 
     func update(message: Message) {
-        if self.content != message.content {
-            self.content = message.content
-        }
+        self.content = message.content
+        self.likers = message.likers
     }
 
     func toggleLike(of userId: UserId) {
