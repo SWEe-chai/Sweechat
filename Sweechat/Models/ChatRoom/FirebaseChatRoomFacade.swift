@@ -21,13 +21,16 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var chatRoomListener: ListenerRegistration?
     private var messagesReference: CollectionReference?
     private var filteredMessagesReference: Query?
-    private var messagesListener: ListenerRegistration?
+    private var messagesUpdateListener: ListenerRegistration?
+    private var messagesInsertListener: ListenerRegistration?
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
+    private var oldestMessageDocument: QueryDocumentSnapshot?
 
-    init(chatRoomId: Identifier<ChatRoom>, user: User) {
+    init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
         self.user = user
+        self.delegate = delegate
         setUpConnectionToChatRoom()
     }
 
@@ -62,19 +65,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMembers(onCompletion: (() -> Void)?) {
-        userChatRoomModulePairsFilteredQuery?.getDocuments { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
-                return
+        FirebaseUserChatRoomModulePairQuery
+            .getUserChatRoomModulePairs(inChatRoomId: chatRoomId) { pairs in
+                let userIds: [String] = pairs.map { $0.userId }
+                FirebaseUserQuery.getUsers(withIds: userIds) { users in
+                    self.delegate?.insertAll(members: users)
+                    onCompletion?()
+                }
             }
-            let userIds: [String] = snapshot.documents.compactMap {
-                $0.data()[DatabaseConstant.UserModulePair.userId] as? String
-            }
-            FirebaseUserQuery.getUsers(withIds: userIds) { users in
-                self.delegate?.insertAll(members: users)
-                onCompletion?()
-            }
-        }
     }
 
     private func loadKeyExchangeMessages(onCompletion: (() -> Void)?) {
@@ -99,17 +97,22 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMessages(onCompletion: (() -> Void)?) {
-        filteredMessagesReference?.getDocuments { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
-                return
+        filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .limit(toLast: 5)
+            .getDocuments { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    onCompletion?()
+                    return
+                }
+                self.oldestMessageDocument = snapshot.documents.first
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageFacade.convert(document: $0)
+                })
+                self.delegate?.insertAll(messages: messages)
+                onCompletion?()
             }
-            let messages = snapshot.documents.compactMap({
-                FirebaseMessageFacade.convert(document: $0)
-            })
-            self.delegate?.insertAll(messages: messages)
-            onCompletion?()
-        }
     }
 
     private func addListeners() {
@@ -119,15 +122,29 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
         }
 
-        messagesListener = filteredMessagesReference?.addSnapshotListener { querySnapshot, error in
-            guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
-                return
+        messagesUpdateListener = filteredMessagesReference?
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error listening for all messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                snapshot.documentChanges
+                    .filter { $0.type != .added }
+                    .forEach { self.handleMessageDocumentChange($0) }
             }
-            snapshot.documentChanges.forEach { change in
-                self.handleMessageDocumentChange(change)
+
+        messagesInsertListener = filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .limit(toLast: 1)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error listening for new messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                snapshot.documentChanges
+                    .filter { $0.type == .added }
+                    .forEach { self.handleMessageDocumentChange($0) }
             }
-        }
 
         userChatRoomModulePairsListener = userChatRoomModulePairsFilteredQuery?
             .addSnapshotListener { querySnapshot, error in
@@ -138,6 +155,29 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 snapshot.documentChanges.forEach { change in
                     self.handleUserModulePairDocumentChange(change)
                 }
+            }
+    }
+
+    func loadNextBlock() {
+        guard let oldestMessageDocument = self.oldestMessageDocument else {
+            os_log("Trying to load next block but not available")
+            return
+        }
+        filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .end(beforeDocument: oldestMessageDocument)
+            .limit(toLast: 5)
+            .getDocuments { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let oldestMessageDocument = snapshot.documents.first else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                self.oldestMessageDocument = oldestMessageDocument
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageFacade.convert(document: $0)
+                })
+                self.delegate?.insertAll(messages: messages)
             }
     }
 

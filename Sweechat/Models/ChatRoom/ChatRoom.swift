@@ -59,8 +59,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func setChatRoomConnection() {
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
-        chatRoomFacade?.delegate = self
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser, delegate: self)
     }
 
     func storeMessage(message: Message) {
@@ -83,6 +82,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func getUser(userId: String) -> User {
         memberIdsToUsers[userId] ?? User.createUnavailableUser()
+    }
+
+    func loadMore() {
+        chatRoomFacade?.loadNextBlock()
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
@@ -109,13 +112,15 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func insertAll(messages: [Message]) {
-        let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
+        let newMessages = messages
+            .filter { !self.messages.contains($0) }
 
         for message in newMessages {
             processMessage(message)
         }
 
-        self.messages = newMessages
+        self.messages.append(contentsOf: newMessages)
+        self.messages.sort()
     }
 
     private func processMessage(_ message: Message) {

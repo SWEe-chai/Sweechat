@@ -6,6 +6,9 @@ struct ChatRoomView: View {
 
     var body: some View {
         VStack {
+            Button(action: { viewModel.loadMore() }) {
+                Text("Load more")
+            }
             MessagesScrollView(viewModel: viewModel,
                                replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,

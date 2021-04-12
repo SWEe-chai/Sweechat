@@ -57,6 +57,10 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
+    func loadMore() {
+        chatRoom.loadMore()
+    }
+
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
         if let editedMessageViewModel = editedMessageViewModel {
             editedMessageViewModel.message.content = text.toData()

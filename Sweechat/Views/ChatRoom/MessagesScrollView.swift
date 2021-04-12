@@ -14,9 +14,9 @@ struct MessagesScrollView: View {
                                 parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
                                 onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
                 }
-                .onAppear { scrollToLatestMessage(scrollView) }
+//                .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
-                    scrollToLatestMessage(scrollView)
+//                    scrollToLatestMessage(scrollView)
                 }
                 .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
                     guard let metadata = replyPreviewMetadata else {
