@@ -28,7 +28,7 @@ class ModuleList: ObservableObject {
         self.moduleListFacade?.save(module: module, userModulePermissions: userModulePermissions)
     }
 
-    func joinModule(moduleId: String) {
+    func joinModule(moduleId: Identifier<Module>) {
         self.moduleListFacade?.joinModule(moduleId: moduleId)
     }
 

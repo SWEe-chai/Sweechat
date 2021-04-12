@@ -3,7 +3,7 @@ import FirebaseStorage
 import os
 
 class FirebaseModuleQuery {
-    static func getModule(moduleId: String,
+    static func getModule(moduleId: Identifier<Module>,
                           user: User,
                           onCompletion: @escaping (Module) -> Void) {
         FirebaseUserModulePairQuery
@@ -27,16 +27,16 @@ class FirebaseModuleQuery {
     }
 
     static func getModules(pairs: [FirebaseUserModulePair], user: User, onCompletion: @escaping ([Module]) -> Void) {
-        let moduleIds = pairs.map { $0.moduleId }
-        if moduleIds.isEmpty {
+        let moduleIdStrs = pairs.map { $0.moduleId.val }
+        if moduleIdStrs.isEmpty {
             onCompletion([])
             return
         }
-        for moduleIdChunk in moduleIds.chunked(into: 10) {
+        for moduleIdStrChunk in moduleIdStrs.chunked(into: 10) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.modules)
-                .whereField(DatabaseConstant.Module.id, in: moduleIdChunk)
+                .whereField(DatabaseConstant.Module.id, in: moduleIdStrChunk)
                 .getDocuments { snapshots, error in
                     guard let documents = snapshots?.documents else {
                         os_log("Error getting Modules from: \(pairs)")
@@ -44,8 +44,8 @@ class FirebaseModuleQuery {
                         return
                     }
                     let modules: [Module] = documents.compactMap { document in
-                        guard let moduleId = document[DatabaseConstant.Module.id] as? String,
-                              let pair = pairs.first(where: { $0.moduleId == moduleId }) else {
+                        guard let moduleIdStr = document[DatabaseConstant.Module.id] as? String,
+                              let pair = pairs.first(where: { $0.moduleId.val == moduleIdStr }) else {
                             os_log("Unable to find pair with the desired moduleId. Document: %s",
                                    String(describing: document))
                             return nil

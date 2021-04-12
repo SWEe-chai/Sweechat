@@ -5,7 +5,7 @@ class PrivateChatRoom: ChatRoom {
     var subscribers: [AnyCancellable] = []
 
     // Used by facade
-    init(id: String,
+    init(id: Identifier<ChatRoom>,
          ownerId: String,
          currentUser: User) {
         super.init(id: id,

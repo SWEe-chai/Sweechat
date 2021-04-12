@@ -77,7 +77,8 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        viewModel.handleSendMessage(content, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        viewModel.handleSendMessage(content, withParentId: parentId)
         typingMessage = ""
         replyPreviewMetadata = nil
     }
@@ -89,11 +90,12 @@ struct MessageInputBarView: View {
             return
         }
 
+        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+            viewModel.handleSendImage(media, withParentId: parentId)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: replyPreviewMetadata?.messageBeingRepliedTo.id)
+            viewModel.handleSendVideo(media, withParentId: parentId)
         }
 
         media = nil

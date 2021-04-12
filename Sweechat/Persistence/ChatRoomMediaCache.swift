@@ -3,10 +3,10 @@ import os
 
 class ChatRoomMediaCache {
     private var cacheSizeLimitInBytes = 200 * 1_024
-    private var chatRoomId: String
+    private var chatRoomId: Identifier<ChatRoom>
     private var urlStringToImageData: [String: Data] = [:]
 
-    init(chatRoomId: String) {
+    init(chatRoomId: Identifier<ChatRoom>) {
         self.chatRoomId = chatRoomId
         self.fillImageCache()
     }
@@ -15,7 +15,7 @@ class ChatRoomMediaCache {
     private func fillImageCache() {
         do {
             let itemDatas = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId, limitSize: cacheSizeLimitInBytes))
+                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId.val, limitSize: cacheSizeLimitInBytes))
             for itemData in itemDatas {
                 guard let urlString = itemData.urlString,
                       let data = itemData.data else {
@@ -32,7 +32,7 @@ class ChatRoomMediaCache {
     private func loadImage(fromURlString urlString: String) -> Data? {
         do {
             let itemData = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemInChatRoom(urlString: urlString, chatRoomId: chatRoomId))
+                .fetch(StoredImageData.fetchItemInChatRoom(urlString: urlString, chatRoomId: chatRoomId.val))
             guard let data = itemData.first?.data else {
                 os_log("Data with url \(urlString) does not exist")
                 return nil
@@ -73,7 +73,8 @@ class ChatRoomMediaCache {
     }
 
     private func delete(imageWithUrlString urlString: String) {
-        let deleteRequest = StoredImageData.delete(urlString: urlString, from: chatRoomId)
+        // NSManagedObject, need String
+        let deleteRequest = StoredImageData.delete(urlString: urlString, from: chatRoomId.val)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -83,7 +84,7 @@ class ChatRoomMediaCache {
 
     private func save(imageWithUrlString urlString: String, data: Data) {
         let storageItem = StoredImageData(context: Persistence.shared().context)
-        storageItem.chatRoomId = chatRoomId
+        storageItem.chatRoomId = chatRoomId.val // NSManagedObject, need String
         storageItem.data = data
         storageItem.size = Int64(MemoryLayout.size(ofValue: data))
         storageItem.urlString = urlString
@@ -97,7 +98,7 @@ class ChatRoomMediaCache {
     // MARK: Handle videos
 
     private func delete(videoWithLocalUrlString urlString: String) {
-        let deleteRequest = StoredVideoData.delete(urlString: urlString, from: chatRoomId)
+        let deleteRequest = StoredVideoData.delete(urlString: urlString, from: chatRoomId.val)
         do {
             try Persistence.shared().context.execute(deleteRequest)
         } catch {
@@ -107,7 +108,7 @@ class ChatRoomMediaCache {
 
     private func save(videoWithLocalUrlString urlString: String) {
         let storageItem = StoredVideoData(context: Persistence.shared().context)
-        storageItem.chatRoomId = chatRoomId
+        storageItem.chatRoomId = chatRoomId.val
         storageItem.localUrlString = urlString
         do {
             try Persistence.shared().context.save()

@@ -84,6 +84,8 @@
 		3E405A76261087EF005F2B49 /* MessageViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */; };
 		3E47F82225FE0E9E00861721 /* ModuleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */; };
 		3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */; };
+		3E5989DD2622D974000DE14F /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5989DC2622D974000DE14F /* Identifier.swift */; };
+		3E598A9526240A42000DE14F /* IdentifierConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E598A9426240A42000DE14F /* IdentifierConverter.swift */; };
 		3E746B5B260ED4DE008CF3F6 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E746B5A260ED4DE008CF3F6 /* FirebaseUtils.swift */; };
 		3E746B88260EF8B7008CF3F6 /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */; };
 		3E74E084261047DC00CB344E /* ImageMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E74E083261047DC00CB344E /* ImageMessageContentView.swift */; };
@@ -295,6 +297,8 @@
 		3E405A75261087EF005F2B49 /* MessageViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModelFactory.swift; sourceTree = "<group>"; };
 		3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModel.swift; sourceTree = "<group>"; };
 		3E591C5126008C1A00226DC2 /* DatabaseConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConstant.swift; sourceTree = "<group>"; };
+		3E5989DC2622D974000DE14F /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
+		3E598A9426240A42000DE14F /* IdentifierConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierConverter.swift; sourceTree = "<group>"; };
 		3E746B5A260ED4DE008CF3F6 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
 		3E74E083261047DC00CB344E /* ImageMessageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMessageContentView.swift; sourceTree = "<group>"; };
@@ -868,6 +872,8 @@
 				3E746B5A260ED4DE008CF3F6 /* FirebaseUtils.swift */,
 				27A2D993261F65ED00267C7D /* ImageDataViewModel.swift */,
 				27D2362026205F1E00116F13 /* LocalFileViewModel.swift */,
+				3E5989DC2622D974000DE14F /* Identifier.swift */,
+				3E598A9426240A42000DE14F /* IdentifierConverter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1418,6 +1424,7 @@
 				45D6336F25FE01E900C94D4F /* LoginView.swift in Sources */,
 				27BD8F2F2619730A00B0F7D7 /* MemberItemView.swift in Sources */,
 				2788584826105DD30058ADB2 /* HomeToolbarView.swift in Sources */,
+				3E598A9526240A42000DE14F /* IdentifierConverter.swift in Sources */,
 				27ABA37F26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift in Sources */,
 				3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
@@ -1427,6 +1434,7 @@
 				27EADD4E2621F90200E4CC9C /* ThreadCreator.swift in Sources */,
 				27ABA39F26184F8E0072F591 /* ForumChatRoomView.swift in Sources */,
 				77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */,
+				3E5989DD2622D974000DE14F /* Identifier.swift in Sources */,
 				4583D9992616055B0092AF87 /* P256SharedKey.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
