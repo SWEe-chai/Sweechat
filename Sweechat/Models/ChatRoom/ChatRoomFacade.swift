@@ -10,7 +10,7 @@ protocol ChatRoomFacade {
     var delegate: ChatRoomFacadeDelegate? { get set }
     func save(_ message: Message)
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?)
-    func loadNextBlock()
+    func loadNextBlock(_ numberOfMessages: Int)
     func loadPublicKeyBundlesFromStorage(of: [User], onCompletion: ((([String: Data]) -> Void))?)
     func delete(_ message: Message)
 }

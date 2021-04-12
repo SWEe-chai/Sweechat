@@ -5,19 +5,27 @@ struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
 
+    @State private var scrollOffset: CGFloat = .zero
+    @State private var heightOffset: CGFloat = .zero
+    @State private var canLoadMore: Bool = true
+
     var body: some View {
-        ScrollView {
+        // Please becareful changing this view, everything is flipped
+        ScrollViewOffset(offset: $scrollOffset, height: $heightOffset) {
             ScrollViewReader { scrollView in
-                ForEach(viewModel.messages, id: \.self) { messageViewModel in
-                    let parentMessage = getMessage(withId: messageViewModel.parentId)
-                    MessageView(viewModel: messageViewModel,
-                                parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
-                                onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
+                LazyVStack {
+                    ForEach(viewModel.messages, id: \.self) { messageViewModel in
+                        let parentMessage = getMessage(withId: messageViewModel.parentId)
+                        MessageView(viewModel: messageViewModel,
+                                    parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
+                                    onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) }).flip()
+                    }
                 }
-//                .onAppear { scrollToLatestMessage(scrollView) }
+                .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
-//                    scrollToLatestMessage(scrollView)
+                    handleNewMessages(scrollView)
                 }
+                .onChange(of: scrollOffset) { handleOffsetChange(offset: $0) }
                 .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
                     guard let metadata = replyPreviewMetadata else {
                         os_log("Info: replyPreviewMetadata is nil when detecting change.")
@@ -31,16 +39,31 @@ struct MessagesScrollView: View {
                 }
                 .padding([.leading, .trailing])
             }
+        }.flip()
+    }
+
+    func handleNewMessages(_ scrollView: ScrollViewProxy) {
+        if scrollOffset <= 300 {
+            // in vicinity of the bottom and we get a new message
+            scrollToLatestMessage(scrollView)
+        }
+    }
+
+    func handleOffsetChange(offset: CGFloat) {
+        if scrollOffset / abs(heightOffset - UIScreen.main.bounds.size.height) >= 0.7 && canLoadMore {
+            viewModel.loadMore()
+            self.canLoadMore = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.canLoadMore = true
+            }
         }
     }
 
     func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
-        if viewModel.messages.isEmpty {
+        if viewModel.messages.count <= 1 {
             return
         }
-        let index = viewModel.messages.count - 1
-        scrollView.scrollTo(viewModel.messages[index])
-
+        scrollView.scrollTo(viewModel.messages[0])
     }
 
     private func getMessage(withId id: String?) -> MessageViewModel? {
@@ -69,6 +92,14 @@ struct MessagesScrollView: View {
     }
 }
 
+extension View {
+    public func flip() -> some View {
+        self
+            .rotationEffect(.radians(.pi))
+            .scaleEffect(x: -1, y: 1, anchor: .center)
+    }
+}
+
 struct MessagesScrollView_Previews: PreviewProvider {
     static var previews: some View {
         MessagesScrollView(
@@ -83,18 +114,3 @@ struct MessagesScrollView_Previews: PreviewProvider {
         )
     }
 }
-
-// TODO: Currently removed because it is complaining due to the messageBeingRepliedTo
-// struct MessagesScrollView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MessagesScrollView(
-//            viewModel: ChatRoomViewModel(
-//                chatRoom: ChatRoom(id: "0",
-//                                   name: "CS4269",
-//                                   currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-//                                   currentUserPermission: ChatRoomPermission.readWrite),
-//                user: User(id: "", name: "Hello", profilePictureUrl: "")
-//            )
-//        )
-//    }
-// }

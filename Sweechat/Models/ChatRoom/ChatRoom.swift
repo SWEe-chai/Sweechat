@@ -84,8 +84,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         memberIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
-    func loadMore() {
-        chatRoomFacade?.loadNextBlock()
+    func loadMore(_ numberOfMessages: Int) {
+        chatRoomFacade?.loadNextBlock(numberOfMessages)
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
@@ -108,7 +108,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
         processMessage(message)
         self.messages.append(message)
-        self.messages.sort(by: { $0.creationTime < $1.creationTime })
+        self.messages.sort()
     }
 
     func insertAll(messages: [Message]) {
@@ -190,7 +190,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
                         senderId: currentUser.id,
                         content: Data(),
                         type: .keyExchange,
-                        receiverId: currentUser.id, parentId: nil))
+                        receiverId: currentUser.id,
+                        parentId: nil))
             }
             return true
         }

@@ -24,7 +24,7 @@ class ChatRoomViewModel: ObservableObject {
     var editedMessageContent: String {
         editedMessageViewModel?.previewContent() ?? ""
     }
-
+    var cachedMessages: [MessageViewModel] = []
     @Published var messages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
@@ -40,15 +40,19 @@ class ChatRoomViewModel: ObservableObject {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
             // TODO: This resets all messages everytime a message gets changed,
             // might want to consider getting the new messages / deleted messages instead
-            self.messages = messages.compactMap {
+            self.cachedMessages = messages.compactMap {
                 let viewModel = MessageViewModelFactory
-                                    .makeViewModel(message: $0,
-                                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                                   delegate: self,
-                                                   currentUserId: self.user.id)
+                                    .makeViewModel(
+                                        message: $0,
+                                        sender: self.chatRoom.getUser(userId: $0.senderId),
+                                        delegate: self,
+                                        currentUserId: self.user.id)
                 viewModel?.delegate = self
                 return viewModel
             }
+
+            self.messages = self.cachedMessages.firstHalf()
+
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
@@ -58,7 +62,8 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func loadMore() {
-        chatRoom.loadMore()
+        self.messages = cachedMessages
+        chatRoom.loadMore(messages.count)
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {

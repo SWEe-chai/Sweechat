@@ -24,6 +24,7 @@
 		276476B32622A45D0074786E /* Array+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276476B22622A45D0074786E /* Array+Chunk.swift */; };
 		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
 		2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */; };
+		2781D0892624876700B9F5E9 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
 		278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */; };
 		278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974F2601E24600124FA3 /* ALAuthHandler.swift */; };
@@ -238,6 +239,7 @@
 		276476B22622A45D0074786E /* Array+Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunk.swift"; sourceTree = "<group>"; };
 		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
 		2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelType.swift; sourceTree = "<group>"; };
+		2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
 		2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALFacebookAuthHandler.swift; sourceTree = "<group>"; };
 		2787974F2601E24600124FA3 /* ALAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandler.swift; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 				77F4F1DB2619B333003CD601 /* Color.swift */,
 				27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */,
 				27D233DA2624628D00B2FAD7 /* UIScrollViewWrapper.swift */,
+				2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1306,6 +1309,7 @@
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				27A2D936261EDF3F00267C7D /* ChatRoomMediaCache.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
+				2781D0892624876700B9F5E9 /* ScrollViewOffset.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
 				3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */,
 				279DD1E826177E79001E4B37 /* ChatRoomNameTextField.swift in Sources */,
