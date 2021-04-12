@@ -249,7 +249,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return nil
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.ChatRoom.id] as? String,
+        guard let idString = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
               let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
@@ -258,6 +258,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             return nil
         }
 
+        let id = Identifier<ChatRoom>(val: idString)
         switch type {
         case .groupChat:
             return GroupChatRoom(
@@ -289,8 +290,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     static func convert(chatRoom: ChatRoom) -> [String: Any] {
-        var document = [
-            DatabaseConstant.ChatRoom.id: chatRoom.id,
+        var document: [String: Any] = [
+            DatabaseConstant.ChatRoom.id: chatRoom.id.val,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""

@@ -122,7 +122,7 @@ class FirebaseModuleFacade: ModuleFacade {
               userPermissions: [UserPermissionPair],
               onCompletion: (() -> Void)?) {
         chatRoomsReference?
-            .document(chatRoom.id)
+            .document(chatRoom.id.val)
             .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
                 if let e = error {
                     os_log("Error sending chatRoom: \(e.localizedDescription)")
@@ -133,7 +133,7 @@ class FirebaseModuleFacade: ModuleFacade {
         for userPermission in userPermissions {
             let pair = FirebaseUserChatRoomModulePair(
                 userId: userPermission.userId,
-                chatRoomId: chatRoom.id,
+                chatRoomId: chatRoom.id.val,
                 moduleId: moduleId,
                 permissions: userPermission.permissions)
             userChatRoomModulePairsReference?

@@ -1,6 +1,6 @@
 class ThreadChatRoom: ChatRoom {
     // This init is to create the function
-    init(postId: String, sender: User, forumMembers: [User]) {
+    init(postId: Identifier<ChatRoom>, sender: User, forumMembers: [User]) {
         super.init(name: "Thread",
                    members: forumMembers,
                    currentUser: sender,
@@ -9,7 +9,7 @@ class ThreadChatRoom: ChatRoom {
     }
 
     // This init is when the thread is already created
-    init(id: String, ownerId: String, currentUser: User) {
+    init(id: Identifier<ChatRoom>, ownerId: String, currentUser: User) {
         super.init(id: id,
                    name: "Thread",
                    ownerId: ownerId,

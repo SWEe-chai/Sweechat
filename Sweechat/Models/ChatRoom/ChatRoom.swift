@@ -3,7 +3,7 @@ import Foundation
 import os
 
 class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
-    var id: String
+    var id: Identifier<ChatRoom>
     @Published var name: String
     var profilePictureUrl: String?
     let ownerId: String
@@ -23,7 +23,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // Pass owner ID here
     // This init is for the cloud service to create the chatroom and keep it in sync with the
-    init(id: String,
+    init(id: Identifier<ChatRoom>,
          name: String,
          ownerId: String,
          currentUser: User,
@@ -45,7 +45,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          members: [User],
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
-         givenChatRoomId: String = UUID().uuidString,
+         givenChatRoomId: Identifier<ChatRoom> = Identifier(val: UUID().uuidString),
          profilePictureUrl: String? = nil) {
         self.id = givenChatRoomId
         self.name = name
@@ -59,7 +59,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func setChatRoomConnection() {
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id.val, user: currentUser)
         chatRoomFacade?.delegate = self
     }
 
@@ -73,7 +73,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     private func encryptMessageContent(message: Message) -> Data {
-        if let content = try? groupCryptographyProvider.encrypt(plaintextData: message.content, groupId: id) {
+        if let content = try? groupCryptographyProvider.encrypt(plaintextData: message.content, groupId: id.val) {
             return content
         }
 
@@ -124,7 +124,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     private func decryptMessageContent(message: Message) -> Data {
-        if let content = try? groupCryptographyProvider.decrypt(ciphertextData: message.content, groupId: self.id) {
+        if let content = try? groupCryptographyProvider.decrypt(ciphertextData: message.content, groupId: self.id.val) {
             return content
         }
 
@@ -209,7 +209,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             }
 
             guard let keyExchangeBundleData = try? groupCryptographyProvider
-                    .generateKeyExchangeDataFrom(serverKeyBundleData: bundleData, groupId: self.id) else {
+                    .generateKeyExchangeDataFrom(serverKeyBundleData: bundleData, groupId: self.id.val) else {
                 os_log("Unable to generate key exchange bundle")
                 return
             }
@@ -224,7 +224,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     private func processKeyExchangeMessage(_ message: Message) {
         do {
-            try groupCryptographyProvider.process(keyExchangeBundleData: message.content, groupId: self.id)
+            try groupCryptographyProvider.process(keyExchangeBundleData: message.content, groupId: self.id.val)
         } catch {
             os_log("Unable to process key exchange bundle from group creator")
         }

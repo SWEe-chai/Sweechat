@@ -43,15 +43,16 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     }
 
     override func handleSendMessage(_ text: String, withParentId parentId: String?) {
-        let id = Identifier<Message>(val: UUID().uuidString)
+        let messageId = Identifier<Message>(val: UUID().uuidString)
+        let chatRoomId = Identifier<ChatRoom>(val: messageId.val)
         // TODO: Change this to Identifier<ChatRoom>
-        threadCreator?.createThreadChatRoom(id: id.val, currentUser: user, forumMembers: forumChatRoom.members) {
+        threadCreator?.createThreadChatRoom(id: chatRoomId, currentUser: user, forumMembers: forumChatRoom.members) {
             let message = Message(
                 senderId: self.user.id,
                 content: text.toData(),
                 type: MessageType.text,
                 receiverId: ChatRoom.allUsersId,
-                parentId: parentId, id: id)
+                parentId: parentId, id: messageId)
             self.chatRoom.storeMessage(message: message)
         }
     }

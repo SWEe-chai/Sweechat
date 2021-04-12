@@ -99,7 +99,7 @@ class CreateChatRoomViewModel: ObservableObject {
 
 // MARK: ForumViewModelDelegate
 extension CreateChatRoomViewModel: ThreadCreator {
-    func createThreadChatRoom(id: String,
+    func createThreadChatRoom(id: Identifier<ChatRoom>,
                               currentUser: User,
                               forumMembers: [User],
                               onCompletion: (() -> Void)? = nil) {
