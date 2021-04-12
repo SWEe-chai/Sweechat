@@ -188,12 +188,14 @@ class FirebaseModuleFacade: ModuleFacade {
             return nil
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.Module.id] as? String,
+        guard let idStr = data?[DatabaseConstant.Module.id] as? String,
               let name = data?[DatabaseConstant.Module.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for Module, data: %s", String(describing: data))
             return nil
         }
+
+        let id = Identifier<Module>(val: idStr)
         return Module(
             id: id,
             name: name,
@@ -205,7 +207,7 @@ class FirebaseModuleFacade: ModuleFacade {
 
     static func convert(module: Module) -> [String: Any] {
         [
-            DatabaseConstant.Module.id: module.id,
+            DatabaseConstant.Module.id: module.id.val,
             DatabaseConstant.Module.name: module.name,
             DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
         ]

@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 class Module: ObservableObject {
-    var id: String
+    var id: Identifier<Module>
     @Published var name: String
     var profilePictureUrl: String?
     @Published var chatRooms: [ChatRoom]
@@ -25,7 +25,7 @@ class Module: ObservableObject {
     var userIdsToUsers: [String: User] = [:]
     let currentUserPermission: ModulePermissionBitmask
 
-    init(id: String,
+    init(id: Identifier<Module>,
          name: String,
          currentUser: User,
          currentUserPermission: ModulePermissionBitmask,
@@ -46,7 +46,7 @@ class Module: ObservableObject {
          currentUser: User,
          currentUserPermission: ModulePermissionBitmask,
          profilePictureUrl: String? = nil) {
-        self.id = UUID().uuidString
+        self.id = Identifier<Module>(val: UUID().uuidString)
         self.name = name
         self.currentUser = currentUser
         self.currentUserPermission = currentUserPermission
@@ -59,7 +59,7 @@ class Module: ObservableObject {
 
     func setModuleConnection() {
         self.moduleFacade = FirebaseModuleFacade(
-            moduleId: self.id,
+            moduleId: self.id.val,
             user: currentUser)
         self.moduleFacade?.delegate = self
     }

@@ -97,9 +97,9 @@ class FirebaseModuleListFacade: ModuleListFacade {
     func save(module: Module, userModulePermissions: [UserModulePermissionPair]) {
         // TODO: generate id using a synchronous call
         let id = randomString(length: 8)
-        module.id = id
+        module.id = Identifier<Module>(val: id)
 
-        modulesReference?.document(module.id).setData(FirebaseModuleFacade.convert(module: module)) { error in
+        modulesReference?.document(module.id.val).setData(FirebaseModuleFacade.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
@@ -108,7 +108,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
         for userModulePermission in userModulePermissions {
             let pair = FirebaseUserModulePair(userId: userModulePermission.userId,
-                                              moduleId: module.id,
+                                              moduleId: module.id.val,
                                               permissions: userModulePermission.permissions)
             userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
                 if let e = error {

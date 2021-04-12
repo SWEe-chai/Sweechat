@@ -6,7 +6,7 @@ class ModuleViewModel: ObservableObject {
     private var user: User
     private var subscribers: [AnyCancellable] = []
     var id: String {
-        module.id
+        module.id.val
     }
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
