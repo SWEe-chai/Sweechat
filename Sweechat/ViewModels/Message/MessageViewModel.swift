@@ -20,7 +20,7 @@ class MessageViewModel: ObservableObject {
     }
 
     var parentId: String? {
-        message.parentId
+        message.parentId?.val
     }
 
     // MARK: Messsage Bubble Properties

@@ -42,7 +42,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         forumSubscribers.append(postsSubscriber)
     }
 
-    override func handleSendMessage(_ text: String, withParentId parentId: String?) {
+    override func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
         let messageId = Identifier<Message>(val: UUID().uuidString)
         let chatRoomId = Identifier<ChatRoom>(val: messageId.val)
         // TODO: Change this to Identifier<ChatRoom>

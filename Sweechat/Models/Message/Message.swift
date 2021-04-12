@@ -5,7 +5,7 @@ import os
 typealias UserId = String // TODO: Make use of type-safe identifiers
 
 class Message: ObservableObject {
-    let parentId: String?
+    let parentId: Identifier<Message>?
     var id: Identifier<Message>
     @Published var content: Data
     var creationTime: Date
@@ -19,7 +19,7 @@ class Message: ObservableObject {
          content: Data,
          type: MessageType,
          receiverId: String,
-         parentId: String?,
+         parentId: Identifier<Message>?,
          id: Identifier<Message> = Identifier(val: UUID().uuidString)) {
         self.senderId = senderId
         self.content = content
@@ -38,7 +38,7 @@ class Message: ObservableObject {
          content: Data,
          type: MessageType,
          receiverId: String,
-         parentId: String?,
+         parentId: Identifier<Message>?,
          likers: Set<UserId>) {
         self.id = id
         self.senderId = senderId

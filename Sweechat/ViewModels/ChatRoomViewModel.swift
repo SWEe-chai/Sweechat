@@ -57,7 +57,7 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func handleSendMessage(_ text: String, withParentId parentId: String?) {
+    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
         if let editedMessageViewModel = editedMessageViewModel {
             editedMessageViewModel.message.content = text.toData()
             self.chatRoom.storeMessage(message: editedMessageViewModel.message)
@@ -69,7 +69,7 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: String?) {
+    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: Identifier<Message>?) {
         guard let image = wrappedImage as? UIImage else {
             os_log("wrappedImage is not UIImage")
             return
@@ -88,7 +88,7 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: String?) {
+    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: Identifier<Message>?) {
         guard let url = mediaURL as? URL else {
             os_log("media url is not a url")
             print("media url: \(String(describing: mediaURL))")
