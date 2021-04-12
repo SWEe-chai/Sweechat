@@ -7,13 +7,11 @@
 
 import UserNotifications
 import os
-@testable import Sweechat
+//@testable import Sweechat
 
 class NotificationService: UNNotificationServiceExtension {
-
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
-//    var groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
@@ -21,12 +19,12 @@ class NotificationService: UNNotificationServiceExtension {
 
         if let bestAttemptContent = bestAttemptContent {
             // Modify the notification content here...
-            let receiverId = bestAttemptContent.userInfo["gcm.notification.receiverId"]
-            let chatRoomId = bestAttemptContent.userInfo["gcm.notification.chatRoomId"]
-            let groupCryptographyProvider = SignalProtocol(userId: receiverId as! String)
-            let decryptMessage = decryptMessageContent(groupCryptographyProvider: groupCryptographyProvider, chatRoomId: chatRoomId as! String, messageContent: bestAttemptContent.body as! Data)
+//            let receiverId = bestAttemptContent.userInfo["gcm.notification.receiverId"]
+//            let chatRoomId = bestAttemptContent.userInfo["gcm.notification.chatRoomId"]
+//            let groupCryptographyProvider = SignalProtocol(userId: receiverId as! String)
+//            let decryptMessage = decryptMessageContent(groupCryptographyProvider: groupCryptographyProvider, chatRoomId: chatRoomId as! String, messageContent: bestAttemptContent.body as! Data)
             bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-            bestAttemptContent.body = decryptMessage as! String
+//            bestAttemptContent.body = decryptMessage as! String
 
             contentHandler(bestAttemptContent)
         }
@@ -40,13 +38,12 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
 
-    private func decryptMessageContent(groupCryptographyProvider: SignalProtocol, chatRoomId: String, messageContent: Data) -> Data {
-        if let content = try? groupCryptographyProvider.decrypt(ciphertextData: messageContent, groupId: chatRoomId) {
-            return content
-        }
-
-        os_log("Unable to decrypt chat room message")
-        return ChatRoom.failedEncryptionMessageContent.toData()
-    }
-
+//    private func decryptMessageContent(groupCryptographyProvider: SignalProtocol, chatRoomId: String, messageContent: Data) -> Data {
+//        if let content = try? groupCryptographyProvider.decrypt(ciphertextData: messageContent, groupId: chatRoomId) {
+//            return content
+//        }
+//
+//        os_log("Unable to decrypt chat room message")
+//        return ChatRoom.failedEncryptionMessageContent.toData()
+//    }
 }
