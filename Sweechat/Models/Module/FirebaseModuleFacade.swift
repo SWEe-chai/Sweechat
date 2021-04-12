@@ -133,7 +133,7 @@ class FirebaseModuleFacade: ModuleFacade {
         for userPermission in userPermissions {
             let pair = FirebaseUserChatRoomModulePair(
                 userId: userPermission.userId,
-                chatRoomId: chatRoom.id.val,
+                chatRoomId: chatRoom.id,
                 moduleId: moduleId,
                 permissions: userPermission.permissions)
             userChatRoomModulePairsReference?

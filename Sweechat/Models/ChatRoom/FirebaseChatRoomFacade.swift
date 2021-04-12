@@ -11,7 +11,7 @@ import os
 
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
-    private var chatRoomId: String
+    private var chatRoomId: Identifier<ChatRoom>
     private var user: User
 
     private var db = Firestore.firestore()
@@ -25,14 +25,14 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
 
-    init(chatRoomId: String, user: User) {
+    init(chatRoomId: Identifier<ChatRoom>, user: User) {
         self.chatRoomId = chatRoomId
         self.user = user
         setUpConnectionToChatRoom()
     }
 
     func setUpConnectionToChatRoom() {
-        if chatRoomId.isEmpty {
+        if chatRoomId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
@@ -42,18 +42,18 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         userChatRoomModulePairsFilteredQuery = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
-            .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId)
+            .whereField(DatabaseConstant.UserChatRoomModulePair.chatRoomId, isEqualTo: chatRoomId.val)
         messagesReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
+            .document(chatRoomId.val)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
             .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId)
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
-            .document(chatRoomId)
+            .document(chatRoomId.val)
         loadMembers(onCompletion: {
             self.loadKeyExchangeMessages(onCompletion: {
                 self.loadMessages(onCompletion: self.addListeners)

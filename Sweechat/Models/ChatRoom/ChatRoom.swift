@@ -59,7 +59,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func setChatRoomConnection() {
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id.val, user: currentUser)
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
         chatRoomFacade?.delegate = self
     }
 

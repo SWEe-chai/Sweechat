@@ -17,7 +17,7 @@ class FirebaseUserChatRoomModulePairFacade {
         let data = document.data()
 
         guard let userId = data?[DatabaseConstant.UserChatRoomModulePair.userId] as? String,
-              let chatRoomId = data?[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String,
+              let chatRoomIdStr = data?[DatabaseConstant.UserChatRoomModulePair.chatRoomId] as? String,
               let moduleId = data?[DatabaseConstant.UserChatRoomModulePair.moduleId] as? String,
               let permissions = data?[DatabaseConstant.UserChatRoomModulePair.permissions]
                 as? ChatRoomPermissionBitmask else {
@@ -25,6 +25,7 @@ class FirebaseUserChatRoomModulePairFacade {
             return nil
         }
 
+        let chatRoomId = Identifier<ChatRoom>(val: chatRoomIdStr)
         return FirebaseUserChatRoomModulePair(
             userId: userId,
             chatRoomId: chatRoomId,
@@ -35,7 +36,7 @@ class FirebaseUserChatRoomModulePairFacade {
     static func convert(pair: FirebaseUserChatRoomModulePair) -> [String: Any] {
         [
             DatabaseConstant.UserChatRoomModulePair.userId: pair.userId,
-            DatabaseConstant.UserChatRoomModulePair.chatRoomId: pair.chatRoomId,
+            DatabaseConstant.UserChatRoomModulePair.chatRoomId: pair.chatRoomId.val,
             DatabaseConstant.UserChatRoomModulePair.moduleId: pair.moduleId,
             DatabaseConstant.UserChatRoomModulePair.permissions: pair.permissions
         ]
