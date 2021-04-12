@@ -60,6 +60,9 @@ class FirebaseUserFacade: UserFacade {
             os_log("Error loading user: User id is empty")
             return
         }
+        if (FcmJsonStorageManager.load()) == "" {
+            os_log("DONT HAVE SIA")
+        }
         usersReference
             .document(userId)
             .setData(["token": FcmJsonStorageManager.load() ?? ""], merge: true)

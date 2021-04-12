@@ -140,6 +140,8 @@
 		45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */; };
 		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
 		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
+		7724184C2623E27C00A5E422 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7724184B2623E27C00A5E422 /* NotificationService.swift */; };
+		772418502623E27C00A5E422 /* NotificationServices.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 772418492623E27C00A5E422 /* NotificationServices.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7726FBC72621BF9B0076F9C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */; };
 		7726FBE62622C2B80076F9C1 /* FcmStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7726FBE52622C2B80076F9C1 /* FcmStorageManager.swift */; };
 		7726FBEB2622C2CF0076F9C1 /* FcmJsonStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7726FBEA2622C2CF0076F9C1 /* FcmJsonStorageManager.swift */; };
@@ -199,6 +201,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7724184E2623E27C00A5E422 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 778F08AB25FDDA420059C2A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 772418482623E27C00A5E422;
+			remoteInfo = NotificationServices;
+		};
 		778F08CD25FDDA470059C2A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 778F08AB25FDDA420059C2A0 /* Project object */;
@@ -214,6 +223,20 @@
 			remoteInfo = Sweechat;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		772417CF2623E16E00A5E422 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				772418502623E27C00A5E422 /* NotificationServices.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		27061E08261780B600777AB3 /* CreateChatRoomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatRoomToolbarView.swift; sourceTree = "<group>"; };
@@ -349,6 +372,9 @@
 		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		772417632622E47900A5E422 /* Sweechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sweechat.entitlements; sourceTree = "<group>"; };
+		772418492623E27C00A5E422 /* NotificationServices.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServices.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7724184B2623E27C00A5E422 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		7724184D2623E27C00A5E422 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7726FBE52622C2B80076F9C1 /* FcmStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FcmStorageManager.swift; sourceTree = "<group>"; };
 		7726FBEA2622C2CF0076F9C1 /* FcmJsonStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FcmJsonStorageManager.swift; sourceTree = "<group>"; };
@@ -417,6 +443,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		772418462623E27C00A5E422 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		778F08B025FDDA420059C2A0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -866,6 +899,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		7724184A2623E27C00A5E422 /* NotificationServices */ = {
+			isa = PBXGroup;
+			children = (
+				7724184B2623E27C00A5E422 /* NotificationService.swift */,
+				7724184D2623E27C00A5E422 /* Info.plist */,
+			);
+			path = NotificationServices;
+			sourceTree = "<group>";
+		};
 		7726FBCB2622C19B0076F9C1 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -942,6 +984,7 @@
 				778F08B525FDDA420059C2A0 /* Sweechat */,
 				778F08CF25FDDA470059C2A0 /* SweechatTests */,
 				778F08DA25FDDA470059C2A0 /* SweechatUITests */,
+				7724184A2623E27C00A5E422 /* NotificationServices */,
 				778F08B425FDDA420059C2A0 /* Products */,
 				4EBC4485A6D3D8BBE0CC43DF /* Pods */,
 				408D6A2FFB02FFBF2F107B5B /* Frameworks */,
@@ -954,6 +997,7 @@
 				778F08B325FDDA420059C2A0 /* Sweechat.app */,
 				778F08CC25FDDA470059C2A0 /* SweechatTests.xctest */,
 				778F08D725FDDA470059C2A0 /* SweechatUITests.xctest */,
+				772418492623E27C00A5E422 /* NotificationServices.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1081,6 +1125,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		772418482623E27C00A5E422 /* NotificationServices */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 772418512623E27C00A5E422 /* Build configuration list for PBXNativeTarget "NotificationServices" */;
+			buildPhases = (
+				772418452623E27C00A5E422 /* Sources */,
+				772418462623E27C00A5E422 /* Frameworks */,
+				772418472623E27C00A5E422 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationServices;
+			productName = NotificationServices;
+			productReference = 772418492623E27C00A5E422 /* NotificationServices.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		778F08B225FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 778F08E025FDDA470059C2A0 /* Build configuration list for PBXNativeTarget "Sweechat" */;
@@ -1092,10 +1153,12 @@
 				45D633A525FE0D1B00C94D4F /* ShellScript */,
 				A3448E1F0CEDA9C08DD14525 /* [CP] Embed Pods Frameworks */,
 				7FDD8C0D7E6143D8139C0A61 /* [CP] Copy Pods Resources */,
+				772417CF2623E16E00A5E422 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7724184F2623E27C00A5E422 /* PBXTargetDependency */,
 			);
 			name = Sweechat;
 			productName = Sweechat;
@@ -1147,6 +1210,9 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					772418482623E27C00A5E422 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					778F08B225FDDA420059C2A0 = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -1176,11 +1242,19 @@
 				778F08B225FDDA420059C2A0 /* Sweechat */,
 				778F08CB25FDDA470059C2A0 /* SweechatTests */,
 				778F08D625FDDA470059C2A0 /* SweechatUITests */,
+				772418482623E27C00A5E422 /* NotificationServices */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		772418472623E27C00A5E422 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		778F08B125FDDA420059C2A0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1299,6 +1373,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		772418452623E27C00A5E422 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7724184C2623E27C00A5E422 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		778F08AF25FDDA420059C2A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1496,6 +1578,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7724184F2623E27C00A5E422 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 772418482623E27C00A5E422 /* NotificationServices */;
+			targetProxy = 7724184E2623E27C00A5E422 /* PBXContainerItemProxy */;
+		};
 		778F08CE25FDDA470059C2A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 778F08B225FDDA420059C2A0 /* Sweechat */;
@@ -1520,6 +1607,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		772418522623E27C00A5E422 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W76H98A34A;
+				INFOPLIST_FILE = NotificationServices/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.2021.Sweechat.NotificationServices;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		772418532623E27C00A5E422 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W76H98A34A;
+				INFOPLIST_FILE = NotificationServices/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.2021.Sweechat.NotificationServices;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		778F08DE25FDDA470059C2A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1640,6 +1769,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
@@ -1666,6 +1796,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
@@ -1779,6 +1910,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		772418512623E27C00A5E422 /* Build configuration list for PBXNativeTarget "NotificationServices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				772418522623E27C00A5E422 /* Debug */,
+				772418532623E27C00A5E422 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		778F08AE25FDDA420059C2A0 /* Build configuration list for PBXProject "Sweechat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

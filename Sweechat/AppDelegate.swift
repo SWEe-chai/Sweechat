@@ -219,6 +219,7 @@ extension AppDelegate: MessagingDelegate {
 
     let dataDict: [String: String] = ["token": fcmToken ?? ""]
     NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    FcmJsonStorageManager.save(token: fcmToken)
     // TODO: If necessary send token to application server.
     // Note: This callback is fired at each app startup and whenever a new token is generated.
   }
