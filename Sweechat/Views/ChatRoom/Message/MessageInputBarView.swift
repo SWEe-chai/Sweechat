@@ -72,7 +72,7 @@ struct MessageInputBarView: View {
 
     // TODO: Might want to combine sendTypedMessage with sendMedia. Some common logic
     // like setting messageBeingRepliedTo to nil at the end
-    func sendTypedMessage() {
+    private func sendTypedMessage() {
         let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
         if content.isEmpty {
             return
@@ -132,6 +132,7 @@ struct MessageInputBarView: View {
             typingMessage = ""
         }
         self.parentPreviewMetadata = nil
+        viewModel.dismissEdit()
     }
 
     private func handleTextEditorChange() {

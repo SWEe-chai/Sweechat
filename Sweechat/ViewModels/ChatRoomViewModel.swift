@@ -57,11 +57,15 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
+    func dismissEdit() {
+        self.editedMessageViewModel = nil
+    }
+
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
         if let editedMessageViewModel = editedMessageViewModel {
             editedMessageViewModel.message.content = text.toData()
             self.chatRoom.storeMessage(message: editedMessageViewModel.message)
-            self.editedMessageViewModel = nil
+            self.dismissEdit()
         } else {
             let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
                                   receiverId: ChatRoom.allUsersId, parentId: parentId)

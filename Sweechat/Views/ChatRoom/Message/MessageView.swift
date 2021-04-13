@@ -73,7 +73,7 @@ struct MessageView: View {
 
     private func contextMenuEditButton() -> some View {
         Button {
-            previewEdit(message: viewModel)
+            onEditTapped(message: viewModel)
         } label: {
             Label("Edit", systemImage: "square.and.pencil")
         }
@@ -92,7 +92,8 @@ struct MessageView: View {
         parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .reply)
     }
 
-    private func previewEdit(message: MessageViewModel) {
+    private func onEditTapped(message: MessageViewModel) {
+        viewModel.edit()
         parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .edit)
     }
 }
