@@ -12,16 +12,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if appViewModel.isFromNotif {
-                Text("A")
 //                ChatRoomViewFactory
 //                    .makeView(
 //                        viewModel: appViewModel.loginViewModel
 //                            .homeViewModel
-//                            .getModuleViewModel(moduleId: directModuleId)
-//                            .getChatRoomViewModel(chatRoomId: directChatRoomId)
+//                            .getModuleViewModel(moduleId: appViewModel.directModuleId)
+//                            .getChatRoomViewModel(chatRoomId: appViewModel.directChatRoomId)
 //
 //                        )
-
+                SettingsView(viewModel: appViewModel.loginViewModel.homeViewModel.settingsViewModel)
             } else {
                  LoginView(viewModel: appViewModel.loginViewModel)
             }
