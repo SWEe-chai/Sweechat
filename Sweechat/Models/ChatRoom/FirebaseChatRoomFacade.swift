@@ -181,6 +181,36 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
+    func loadMessage(withId id: String, onCompletion: @escaping (Message?) -> Void) {
+        messagesReference?
+            .document(id)
+            .getDocument { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                onCompletion(FirebaseMessageFacade.convert(document: snapshot))
+            }
+    }
+
+    func loadUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
+        filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .whereField(DatabaseConstant.Message.creationTime, isGreaterThan: time)
+            .getDocuments { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let oldestMessageDocument = snapshot.documents.first else {
+                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    return
+                }
+                self.oldestMessageDocument = oldestMessageDocument
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageFacade.convert(document: $0)
+                })
+                onCompletion(messages)
+            }
+    }
+
     func save(_ message: Message) {
         messagesReference?
             .document(message.id.val)

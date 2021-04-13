@@ -13,7 +13,8 @@ class ThreadChatRoomViewModel: ChatRoomViewModel {
         self.post = TextMessageViewModel(
             message: post,
             sender: postSender,
-            currentUserId: user.id)
+            currentUserId: user.id,
+            parentMessage: nil)
         super.init(chatRoom: threadChatRoom, user: user)
         threadChatRoom.setChatRoomConnection()
     }

@@ -8,6 +8,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var profilePictureUrl: String?
     let ownerId: String
     var currentUser: User
+    @Published var earlyLoadedMessages: Set<Message> = []
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
     let currentUserPermission: ChatRoomPermissionBitmask
@@ -88,12 +89,22 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         chatRoomFacade?.loadNextBlock(numberOfMessages)
     }
 
+    func loadUntil(message: Message) {
+        chatRoomFacade?.loadUntil(message.creationTime) {
+            self.insertAll(messages: $0)
+        }
+    }
+
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
         self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
     }
 
     func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
+    }
+
+    func subscribeToEarlyLoadedMessages(function: @escaping (Set<Message>) -> Void) -> AnyCancellable {
+        $earlyLoadedMessages.sink(receiveValue: function)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
@@ -104,6 +115,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     func insert(message: Message) {
         if self.messages.contains(message) {
             return
+        }
+
+        if let parentId = message.parentId {
+            loadParentMessage(parentId: parentId)
         }
 
         processMessage(message)
@@ -117,10 +132,24 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
         for message in newMessages {
             processMessage(message)
+            if let parentId = message.parentId {
+                loadParentMessage(parentId: parentId)
+            }
         }
 
         self.messages.append(contentsOf: newMessages)
         self.messages.sort()
+    }
+
+    private func loadParentMessage(parentId: Identifier<Message>) {
+        chatRoomFacade?.loadMessage(withId: parentId.val) { message in
+            guard let message = message else {
+                os_log("Parent message does not exist \(parentId)")
+                return
+            }
+            self.processMessage(message)
+            self.earlyLoadedMessages.insert(message)
+        }
     }
 
     private func processMessage(_ message: Message) {

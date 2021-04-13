@@ -15,11 +15,12 @@ struct MessagesScrollView: View {
             ScrollViewReader { scrollView in
                 LazyVStack {
                     ForEach(viewModel.messages, id: \.self) { messageViewModel in
-                        let parentMessage = getMessage(withId: messageViewModel.parentId)
+                        let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)
                         MessageView(viewModel: messageViewModel,
                                     parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
                                     onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) }).flip()
                     }
+                    Spacer()
                 }
                 .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
@@ -50,7 +51,7 @@ struct MessagesScrollView: View {
     }
 
     func handleOffsetChange(offset: CGFloat) {
-        if scrollOffset / abs(heightOffset - UIScreen.main.bounds.size.height) >= 0.7 && canLoadMore {
+        if scrollOffset >= abs(heightOffset - UIScreen.main.bounds.size.height) && canLoadMore {
             viewModel.loadMore()
             self.canLoadMore = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -82,12 +83,25 @@ struct MessagesScrollView: View {
             os_log("nil MessageViewModel passed into scrollToMessage")
             return
         }
-        guard let index = viewModel.messages.firstIndex(of: message) else {
-            os_log("could not find message in the list of messages")
-            return
+
+        viewModel.loadUntil(messageViewModel: message)
+
+        checkAsync(interval: 0.1) {
+            if let index = viewModel.messages.firstIndex(of: message) {
+                withAnimation(Animation.easeIn(duration: 1.0)) {
+                    scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
+                }
+                return false
+            }
+            return true
         }
-        withAnimation(Animation.easeIn(duration: 1.0)) {
-            scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
+    }
+
+    func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+            if repeatableFunction() {
+                self.checkAsync(interval: interval, repeatableFunction: repeatableFunction)
+            }
         }
     }
 }

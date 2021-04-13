@@ -14,11 +14,12 @@ class ImageMessageViewModel: MessageViewModel {
     init(message: Message,
          sender: User,
          delegate: MediaMessageViewModelDelegate,
-         currentUserId: UserId) {
+         currentUserId: UserId,
+         parentMessage: Message?) {
         self.mediaData = ImageDataViewModel(
             urlString: message.content.toString(),
             delegate: delegate)
-        super.init(message: message, sender: sender, currentUserId: currentUserId, isEditable: false)
+        super.init(message: message, sender: sender, currentUserId: currentUserId, parentMessage: parentMessage, isEditable: false)
 
         subscribers.append(message.subscribeToContent { newContent in
             self.mediaData.updateUrl(url: newContent.toString())

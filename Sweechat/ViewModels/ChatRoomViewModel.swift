@@ -24,8 +24,10 @@ class ChatRoomViewModel: ObservableObject {
     var editedMessageContent: String {
         editedMessageViewModel?.previewContent() ?? ""
     }
-    var cachedMessages: [MessageViewModel] = []
     @Published var messages: [MessageViewModel] = []
+    @Published var earlyLoadedMessages: [MessageViewModel] = []
+
+    var messageIdToMessages: [Identifier<Message>: Message] = [:]
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
@@ -40,30 +42,52 @@ class ChatRoomViewModel: ObservableObject {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
             // TODO: This resets all messages everytime a message gets changed,
             // might want to consider getting the new messages / deleted messages instead
-            self.cachedMessages = messages.compactMap {
+            self.messages = messages.compactMap {
                 let viewModel = MessageViewModelFactory
                                     .makeViewModel(
                                         message: $0,
                                         sender: self.chatRoom.getUser(userId: $0.senderId),
                                         delegate: self,
-                                        currentUserId: self.user.id)
+                                        currentUserId: self.user.id,
+                                        messageIdToMessages: [:])
                 viewModel?.delegate = self
                 return viewModel
             }
-
-            self.messages = self.cachedMessages.firstHalf()
-
+        }
+        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
+            self.earlyLoadedMessages = messages.compactMap {
+                MessageViewModelFactory
+                    .makeViewModel(
+                        message: $0,
+                        sender: self.chatRoom.getUser(userId: $0.senderId),
+                        delegate: self,
+                        currentUserId: self.user.id,
+                        messageIdToMessages: [:])
+            }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
         }
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
+        subscribers.append(earlyMessagesSubscriber)
     }
 
     func loadMore() {
-        self.messages = cachedMessages
         chatRoom.loadMore(messages.count)
+    }
+
+    func loadUntil(messageViewModel: MessageViewModel) {
+        chatRoom.loadUntil(message: messageViewModel.message)
+    }
+
+    func getMessageViewModel(withId id: String?) -> MessageViewModel? {
+        guard let messageId = id else {
+            return nil
+        }
+        var message = messages.first { $0.id == messageId }
+        message = earlyLoadedMessages.first { $0.id == messageId }
+        return message
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
