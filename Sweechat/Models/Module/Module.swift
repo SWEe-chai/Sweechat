@@ -22,7 +22,7 @@ class Module: ObservableObject {
     }
     var currentUser: User
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [String: User] = [:]
+    var userIdsToUsers: [Identifier<User>: User] = [:]
     let currentUserPermission: ModulePermissionBitmask
 
     init(id: Identifier<Module>,

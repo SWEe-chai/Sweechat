@@ -9,7 +9,7 @@ class ThreadChatRoom: ChatRoom {
     }
 
     // This init is when the thread is already created
-    init(id: Identifier<ChatRoom>, ownerId: String, currentUser: User) {
+    init(id: Identifier<ChatRoom>, ownerId: Identifier<User>, currentUser: User) {
         super.init(id: id,
                    name: "Thread",
                    ownerId: ownerId,

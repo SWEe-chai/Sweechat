@@ -6,7 +6,7 @@ class PrivateChatRoom: ChatRoom {
 
     // Used by facade
     init(id: Identifier<ChatRoom>,
-         ownerId: String,
+         ownerId: Identifier<User>,
          currentUser: User) {
         super.init(id: id,
                    name: "",
