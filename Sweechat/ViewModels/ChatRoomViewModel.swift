@@ -21,10 +21,6 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    var editedMessageContent: String {
-        editedMessageViewModel?.previewContent() ?? ""
-    }
-
     @Published var messages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
