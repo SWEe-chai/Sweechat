@@ -204,6 +204,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {
                     os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    onCompletion([])
                     return
                 }
                 self.oldestMessageDocument = oldestMessageDocument

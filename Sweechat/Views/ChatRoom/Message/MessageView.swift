@@ -109,8 +109,7 @@ struct MessageView_Previews: PreviewProvider {
                                                               parentId: nil, likers: []),
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
-                                             currentUserId: "123",
-                                             parentMessage: nil)
+                                             currentUserId: "123")
     static var message = TextMessageViewModel(message: Message(id: "123",
                                                                senderId: "123",
                                                                creationTime: Date(),
@@ -119,8 +118,7 @@ struct MessageView_Previews: PreviewProvider {
                                                                parentId: nil, likers: []),
                                               sender: User(id: "123",
                                                            name: "Christine Jane Welly"),
-                                              currentUserId: "1234",
-                                              parentMessage: parent.message)
+                                              currentUserId: "1234")
     static var previews: some View {
         MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
     }

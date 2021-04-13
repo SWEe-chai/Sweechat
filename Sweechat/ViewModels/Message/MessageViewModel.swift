@@ -8,7 +8,6 @@ class MessageViewModel: ObservableObject {
     weak var delegate: MessageActionsViewModelDelegate?
     var isEditable: Bool
     var message: Message
-    @Published var parentMessage: Message?
     var subscribers: [AnyCancellable] = []
 
     var isSenderCurrentUser: Bool {
@@ -45,11 +44,10 @@ class MessageViewModel: ObservableObject {
         message.likers.contains(currentUserId)
     }
 
-    init(message: Message, sender: User, currentUserId: UserId, parentMessage: Message?, isEditable: Bool) {
+    init(message: Message, sender: User, currentUserId: UserId, isEditable: Bool) {
         self.message = message
         self.sender = sender
         self.currentUserId = currentUserId
-        self.parentMessage = parentMessage
         self.isEditable = isEditable
         self.likesCount = message.likers.count
         subscribers.append(message.subscribeToLikers { userIdSet in

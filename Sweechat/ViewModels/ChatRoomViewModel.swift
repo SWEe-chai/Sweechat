@@ -28,8 +28,6 @@ class ChatRoomViewModel: ObservableObject {
     @Published var messages: [MessageViewModel] = []
     @Published var earlyLoadedMessages: [MessageViewModel] = []
 
-    var messageIdToMessages: [Identifier<Message>: Message] = [:]
-
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
         self.user = user
@@ -49,8 +47,7 @@ class ChatRoomViewModel: ObservableObject {
                                         message: $0,
                                         sender: self.chatRoom.getUser(userId: $0.senderId),
                                         delegate: self,
-                                        currentUserId: self.user.id,
-                                        messageIdToMessages: [:])
+                                        currentUserId: self.user.id)
                 viewModel?.delegate = self
                 return viewModel
             }
@@ -62,8 +59,7 @@ class ChatRoomViewModel: ObservableObject {
                         message: $0,
                         sender: self.chatRoom.getUser(userId: $0.senderId),
                         delegate: self,
-                        currentUserId: self.user.id,
-                        messageIdToMessages: [:])
+                        currentUserId: self.user.id)
             }
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
