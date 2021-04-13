@@ -10,6 +10,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var currentUser: User
     @Published var earlyLoadedMessages: Set<Message> = []
     @Published var messages: [Message]
+    @Published var areAllMessagesLoaded: Bool = false
     private var chatRoomFacade: ChatRoomFacade?
     let currentUserPermission: ChatRoomPermissionBitmask
     var memberIdsToUsers: [String: User] = [:]
@@ -86,7 +87,12 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func loadMore(_ numberOfMessages: Int) {
-        chatRoomFacade?.loadNextBlock(numberOfMessages)
+        chatRoomFacade?.loadNextBlock(numberOfMessages) { messages in
+            if messages.count < numberOfMessages {
+                self.areAllMessagesLoaded = true
+            }
+            self.insertAll(messages: messages)
+        }
     }
 
     func loadUntil(message: Message) {
@@ -105,6 +111,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func subscribeToEarlyLoadedMessages(function: @escaping (Set<Message>) -> Void) -> AnyCancellable {
         $earlyLoadedMessages.sink(receiveValue: function)
+    }
+
+    func subscribeToAreAllMessagesLoaded(function: @escaping (Bool) -> Void) -> AnyCancellable {
+        $areAllMessagesLoaded.sink(receiveValue: function)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {

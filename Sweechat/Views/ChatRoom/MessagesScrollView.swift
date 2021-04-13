@@ -10,11 +10,12 @@ struct MessagesScrollView: View {
     @State private var canLoadMore: Bool = true
 
     var body: some View {
-        // Please becareful changing this view, everything is flipped
         ScrollViewOffset(offset: $scrollOffset, height: $heightOffset) {
             ScrollViewReader { scrollView in
                 LazyVStack {
-                    Button(action: viewModel.loadMore) { Text("Load more") }
+                    if !viewModel.areAllMessagesLoaded {
+                        Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
+                    }
                     ForEach(viewModel.messages, id: \.self) { messageViewModel in
                         let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)
                         MessageView(viewModel: messageViewModel,
@@ -22,7 +23,7 @@ struct MessagesScrollView: View {
                                     onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
                     }
                 }
-                .onAppear { scrollToLatestMessage(scrollView) }
+                .onAppear { scrollToMessage(scrollView, viewModel.messages.last) }
                 .onChange(of: viewModel.messages.count) { _ in
                     handleNewMessages(scrollView)
                 }
@@ -49,16 +50,8 @@ struct MessagesScrollView: View {
     func handleNewMessages(_ scrollView: ScrollViewProxy) {
         if scrollOffset > heightOffset - UIScreen.main.bounds.height - 300 {
              // in vicinity of the bottom and we get a new message
-            scrollToLatestMessage(scrollView)
+            scrollToMessage(scrollView, viewModel.messages.last)
         }
-    }
-
-    func scrollToLatestMessage(_ scrollView: ScrollViewProxy) {
-        if viewModel.messages.count <= 1 {
-            return
-        }
-        let index = viewModel.messages.count - 1
-        scrollView.scrollTo(viewModel.messages[index])
     }
 
     // TODO: Perhaps combine this with `scrollToLatesMessage`?
@@ -72,12 +65,19 @@ struct MessagesScrollView: View {
             return
         }
 
+        if viewModel.messages.contains(message) {
+            withAnimation(Animation.easeIn(duration: 1.0)) {
+                scrollView.scrollTo(message, anchor: .bottom)
+            }
+            return
+        }
+
         viewModel.loadUntil(messageViewModel: message)
 
         checkAsync(interval: 0.1) {
-            if let index = viewModel.messages.firstIndex(of: message) {
+            if viewModel.messages.contains(message) {
                 withAnimation(Animation.easeIn(duration: 1.0)) {
-                    scrollView.scrollTo(viewModel.messages[index], anchor: .bottom)
+                    scrollView.scrollTo(message, anchor: .bottom)
                 }
                 return false
             }

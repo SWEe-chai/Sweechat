@@ -12,6 +12,7 @@ class ChatRoomViewModel: ObservableObject {
     @Published var editedMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
+    @Published var areAllMessagesLoaded: Bool = false
 
     var permissions: ChatRoomViewModelType {
         ChatRoomViewModelType.convert(permission: chatRoom.currentUserPermission)
@@ -68,13 +69,16 @@ class ChatRoomViewModel: ObservableObject {
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
         }
+        let allMessagesLoadedSubscriber = chatRoom.subscribeToAreAllMessagesLoaded { self.areAllMessagesLoaded = $0
+        }
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
         subscribers.append(earlyMessagesSubscriber)
+        subscribers.append(allMessagesLoadedSubscriber)
     }
 
     func loadMore() {
-        chatRoom.loadMore(messages.count)
+        chatRoom.loadMore(10)
     }
 
     func loadUntil(messageViewModel: MessageViewModel) {

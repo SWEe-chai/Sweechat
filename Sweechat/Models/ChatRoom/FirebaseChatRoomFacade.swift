@@ -158,7 +158,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadNextBlock(_ numberOfMessages: Int) {
+    func loadNextBlock(_ numberOfMessages: Int, onCompletion: @escaping ([Message]) -> Void) {
         guard let oldestMessageDocument = self.oldestMessageDocument else {
             os_log("Trying to load next block but not available")
             return
@@ -170,14 +170,15 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {
-                    os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
+                    os_log("No more messages: \(error?.localizedDescription ?? "No error")")
+                    onCompletion([])
                     return
                 }
                 self.oldestMessageDocument = oldestMessageDocument
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageFacade.convert(document: $0)
                 })
-                self.delegate?.insertAll(messages: messages)
+                onCompletion(messages)
             }
     }
 
