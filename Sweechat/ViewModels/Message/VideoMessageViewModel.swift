@@ -13,7 +13,7 @@ class VideoMessageViewModel: MessageViewModel {
     init(message: Message,
          sender: User,
          delegate: MediaMessageViewModelDelegate,
-         currentUserId: UserId) {
+         currentUserId: Identifier<User>) {
         self.localFileViewModel = LocalFileViewModel(onlineUrlString: message.content.toString(), delegate: delegate)
         super.init(message: message, sender: sender, currentUserId: currentUserId, isEditable: false)
 

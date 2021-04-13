@@ -10,7 +10,7 @@ struct MessageViewModelFactory {
         message: Message,
         sender: User,
         delegate: MediaMessageViewModelDelegate,
-        currentUserId: UserId) -> MessageViewModel? {
+        currentUserId: Identifier<User>) -> MessageViewModel? {
         switch message.type {
         case .text:
             return TextMessageViewModel(

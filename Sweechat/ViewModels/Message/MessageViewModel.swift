@@ -4,7 +4,7 @@ import os
 
 class MessageViewModel: ObservableObject {
     private var sender: User
-    private var currentUserId: UserId
+    private var currentUserId: Identifier<User>
     weak var delegate: MessageActionsViewModelDelegate?
     var isEditable: Bool
     var message: Message
@@ -44,7 +44,7 @@ class MessageViewModel: ObservableObject {
         message.likers.contains(currentUserId)
     }
 
-    init(message: Message, sender: User, currentUserId: UserId, isEditable: Bool) {
+    init(message: Message, sender: User, currentUserId: Identifier<User>, isEditable: Bool) {
         self.message = message
         self.sender = sender
         self.currentUserId = currentUserId

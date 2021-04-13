@@ -6,18 +6,18 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: Identifier<ChatRoom>
     @Published var name: String
     var profilePictureUrl: String?
-    let ownerId: String
+    let ownerId: Identifier<User>
     var currentUser: User
     @Published var messages: [Message]
     private var chatRoomFacade: ChatRoomFacade?
     let currentUserPermission: ChatRoomPermissionBitmask
-    var memberIdsToUsers: [String: User] = [:]
+    var memberIdsToUsers: [Identifier<User>: User] = [:]
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
     private var groupCryptographyProvider: GroupCryptographyProvider
 
-    static let allUsersId: String = "all"
+    static let allUsersId: Identifier<User> = "all"
     static let failedEncryptionMessageContent = "This chat room message could not be encrypted"
     static let failedDecryptionMessageContent = "This chat room message could not be decrypted"
 
@@ -25,7 +25,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     // This init is for the cloud service to create the chatroom and keep it in sync with the
     init(id: Identifier<ChatRoom>,
          name: String,
-         ownerId: String,
+         ownerId: Identifier<User>,
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
          profilePictureUrl: String? = nil) {
@@ -36,7 +36,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
-        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
     }
 
     // Owner
@@ -54,7 +54,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
-        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
+        self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
         insertAll(members: members)
     }
 
@@ -81,7 +81,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         return ChatRoom.failedEncryptionMessageContent.toData()
     }
 
-    func getUser(userId: String) -> User {
+    func getUser(userId: Identifier<User>) -> User {
         memberIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
@@ -203,7 +203,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     private func performKeyExchange(publicKeyBundles: [String: Data]) {
         for member in members where member.id != currentUser.id {
-            guard let bundleData = publicKeyBundles[member.id] else {
+            guard let bundleData = publicKeyBundles[member.id.val] else {
                 os_log("Unable to get public key bundle from chat room member")
                 return
             }

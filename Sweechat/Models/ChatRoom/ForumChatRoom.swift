@@ -3,7 +3,7 @@ import Combine
 class ForumChatRoom: ChatRoom {
     override init(id: Identifier<ChatRoom>,
                   name: String,
-                  ownerId: String,
+                  ownerId: Identifier<User>,
                   currentUser: User,
                   currentUserPermission: ChatRoomPermissionBitmask,
                   profilePictureUrl: String? = nil) {
