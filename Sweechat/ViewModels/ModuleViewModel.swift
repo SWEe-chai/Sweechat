@@ -11,6 +11,19 @@ class ModuleViewModel: ObservableObject {
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
 
+    var privateChatRoomVMs: [PrivateChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? PrivateChatRoomViewModel }
+    }
+    var groupChatRoomVMs: [GroupChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? GroupChatRoomViewModel }
+    }
+    var forumChatRoomVMs: [ForumChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? ForumChatRoomViewModel }
+    }
+    var starredModuleVMs: [ChatRoomViewModel] {
+        chatRoomViewModels.filter { $0.isStarred }
+    }
+
     var createChatRoomViewModel: CreateChatRoomViewModel {
         CreateChatRoomViewModel(
             module: module,
@@ -28,6 +41,20 @@ class ModuleViewModel: ObservableObject {
         initialiseSubscriber()
     }
 
+    func getChatRoomList(type: ChatRoomListType) -> [ChatRoomViewModel] {
+        switch type {
+        case .forum:
+            return forumChatRoomVMs
+        case .privateChat:
+            return privateChatRoomVMs
+        case .groupChat:
+            return groupChatRoomVMs
+        case .starred:
+            // TODO: Add actual implementation
+            return starredModuleVMs
+        }
+    }
+
     func initialiseSubscriber() {
         if !subscribers.isEmpty {
             return
@@ -35,14 +62,18 @@ class ModuleViewModel: ObservableObject {
         let nameSubscriber = module.subscribeToName { newName in
             self.text = newName
         }
-        let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
-            // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
-            self.chatRoomViewModels = chatRooms.map {
-                ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
-            }
+        let chatRoomsSubscriber = module.subscribeToChatrooms {
+            self.handleChatRoomsChange(chatRooms: $0)
         }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)
+    }
+
+    private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
+        // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
+        self.chatRoomViewModels = chatRooms.map {
+            ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+        }
     }
 
 }

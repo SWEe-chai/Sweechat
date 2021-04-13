@@ -25,6 +25,10 @@ class ChatRoomViewModel: ObservableObject {
         editedMessageViewModel?.previewContent() ?? ""
     }
 
+    var isStarred: Bool {
+        chatRoom.isStarred
+    }
+
     @Published var messages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
@@ -53,8 +57,12 @@ class ChatRoomViewModel: ObservableObject {
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
         }
+        let profilePictureSubscriber = chatRoom.subscribeToProfilePicture { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
+        subscribers.append(profilePictureSubscriber)
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
