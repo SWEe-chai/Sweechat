@@ -99,7 +99,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func loadMessages(onCompletion: (() -> Void)?) {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .limit(toLast: 30)
+            .limit(toLast: 20)
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
                     os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
