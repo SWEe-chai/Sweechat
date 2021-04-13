@@ -88,7 +88,7 @@ extension Message: Comparable {
     }
 
     static func < (lhs: Message, rhs: Message) -> Bool {
-        lhs.creationTime > rhs.creationTime
+        lhs.creationTime < rhs.creationTime
     }
 }
 

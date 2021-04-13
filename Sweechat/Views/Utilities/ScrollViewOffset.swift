@@ -13,6 +13,10 @@ struct ScrollViewOffset<Content: View>: View {
                         Color.clear
                             .onAppear { height = proxy.size.height }
                             .onChange(of: proxy.size.height) {
+                                if height != 0 {
+                                    let dHeight = proxy.size.height - height
+                                    offset += dHeight
+                                }
                                 height = $0
                             }
                     }
