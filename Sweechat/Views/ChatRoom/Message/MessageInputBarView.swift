@@ -36,7 +36,7 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
-                    .onChange(of: parentPreviewMetadata?.parentMessage) { _ in
+                    .onChange(of: parentPreviewMetadata) { _ in
                         handleTextEditorChange()
                     }
                 Button(action: sendTypedMessage) {

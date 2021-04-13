@@ -17,17 +17,6 @@ struct ChatRoomView: View {
         .navigationBarBackButtonHidden(false)
         .navigationTitle(Text(viewModel.text))
     }
-
-}
-
-struct ParentPreviewMetadata {
-    var parentMessage: MessageViewModel
-    var tappedPreview: Bool = false
-    var previewType: PreviewType
-}
-
-enum PreviewType {
-    case reply, edit
 }
 
 struct ChatRoomView_Previews: PreviewProvider {
