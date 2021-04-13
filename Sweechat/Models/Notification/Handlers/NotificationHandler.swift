@@ -11,11 +11,11 @@
 @available(iOS 10, *)
 class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
     var appViewModel: AppViewModel
-    
+
     init(appViewModel: AppViewModel) {
         self.appViewModel = appViewModel
     }
-    
+
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,

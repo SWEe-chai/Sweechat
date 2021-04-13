@@ -22,9 +22,13 @@ import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    var appViewModel: AppViewModel
+    var notificationHandler: NotificationHandler
 
-    var window: UIWindow?
-    var notificationHandler = NotificationHandler(appViewModel: AppViewModel())
+    override init() {
+        self.appViewModel = AppViewModel()
+        self.notificationHandler = NotificationHandler(appViewModel: appViewModel)
+    }
 
     func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -90,7 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
           print("Message ID 11: \(messageID)")
         }
-        isFromNotif = true
 
         // Print full message.
         print(userInfo)
