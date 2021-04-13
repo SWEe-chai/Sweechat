@@ -3,7 +3,7 @@ import os
 
 struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         ScrollView {
@@ -11,22 +11,22 @@ struct MessagesScrollView: View {
                 ForEach(viewModel.messages, id: \.self) { messageViewModel in
                     let parentMessage = getMessage(withId: messageViewModel.parentId)
                     MessageView(viewModel: messageViewModel,
-                                parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
+                                parentViewModel: parentMessage, parentPreviewMetadata: $parentPreviewMetadata,
                                 onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
                 }
                 .onAppear { scrollToLatestMessage(scrollView) }
                 .onChange(of: viewModel.messages.count) { _ in
                     scrollToLatestMessage(scrollView)
                 }
-                .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
-                    guard let metadata = replyPreviewMetadata else {
-                        os_log("Info: replyPreviewMetadata is nil when detecting change.")
+                .onChange(of: parentPreviewMetadata?.tappedPreview) { _ in
+                    guard let metadata = parentPreviewMetadata else {
+                        os_log("Info: parentPreviewMetadata is nil when detecting change.")
                         return
                     }
 
-                    if metadata.tappedReplyPreview {
-                        scrollToMessage(scrollView, metadata.messageBeingRepliedTo)
-                        replyPreviewMetadata?.tappedReplyPreview = false // value-type semantics. change directly
+                    if metadata.tappedPreview {
+                        scrollToMessage(scrollView, metadata.parentMessage)
+                        parentPreviewMetadata?.tappedPreview = false // value-type semantics. change directly
                     }
                 }
                 .padding([.leading, .trailing])
@@ -79,7 +79,7 @@ struct MessagesScrollView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ), replyPreviewMetadata: Binding.constant(nil)
+            ), parentPreviewMetadata: Binding.constant(nil)
         )
     }
 }

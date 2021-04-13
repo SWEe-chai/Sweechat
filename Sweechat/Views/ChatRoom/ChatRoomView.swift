@@ -2,15 +2,15 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var replyPreviewMetadata: ReplyPreviewMetadata?
+    @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         VStack {
             MessagesScrollView(viewModel: viewModel,
-                               replyPreviewMetadata: $replyPreviewMetadata)
+                               parentPreviewMetadata: $parentPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
-                                isShowingReply: true,
-                                replyPreviewMetadata: $replyPreviewMetadata)
+                                isShowingParentPreview: true,
+                                parentPreviewMetadata: $parentPreviewMetadata)
         }
         .background(ColorConstant.base)
         .navigationBarHidden(false)
@@ -20,9 +20,9 @@ struct ChatRoomView: View {
 
 }
 
-struct ReplyPreviewMetadata {
-    var messageBeingRepliedTo: MessageViewModel
-    var tappedReplyPreview: Bool = false
+struct ParentPreviewMetadata {
+    var parentMessage: MessageViewModel
+    var tappedPreview: Bool = false
 }
 
 struct ChatRoomView_Previews: PreviewProvider {

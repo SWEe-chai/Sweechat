@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageView: View {
     @ObservedObject var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     // TODO: Change this to delegates in the future
     var onReplyPreviewTapped: (() -> Void)?
@@ -89,7 +89,7 @@ struct MessageView: View {
 
     // MARK: Context Menu Button functionalities
     private func replyTo(message: MessageViewModel) {
-        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
+        parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message)
     }
 }
 
@@ -121,6 +121,6 @@ struct MessageView_Previews: PreviewProvider {
                                                           name: "Nguyen Chakra Bai"),
                                              currentUserId: "123")
     static var previews: some View {
-        MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
+        MessageView(viewModel: message, parentViewModel: parent, parentPreviewMetadata: .constant(nil))
     }
 }

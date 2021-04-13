@@ -3,7 +3,7 @@ import os
 
 struct MessageInputBarView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    var isShowingReply: Bool
+    var isShowingParentPreview: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
     @State private var showingModal = false
@@ -11,19 +11,19 @@ struct MessageInputBarView: View {
     @State private var showingActionSheet = false
     @State private var media: Any?
     @State private var mediaType: MediaType?
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         VStack {
-            if let message = replyPreviewMetadata?.messageBeingRepliedTo,
-               isShowingReply {
+            if let message = parentPreviewMetadata?.parentMessage,
+               isShowingParentPreview {
                 HStack {
-                    Button(action: { replyPreviewMetadata = nil }) {
+                    Button(action: { parentPreviewMetadata = nil }) {
                         Image(systemName: "xmark.circle.fill")
                     }
                     ReplyPreviewView(message: message, borderColor: Color.gray)
                         .onTapGesture {
-                            replyPreviewMetadata?.tappedReplyPreview = true
+                            parentPreviewMetadata?.tappedPreview = true
                         }
                 }
             }
@@ -77,10 +77,10 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
         viewModel.handleSendMessage(content, withParentId: parentId)
         typingMessage = ""
-        replyPreviewMetadata = nil
+        parentPreviewMetadata = nil
     }
 
     private func sendMedia() {
@@ -90,7 +90,7 @@ struct MessageInputBarView: View {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
         switch choice {
         case .image:
             viewModel.handleSendImage(media, withParentId: parentId)
@@ -100,7 +100,7 @@ struct MessageInputBarView: View {
 
         media = nil
         mediaType = nil
-        replyPreviewMetadata = nil
+        parentPreviewMetadata = nil
     }
 
     func openActionSheet() {
@@ -129,8 +129,8 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ),
-            isShowingReply: true,
-            replyPreviewMetadata: Binding.constant(nil))
+            isShowingParentPreview: true,
+            parentPreviewMetadata: Binding.constant(nil))
     }
 }
 

@@ -2,11 +2,11 @@ import SwiftUI
 
 struct AnnouncementView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var replyPreviewMetadata: ReplyPreviewMetadata?
+    @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         MessagesScrollView(viewModel: viewModel,
-                           replyPreviewMetadata: .constant(nil))
+                           parentPreviewMetadata: .constant(nil))
             .background(ColorConstant.base)
             .navigationBarHidden(false)
             .navigationBarBackButtonHidden(false)
