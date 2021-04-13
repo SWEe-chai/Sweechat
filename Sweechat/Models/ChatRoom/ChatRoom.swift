@@ -88,9 +88,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func loadMore(_ numberOfMessages: Int) {
         chatRoomFacade?.loadNextBlock(numberOfMessages) { messages in
-            if messages.count < numberOfMessages {
-                self.areAllMessagesLoaded = true
-            }
             self.insertAll(messages: messages)
         }
     }
@@ -137,6 +134,11 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func insertAll(messages: [Message]) {
+        if messages.isEmpty {
+            areAllMessagesLoaded = true
+            return
+        }
+
         let newMessages = messages
             .filter { !self.messages.contains($0) }
 
