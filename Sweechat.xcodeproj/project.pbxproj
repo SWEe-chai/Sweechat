@@ -147,6 +147,8 @@
 		45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */; };
 		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
 		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
+		77237AE92625C3FC00FA57B9 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */; };
+		77237AEF2625C9EC00FA57B9 /* NotificationConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */; };
 		7724184C2623E27C00A5E422 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7724184B2623E27C00A5E422 /* NotificationService.swift */; };
 		772418502623E27C00A5E422 /* NotificationServices.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 772418492623E27C00A5E422 /* NotificationServices.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7726FBC72621BF9B0076F9C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */; };
@@ -386,6 +388,8 @@
 		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
+		77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConstant.swift; sourceTree = "<group>"; };
 		772417632622E47900A5E422 /* Sweechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sweechat.entitlements; sourceTree = "<group>"; };
 		772418492623E27C00A5E422 /* NotificationServices.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServices.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7724184B2623E27C00A5E422 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -645,6 +649,7 @@
 				3ED4FBB92606260900ADA24A /* StateConstant.swift */,
 				77F4F11626188128003CD601 /* ColorConstant.swift */,
 				77F4F1582618A7C1003CD601 /* FontConstant.swift */,
+				77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -884,9 +889,9 @@
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
 				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
-				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
+				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				77C5D08526103403005D5504 /* MemberItemViewModel.swift */,
 				2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */,
 				279ECCE4261304D300CBFFEB /* CreateChatRoomViewModel.swift */,
@@ -936,6 +941,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		77237AE72625C3EE00FA57B9 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
 		7724184A2623E27C00A5E422 /* NotificationServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +961,7 @@
 		7726FBCB2622C19B0076F9C1 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				77237AE72625C3EE00FA57B9 /* Handlers */,
 				7726FBCC2622C1A40076F9C1 /* Storage */,
 			);
 			path = Notification;
@@ -1502,6 +1516,7 @@
 				77F4F11726188129003CD601 /* ColorConstant.swift in Sources */,
 				27598E3C2615C0AB00DF564F /* MessagesScrollView.swift in Sources */,
 				279DD1C726172124001E4B37 /* ChatRoomViewModelFactory.swift in Sources */,
+				77237AE92625C3FC00FA57B9 /* NotificationHandler.swift in Sources */,
 				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */,
 				77F4F1842618D3DF003CD601 /* ModuleOperationToggleStyle.swift in Sources */,
@@ -1523,6 +1538,7 @@
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
 				3E20EAF4261CB18B0060E4C4 /* ModulePermission.swift in Sources */,
+				77237AEF2625C9EC00FA57B9 /* NotificationConstant.swift in Sources */,
 				3E20EAF9261CB8C70060E4C4 /* UserModulePermissionPair.swift in Sources */,
 				27A2D994261F65ED00267C7D /* ImageDataViewModel.swift in Sources */,
 				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,

@@ -56,6 +56,8 @@ class FirebaseUserFacade: UserFacade {
     }
 
     private func setUpConnectionAsUser() {
+//        print("This is the token \(FcmJsonStorageManager.load() ?? "")")
+//        print("This is token \(String(describing: InstanceID.instanceID().token))")
         if userId.isEmpty {
             os_log("Error loading user: User id is empty")
             return

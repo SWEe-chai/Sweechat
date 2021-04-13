@@ -11,7 +11,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            if isFromNotif {
+            if appViewModel.isFromNotif {
                 Text("A")
 //                ChatRoomViewFactory
 //                    .makeView(
@@ -23,8 +23,7 @@ struct ContentView: View {
 //                        )
 
             } else {
-                Text("B")
-                // LoginView(viewModel: appViewModel.loginViewModel)
+                 LoginView(viewModel: appViewModel.loginViewModel)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
