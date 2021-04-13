@@ -6,6 +6,6 @@
 //
 
 struct UserModulePermissionPair {
-    let userId: String
+    let userId: Identifier<User>
     let permissions: ModulePermissionBitmask
 }

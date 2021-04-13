@@ -52,7 +52,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             .document(chatRoomId.val)
             .collection(DatabaseConstant.Collection.messages)
         filteredMessagesReference = messagesReference?
-            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId)
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: ChatRoom.allUsersId.val)
         chatRoomReference = FirebaseUtils
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.chatRooms)
@@ -67,7 +67,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func loadMembers(onCompletion: (() -> Void)?) {
         FirebaseUserChatRoomModulePairQuery
             .getUserChatRoomModulePairs(inChatRoomId: chatRoomId) { pairs in
-                let userIds: [String] = pairs.map { $0.userId }
+                let userIds: [Identifier<User>] = pairs.map { $0.userId }
                 FirebaseUserQuery.getUsers(withIds: userIds) { users in
                     self.delegate?.insertAll(members: users)
                     onCompletion?()
@@ -78,7 +78,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func loadKeyExchangeMessages(onCompletion: (() -> Void)?) {
         messagesReference?
             .whereField(DatabaseConstant.Message.type, isEqualTo: MessageType.keyExchange.rawValue)
-            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: user.id)
+            .whereField(DatabaseConstant.Message.receiverId, isEqualTo: user.id.val)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let delegate = self.delegate else {
@@ -247,7 +247,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         self.publicKeyBundlesReference?
             // TODO: Chunk this users array so that we can ensure that it's less than 10
-            .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id }))
+            .whereField(DatabaseConstant.PublicKeyBundle.userId, in: users.map({ $0.id.val }))
             .getDocuments { querySnapshot, err in
                 guard err == nil,
                       let documents = querySnapshot?.documents else {
@@ -283,7 +283,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         guard let message = FirebaseMessageFacade.convert(document: change.document) else {
             return
         }
-        guard !message.senderId.isEmpty else {
+        guard !message.senderId.val.isEmpty else {
             os_log("Error reading message: Message senderId is empty")
             return
         }
@@ -325,7 +325,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         let data = document.data()
         guard let idString = data?[DatabaseConstant.ChatRoom.id] as? String,
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
-              let ownerId = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
+              let ownerIdStr = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
               let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") else {
             os_log("Error converting data for ChatRoom, data: %s", String(describing: data))
@@ -333,6 +333,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
 
         let id = Identifier<ChatRoom>(val: idString)
+        let ownerId = Identifier<User>(val: ownerIdStr)
         switch type {
         case .groupChat:
             return GroupChatRoom(
@@ -367,7 +368,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         var document: [String: Any] = [
             DatabaseConstant.ChatRoom.id: chatRoom.id.val,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
-            DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId,
+            DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId.val,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
         switch chatRoom {
