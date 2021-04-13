@@ -127,7 +127,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         if let parentId = message.parentId {
             loadParentMessage(parentId: parentId)
         }
-
+        if earlyLoadedMessages.contains(message) {
+            earlyLoadedMessages.remove(message)
+        }
         processMessage(message)
         self.messages.append(message)
         self.messages.sort()
@@ -143,6 +145,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             .filter { !self.messages.contains($0) }
 
         for message in newMessages {
+            if earlyLoadedMessages.contains(message) {
+                earlyLoadedMessages.remove(message)
+            }
             processMessage(message)
             if let parentId = message.parentId {
                 loadParentMessage(parentId: parentId)
@@ -157,6 +162,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         chatRoomFacade?.loadMessage(withId: parentId.val) { message in
             guard let message = message else {
                 os_log("Parent message does not exist \(parentId)")
+                return
+            }
+            if self.messages.contains(message) {
                 return
             }
             self.processMessage(message)
@@ -179,12 +187,20 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func remove(message: Message) {
+        self.earlyLoadedMessages.remove(message)
         if let index = messages.firstIndex(of: message) {
             self.messages.remove(at: index)
         }
     }
 
     func update(message: Message) {
+        assert(!earlyLoadedMessages.contains(message) && messages.contains(message))
+        if earlyLoadedMessages.contains(message) {
+            self.earlyLoadedMessages.remove(message)
+            processMessage(message)
+            self.earlyLoadedMessages.insert(message)
+        }
+
         if let index = messages.firstIndex(of: message) {
             processMessage(message)
             self.messages[index].update(message: message)

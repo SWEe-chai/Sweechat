@@ -10,6 +10,7 @@ class ChatRoomViewModel: ObservableObject {
     private var subscribers: [AnyCancellable] = []
 
     @Published var editedMessageViewModel: MessageViewModel?
+    @Published var latestMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
     @Published var areAllMessagesLoaded: Bool = false
@@ -51,6 +52,7 @@ class ChatRoomViewModel: ObservableObject {
                 viewModel?.delegate = self
                 return viewModel
             }
+            self.latestMessageViewModel = self.messages.last
         }
         let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
             self.earlyLoadedMessages = messages.compactMap {
@@ -85,9 +87,10 @@ class ChatRoomViewModel: ObservableObject {
         guard let messageId = id else {
             return nil
         }
-        var message = messages.first { $0.id == messageId }
-        message = earlyLoadedMessages.first { $0.id == messageId }
-        return message
+        if let message = messages.first(where: { $0.id == messageId }) {
+            return message
+        }
+        return earlyLoadedMessages.first { $0.id == messageId }
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {

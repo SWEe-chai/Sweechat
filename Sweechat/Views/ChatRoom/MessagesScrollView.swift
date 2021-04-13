@@ -20,11 +20,11 @@ struct MessagesScrollView: View {
                         let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)
                         MessageView(viewModel: messageViewModel,
                                     parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
-                                    onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage) })
+                                    onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage, anchor: .top) })
                     }
                 }
-                .onAppear { scrollToMessage(scrollView, viewModel.messages.last) }
-                .onChange(of: viewModel.messages.count) { _ in
+                .onAppear { scrollToMessage(scrollView, viewModel.messages.last, anchor: .bottom) }
+                .onChange(of: viewModel.latestMessageViewModel) { _ in
                     handleNewMessages(scrollView)
                 }
                 .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
@@ -42,7 +42,7 @@ struct MessagesScrollView: View {
         }
 
         if metadata.tappedReplyPreview {
-            scrollToMessage(scrollView, metadata.messageBeingRepliedTo)
+            scrollToMessage(scrollView, metadata.messageBeingRepliedTo, anchor: .top)
             replyPreviewMetadata?.tappedReplyPreview = false // value-type semantics. change directly
         }
     }
@@ -50,12 +50,16 @@ struct MessagesScrollView: View {
     func handleNewMessages(_ scrollView: ScrollViewProxy) {
         if scrollOffset > heightOffset - UIScreen.main.bounds.height - 300 {
              // in vicinity of the bottom and we get a new message
-            scrollToMessage(scrollView, viewModel.messages.last)
+            scrollToMessage(scrollView, viewModel.messages.last, anchor: .bottom)
         }
     }
 
     // TODO: Perhaps combine this with `scrollToLatesMessage`?
-    private func scrollToMessage(_ scrollView: ScrollViewProxy, _ message: MessageViewModel?) {
+    private func scrollToMessage(_ scrollView: ScrollViewProxy,
+                                 _ message: MessageViewModel?,
+                                 anchor: UnitPoint) {
+        os_log("Scrolling to \(message?.id ?? "nil message")")
+
         if viewModel.messages.isEmpty {
             os_log("messages are empty")
             return
@@ -66,9 +70,7 @@ struct MessagesScrollView: View {
         }
 
         if viewModel.messages.contains(message) {
-            withAnimation(Animation.easeIn(duration: 1.0)) {
-                scrollView.scrollTo(message, anchor: .bottom)
-            }
+            scrollView.scrollTo(message, anchor: anchor)
             return
         }
 
@@ -76,11 +78,12 @@ struct MessagesScrollView: View {
 
         checkAsync(interval: 0.1) {
             if viewModel.messages.contains(message) {
-                withAnimation(Animation.easeIn(duration: 1.0)) {
-                    scrollView.scrollTo(message, anchor: .bottom)
+                withAnimation(Animation.easeIn(duration: 0.5)) {
+                    scrollView.scrollTo(message, anchor: anchor)
                 }
                 return false
             }
+            viewModel.loadUntil(messageViewModel: message)
             return true
         }
     }

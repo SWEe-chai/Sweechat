@@ -199,7 +199,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     func loadUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .whereField(DatabaseConstant.Message.creationTime, isGreaterThan: time)
+            .start(at: [time - 10])
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {
