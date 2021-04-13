@@ -15,14 +15,17 @@ struct MessageInputBarView: View {
 
     var body: some View {
         VStack {
-            if let message = parentPreviewMetadata?.parentMessage,
+            if let metadata = parentPreviewMetadata,
                isShowingParentPreview {
                 HStack {
                     Button(action: { dismissPreview() }) {
                         Image(systemName: "xmark.circle.fill")
                     }
-                    ReplyPreviewView(message: message, borderColor: Color.gray)
+                    ParentPreviewView(message: metadata.parentMessage,
+                                      borderColor: Color.gray,
+                                      isEditPreview: metadata.previewType == .edit)
                         .onTapGesture {
+                            // value type semantics. Should update the real one
                             parentPreviewMetadata?.tappedPreview = true
                         }
                 }

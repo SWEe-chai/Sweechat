@@ -7,13 +7,18 @@
 
 import SwiftUI
 
-struct ReplyPreviewView: View {
+struct ParentPreviewView: View {
     var message: MessageViewModel
     var borderColor: Color
+    var isEditPreview: Bool = false
+
+    var headerText: String {
+        isEditPreview ? "Edit Message" : message.senderName
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(message.senderName)
+            Text(headerText)
                 .font(FontConstant.MessageReplySender)
             Text(message.previewContent())
                 .font(FontConstant.MessageReplyText)
