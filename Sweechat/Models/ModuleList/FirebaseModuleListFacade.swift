@@ -11,7 +11,7 @@ import os
 class FirebaseModuleListFacade: ModuleListFacade {
     weak var delegate: ModuleListFacadeDelegate?
     private var user: User
-    private var userId: String { user.id.val }
+    private var userId: Identifier<User> { user.id }
 
     private var db = Firestore.firestore()
     private var modulesReference: CollectionReference?
@@ -26,7 +26,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     func setUpConnectionToModuleList() {
-        if userId.isEmpty {
+        if userId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
             return
         }
@@ -37,7 +37,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userModulePairs)
         currentUserModulesQuery = userModulePairsReference?
-            .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId)
+            .whereField(DatabaseConstant.UserModulePair.userId, isEqualTo: userId.val)
         self.loadModules(onCompletion: self.addListeners)
     }
 

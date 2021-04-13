@@ -67,9 +67,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let userIds: [String] = snapshot.documents.compactMap {
+            let userIds: [Identifier<User>] = snapshot.documents.compactMap {
                 $0.data()[DatabaseConstant.UserModulePair.userId] as? String
             }
+            .map({ Identifier<User>(val: $0) })
             FirebaseUserQuery.getUsers(withIds: userIds) { users in
                 self.delegate?.insertAll(members: users)
                 onCompletion?()

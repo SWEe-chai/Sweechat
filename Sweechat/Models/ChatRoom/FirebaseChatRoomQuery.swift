@@ -7,7 +7,7 @@ class FirebaseChatRoomQuery {
                             user: User,
                             onCompletion: @escaping (ChatRoom) -> Void) {
         FirebaseUserChatRoomModulePairQuery
-            .getUserChatRoomModulePair(chatRoomId: chatRoomId, userId: user.id.val) { pair in
+            .getUserChatRoomModulePair(chatRoomId: chatRoomId, userId: user.id) { pair in
                 guard let pair = pair else {
                     return
                 }

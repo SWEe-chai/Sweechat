@@ -3,7 +3,7 @@ import os
 
 class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
-    private var userId: String
+    private var userId: Identifier<User>
 
     private var db = Firestore.firestore()
     private var usersReference: CollectionReference
@@ -11,7 +11,7 @@ class FirebaseUserFacade: UserFacade {
     private var userListener: ListenerRegistration?
     private var publicKeyBundlesReference: CollectionReference
 
-    init(userId: String) {
+    init(userId: Identifier<User>) {
         self.userId = userId
         self.usersReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -22,8 +22,8 @@ class FirebaseUserFacade: UserFacade {
     }
 
     func loginAndListenToUser(_ user: User) {
-        userId = user.id.val
-        self.usersReference.document(userId).getDocument { document, _ in
+        userId = user.id
+        self.usersReference.document(userId.val).getDocument { document, _ in
             guard let document = document,
                   document.exists else {
                 // In this case user is a new user
@@ -55,12 +55,12 @@ class FirebaseUserFacade: UserFacade {
     }
 
     private func setUpConnectionAsUser() {
-        if userId.isEmpty {
+        if userId.val.isEmpty {
             os_log("Error loading user: User id is empty")
             return
         }
         reference = usersReference
-            .document(userId)
+            .document(userId.val)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")

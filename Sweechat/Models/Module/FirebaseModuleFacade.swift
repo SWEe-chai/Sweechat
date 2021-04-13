@@ -12,7 +12,7 @@ class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
     private var moduleId: Identifier<Module>
     private var user: User
-    private var userId: String { user.id.val }
+    private var userId: Identifier<User> { user.id }
 
     private var db = Firestore.firestore()
     private var chatRoomsReference: CollectionReference?
@@ -48,7 +48,7 @@ class FirebaseModuleFacade: ModuleFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.userChatRoomModulePairs)
         currentUserChatRoomsQuery = userChatRoomModulePairsReference?
-            .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId)
+            .whereField(DatabaseConstant.UserChatRoomModulePair.userId, isEqualTo: userId.val)
             .whereField(DatabaseConstant.UserModulePair.moduleId, isEqualTo: moduleId.val)
         moduleReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -63,9 +63,10 @@ class FirebaseModuleFacade: ModuleFacade {
                 os_log("Error loading user module pairs: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let userIds: [String] = documents.compactMap {
+            let userIds: [Identifier<User>] = documents.compactMap {
                 $0.data()[DatabaseConstant.UserModulePair.userId] as? String
             }
+            .map({ Identifier<User>(val: $0) })
             FirebaseUserQuery.getUsers(withIds: userIds) { users in
                 self.delegate?.insertAll(users: users)
                 onCompletion?()
