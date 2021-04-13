@@ -18,7 +18,7 @@ struct MessageInputBarView: View {
             if let message = parentPreviewMetadata?.parentMessage,
                isShowingParentPreview {
                 HStack {
-                    Button(action: { parentPreviewMetadata = nil }) {
+                    Button(action: { dismissPreview() }) {
                         Image(systemName: "xmark.circle.fill")
                     }
                     ReplyPreviewView(message: message, borderColor: Color.gray)
@@ -33,8 +33,8 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
-                    .onChange(of: viewModel.editedMessageViewModel) { _ in
-                        typingMessage = viewModel.editedMessageContent
+                    .onChange(of: parentPreviewMetadata?.parentMessage) { _ in
+                        handleTextEditorChange()
                     }
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
@@ -115,6 +115,37 @@ struct MessageInputBarView: View {
     func openCanvas() {
         self.modalView = .Canvas
         self.showingModal = true
+    }
+
+    private func dismissPreview() {
+        guard let parentPreviewMetadata = parentPreviewMetadata else {
+            os_log("ParentPreviewMetadata was nil in dismissPreview")
+            return
+        }
+
+        switch parentPreviewMetadata.previewType {
+        case .reply:
+            // In this case, you don't want to lose what you have typed
+            break
+        case .edit:
+            // forget about what you wanted to edit the message to
+            typingMessage = ""
+        }
+        self.parentPreviewMetadata = nil
+    }
+
+    private func handleTextEditorChange() {
+        guard let parentPreviewMetadata = parentPreviewMetadata else {
+            os_log("ParentPreviewMetadata was nil in handleTextEditorChange")
+            return
+        }
+        switch parentPreviewMetadata.previewType {
+        case .edit:
+            // NOTE: This only works for text. When you try to edit image, you will see 'Image' instead
+            typingMessage = parentPreviewMetadata.parentMessage.previewContent()
+        default:
+            break
+        }
     }
 }
 

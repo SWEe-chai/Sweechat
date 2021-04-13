@@ -23,6 +23,11 @@ struct ChatRoomView: View {
 struct ParentPreviewMetadata {
     var parentMessage: MessageViewModel
     var tappedPreview: Bool = false
+    var previewType: PreviewType
+}
+
+enum PreviewType {
+    case reply, edit
 }
 
 struct ChatRoomView_Previews: PreviewProvider {
