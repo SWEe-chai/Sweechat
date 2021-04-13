@@ -74,7 +74,6 @@
 		27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B5973D261449A900B69FEF /* UserPermissionPair.swift */; };
 		27BD8F272619721600B0F7D7 /* ProfilePicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BD8F262619721600B0F7D7 /* ProfilePicture.swift */; };
 		27BD8F2F2619730A00B0F7D7 /* MemberItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */; };
-		27D233DB2624628D00B2FAD7 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D233DA2624628D00B2FAD7 /* UIScrollViewWrapper.swift */; };
 		27D2362126205F1E00116F13 /* LocalFileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2362026205F1E00116F13 /* LocalFileViewModel.swift */; };
 		27EADD492621F0AE00E4CC9C /* ThreadChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EADD482621F0AE00E4CC9C /* ThreadChatRoom.swift */; };
 		27EADD4E2621F90200E4CC9C /* ThreadCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */; };
@@ -289,7 +288,6 @@
 		27B5973D261449A900B69FEF /* UserPermissionPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissionPair.swift; sourceTree = "<group>"; };
 		27BD8F262619721600B0F7D7 /* ProfilePicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicture.swift; sourceTree = "<group>"; };
 		27BD8F2E2619730A00B0F7D7 /* MemberItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemView.swift; sourceTree = "<group>"; };
-		27D233DA2624628D00B2FAD7 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
 		27D2362026205F1E00116F13 /* LocalFileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileViewModel.swift; sourceTree = "<group>"; };
 		27EADD482621F0AE00E4CC9C /* ThreadChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadChatRoom.swift; sourceTree = "<group>"; };
 		27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadCreator.swift; sourceTree = "<group>"; };
@@ -554,7 +552,6 @@
 				3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */,
 				77F4F1DB2619B333003CD601 /* Color.swift */,
 				27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */,
-				27D233DA2624628D00B2FAD7 /* UIScrollViewWrapper.swift */,
 				2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */,
 			);
 			path = Utilities;
@@ -1412,7 +1409,6 @@
 				3E20EAFE261CCCD40060E4C4 /* FirebaseUserModulePairQuery.swift in Sources */,
 				279DD1D52617226C001E4B37 /* GroupChatRoomViewModel.swift in Sources */,
 				279ECCF22613197800CBFFEB /* ChooseChatRoomMembersView.swift in Sources */,
-				27D233DB2624628D00B2FAD7 /* UIScrollViewWrapper.swift in Sources */,
 				27598E492615C41500DF564F /* MessageInputBarView.swift in Sources */,
 				3E591C5226008C1A00226DC2 /* DatabaseConstant.swift in Sources */,
 				778F090125FDEFEE0059C2A0 /* Message.swift in Sources */,
