@@ -62,10 +62,6 @@ class MessageViewModel: ObservableObject {
         return "Message"
     }
 
-    func edit() {
-        delegate?.edit(messageViewModel: self)
-    }
-
     func delete() {
         delegate?.delete(messageViewModel: self)
     }

@@ -2,14 +2,14 @@ import SwiftUI
 
 struct AnnouncementView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var replyPreviewMetadata: ReplyPreviewMetadata?
+    @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         HStack {
             Spacer()
             MessagesScrollView(
                 viewModel: viewModel,
-                replyPreviewMetadata: .constant(nil))
+                parentPreviewMetadata: .constant(nil))
             Spacer()
         }
         .background(ColorConstant.base)
