@@ -2,15 +2,15 @@ import SwiftUI
 
 struct ForumChatRoomView: View {
     @ObservedObject var viewModel: ForumChatRoomViewModel
-    @State var replyPreviewMetadata: ReplyPreviewMetadata?
+    @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         VStack {
             ForumPostsView(viewModel: viewModel)
             MessageInputBarView(viewModel: viewModel,
-                                isShowingReply: false,
+                                isShowingParentPreview: false,
                                 allowSendMedia: false,
-                                replyPreviewMetadata: $replyPreviewMetadata)
+                                parentPreviewMetadata: $parentPreviewMetadata)
         }.navigationTitle(viewModel.text)
     }
 }
