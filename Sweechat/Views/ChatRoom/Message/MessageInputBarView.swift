@@ -80,10 +80,23 @@ struct MessageInputBarView: View {
         if content.isEmpty {
             return
         }
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
-        viewModel.handleSendMessage(content, withParentId: parentId)
+        sendTypedMessage(withContent: content)
         typingMessage = ""
         parentPreviewMetadata = nil
+    }
+
+    private func sendTypedMessage(withContent content: String) {
+        switch parentPreviewMetadata?.previewType {
+        case .edit:
+            guard let editedMessageViewModel = parentPreviewMetadata?.parentMessage else {
+                os_log("Unexpected Error: editedMessageViewModel does not exist despite having a non-nil preview type")
+                return
+            }
+            viewModel.handleEditMessage(content, withEditedMessageViewModel: editedMessageViewModel)
+        case .reply, nil:
+            let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
+            viewModel.handleSendMessage(content, withParentId: parentId)
+        }
     }
 
     private func sendMedia() {

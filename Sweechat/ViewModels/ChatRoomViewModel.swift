@@ -9,7 +9,6 @@ class ChatRoomViewModel: ObservableObject {
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
 
-    @Published var editedMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
 
@@ -53,20 +52,16 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func dismissEdit() {
-        self.editedMessageViewModel = nil
+    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
+        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
+                              receiverId: ChatRoom.allUsersId, parentId: parentId)
+        self.chatRoom.storeMessage(message: message)
     }
 
-    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
-        if let editedMessageViewModel = editedMessageViewModel {
-            editedMessageViewModel.message.content = text.toData()
-            self.chatRoom.storeMessage(message: editedMessageViewModel.message)
-            self.dismissEdit()
-        } else {
-            let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
-                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
-            self.chatRoom.storeMessage(message: message)
-        }
+    func handleEditMessage(_ text: String,
+                           withEditedMessageViewModel editedMessageViewModel: MessageViewModel) {
+        editedMessageViewModel.message.content = text.toData()
+        self.chatRoom.storeMessage(message: editedMessageViewModel.message)
     }
 
     func handleSendImage(_ wrappedImage: Any?, withParentId parentId: Identifier<Message>?) {
@@ -128,7 +123,7 @@ extension ChatRoomViewModel: Identifiable {
 // MARK: MessageActionsViewModelDelegate
 extension ChatRoomViewModel: MessageActionsViewModelDelegate {
     func edit(messageViewModel: MessageViewModel) {
-        editedMessageViewModel = messageViewModel
+//        editedMessageViewModel = messageViewModel
     }
 
     func delete(messageViewModel: MessageViewModel) {
