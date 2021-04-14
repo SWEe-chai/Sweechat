@@ -122,10 +122,6 @@ extension ChatRoomViewModel: Identifiable {
 
 // MARK: MessageActionsViewModelDelegate
 extension ChatRoomViewModel: MessageActionsViewModelDelegate {
-    func edit(messageViewModel: MessageViewModel) {
-//        editedMessageViewModel = messageViewModel
-    }
-
     func delete(messageViewModel: MessageViewModel) {
         chatRoom.delete(message: messageViewModel.message)
     }

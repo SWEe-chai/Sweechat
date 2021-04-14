@@ -148,7 +148,6 @@ struct MessageInputBarView: View {
             typingMessage = ""
         }
         self.parentPreviewMetadata = nil
-        viewModel.dismissEdit()
     }
 
     private func handleTextEditorChange() {

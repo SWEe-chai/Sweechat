@@ -93,7 +93,6 @@ struct MessageView: View {
     }
 
     private func onEditTapped(message: MessageViewModel) {
-        viewModel.edit()
         parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .edit)
     }
 }
