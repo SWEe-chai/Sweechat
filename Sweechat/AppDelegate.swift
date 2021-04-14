@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     override init() {
         self.notificationMetadata = NotificationMetadata()
-        self.appViewModel = AppViewModel(notificationMetadata: NotificationMetadata)
+        self.appViewModel = AppViewModel(notificationMetadata: notificationMetadata)
         self.notificationHandler = NotificationHandler(appViewModel: appViewModel, notificationMetadata: notificationMetadata)
     }
 

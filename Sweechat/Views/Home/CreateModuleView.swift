@@ -33,8 +33,13 @@ struct CreateModuleView: View {
     }
 }
 
-// struct AddModuleView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateModuleView(viewModel: HomeViewModel(user: User(id: "123")))
-//    }
-// }
+ struct AddModuleView_Previews: PreviewProvider {
+    static var previews: some View {
+        CreateModuleView(
+            viewModel: HomeViewModel(
+                user: User(id: "123"),
+                notificationMetadata: NotificationMetadata()
+            )
+        )
+    }
+ }

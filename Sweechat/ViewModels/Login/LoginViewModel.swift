@@ -4,7 +4,7 @@ class LoginViewModel: ObservableObject {
     private var auth: ALAuth
     private var user: User?
     var notificationMetadata: NotificationMetadata
-    
+
     @Published var isLoggedIn = false
     var loginButtonViewModels: [LoginButtonViewModel] {
         auth.authHandlers.map({ LoginButtonViewModel(authHandler: $0) })
@@ -17,9 +17,9 @@ class LoginViewModel: ObservableObject {
 
     init(notificationMetadata: NotificationMetadata) {
         self.auth = ALAuth()
+        self.notificationMetadata = notificationMetadata
         auth.delegate = self
         auth.signInWithPreviousSession()
-        self.notificationMetadata = notificationMetadata
     }
 
     var text: String {

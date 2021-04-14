@@ -10,25 +10,18 @@ class HomeViewModel: ObservableObject {
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
     private var subscribers: [AnyCancellable] = []
+    var directModuleViewModel: ModuleViewModel
+    var notificationMetadata: NotificationMetadata
 
     init(user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
         self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
+        self.directModuleViewModel = ModuleViewModel(module: Module.createUnavailableModule(), user: User.createUnavailableUser())
+        self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
-        if notificationMetadata.isFromNotif {
-            checkAsync(interval: 0.1) {
-                if self
-                    .getModuleViewModel(
-                        moduleId: notificationMetadata.directModuleId
-                    ) != nil {
-                    return false
-                }
-                return true
-            }
-        }
     }
 
     func initialiseSubscribers() {
@@ -41,8 +34,24 @@ class HomeViewModel: ObservableObject {
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
             self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }
         }
+        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif {
+            isFromNotif in
+            print("YAS \(self.notificationMetadata.isFromNotif) \(isFromNotif)")
+            if isFromNotif {
+                self.checkAsync(interval: 0.5) {
+                    if self
+                        .getModuleViewModel(
+                            moduleId: self.notificationMetadata.directModuleId
+                        ) != nil {
+                        return false
+                    }
+                    return true
+                }
+            }
+        }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
+        subscribers.append(notificationMetadataSubscriber)
     }
 
     func handleCreateModule(name: String) {
@@ -69,10 +78,15 @@ class HomeViewModel: ObservableObject {
     }
 
     func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
-        var directModuleViewModel = self.moduleViewModels.filter { $0.id == moduleId }.first
-        return directModuleViewModel
+        if let unwrappedDirectModuleViewModel = self.moduleViewModels.filter { $0.id == moduleId }.first {
+            print("AAA")
+            self.directModuleViewModel = unwrappedDirectModuleViewModel
+            self.isDirectModuleLoaded = true
+        }
+        print("BBB")
+        return self.directModuleViewModel
     }
-    
+
     func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
             if repeatableFunction() {

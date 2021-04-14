@@ -5,7 +5,7 @@ struct HomeView: View {
     @EnvironmentObject private var appViewModel: AppViewModel
     @State var isShowingCreateView: Bool = false
     @State var isDirectModuleLoaded = false
-    
+
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         self.isDirectModuleLoaded = false
@@ -47,12 +47,12 @@ struct HomeView: View {
                                 LazyNavView(
                                     ModuleView(viewModel: viewModel.directModuleViewModel)
                                 )
-                            
+
                         ,
                         isActive: $viewModel.isDirectModuleLoaded
                     )
                     .hidden()
-                                        
+
                     Spacer()
                 }
                 .frame(width: geometry.size.width)
@@ -76,7 +76,8 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(
             viewModel: HomeViewModel(
-                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
+                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1"),
+                notificationMetadata: NotificationMetadata()
             )
         )
     }
