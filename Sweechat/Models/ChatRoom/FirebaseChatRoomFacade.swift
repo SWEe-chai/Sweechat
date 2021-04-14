@@ -254,7 +254,8 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
               let name = data?[DatabaseConstant.ChatRoom.name] as? String,
               let ownerIdStr = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
-              let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? "") else {
+              let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? ""),
+              let isStarred = data?[DatabaseConstant.ChatRoom.isStarred] as? Bool else {
             os_log("Error converting data for ChatRoom, data: %s", String(describing: data))
             return nil
         }
@@ -269,6 +270,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 ownerId: ownerId,
                 currentUser: user,
                 currentUserPermission: permissions,
+                isStarred: isStarred,
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(
@@ -282,6 +284,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 ownerId: ownerId,
                 currentUser: user,
                 currentUserPermission: permissions,
+                isStarred: isStarred,
                 profilePictureUrl: profilePictureUrl)
         case .thread:
             return ThreadChatRoom(
@@ -296,6 +299,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             DatabaseConstant.ChatRoom.id: chatRoom.id.val,
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId.val,
+            DatabaseConstant.ChatRoom.isStarred: chatRoom.isStarred,
             DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
         ]
         switch chatRoom {
