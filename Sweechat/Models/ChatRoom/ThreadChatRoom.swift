@@ -5,6 +5,7 @@ class ThreadChatRoom: ChatRoom {
                    members: forumMembers,
                    currentUser: sender,
                    currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false,
                    givenChatRoomId: postId)
     }
 
@@ -14,6 +15,7 @@ class ThreadChatRoom: ChatRoom {
                    name: "Thread",
                    ownerId: ownerId,
                    currentUser: currentUser,
-                   currentUserPermission: ChatRoomPermission.readWrite)
+                   currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false)
     }
 }

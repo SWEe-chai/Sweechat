@@ -5,7 +5,7 @@ import os
 class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var id: Identifier<ChatRoom>
     @Published var name: String
-    var profilePictureUrl: String?
+    @Published var profilePictureUrl: String?
     let ownerId: Identifier<User>
     var currentUser: User
     @Published var messages: [Message]
@@ -15,6 +15,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     var members: [User] {
         Array(memberIdsToUsers.values)
     }
+    var isStarred: Bool
     private var groupCryptographyProvider: GroupCryptographyProvider
 
     static let allUsersId: Identifier<User> = "all"
@@ -28,6 +29,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          ownerId: Identifier<User>,
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
+         isStarred: Bool,
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
@@ -36,6 +38,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.isStarred = isStarred
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
     }
 
@@ -45,6 +48,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          members: [User],
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
+         isStarred: Bool,
          givenChatRoomId: Identifier<ChatRoom> = Identifier(val: UUID().uuidString),
          profilePictureUrl: String? = nil) {
         self.id = givenChatRoomId
@@ -54,6 +58,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.messages = []
         self.currentUserPermission = currentUserPermission
+        self.isStarred = isStarred
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
         insertAll(members: members)
     }
@@ -95,6 +100,10 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
+    }
+
+    func subscribeToProfilePicture(function: @escaping (String?) -> Void) -> AnyCancellable {
+        $profilePictureUrl.sink(receiveValue: function)
     }
 
     // MARK: ChatRoomFacadeDelegate

@@ -61,6 +61,10 @@ class User: ObservableObject {
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
     }
+
+    func subscribeToProfilePicture(function: @escaping (String?) -> Void) -> AnyCancellable {
+        $profilePictureUrl.sink(receiveValue: function)
+    }
 }
 
 // MARK: Equatable
