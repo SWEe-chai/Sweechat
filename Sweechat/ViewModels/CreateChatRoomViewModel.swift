@@ -9,10 +9,15 @@ class CreateChatRoomViewModel: ObservableObject {
     var otherUsersViewModels: [MemberItemViewModel]
 
     @Published var isWritable: Bool = true
+    @Published var isStarred: Bool = false
 
     // Creation permission
     var canCreateForum: Bool {
         ModulePermission.canCreateForum(permission: module.currentUserPermission)
+    }
+
+    var canStar: Bool {
+        ModulePermission.canStarChatRoom(permission: module.currentUserPermission)
     }
 
     private var otherChosenMembers: [User] {
@@ -62,7 +67,8 @@ class CreateChatRoomViewModel: ObservableObject {
         let newForumChat = ForumChatRoom(
             name: forumName,
             members: members,
-            currentUser: user)
+            currentUser: user,
+            isStarred: isStarred)
         module.store(chatRoom: newForumChat,
                      userPermissions: memberPermissions)
     }
@@ -81,7 +87,8 @@ class CreateChatRoomViewModel: ObservableObject {
             name: groupName,
             members: members,
             currentUser: user,
-            currentUserPermission: ChatRoomPermission.all)
+            currentUserPermission: ChatRoomPermission.all,
+            isStarred: isStarred)
         module.store(chatRoom: newGroupChatRoom,
                      userPermissions: memberPermissions)
 
@@ -90,10 +97,6 @@ class CreateChatRoomViewModel: ObservableObject {
     private func getOtherUsersPermissions() -> ChatRoomPermissionBitmask {
         ChatRoomPermission.read
             | (isWritable ? ChatRoomPermission.write : 0)
-    }
-
-    func toggleIsWritable() {
-        isWritable.toggle()
     }
 }
 

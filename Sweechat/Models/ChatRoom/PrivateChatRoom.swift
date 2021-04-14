@@ -12,7 +12,8 @@ class PrivateChatRoom: ChatRoom {
                    name: "",
                    ownerId: ownerId,
                    currentUser: currentUser,
-                   currentUserPermission: ChatRoomPermission.readWrite)
+                   currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false)
     }
 
     init(currentUser: User,
@@ -21,7 +22,8 @@ class PrivateChatRoom: ChatRoom {
         super.init(name: "",
                    members: members,
                    currentUser: currentUser,
-                   currentUserPermission: ChatRoomPermission.readWrite)
+                   currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false)
     }
 
     private func setOtherUser(_ user: User) {
@@ -37,6 +39,13 @@ class PrivateChatRoom: ChatRoom {
             self.name = newName
         }) {
             subscribers.append(nameSubscriber)
+        }
+
+        if let profilePictureUrlSubscriber = otherUser?
+            .subscribeToProfilePicture(function: { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }) {
+            subscribers.append(profilePictureUrlSubscriber)
         }
     }
 

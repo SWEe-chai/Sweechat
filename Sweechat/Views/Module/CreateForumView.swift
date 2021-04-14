@@ -6,12 +6,16 @@ struct CreateForumView: View {
     @Binding var isShowing: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading) {
             Text("Forum Name")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.dark)
                 .padding(.top)
-            ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
+            HStack {
+                ChatRoomNameTextField(placeholder: "Forum name...", name: $forumName)
+            }
+            Divider()
+            StarTickBoxView(viewModel: viewModel)
             Spacer()
         }
         .padding()
@@ -26,9 +30,3 @@ struct CreateForumView: View {
         }
     }
 }
-
-// struct CreateForumView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreateForumView()
-//    }
-// }

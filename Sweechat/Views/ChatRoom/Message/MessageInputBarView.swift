@@ -173,7 +173,8 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    name: "CS4269",
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-                                   currentUserPermission: ChatRoomPermission.readWrite),
+                                   currentUserPermission: ChatRoomPermission.readWrite,
+                                   isStarred: false),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ),
             isShowingParentPreview: true,
