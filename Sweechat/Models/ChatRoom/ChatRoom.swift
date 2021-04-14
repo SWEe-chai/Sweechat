@@ -91,8 +91,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         memberIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
-    func loadMore(_ numberOfMessages: Int) {
-        chatRoomFacade?.loadNextBlock(numberOfMessages) { messages in
+    func loadMore() {
+        chatRoomFacade?.loadNextBlock { messages in
             self.insertAll(messages: messages)
         }
     }

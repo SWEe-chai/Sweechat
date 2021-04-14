@@ -26,6 +26,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
     private var oldestMessageDocument: QueryDocumentSnapshot?
+    private var blockSize: Int = 20
 
     init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
@@ -99,7 +100,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func loadMessages(onCompletion: (() -> Void)?) {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .limit(toLast: 20)
+            .limit(toLast: blockSize)
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
                     os_log("Error loading messages: \(error?.localizedDescription ?? "No error")")
@@ -158,7 +159,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadNextBlock(_ numberOfMessages: Int, onCompletion: @escaping ([Message]) -> Void) {
+    func loadNextBlock(onCompletion: @escaping ([Message]) -> Void) {
         guard let oldestMessageDocument = self.oldestMessageDocument else {
             os_log("Trying to load next block but not available")
             onCompletion([])
@@ -167,7 +168,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
             .end(beforeDocument: oldestMessageDocument)
-            .limit(toLast: numberOfMessages)
+            .limit(toLast: blockSize)
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {

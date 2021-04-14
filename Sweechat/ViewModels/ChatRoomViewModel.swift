@@ -87,7 +87,7 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func loadMore() {
-        chatRoom.loadMore(10)
+        chatRoom.loadMore()
     }
 
     func loadUntil(messageViewModel: MessageViewModel) {
