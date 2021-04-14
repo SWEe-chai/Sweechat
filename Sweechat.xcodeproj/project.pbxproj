@@ -137,6 +137,8 @@
 		458E23F92605EE0B006780C7 /* AppViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E23F82605EE0B006780C7 /* AppViewModelTests.swift */; };
 		458E24112605FA16006780C7 /* RegistrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E24102605FA16006780C7 /* RegistrationViewModelTests.swift */; };
 		458E24162605FAC2006780C7 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 458E24152605FAC2006780C7 /* LoginViewModelTests.swift */; };
+		45A255C02626E3D800D697A6 /* LikeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A255BF2626E3D800D697A6 /* LikeButtonView.swift */; };
+		45A255CD26275A0F00D697A6 /* MostPopularThreadMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A255CC26275A0F00D697A6 /* MostPopularThreadMessageView.swift */; };
 		45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */; };
 		45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
@@ -352,6 +354,8 @@
 		458E23F82605EE0B006780C7 /* AppViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelTests.swift; sourceTree = "<group>"; };
 		458E24102605FA16006780C7 /* RegistrationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelTests.swift; sourceTree = "<group>"; };
 		458E24152605FAC2006780C7 /* LoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelTests.swift; sourceTree = "<group>"; };
+		45A255BF2626E3D800D697A6 /* LikeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButtonView.swift; sourceTree = "<group>"; };
+		45A255CC26275A0F00D697A6 /* MostPopularThreadMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularThreadMessageView.swift; sourceTree = "<group>"; };
 		45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyStorageManager.swift; sourceTree = "<group>"; };
 		45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyJSONStorageManager.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -554,6 +558,7 @@
 				3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */,
 				77F4F1DB2619B333003CD601 /* Color.swift */,
 				27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */,
+				45A255BF2626E3D800D697A6 /* LikeButtonView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -592,8 +597,8 @@
 				279DD1CC26172202001E4B37 /* PrivateChatRoomViewModel.swift */,
 				279DD1D42617226C001E4B37 /* GroupChatRoomViewModel.swift */,
 				279DD1D926172293001E4B37 /* ForumChatRoomViewModel.swift */,
-				27ABA3BD261870F00072F591 /* ThreadViewModel.swift */,
 				27EADD522621FEA400E4CC9C /* ThreadChatRoomViewModel.swift */,
+				27ABA3BD261870F00072F591 /* ThreadViewModel.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -622,6 +627,7 @@
 				27598E482615C41500DF564F /* MessageInputBarView.swift */,
 				3EC8C19A261734F3008672C4 /* ReplyPreviewView.swift */,
 				27A2D944261F00B700267C7D /* CustomImage.swift */,
+				45A255CC26275A0F00D697A6 /* MostPopularThreadMessageView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1314,6 +1320,7 @@
 				279DD1E826177E79001E4B37 /* ChatRoomNameTextField.swift in Sources */,
 				27A2D96E261F4CC100267C7D /* RemoteImage.swift in Sources */,
 				271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */,
+				45A255CD26275A0F00D697A6 /* MostPopularThreadMessageView.swift in Sources */,
 				775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */,
 				27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */,
 				4583D9972616055B0092AF87 /* PublicKey.swift in Sources */,
@@ -1321,6 +1328,7 @@
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				4583D9922616055B0092AF87 /* SignalProtocolError.swift in Sources */,
 				3EFF012E26108318008288C9 /* TextMessageViewModel.swift in Sources */,
+				45A255C02626E3D800D697A6 /* LikeButtonView.swift in Sources */,
 				27ABA3C32618734C0072F591 /* ThreadView.swift in Sources */,
 				77394BBB260D0BE50068B01F /* FirebaseUserModulePair.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,

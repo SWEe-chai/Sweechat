@@ -7,7 +7,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     var forumSubscribers: [AnyCancellable] = []
 
     @Published var postViewModels: [MessageViewModel] = []
-    @Published private var threads: [ThreadChatRoomViewModel] = []
+    @Published var threads: [ThreadChatRoomViewModel] = []
     var threadId: ThreadViewModel!
     private var prominentThreadId: String?
     private var threadCreator: ThreadCreator?
@@ -19,6 +19,10 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         initialiseForumSubscribers()
     }
 
+    var texts: [MessageViewModel] {
+        messages
+    }
+
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
             let updatedPostIds = Set(posts.map({ $0.id.val }))
@@ -26,9 +30,10 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
             let currentPostsIds = Set(self.postViewModels.map { $0.id })
             let newPosts = posts.filter { !currentPostsIds.contains($0.id.val) }
             self.threads.append(contentsOf: newPosts.compactMap {
-                ThreadChatRoomViewModel(post: $0,
-                                        postSender: self.chatRoom.getUser(userId: $0.senderId),
-                                        user: self.forumChatRoom.currentUser)
+                let post = TextMessageViewModel(message: $0, sender: self.chatRoom.getUser(userId: $0.senderId),
+                                                currentUserId: self.user.id)
+                post.delegate = self
+                return ThreadChatRoomViewModel(post: post, user: self.forumChatRoom.currentUser)
             })
             self.postViewModels.append(contentsOf: newPosts.compactMap {
                 MessageViewModelFactory

@@ -5,13 +5,14 @@ struct ThreadView: View {
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
     var body: some View {
         VStack {
-            ForumPostView(viewModel: viewModel.post).padding()
+            ForumPostView(viewModel: viewModel).padding()
             MessagesScrollView(viewModel: viewModel,
                                replyPreviewMetadata: $replyPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
                                 isShowingReply: true,
                                 replyPreviewMetadata: $replyPreviewMetadata)
-        }.background(ColorConstant.base)
+        }
+        .background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
         .navigationTitle(Text("Thread"))
