@@ -50,7 +50,6 @@ struct HomeView: View {
                         isActive: $viewModel.isDirectModuleLoaded
                     )
                     .hidden()
-
                     Spacer()
                 }
                 .frame(width: geometry.size.width)

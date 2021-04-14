@@ -82,7 +82,14 @@ struct ModuleView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(ColorConstant.base)
                 )
-
+                NavigationLink(
+                    "",
+                    destination: LazyNavView(
+                        ChatRoomView(viewModel: viewModel.directChatRoomViewModel)
+                    ),
+                    isActive: $viewModel.isDirectChatRoomLoaded
+                )
+                .hidden()
                 NavigationLink("",
                                destination: ModuleInformation(viewModel: viewModel),
                                isActive: $isModuleSettingsOpened)
