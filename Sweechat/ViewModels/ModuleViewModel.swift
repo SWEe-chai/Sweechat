@@ -11,6 +11,13 @@ class ModuleViewModel: ObservableObject {
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
 
+    static func createUnavailableModuleViewModel() -> ModuleViewModel {
+        ModuleViewModel(
+            module: Module.createUnavailableModule(),
+            user: User.createUnavailableUser()
+        )
+    }
+
     var createChatRoomViewModel: CreateChatRoomViewModel {
         CreateChatRoomViewModel(
             module: module,
@@ -46,7 +53,7 @@ class ModuleViewModel: ObservableObject {
     }
 
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
-        self.chatRoomViewModels.filter { $0.id == chatRoomId }.first
+        self.chatRoomViewModels.first(where: { $0.id == chatRoomId })
     }
 }
 

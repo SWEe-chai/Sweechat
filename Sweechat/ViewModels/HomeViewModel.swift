@@ -18,12 +18,12 @@ class HomeViewModel: ObservableObject {
         self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
-        self.directModuleViewModel = ModuleViewModel(module: Module.createUnavailableModule(), user: User.createUnavailableUser())
+        self.directModuleViewModel = ModuleViewModel.createUnavailableModuleViewModel()
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
     }
-
+    
     func initialiseSubscribers() {
         if !subscribers.isEmpty {
             return
@@ -34,20 +34,18 @@ class HomeViewModel: ObservableObject {
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
             self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }
         }
-        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif {
-            isFromNotif in
-            print("YAS \(self.notificationMetadata.isFromNotif) \(isFromNotif)")
-            if isFromNotif {
-                self.checkAsync(interval: 0.5) {
-                    if self
-                        .getModuleViewModel(
-                            moduleId: self.notificationMetadata.directModuleId
-                        ) != nil {
-                        return false
+        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
+                if isFromNotif {
+                    self.checkAsync(interval: 0.5) {
+                        if self
+                            .getModuleViewModel(
+                                moduleId: self.notificationMetadata.directModuleId
+                            ) != nil {
+                            return false
+                        }
+                        return true
                     }
-                    return true
                 }
-            }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
@@ -78,12 +76,10 @@ class HomeViewModel: ObservableObject {
     }
 
     func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
-        if let unwrappedDirectModuleViewModel = self.moduleViewModels.filter { $0.id == moduleId }.first {
-            print("AAA")
+        if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
             self.directModuleViewModel = unwrappedDirectModuleViewModel
             self.isDirectModuleLoaded = true
         }
-        print("BBB")
         return self.directModuleViewModel
     }
 

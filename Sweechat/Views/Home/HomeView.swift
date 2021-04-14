@@ -34,7 +34,8 @@ struct HomeView: View {
                                 .padding(.horizontal)
                         }
                         ScrollView(showsIndicators: false) {
-                            ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                            ForEach(
+                                Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
                                 ModuleItemView(viewModel: moduleViewModel, index: index)
                             }
                             .padding()
@@ -43,12 +44,9 @@ struct HomeView: View {
                     }
                     NavigationLink(
                         "",
-                        destination:
-                                LazyNavView(
-                                    ModuleView(viewModel: viewModel.directModuleViewModel)
-                                )
-
-                        ,
+                        destination: LazyNavView(
+                            ModuleView(viewModel: viewModel.directModuleViewModel)
+                        ),
                         isActive: $viewModel.isDirectModuleLoaded
                     )
                     .hidden()

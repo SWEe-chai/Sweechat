@@ -29,14 +29,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         self.notificationMetadata = NotificationMetadata()
         self.appViewModel = AppViewModel(notificationMetadata: notificationMetadata)
-        self.notificationHandler = NotificationHandler(appViewModel: appViewModel, notificationMetadata: notificationMetadata)
+        self.notificationHandler = NotificationHandler(
+            appViewModel: appViewModel,
+            notificationMetadata: notificationMetadata
+        )
     }
 
-    func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
         FirebaseApp.configure()
-//        // [START set_messaging_delegate]
+        // [START set_messaging_delegate]
         Messaging.messaging().delegate = notificationHandler
         // [END set_messaging_delegate]
 
@@ -83,8 +88,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // [START receive_message]
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                       fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(
+        _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult
+    ) -> Void) {
     // If you are receiving a notification message while your app is in the background,
     // this callback will not be fired till the user taps on the notification launching the application.
     // TODO: Handle data of notification
@@ -166,80 +173,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 }
-//
-// extension AppDelegate: MessagingDelegate {
-//    // [START refresh_token]
-//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        print("Firebase registration token: \(String(describing: fcmToken))")
-//
-//        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-//        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-//        FcmJsonStorageManager.save(token: fcmToken)
-//        // TODO: If necessary send token to application server.
-//        // Note: This callback is fired at each app startup and whenever a new token is generated.
-//    }
-//    // [END refresh_token]
-// }
-//
-//// [START ios_10_message_handling]
-// @available(iOS 10, *)
-// extension AppDelegate: UNUserNotificationCenterDelegate {
-//
-//  // Receive displayed notifications for iOS 10 devices.
-//  func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                              willPresent notification: UNNotification,
-//    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//    let userInfo = notification.request.content.userInfo
-//
-//    // With swizzling disabled you must let Messaging know about the message, for Analytics
-//    // Messaging.messaging().appDidReceiveMessage(userInfo)
-//    isFromNotif = true
-//
-//    directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
-//    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
-//
-//    print(directModuleId)
-//    print(directChatRoomId)
-//    // [START_EXCLUDE]
-//    // Print message ID.
-//    if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
-//      print("Message ID 1: \(messageID)")
-//    }
-//    // [END_EXCLUDE]
-//
-//    // Print full message.
-//    print(userInfo)
-//
-//    // Change this to your preferred presentation option
-//    completionHandler([[.alert, .sound]])
-//  }
-//
-//  func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                              didReceive response: UNNotificationResponse,
-//                              withCompletionHandler completionHandler: @escaping () -> Void) {
-//    let userInfo = response.notification.request.content.userInfo
-//    print("KESINI DONG GUYSSSSS")
-//    // [START_EXCLUDE]
-//    // Print message ID.
-//    if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
-//      print("Message ID 5: \(messageID)")
-//    }
-//    // [END_EXCLUDE]
-//    isFromNotif = true
-//
-//    directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
-//    directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
-//
-//    print(directModuleId)
-//    print(directChatRoomId)
-//
-//    // With swizzling disabled you must let Messaging know about the message, for Analytics
-//    // Messaging.messaging().appDidReceiveMessage(userInfo)
-//
-//    // Print full message.
-//    print(userInfo)
-//
-//    completionHandler()
-//  }
-// }
-//// [END ios_10_message_handling]
