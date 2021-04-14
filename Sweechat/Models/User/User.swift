@@ -12,7 +12,7 @@ class User: ObservableObject {
     private var isLoggedInSubscribers: [((Bool) -> Void)] = []
     private var groupCryptographyProvider: GroupCryptographyProvider
 
-    static func createUnavailableUser() -> User {
+    static func createUnavailableInstance() -> User {
         User(id: unvailableUserId, name: unvailableUserName)
     }
 

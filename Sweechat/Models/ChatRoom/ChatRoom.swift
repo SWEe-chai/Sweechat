@@ -20,6 +20,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     static let allUsersId: String = "all"
     static let failedEncryptionMessageContent = "This chat room message could not be encrypted"
     static let failedDecryptionMessageContent = "This chat room message could not be decrypted"
+    static let unavailableChatRoomId = Identifier<ChatRoom>("")
+    static let unavailableChatRoomName = "Unavailable Chat Room"
 
     // Pass owner ID here
     // This init is for the cloud service to create the chatroom and keep it in sync with the
@@ -57,6 +59,15 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
         insertAll(members: members)
     }
+    
+    static func createUnavailableInstance() -> ChatRoom {
+        ChatRoom(
+            id: unavailableModuleId,
+            name: unavailableModuleName,
+            currentUser: User.createUnavailableInstance(),
+            currentUserPermission: ChatRoomPermissionBitmask()
+        )
+    }
 
     func setChatRoomConnection() {
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
@@ -82,7 +93,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func getUser(userId: String) -> User {
-        memberIdsToUsers[userId] ?? User.createUnavailableUser()
+        memberIdsToUsers[userId] ?? User.createUnavailableInstance()
     }
 
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {

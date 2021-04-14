@@ -84,14 +84,14 @@ class FirebaseUserFacade: UserFacade {
     static func convert(document: DocumentSnapshot) -> User {
         if !document.exists {
             os_log("Error: Cannot convert user, user document does not exist")
-            return User.createUnavailableUser()
+            return User.createUnavailableInstance()
         }
         let data = document.data()
         guard let id = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for User, data: %s", String(describing: data))
-            return User.createUnavailableUser()
+            return User.createUnavailableInstance()
         }
         return User(
             id: id,

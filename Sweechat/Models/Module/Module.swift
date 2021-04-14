@@ -28,11 +28,11 @@ class Module: ObservableObject {
     var userIdsToUsers: [String: User] = [:]
     let currentUserPermission: ModulePermissionBitmask
 
-    static func createUnavailableModule() -> Module {
+    static func createUnavailableInstance() -> Module {
         Module(
             id: unavailableModuleId,
             name: unavailableModuleName,
-            currentUser: User.createUnavailableUser(),
+            currentUser: User.createUnavailableInstance(),
             currentUserPermission: ModulePermissionBitmask()
         )
     }
