@@ -2,10 +2,13 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @EnvironmentObject private var appViewModel: AppViewModel
     @State var isShowingCreateView: Bool = false
-
+    @State var isDirectModuleLoaded = false
+    
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
+        self.isDirectModuleLoaded = false
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
@@ -38,7 +41,18 @@ struct HomeView: View {
                         }
                         .padding(.top, 3)
                     }
-
+                    NavigationLink(
+                        "",
+                        destination:
+                                LazyNavView(
+                                    ModuleView(viewModel: viewModel.directModuleViewModel)
+                                )
+                            
+                        ,
+                        isActive: $viewModel.isDirectModuleLoaded
+                    )
+                    .hidden()
+                                        
                     Spacer()
                 }
                 .frame(width: geometry.size.width)

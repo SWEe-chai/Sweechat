@@ -2,12 +2,14 @@ import Combine
 import os
 
 class AppViewModel: ObservableObject {
-    @Published var isFromNotif: Bool = false
-    @Published var directChatRoomId: String = ""
-    @Published var directModuleId: String = ""
-
+    var notificationMetadata: NotificationMetadata
+    
+    init(notificationMetadata: NotificationMetadata) {
+        self.notificationMetadata = notificationMetadata
+    }
+    
     var loginViewModel: LoginViewModel {
-        LoginViewModel()
+        LoginViewModel(notificationMetadata: notificationMetadata)
     }
 
     var registrationViewModel: RegistrationViewModel {

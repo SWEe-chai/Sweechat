@@ -11,9 +11,11 @@
 @available(iOS 10, *)
 class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
     var appViewModel: AppViewModel
+    var notificationMetadata: NotificationMetadata
 
-    init(appViewModel: AppViewModel) {
+    init(appViewModel: AppViewModel, notificationMetadata: NotificationMetadata) {
         self.appViewModel = appViewModel
+        self.notificationMetadata = notificationMetadata
     }
 
     // Receive displayed notifications for iOS 10 devices.
@@ -53,10 +55,10 @@ class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
           print("Message ID 5: \(messageID)")
         }
         // [END_EXCLUDE]
-        appViewModel.isFromNotif = true
+        notificationMetadata.isFromNotif = true
         print("KESINI DONG GUYSSSS")
-        appViewModel.directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
-        appViewModel.directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
+        notificationMetadata.directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
+        notificationMetadata.directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)

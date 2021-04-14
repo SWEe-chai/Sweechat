@@ -23,11 +23,13 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var appViewModel: AppViewModel
+    var notificationMetadata: NotificationMetadata
     var notificationHandler: NotificationHandler
 
     override init() {
-        self.appViewModel = AppViewModel()
-        self.notificationHandler = NotificationHandler(appViewModel: appViewModel)
+        self.notificationMetadata = NotificationMetadata()
+        self.appViewModel = AppViewModel(notificationMetadata: NotificationMetadata)
+        self.notificationHandler = NotificationHandler(appViewModel: appViewModel, notificationMetadata: notificationMetadata)
     }
 
     func application(_ application: UIApplication,

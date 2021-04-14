@@ -45,8 +45,8 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(chatRoomsSubscriber)
     }
 
-    func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel {
-        self.chatRoomViewModels.filter { $0.id == chatRoomId }[0]
+    func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
+        self.chatRoomViewModels.filter { $0.id == chatRoomId }.first
     }
 }
 

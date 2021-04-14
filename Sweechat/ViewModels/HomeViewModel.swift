@@ -1,21 +1,34 @@
 import Combine
 import Foundation
+
 class HomeViewModel: ObservableObject {
     var user: User
     weak var delegate: HomeViewModelDelegate?
     var settingsViewModel: SettingsViewModel
     var moduleList: ModuleList
+    @Published var isDirectModuleLoaded: Bool = false
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
     private var subscribers: [AnyCancellable] = []
 
-    init(user: User) {
+    init(user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
         self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
         settingsViewModel.delegate = self
         initialiseSubscribers()
+        if notificationMetadata.isFromNotif {
+            checkAsync(interval: 0.1) {
+                if self
+                    .getModuleViewModel(
+                        moduleId: notificationMetadata.directModuleId
+                    ) != nil {
+                    return false
+                }
+                return true
+            }
+        }
     }
 
     func initialiseSubscribers() {
@@ -55,8 +68,17 @@ class HomeViewModel: ObservableObject {
         moduleList.joinModule(moduleId: id)
     }
 
-    func getModuleViewModel(moduleId: String) -> ModuleViewModel {
-        self.moduleViewModels.filter { $0.id == moduleId }[0]
+    func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
+        var directModuleViewModel = self.moduleViewModels.filter { $0.id == moduleId }.first
+        return directModuleViewModel
+    }
+    
+    func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+            if repeatableFunction() {
+                self.checkAsync(interval: interval, repeatableFunction: repeatableFunction)
+            }
+        }
     }
 }
 
