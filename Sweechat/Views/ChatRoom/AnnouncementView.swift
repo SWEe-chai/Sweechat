@@ -5,12 +5,17 @@ struct AnnouncementView: View {
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
 
     var body: some View {
-        MessagesScrollView(viewModel: viewModel,
-                           replyPreviewMetadata: .constant(nil))
-            .background(ColorConstant.base)
-            .navigationBarHidden(false)
-            .navigationBarBackButtonHidden(false)
-            .navigationTitle(Text(viewModel.text))
+        HStack {
+            Spacer()
+            MessagesScrollView(
+                viewModel: viewModel,
+                replyPreviewMetadata: .constant(nil))
+            Spacer()
+        }
+        .background(ColorConstant.base)
+        .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(false)
+        .navigationTitle(Text(viewModel.text))
     }
 }
 
@@ -24,7 +29,8 @@ struct AnnouncementView_Previews: PreviewProvider {
                         name: "Announcements",
                         ownerId: "Me",
                         currentUser: User(id: "Hello", name: "Happy boi"),
-                        currentUserPermission: ChatRoomPermission.all),
+                        currentUserPermission: ChatRoomPermission.all,
+                        isStarred: false),
                     user: User(id: "Hello", name: "Happy boi")))
     }
 }

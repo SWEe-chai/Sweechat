@@ -26,6 +26,11 @@ class ChatRoomViewModel: ObservableObject {
     var editedMessageContent: String {
         editedMessageViewModel?.previewContent() ?? ""
     }
+
+    var isStarred: Bool {
+        chatRoom.isStarred
+    }
+
     @Published var messages: [MessageViewModel] = []
     @Published var earlyLoadedMessages: [MessageViewModel] = []
 
@@ -69,10 +74,16 @@ class ChatRoomViewModel: ObservableObject {
         }
         let allMessagesLoadedSubscriber = chatRoom.subscribeToAreAllMessagesLoaded { self.areAllMessagesLoaded = $0
         }
+
+        let profilePictureSubscriber = chatRoom.subscribeToProfilePicture { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }
+
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
         subscribers.append(earlyMessagesSubscriber)
         subscribers.append(allMessagesLoadedSubscriber)
+        subscribers.append(profilePictureSubscriber)
     }
 
     func loadMore() {

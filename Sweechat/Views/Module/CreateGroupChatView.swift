@@ -14,14 +14,17 @@ struct CreateGroupChatView: View {
             HStack {
                 ChatRoomNameTextField(placeholder: "Group name...", name: $groupName)
             }
+            Divider()
+            StarTickBoxView(viewModel: viewModel)
             Text("Members Permissions")
                 .font(FontConstant.Heading1)
                 .foregroundColor(ColorConstant.dark)
                 .padding(.top)
-            PermissionItemView(
+            TickableItem(
                 isLit: $viewModel.isWritable,
-                onTap: viewModel.toggleIsWritable,
+                onTap: { viewModel.isWritable.toggle() },
                 text: "Send messages")
+            Divider()
             Spacer()
         }
         .padding()
@@ -37,7 +40,7 @@ struct CreateGroupChatView: View {
     }
 }
 
-struct PermissionItemView: View {
+struct TickableItem: View {
     @Binding var isLit: Bool
     var onTap: () -> Void
     var text: String
