@@ -42,7 +42,7 @@ class HomeViewModel: ObservableObject {
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
                 if isFromNotif {
-                    AsyncHelper.checkAsync(interval: 0.5) {
+                    AsyncHelper.checkAsync(interval: 0.1) {
                         if self
                             .getModuleViewModel(
                                 moduleId: self.notificationMetadata.directModuleId

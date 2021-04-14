@@ -13,7 +13,7 @@ class ModuleViewModel: ObservableObject {
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var isDirectChatRoomLoaded: Bool = false
-    
+
     static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
             module: Module.createUnavailableInstance(),
@@ -56,7 +56,7 @@ class ModuleViewModel: ObservableObject {
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
                 if isFromNotif {
-                    AsyncHelper.checkAsync(interval: 0.5) {
+                    AsyncHelper.checkAsync(interval: 0.1) {
                         if self
                             .getChatRoomViewModel(
                                 chatRoomId: self.notificationMetadata.directChatRoomId
@@ -73,7 +73,12 @@ class ModuleViewModel: ObservableObject {
     }
 
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
-        self.chatRoomViewModels.first(where: { $0.id == chatRoomId })
+        if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
+            self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
+            self.isDirectChatRoomLoaded = true
+        }
+        return self.directChatRoomViewModel
+
     }
 }
 
