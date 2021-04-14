@@ -3,7 +3,7 @@ import os
 
 struct MessagesScrollView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     @State private var scrollOffset: CGFloat = .zero
     @State private var heightOffset: CGFloat = .zero
@@ -19,31 +19,31 @@ struct MessagesScrollView: View {
                     ForEach(viewModel.messages, id: \.self) { messageViewModel in
                         let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)
                         MessageView(viewModel: messageViewModel,
-                                    parentViewModel: parentMessage, replyPreviewMetadata: $replyPreviewMetadata,
-                                    onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage, anchor: .top) })
+                                    parentViewModel: parentMessage, parentPreviewMetadata: $parentPreviewMetadata,
+                                    onReplyPreviewTapped: { scrollToMessage(scrollView, parentMessage, anchor: .bottom) })
                     }
                 }
                 .onAppear { scrollToMessage(scrollView, viewModel.messages.last, anchor: .bottom) }
                 .onChange(of: viewModel.latestMessageViewModel) { _ in
                     handleNewMessages(scrollView)
                 }
-                .onChange(of: replyPreviewMetadata?.tappedReplyPreview) { _ in
-                    handleTappedReplyView(scrollView)
+                .onChange(of: parentPreviewMetadata?.tappedPreview) { _ in
+                    handleTappedPreview(scrollView)
                 }
                 .padding([.leading, .trailing])
             }
         }
     }
 
-    func handleTappedReplyView(_ scrollView: ScrollViewProxy) {
-        guard let metadata = replyPreviewMetadata else {
-            os_log("Info: replyPreviewMetadata is nil when detecting change.")
+    func handleTappedPreview(_ scrollView: ScrollViewProxy) {
+        guard let metadata = parentPreviewMetadata else {
+            os_log("Info: parentPreviewMetadata is nil when detecting change.")
             return
         }
 
-        if metadata.tappedReplyPreview {
-            scrollToMessage(scrollView, metadata.messageBeingRepliedTo, anchor: .top)
-            replyPreviewMetadata?.tappedReplyPreview = false // value-type semantics. change directly
+        if metadata.tappedPreview {
+            scrollToMessage(scrollView, metadata.parentMessage, anchor: .bottom)
+            parentPreviewMetadata?.tappedPreview = false // value-type semantics. change directly
         }
     }
 
@@ -113,7 +113,7 @@ struct MessagesScrollView_Previews: PreviewProvider {
                                    currentUserPermission: ChatRoomPermission.readWrite,
                                    isStarred: false),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
-            ), replyPreviewMetadata: Binding.constant(nil)
+            ), parentPreviewMetadata: Binding.constant(nil)
         )
     }
 }

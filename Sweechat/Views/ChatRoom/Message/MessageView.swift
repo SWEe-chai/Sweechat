@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageView: View {
     @ObservedObject var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     // TODO: Change this to delegates in the future
     var onReplyPreviewTapped: (() -> Void)?
@@ -21,7 +21,7 @@ struct MessageView: View {
             VStack(alignment: .leading) {
                 Text(viewModel.senderName).font(FontConstant.MessageSender)
                 if let parent = parentViewModel {
-                    ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
+                    ParentPreviewView(message: parent, borderColor: viewModel.foregroundColor)
                         .onTapGesture {
                             onReplyPreviewTapped?()
                         }
@@ -73,7 +73,7 @@ struct MessageView: View {
 
     private func contextMenuEditButton() -> some View {
         Button {
-            viewModel.edit()
+            onEditTapped(message: viewModel)
         } label: {
             Label("Edit", systemImage: "square.and.pencil")
         }
@@ -89,7 +89,11 @@ struct MessageView: View {
 
     // MARK: Context Menu Button functionalities
     private func replyTo(message: MessageViewModel) {
-        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
+        parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .reply)
+    }
+
+    private func onEditTapped(message: MessageViewModel) {
+        parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .edit)
     }
 }
 
@@ -120,6 +124,6 @@ struct MessageView_Previews: PreviewProvider {
                                                            name: "Christine Jane Welly"),
                                               currentUserId: "1234")
     static var previews: some View {
-        MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
+        MessageView(viewModel: message, parentViewModel: parent, parentPreviewMetadata: .constant(nil))
     }
 }

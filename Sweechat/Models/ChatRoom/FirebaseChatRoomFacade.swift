@@ -26,7 +26,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
     private var oldestMessageDocument: QueryDocumentSnapshot?
-    private var blockSize: Int = 20
+    private var blockSize: Int = 9
 
     init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
