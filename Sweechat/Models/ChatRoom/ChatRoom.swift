@@ -93,7 +93,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func loadUntil(message: Message) {
-        chatRoomFacade?.loadUntil(message.creationTime.timeIntervalSince1970) {
+        chatRoomFacade?.loadUntil(message.creationTime) {
             self.insertAll(messages: $0)
         }
     }

@@ -83,7 +83,6 @@ struct MessagesScrollView: View {
                 }
                 return false
             }
-            viewModel.loadUntil(messageViewModel: message)
             return true
         }
     }

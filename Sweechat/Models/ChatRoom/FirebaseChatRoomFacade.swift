@@ -175,7 +175,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     onCompletion([])
                     return
                 }
-                self.oldestMessageDocument = oldestMessageDocument
+                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageFacade.convert(document: $0)
                 })
@@ -196,10 +196,11 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadUntil(_ time: TimeInterval, onCompletion: @escaping ([Message]) -> Void) {
+    func loadUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
+        let timestamp = Timestamp(date: time)
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .start(at: [time])
+            .start(at: [timestamp])
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {
@@ -207,12 +208,21 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     onCompletion([])
                     return
                 }
-                self.oldestMessageDocument = oldestMessageDocument
+                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageFacade.convert(document: $0)
                 })
                 onCompletion(messages)
             }
+    }
+
+    private func compareAndSetOldestMessageDocument(_ oldestMessageDocument: QueryDocumentSnapshot) {
+        guard let previousTime = self.oldestMessageDocument?[DatabaseConstant.Message.creationTime] as? Timestamp,
+              let newTime = oldestMessageDocument[DatabaseConstant.Message.creationTime] as? Timestamp,
+              newTime.dateValue() < previousTime.dateValue() else {
+            return
+        }
+        self.oldestMessageDocument = oldestMessageDocument
     }
 
     func save(_ message: Message) {
