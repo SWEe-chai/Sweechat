@@ -20,6 +20,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     static let allUsersId: String = "all"
     static let failedEncryptionMessageContent = "This chat room message could not be encrypted"
     static let failedDecryptionMessageContent = "This chat room message could not be decrypted"
+    static let unavailableOwnerId = ""
     static let unavailableChatRoomId = Identifier<ChatRoom>("")
     static let unavailableChatRoomName = "Unavailable Chat Room"
 
@@ -59,11 +60,12 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id)
         insertAll(members: members)
     }
-    
+
     static func createUnavailableInstance() -> ChatRoom {
         ChatRoom(
-            id: unavailableModuleId,
-            name: unavailableModuleName,
+            id: unavailableChatRoomId,
+            name: unavailableChatRoomName,
+            ownerId: unavailableOwnerId,
             currentUser: User.createUnavailableInstance(),
             currentUserPermission: ChatRoomPermissionBitmask()
         )

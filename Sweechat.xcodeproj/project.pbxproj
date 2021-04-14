@@ -189,6 +189,7 @@
 		77C5D08B261034C3005D5504 /* MemberItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D08A261034C3005D5504 /* MemberItemSelectView.swift */; };
 		77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */; };
 		77D058952626EC9A00DE6AED /* NotificationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058942626EC9A00DE6AED /* NotificationMetadata.swift */; };
+		77D058C52627609900DE6AED /* AsyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058C42627609900DE6AED /* AsyncHelper.swift */; };
 		77F4F11726188129003CD601 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F11626188128003CD601 /* ColorConstant.swift */; };
 		77F4F14A26189E3C003CD601 /* ModuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F14926189E3C003CD601 /* ModuleItemView.swift */; };
 		77F4F1522618A727003CD601 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */; };
@@ -439,6 +440,7 @@
 		77C5D08A261034C3005D5504 /* MemberItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemSelectView.swift; sourceTree = "<group>"; };
 		77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomItemView.swift; sourceTree = "<group>"; };
 		77D058942626EC9A00DE6AED /* NotificationMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMetadata.swift; sourceTree = "<group>"; };
+		77D058C42627609900DE6AED /* AsyncHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncHelper.swift; sourceTree = "<group>"; };
 		77F4F11626188128003CD601 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		77F4F14926189E3C003CD601 /* ModuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleItemView.swift; sourceTree = "<group>"; };
 		77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -891,8 +893,8 @@
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
 				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
-				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
+				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				77C5D08526103403005D5504 /* MemberItemViewModel.swift */,
 				2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */,
@@ -928,6 +930,7 @@
 				27D2362026205F1E00116F13 /* LocalFileViewModel.swift */,
 				3E5989DC2622D974000DE14F /* Identifier.swift */,
 				3E598A9426240A42000DE14F /* IdentifierConverter.swift */,
+				77D058C42627609900DE6AED /* AsyncHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1577,6 +1580,7 @@
 				4583D9942616055B0092AF87 /* GroupCryptographyProvider.swift in Sources */,
 				279DD1BF261718CE001E4B37 /* CreateForumView.swift in Sources */,
 				279CBAB6260A3248009A139C /* LoginButtonViewModel.swift in Sources */,
+				77D058C52627609900DE6AED /* AsyncHelper.swift in Sources */,
 				77D058952626EC9A00DE6AED /* NotificationMetadata.swift in Sources */,
 				3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */,
 				4583D9902616055B0092AF87 /* KeyFactory.swift in Sources */,

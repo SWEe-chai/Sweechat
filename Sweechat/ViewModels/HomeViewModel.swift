@@ -23,7 +23,7 @@ class HomeViewModel: ObservableObject {
         settingsViewModel.delegate = self
         initialiseSubscribers()
     }
-    
+
     func initialiseSubscribers() {
         if !subscribers.isEmpty {
             return

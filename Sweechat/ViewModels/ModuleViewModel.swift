@@ -17,7 +17,8 @@ class ModuleViewModel: ObservableObject {
     static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
             module: Module.createUnavailableInstance(),
-            user: User.createUnavailableInstance()
+            user: User.createUnavailableInstance(),
+            notificationMetadata: NotificationMetadata()
         )
     }
 
@@ -57,8 +58,8 @@ class ModuleViewModel: ObservableObject {
                 if isFromNotif {
                     AsyncHelper.checkAsync(interval: 0.5) {
                         if self
-                            .getModuleViewModel(
-                                moduleId: self.notificationMetadata.directModuleId
+                            .getChatRoomViewModel(
+                                chatRoomId: self.notificationMetadata.directChatRoomId
                             ) != nil {
                             return false
                         }
@@ -68,6 +69,7 @@ class ModuleViewModel: ObservableObject {
         }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)
+        subscribers.append(notificationMetadataSubscriber)
     }
 
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {

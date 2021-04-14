@@ -35,7 +35,8 @@ struct HomeView: View {
                         }
                         ScrollView(showsIndicators: false) {
                             ForEach(
-                                Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                                Array(
+                                    viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
                                 ModuleItemView(viewModel: moduleViewModel, index: index)
                             }
                             .padding()

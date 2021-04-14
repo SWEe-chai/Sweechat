@@ -29,10 +29,10 @@ class ChatRoomViewModel: ObservableObject {
     var id: String {
         chatRoom.id.val
     }
-    
+
     static func createUnavailableInstance() -> ChatRoomViewModel {
         ChatRoomViewModel(
-            module: ChatRoom.createUnavailableInstance(),
+            chatRoom: ChatRoom.createUnavailableInstance(),
             user: User.createUnavailableInstance()
         )
     }
