@@ -91,3 +91,9 @@ extension Array where Element: Comparable {
         self.count == other.count && self.sorted() == other.sorted()
     }
 }
+
+extension ModuleViewModel: ChatRoomViewModelDelegate {
+    func resetNotificationMetadata() {
+        self.notificationMetadata.reset()
+    }
+}

@@ -12,12 +12,14 @@ struct ChatRoomView: View {
                                 isShowingReply: true,
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }
+        .onAppear {
+            viewModel.resetNotificationMetadata()
+        }
         .background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
         .navigationTitle(Text(viewModel.text))
     }
-
 }
 
 struct ReplyPreviewMetadata {

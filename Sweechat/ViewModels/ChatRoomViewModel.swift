@@ -8,6 +8,7 @@ class ChatRoomViewModel: ObservableObject {
     var user: User
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
+    weak var delegate: ChatRoomViewModelDelegate?
 
     @Published var editedMessageViewModel: MessageViewModel?
     @Published var text: String
@@ -65,6 +66,10 @@ class ChatRoomViewModel: ObservableObject {
         }
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
+    }
+
+    func resetNotificationMetadata() {
+        self.delegate?.resetNotificationMetadata()
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {

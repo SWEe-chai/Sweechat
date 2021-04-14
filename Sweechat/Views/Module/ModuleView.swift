@@ -85,14 +85,17 @@ struct ModuleView: View {
                 NavigationLink(
                     "",
                     destination: LazyNavView(
-                        ChatRoomView(viewModel: viewModel.directChatRoomViewModel)
+                        ChatRoomViewFactory.makeView(viewModel: viewModel.directChatRoomViewModel)
                     ),
                     isActive: $viewModel.isDirectChatRoomLoaded
                 )
-                .hidden()
+                .navigationBarHidden(false)
+
                 NavigationLink("",
                                destination: ModuleInformation(viewModel: viewModel),
-                               isActive: $isModuleSettingsOpened)
+                               isActive: $isModuleSettingsOpened
+                )
+                .navigationBarHidden(false)
             }
         }
         .background(ColorConstant.primary)

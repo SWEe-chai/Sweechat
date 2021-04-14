@@ -13,14 +13,12 @@ class NotificationMetadata {
     var directModuleId: String
 
     init(isFromNotif: Bool, directModuleId: String, directChatRoomId: String) {
-        print("HOW MANY TIMES IS THIS CALLED")
         self.isFromNotif = isFromNotif
         self.directModuleId = directModuleId
         self.directChatRoomId = directChatRoomId
     }
 
     init() {
-        print("HOW MANY TIMES IS THIS CALLED 2")
         self.isFromNotif = false
         self.directModuleId = ""
         self.directChatRoomId = ""
@@ -28,5 +26,12 @@ class NotificationMetadata {
 
     func subscribeToIsFromNotif(function: @escaping (Bool) -> Void) -> AnyCancellable {
         $isFromNotif.sink(receiveValue: function)
+    }
+
+    func reset() {
+        print("AM I CALED HEHEHE")
+        self.isFromNotif = false
+        self.directModuleId = ""
+        self.directChatRoomId = ""
     }
 }

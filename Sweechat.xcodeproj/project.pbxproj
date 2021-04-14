@@ -190,6 +190,7 @@
 		77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */; };
 		77D058952626EC9A00DE6AED /* NotificationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058942626EC9A00DE6AED /* NotificationMetadata.swift */; };
 		77D058C52627609900DE6AED /* AsyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058C42627609900DE6AED /* AsyncHelper.swift */; };
+		77D058CB26276E1000DE6AED /* ChatRoomViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */; };
 		77F4F11726188129003CD601 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F11626188128003CD601 /* ColorConstant.swift */; };
 		77F4F14A26189E3C003CD601 /* ModuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F14926189E3C003CD601 /* ModuleItemView.swift */; };
 		77F4F1522618A727003CD601 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */; };
@@ -441,6 +442,7 @@
 		77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomItemView.swift; sourceTree = "<group>"; };
 		77D058942626EC9A00DE6AED /* NotificationMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMetadata.swift; sourceTree = "<group>"; };
 		77D058C42627609900DE6AED /* AsyncHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncHelper.swift; sourceTree = "<group>"; };
+		77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelDelegate.swift; sourceTree = "<group>"; };
 		77F4F11626188128003CD601 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		77F4F14926189E3C003CD601 /* ModuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleItemView.swift; sourceTree = "<group>"; };
 		77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */,
 				4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */,
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
+				77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1627,6 +1630,7 @@
 				2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */,
 				4575A8292621D6D400B144A5 /* MessageActionsViewModelDelegate.swift in Sources */,
 				775CA65A260B4AF30012C420 /* FirebaseModuleFacade.swift in Sources */,
+				77D058CB26276E1000DE6AED /* ChatRoomViewModelDelegate.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				4583D9962616055B0092AF87 /* P256PublicKey.swift in Sources */,
 				279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */,
