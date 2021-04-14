@@ -8,13 +8,16 @@ class ModuleViewModel: ObservableObject {
     var id: String {
         module.id.val
     }
+    var directChatRoomViewModel: ChatRoomViewModel
+    var notificationMetadata: NotificationMetadata
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
-
-    static func createUnavailableModuleViewModel() -> ModuleViewModel {
+    @Published var isDirectChatRoomLoaded: Bool = false
+    
+    static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
-            module: Module.createUnavailableModule(),
-            user: User.createUnavailableUser()
+            module: Module.createUnavailableInstance(),
+            user: User.createUnavailableInstance()
         )
     }
 
@@ -25,10 +28,12 @@ class ModuleViewModel: ObservableObject {
             members: module.members)
     }
 
-    init(module: Module, user: User) {
+    init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
         self.module = module
         self.text = module.name
+        self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
+        self.notificationMetadata = notificationMetadata
         self.chatRoomViewModels = module.chatRooms.map {
             ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
         }
@@ -47,6 +52,19 @@ class ModuleViewModel: ObservableObject {
             self.chatRoomViewModels = chatRooms.map {
                 ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
             }
+        }
+        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
+                if isFromNotif {
+                    AsyncHelper.checkAsync(interval: 0.5) {
+                        if self
+                            .getModuleViewModel(
+                                moduleId: self.notificationMetadata.directModuleId
+                            ) != nil {
+                            return false
+                        }
+                        return true
+                    }
+                }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)

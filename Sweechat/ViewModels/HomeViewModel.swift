@@ -18,7 +18,7 @@ class HomeViewModel: ObservableObject {
         self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
-        self.directModuleViewModel = ModuleViewModel.createUnavailableModuleViewModel()
+        self.directModuleViewModel = ModuleViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
@@ -32,11 +32,17 @@ class HomeViewModel: ObservableObject {
             self.text = "Welcome, \(newName)!"
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
-            self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }
+            self.moduleViewModels = modules.map {
+                ModuleViewModel(
+                    module: $0,
+                    user: self.user,
+                    notificationMetadata: self.notificationMetadata
+                )
+            }
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
                 if isFromNotif {
-                    self.checkAsync(interval: 0.5) {
+                    AsyncHelper.checkAsync(interval: 0.5) {
                         if self
                             .getModuleViewModel(
                                 moduleId: self.notificationMetadata.directModuleId
@@ -81,14 +87,6 @@ class HomeViewModel: ObservableObject {
             self.isDirectModuleLoaded = true
         }
         return self.directModuleViewModel
-    }
-
-    func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-            if repeatableFunction() {
-                self.checkAsync(interval: interval, repeatableFunction: repeatableFunction)
-            }
-        }
     }
 }
 
