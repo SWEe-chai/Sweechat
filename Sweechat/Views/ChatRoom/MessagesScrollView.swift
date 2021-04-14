@@ -88,10 +88,16 @@ struct MessagesScrollView: View {
         }
     }
 
-    func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
+    func checkAsync(interval: Double,
+                    repeatableFunction: @escaping () -> Bool,
+                    timeToLive: Int = 15) {
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+            if timeToLive <= 0 {
+                os_log("Check async function ran total time to live and terminated")
+                return
+            }
             if repeatableFunction() {
-                self.checkAsync(interval: interval, repeatableFunction: repeatableFunction)
+                self.checkAsync(interval: interval, repeatableFunction: repeatableFunction, timeToLive: timeToLive - 1)
             }
         }
     }
