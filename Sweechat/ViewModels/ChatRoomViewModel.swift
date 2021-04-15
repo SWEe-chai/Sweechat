@@ -40,29 +40,27 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            // TODO: This resets all messages everytime a message gets changed,
-            // might want to consider getting the new messages / deleted messages instead
-            self.messages = messages.compactMap {
-                let viewModel = MessageViewModelFactory
-                                    .makeViewModel(
-                                        message: $0,
-                                        sender: self.chatRoom.getUser(userId: $0.senderId),
-                                        delegate: self,
-                                        currentUserId: self.user.id)
-                viewModel?.delegate = self
-                return viewModel
+            let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
+
+            // Deletion
+            self.messages = self.messages.filter({ allMessageIds.contains(Identifier<Message>(stringLiteral: $0.id)) })
+
+            // Insertion
+            let oldMessageIds = Set<Identifier<Message>>(self.messages.map {
+                Identifier<Message>(stringLiteral: $0.id)
+            })
+            let newMessageIds = allMessageIds.filter({ !oldMessageIds.contains($0) })
+            let newMessages = messages.filter({ newMessageIds.contains($0.id) })
+            let newMessageViewModels = self.generateViewModels(from: newMessages)
+            for newMessageViewModel in newMessageViewModels {
+                newMessageViewModel.delegate = self
             }
+            self.messages.append(contentsOf: newMessageViewModels)
+            self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
             self.latestMessageViewModel = self.messages.last
         }
         let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
-            self.earlyLoadedMessages = messages.compactMap {
-                MessageViewModelFactory
-                    .makeViewModel(
-                        message: $0,
-                        sender: self.chatRoom.getUser(userId: $0.senderId),
-                        delegate: self,
-                        currentUserId: self.user.id)
-            }
+            self.earlyLoadedMessages = self.generateViewModels(from: messages)
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
@@ -148,6 +146,18 @@ class ChatRoomViewModel: ObservableObject {
         } catch {
             os_log("failed to convert data: \(error.localizedDescription)")
             return
+        }
+    }
+
+    private func generateViewModels<S: Sequence>(from messages: S)
+            -> [MessageViewModel] where S.Iterator.Element == Message {
+        messages.compactMap {
+            MessageViewModelFactory
+                .makeViewModel(
+                    message: $0,
+                    sender: self.chatRoom.getUser(userId: $0.senderId),
+                    delegate: self,
+                    currentUserId: self.user.id)
         }
     }
 }
