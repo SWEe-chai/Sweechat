@@ -79,6 +79,8 @@ struct ModuleView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            Text("").lineLimit(nil)
+            Text("").lineLimit(nil)
             moduleHeader
             VStack(alignment: .leading) {
                 chatRoomListTypeToolbar
@@ -148,13 +150,12 @@ struct ModuleView: View {
         }
         .navigationBarTitle("")
         .navigationBarHidden(isNavigationBarHidden)
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
 extension View {
     func moduleHeaderFont() -> some View {
         self.font(FontConstant.Heading1)
-            .foregroundColor(ColorConstant.white)    
+            .foregroundColor(ColorConstant.white)
     }
 }
