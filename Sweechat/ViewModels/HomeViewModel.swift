@@ -33,12 +33,16 @@ class HomeViewModel: ObservableObject {
     }
 
     func handleModulesChange(modules: [Module]) {
-        let allModuleIds = Set(modules.map { $0.id })
-        let oldModuleIds = Set(moduleViewModels.map { $0.module.id })
+        // Remove deleted modules
+        let allModuleIds: Set<Identifier<Module>> = Set(modules.map { $0.id })
         self.moduleViewModels = self.moduleViewModels.filter { allModuleIds.contains($0.module.id) }
-        let newModules = modules.filter { !oldModuleIds.contains($0.id) }
-        self.moduleViewModels.append(
-            contentsOf: newModules.map { ModuleViewModel(module: $0, user: user) })
+
+        // Add new modules
+        let oldModuleIds = Set(self.moduleViewModels.map { $0.module.id })
+        let newModuleVMs = modules
+            .filter { !oldModuleIds.contains($0.id) }
+            .map { ModuleViewModel(module: $0, user: user) }
+        self.moduleViewModels.append(contentsOf: newModuleVMs)
     }
 
     func handleCreateModule(name: String) {

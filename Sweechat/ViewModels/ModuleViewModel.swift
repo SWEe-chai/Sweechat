@@ -70,18 +70,18 @@ class ModuleViewModel: ObservableObject {
     }
 
     private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
+        // Remove deleted chatrooms
         let allChatRoomsIds: Set<Identifier<ChatRoom>> = Set(chatRooms.map { $0.id })
-        var chatRoomVMs = chatRoomViewModels.filter { allChatRoomsIds.contains($0.chatRoom.id) }
-        let oldChatRoomVMs = chatRoomVMs.map { $0.chatRoom.id }
+        self.chatRoomViewModels = self.chatRoomViewModels.filter { allChatRoomsIds.contains($0.chatRoom.id) }
+
+        // Add new chatrooms
+        let oldChatRoomIds = Set(self.chatRoomViewModels.map { $0.chatRoom.id })
         let newChatRoomVMs = chatRooms
-            .filter { !oldChatRoomVMs.contains($0.id) }
-            .map {
-                ChatRoomViewModelFactory.makeViewModel(
-                    chatRoom: $0,
-                    chatRoomCreator: self.createChatRoomViewModel)
-            }
-        chatRoomVMs.append(contentsOf: newChatRoomVMs)
-        self.chatRoomViewModels = chatRoomVMs
+            .filter { !oldChatRoomIds.contains($0.id) }
+            .map { ChatRoomViewModelFactory.makeViewModel(
+                chatRoom: $0,
+                chatRoomCreator: self.createChatRoomViewModel) }
+        self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
     }
 
 }
