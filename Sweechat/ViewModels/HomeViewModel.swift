@@ -26,10 +26,19 @@ class HomeViewModel: ObservableObject {
             self.text = "Welcome, \(newName)!"
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
-            self.moduleViewModels = modules.map { ModuleViewModel(module: $0, user: self.user) }
+            self.handleModulesChange(modules: modules)
         }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
+    }
+
+    func handleModulesChange(modules: [Module]) {
+        let allModuleIds = Set(modules.map { $0.id })
+        let oldModuleIds = Set(moduleViewModels.map { $0.module.id })
+        self.moduleViewModels = self.moduleViewModels.filter { allModuleIds.contains($0.module.id) }
+        let newModules = modules.filter { !oldModuleIds.contains($0.id) }
+        self.moduleViewModels.append(
+            contentsOf: newModules.map { ModuleViewModel(module: $0, user: user) })
     }
 
     func handleCreateModule(name: String) {

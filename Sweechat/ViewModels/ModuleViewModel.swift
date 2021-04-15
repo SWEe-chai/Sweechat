@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 class ModuleViewModel: ObservableObject {
-    private var module: Module
+    var module: Module
     private var user: User
     private var subscribers: [AnyCancellable] = []
     var id: String {
@@ -70,10 +70,18 @@ class ModuleViewModel: ObservableObject {
     }
 
     private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
-        // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
-        self.chatRoomViewModels = chatRooms.map {
-            ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
-        }
+        let allChatRoomsIds: Set<Identifier<ChatRoom>> = Set(chatRooms.map { $0.id })
+        var chatRoomVMs = chatRoomViewModels.filter { allChatRoomsIds.contains($0.chatRoom.id) }
+        let oldChatRoomVMs = chatRoomVMs.map { $0.chatRoom.id }
+        let newChatRoomVMs = chatRooms
+            .filter { !oldChatRoomVMs.contains($0.id) }
+            .map {
+                ChatRoomViewModelFactory.makeViewModel(
+                    chatRoom: $0,
+                    chatRoomCreator: self.createChatRoomViewModel)
+            }
+        chatRoomVMs.append(contentsOf: newChatRoomVMs)
+        self.chatRoomViewModels = chatRoomVMs
     }
 
 }
