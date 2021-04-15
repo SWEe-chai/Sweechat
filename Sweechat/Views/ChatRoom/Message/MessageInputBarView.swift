@@ -86,16 +86,14 @@ struct MessageInputBarView: View {
     }
 
     private func sendTypedMessage(withContent content: String) {
+        let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch parentPreviewMetadata?.previewType {
         case .edit:
-            guard let editedMessageViewModel = parentPreviewMetadata?.parentMessage else {
-                os_log("Unexpected Error: editedMessageViewModel does not exist despite having a non-nil preview type")
-                return
-            }
-            viewModel.handleEditMessage(content, withEditedMessageViewModel: editedMessageViewModel)
+            viewModel.handleEditText(content,
+                                     withEditedMessageViewModel: parentMessageViewModel)
         case .reply, nil:
-            let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
-            viewModel.handleSendMessage(content, withParentId: parentId)
+            viewModel.handleSendText(content,
+                                     withParentMessageViewModel: parentMessageViewModel)
         }
     }
 
@@ -106,12 +104,14 @@ struct MessageInputBarView: View {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
+        let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: parentId)
+            viewModel.handleSendImage(media,
+                                      withParentMessageViewModel: parentMessageViewModel)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: parentId)
+            viewModel.handleSendVideo(media,
+                                      withParentMessageViewModel: parentMessageViewModel)
         }
 
         media = nil
