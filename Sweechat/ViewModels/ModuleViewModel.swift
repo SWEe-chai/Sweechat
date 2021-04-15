@@ -50,7 +50,7 @@ class ModuleViewModel: ObservableObject {
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
             if isFromNotif {
-                AsyncHelper.checkAsync(interval: 0.1) {
+                AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
                     if self
                         .getChatRoomViewModel(
                             chatRoomId: self.notificationMetadata.directChatRoomId
