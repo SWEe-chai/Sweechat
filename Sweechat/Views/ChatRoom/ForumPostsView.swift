@@ -7,14 +7,17 @@ struct ForumPostsView: View {
     var body: some View {
         VStack {
             ScrollView {
-                    ForEach(viewModel.postViewModels, id: \.self) { postViewModel in
-                        ForumPostView(viewModel: postViewModel)
-                            .onTapGesture(count: 1) {
-                                viewModel.setThread(postViewModel)
-                                isThreadOpen = true
-                            }
-                    }
-                    .padding([.leading, .trailing])
+                if !viewModel.areAllMessagesLoaded {
+                    Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
+                }
+                ForEach(viewModel.postViewModels, id: \.self) { postViewModel in
+                    ForumPostView(viewModel: postViewModel)
+                        .onTapGesture(count: 1) {
+                            viewModel.setThread(postViewModel)
+                            isThreadOpen = true
+                        }
+                }
+                .padding([.leading, .trailing])
             }
             NavigationLink(
                 "",

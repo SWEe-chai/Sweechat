@@ -30,13 +30,13 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                                         postSender: self.chatRoom.getUser(userId: $0.senderId),
                                         user: self.forumChatRoom.currentUser)
             })
-            self.postViewModels.append(contentsOf: newPosts.compactMap {
+            self.postViewModels = posts.compactMap {
                 MessageViewModelFactory
                     .makeViewModel(message: $0,
                                    sender: self.chatRoom.getUser(userId: $0.senderId),
                                    delegate: self,
                                    currentUserId: self.user.id)
-            })
+            }
         }
 
         forumSubscribers.append(postsSubscriber)

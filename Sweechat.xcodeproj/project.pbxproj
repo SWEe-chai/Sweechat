@@ -24,6 +24,7 @@
 		276476B32622A45D0074786E /* Array+Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276476B22622A45D0074786E /* Array+Chunk.swift */; };
 		2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */; };
 		2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */; };
+		2781D0892624876700B9F5E9 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */; };
 		278797562601E24600124FA3 /* ALGoogleAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */; };
 		278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */; };
 		278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787974F2601E24600124FA3 /* ALAuthHandler.swift */; };
@@ -65,7 +66,7 @@
 		27A61A6926046AEB00226600 /* FirebaseUserFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */; };
 		27A61A7626046E7F00226600 /* UserFacadeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A7526046E7F00226600 /* UserFacadeDelegate.swift */; };
 		27A61A7E26047D5800226600 /* ALConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A61A7D26047D5800226600 /* ALConstants.swift */; };
-		27ABA37F26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA37E26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift */; };
+		27ABA37F26180E3C0072F591 /* FirebaseUserChatRoomModulePairQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA37E26180E3C0072F591 /* FirebaseUserChatRoomModulePairQuery.swift */; };
 		27ABA39F26184F8E0072F591 /* ForumChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */; };
 		27ABA3A92618517B0072F591 /* ForumPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3A82618517B0072F591 /* ForumPostView.swift */; };
 		27ABA3AF261856CE0072F591 /* ForumPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ABA3AE261856CE0072F591 /* ForumPostsView.swift */; };
@@ -240,6 +241,7 @@
 		276476B22622A45D0074786E /* Array+Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Chunk.swift"; sourceTree = "<group>"; };
 		2777FADB260C771D00961FAF /* ChatRoomViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewFactory.swift; sourceTree = "<group>"; };
 		2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelType.swift; sourceTree = "<group>"; };
+		2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		2787974D2601E24600124FA3 /* ALGoogleAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALGoogleAuthHandler.swift; sourceTree = "<group>"; };
 		2787974E2601E24600124FA3 /* ALFacebookAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALFacebookAuthHandler.swift; sourceTree = "<group>"; };
 		2787974F2601E24600124FA3 /* ALAuthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALAuthHandler.swift; sourceTree = "<group>"; };
@@ -281,7 +283,7 @@
 		27A61A6826046AEB00226600 /* FirebaseUserFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserFacade.swift; sourceTree = "<group>"; };
 		27A61A7526046E7F00226600 /* UserFacadeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacadeDelegate.swift; sourceTree = "<group>"; };
 		27A61A7D26047D5800226600 /* ALConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALConstants.swift; sourceTree = "<group>"; };
-		27ABA37E26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIrebaseUserChatRoomModulePairQuery.swift; sourceTree = "<group>"; };
+		27ABA37E26180E3C0072F591 /* FirebaseUserChatRoomModulePairQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserChatRoomModulePairQuery.swift; sourceTree = "<group>"; };
 		27ABA39E26184F8E0072F591 /* ForumChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumChatRoomView.swift; sourceTree = "<group>"; };
 		27ABA3A82618517B0072F591 /* ForumPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostView.swift; sourceTree = "<group>"; };
 		27ABA3AE261856CE0072F591 /* ForumPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumPostsView.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				3E746B87260EF8B7008CF3F6 /* MediaPicker.swift */,
 				77F4F1DB2619B333003CD601 /* Color.swift */,
 				27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */,
+				2781D0882624876700B9F5E9 /* ScrollViewOffset.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -911,7 +914,7 @@
 			children = (
 				77394B61260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift */,
 				77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */,
-				27ABA37E26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift */,
+				27ABA37E26180E3C0072F591 /* FirebaseUserChatRoomModulePairQuery.swift */,
 			);
 			path = FirebaseUserChatRoomModulePair;
 			sourceTree = "<group>";
@@ -1312,6 +1315,7 @@
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				27A2D936261EDF3F00267C7D /* ChatRoomMediaCache.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
+				2781D0892624876700B9F5E9 /* ScrollViewOffset.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
 				3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */,
 				3ECE86262626004A00878514 /* ParentPreviewMetadata.swift in Sources */,
@@ -1436,7 +1440,7 @@
 				27BD8F2F2619730A00B0F7D7 /* MemberItemView.swift in Sources */,
 				2788584826105DD30058ADB2 /* HomeToolbarView.swift in Sources */,
 				3E598A9526240A42000DE14F /* IdentifierConverter.swift in Sources */,
-				27ABA37F26180E3C0072F591 /* FIrebaseUserChatRoomModulePairQuery.swift in Sources */,
+				27ABA37F26180E3C0072F591 /* FirebaseUserChatRoomModulePairQuery.swift in Sources */,
 				3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
 				27A2D93B261EE2DB00267C7D /* MediaFetchState.swift in Sources */,
