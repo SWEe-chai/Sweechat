@@ -19,10 +19,6 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         initialiseForumSubscribers()
     }
 
-    var texts: [MessageViewModel] {
-        messages
-    }
-
     private func initialiseForumSubscribers() {
         let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
             let updatedPostIds = Set(posts.map({ $0.id.val }))
