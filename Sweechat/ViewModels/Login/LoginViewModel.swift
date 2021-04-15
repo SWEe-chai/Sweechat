@@ -38,8 +38,9 @@ class LoginViewModel: ObservableObject {
 // MARK: ALAuthDelegate
 extension LoginViewModel: ALAuthDelegate {
     func signIn(withDetails details: ALLoginDetails) {
+        let id = Identifier<User>(val: details.id)
         user = User(
-            id: details.id,
+            id: id,
             name: details.name,
             profilePictureUrl: details.profilePictureUrl
         )

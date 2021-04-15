@@ -4,7 +4,7 @@ import os
 
 class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
-    private var userId: String
+    private var userId: Identifier<User>
 
     private var db = Firestore.firestore()
     private var usersReference: CollectionReference
@@ -12,7 +12,7 @@ class FirebaseUserFacade: UserFacade {
     private var userListener: ListenerRegistration?
     private var publicKeyBundlesReference: CollectionReference
 
-    init(userId: String) {
+    init(userId: Identifier<User>) {
         self.userId = userId
         self.usersReference = FirebaseUtils
             .getEnvironmentReference(db)
@@ -24,7 +24,7 @@ class FirebaseUserFacade: UserFacade {
 
     func loginAndListenToUser(_ user: User) {
         userId = user.id
-        self.usersReference.document(userId).getDocument { document, _ in
+        self.usersReference.document(userId.val).getDocument { document, _ in
             guard let document = document,
                   document.exists else {
                 // In this case user is a new user
@@ -38,7 +38,7 @@ class FirebaseUserFacade: UserFacade {
 
     private func addUser(_ user: User) {
         self.usersReference
-            .document(user.id)
+            .document(user.id.val)
             .setData(
                 FirebaseUserFacade
                     .convert(user: user), completion: { _ in
@@ -50,26 +50,24 @@ class FirebaseUserFacade: UserFacade {
     private func uploadPublicKeyBundleData(for user: User) {
         if let publicKeyBundleData = user.getPublicKeyBundleData() {
             self.publicKeyBundlesReference
-                .document(user.id)
+                .document(user.id.val)
                 .setData(FirebaseUserFacade.convert(userId: user.id, publicKeyBundleData: publicKeyBundleData))
         }
     }
 
     private func setUpConnectionAsUser() {
-//        print("This is the token \(FcmJsonStorageManager.load() ?? "")")
-//        print("This is token \(String(describing: InstanceID.instanceID().token))")
-        if userId.isEmpty {
+        if userId.val.isEmpty {
             os_log("Error loading user: User id is empty")
             return
         }
         if (FcmJsonStorageManager.load()) == "" {
-            os_log("DONT HAVE SIA")
+            os_log("No FCM token")
         }
         usersReference
-            .document(userId)
+            .document(userId.val)
             .setData(["token": FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
-            .document(userId)
+            .document(userId.val)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
@@ -87,12 +85,14 @@ class FirebaseUserFacade: UserFacade {
             return User.createUnavailableInstance()
         }
         let data = document.data()
-        guard let id = data?[DatabaseConstant.User.id] as? String,
+        guard let idStr = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for User, data: %s", String(describing: data))
             return User.createUnavailableInstance()
         }
+
+        let id = Identifier<User>(val: idStr)
         return User(
             id: id,
             name: name,
@@ -102,15 +102,15 @@ class FirebaseUserFacade: UserFacade {
 
     static func convert(user: User) -> [String: Any] {
         [
-            DatabaseConstant.User.id: user.id,
+            DatabaseConstant.User.id: user.id.val,
             DatabaseConstant.User.name: user.name,
             DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
         ]
     }
 
-    static func convert(userId: String, publicKeyBundleData: Data) -> [String: Any] {
+    static func convert(userId: Identifier<User>, publicKeyBundleData: Data) -> [String: Any] {
         [
-            DatabaseConstant.PublicKeyBundle.userId: userId,
+            DatabaseConstant.PublicKeyBundle.userId: userId.val,
             DatabaseConstant.PublicKeyBundle.bundleData: publicKeyBundleData
         ]
     }

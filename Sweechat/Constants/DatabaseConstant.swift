@@ -10,7 +10,7 @@ import Foundation
 struct DatabaseConstant {
     struct Collection {
         static let environmentCollection = "environment"
-        static let dev = "type-safe-identifier"
+        static let dev = "star-modules"
         // Change environmentDocument as needed when working on features
         // involving a schema change
         static let environmentDocument = "media-cache"
@@ -49,6 +49,7 @@ struct DatabaseConstant {
         static let profilePictureUrl = "profilePictureUrl"
         static let type = "type"
         static let ownerId = "ownerId"
+        static let isStarred = "isStarred"
     }
 
     struct User {

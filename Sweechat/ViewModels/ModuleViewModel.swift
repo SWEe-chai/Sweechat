@@ -22,6 +22,19 @@ class ModuleViewModel: ObservableObject {
         )
     }
 
+    var privateChatRoomVMs: [PrivateChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? PrivateChatRoomViewModel }
+    }
+    var groupChatRoomVMs: [GroupChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? GroupChatRoomViewModel }
+    }
+    var forumChatRoomVMs: [ForumChatRoomViewModel] {
+        chatRoomViewModels.compactMap { $0 as? ForumChatRoomViewModel }
+    }
+    var starredModuleVMs: [ChatRoomViewModel] {
+        chatRoomViewModels.filter { $0.isStarred }
+    }
+
     var createChatRoomViewModel: CreateChatRoomViewModel {
         CreateChatRoomViewModel(
             module: module,
@@ -36,6 +49,20 @@ class ModuleViewModel: ObservableObject {
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         initialiseSubscriber()
+    }
+
+    func getChatRoomList(type: ChatRoomListType) -> [ChatRoomViewModel] {
+        switch type {
+        case .forum:
+            return forumChatRoomVMs
+        case .privateChat:
+            return privateChatRoomVMs
+        case .groupChat:
+            return groupChatRoomVMs
+        case .starred:
+            // TODO: Add actual implementation
+            return starredModuleVMs
+        }
     }
 
     func initialiseSubscriber() {

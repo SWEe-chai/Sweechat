@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageView: View {
     @ObservedObject var viewModel: MessageViewModel
     var parentViewModel: MessageViewModel?
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     // TODO: Change this to delegates in the future
     var onReplyPreviewTapped: (() -> Void)?
@@ -21,7 +21,7 @@ struct MessageView: View {
             VStack(alignment: .leading) {
                 Text(viewModel.senderName).font(FontConstant.MessageSender)
                 if let parent = parentViewModel {
-                    ReplyPreviewView(message: parent, borderColor: viewModel.foregroundColor)
+                    ParentPreviewView(message: parent, borderColor: viewModel.foregroundColor)
                         .onTapGesture {
                             onReplyPreviewTapped?()
                         }
@@ -29,7 +29,7 @@ struct MessageView: View {
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
-                likeButton()
+                LikeButtonView(viewModel: viewModel)
                     .padding(.vertical, 1)
             }
             .padding(10)
@@ -61,19 +61,9 @@ struct MessageView: View {
         }
     }
 
-    private func likeButton() -> some View {
-        Button {
-            viewModel.toggleLike()
-        } label: {
-            let countLabel = "\(viewModel.likesCount)"
-            let systemImage = viewModel.isCurrentUserLiking ? "hand.thumbsup.fill" : "hand.thumbsup"
-            Label(countLabel, systemImage: systemImage)
-        }
-    }
-
     private func contextMenuEditButton() -> some View {
         Button {
-            viewModel.edit()
+            onEditTapped(message: viewModel)
         } label: {
             Label("Edit", systemImage: "square.and.pencil")
         }
@@ -89,21 +79,15 @@ struct MessageView: View {
 
     // MARK: Context Menu Button functionalities
     private func replyTo(message: MessageViewModel) {
-        replyPreviewMetadata = ReplyPreviewMetadata(messageBeingRepliedTo: message)
+        parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .reply)
+    }
+
+    private func onEditTapped(message: MessageViewModel) {
+        parentPreviewMetadata = ParentPreviewMetadata(parentMessage: message, previewType: .edit)
     }
 }
 
 struct MessageView_Previews: PreviewProvider {
-    static var message = TextMessageViewModel(message: Message(id: "123",
-                                                               senderId: "123",
-                                                               creationTime: Date(),
-                                                               content: "The message I sent".toData(),
-                                                               type: MessageType.text, receiverId: "111",
-                                                               parentId: nil, likers: []),
-                                              sender: User(id: "123",
-                                                           name: "Christine Jane Welly"),
-                                              currentUserId: "1234")
-
     static var longMessage = """
     Hello this is a very long message. I hope you are able to bear with me for this one. I am just previewing afterall.
     Yeah man. I hope this gets truncated.
@@ -120,7 +104,16 @@ struct MessageView_Previews: PreviewProvider {
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
                                              currentUserId: "123")
+    static var message = TextMessageViewModel(message: Message(id: "123",
+                                                               senderId: "123",
+                                                               creationTime: Date(),
+                                                               content: "The message I sent".toData(),
+                                                               type: MessageType.text, receiverId: "111",
+                                                               parentId: nil, likers: []),
+                                              sender: User(id: "123",
+                                                           name: "Christine Jane Welly"),
+                                              currentUserId: "1234")
     static var previews: some View {
-        MessageView(viewModel: message, parentViewModel: parent, replyPreviewMetadata: .constant(nil))
+        MessageView(viewModel: message, parentViewModel: parent, parentPreviewMetadata: .constant(nil))
     }
 }

@@ -6,11 +6,11 @@
 //
 
 class FirebaseUserModulePair {
-    let userId: String
+    let userId: Identifier<User>
     let moduleId: Identifier<Module>
     let permissions: ModulePermissionBitmask
 
-    init(userId: String, moduleId: Identifier<Module>, permissions: ModulePermissionBitmask) {
+    init(userId: Identifier<User>, moduleId: Identifier<Module>, permissions: ModulePermissionBitmask) {
         self.userId = userId
         self.moduleId = moduleId
         self.permissions = permissions

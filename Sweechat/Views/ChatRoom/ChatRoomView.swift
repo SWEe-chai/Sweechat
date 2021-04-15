@@ -2,16 +2,16 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    @State var replyPreviewMetadata: ReplyPreviewMetadata?
     @Binding var isNavigationBarHidden: Bool
+    @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         VStack {
             MessagesScrollView(viewModel: viewModel,
-                               replyPreviewMetadata: $replyPreviewMetadata)
+                               parentPreviewMetadata: $parentPreviewMetadata)
             MessageInputBarView(viewModel: viewModel,
-                                isShowingReply: true,
-                                replyPreviewMetadata: $replyPreviewMetadata)
+                                isShowingParentPreview: true,
+                                parentPreviewMetadata: $parentPreviewMetadata)
         }
         .onAppear {
             viewModel.handleChatRoomAppearance()
@@ -25,11 +25,6 @@ struct ChatRoomView: View {
     }
 }
 
-struct ReplyPreviewMetadata {
-    var messageBeingRepliedTo: MessageViewModel
-    var tappedReplyPreview: Bool = false
-}
-
 struct ChatRoomView_Previews: PreviewProvider {
     static var previews: some View {
         ChatRoomView(
@@ -38,7 +33,8 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    name: "CS4269",
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-                                   currentUserPermission: ChatRoomPermission.readWrite),
+                                   currentUserPermission: ChatRoomPermission.readWrite,
+                                   isStarred: false),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ), isNavigationBarHidden: Binding<Bool>(
                 get: { true },

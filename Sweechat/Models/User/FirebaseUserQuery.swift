@@ -2,7 +2,7 @@ import FirebaseFirestore
 import os
 
 class FirebaseUserQuery {
-    static func getUser(withId id: String, onCompletion: @escaping (User) -> Void) {
+    static func getUser(withId id: Identifier<User>, onCompletion: @escaping (User) -> Void) {
         getUsers(withIds: [id]) { users in
             guard let user = users.first else {
                 return
@@ -11,17 +11,19 @@ class FirebaseUserQuery {
         }
     }
 
-    static func getUsers(withIds ids: [String],
+    static func getUsers(withIds ids: [Identifier<User>],
                          onCompletion: @escaping ([User]) -> Void) {
         if ids.isEmpty {
             onCompletion([])
             return
         }
-        for idsChunk in ids.chunked(into: 10) {
+
+        let idStrs = ids.map({ $0.val })
+        for idsStrChunk in idStrs.chunked(into: 10) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.users)
-                .whereField(DatabaseConstant.User.id, in: idsChunk)
+                .whereField(DatabaseConstant.User.id, in: idsStrChunk)
                 .getDocuments { snapshot, error in
                     guard let documents = snapshot?.documents else {
                         os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")

@@ -3,7 +3,7 @@ import os
 
 struct MessageInputBarView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
-    var isShowingReply: Bool
+    var isShowingParentPreview: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
     @State private var showingModal = false
@@ -11,19 +11,22 @@ struct MessageInputBarView: View {
     @State private var showingActionSheet = false
     @State private var media: Any?
     @State private var mediaType: MediaType?
-    @Binding var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
         VStack {
-            if let message = replyPreviewMetadata?.messageBeingRepliedTo,
-               isShowingReply {
+            if let metadata = parentPreviewMetadata,
+               isShowingParentPreview {
                 HStack {
-                    Button(action: { replyPreviewMetadata = nil }) {
+                    Button(action: { dismissPreview() }) {
                         Image(systemName: "xmark.circle.fill")
                     }
-                    ReplyPreviewView(message: message, borderColor: Color.gray)
+                    ParentPreviewView(message: metadata.parentMessage,
+                                      borderColor: Color.gray,
+                                      isEditPreview: metadata.previewType == .edit)
                         .onTapGesture {
-                            replyPreviewMetadata?.tappedReplyPreview = true
+                            // value type semantics. Should update the real one
+                            parentPreviewMetadata?.tappedPreview = true
                         }
                 }
             }
@@ -33,8 +36,8 @@ struct MessageInputBarView: View {
                     .cornerRadius(5)
                     .frame(idealHeight: 20, maxHeight: 60)
                     .multilineTextAlignment(.leading)
-                    .onChange(of: viewModel.editedMessageViewModel) { _ in
-                        typingMessage = viewModel.editedMessageContent
+                    .onChange(of: parentPreviewMetadata) { _ in
+                        handleTextEditorChange()
                     }
                 Button(action: sendTypedMessage) {
                     Image(systemName: "paperplane.fill")
@@ -72,15 +75,28 @@ struct MessageInputBarView: View {
 
     // TODO: Might want to combine sendTypedMessage with sendMedia. Some common logic
     // like setting messageBeingRepliedTo to nil at the end
-    func sendTypedMessage() {
+    private func sendTypedMessage() {
         let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
         if content.isEmpty {
             return
         }
-        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
-        viewModel.handleSendMessage(content, withParentId: parentId)
+        sendTypedMessage(withContent: content)
         typingMessage = ""
-        replyPreviewMetadata = nil
+        parentPreviewMetadata = nil
+    }
+
+    private func sendTypedMessage(withContent content: String) {
+        switch parentPreviewMetadata?.previewType {
+        case .edit:
+            guard let editedMessageViewModel = parentPreviewMetadata?.parentMessage else {
+                os_log("Unexpected Error: editedMessageViewModel does not exist despite having a non-nil preview type")
+                return
+            }
+            viewModel.handleEditMessage(content, withEditedMessageViewModel: editedMessageViewModel)
+        case .reply, nil:
+            let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
+            viewModel.handleSendMessage(content, withParentId: parentId)
+        }
     }
 
     private func sendMedia() {
@@ -90,7 +106,7 @@ struct MessageInputBarView: View {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: replyPreviewMetadata?.messageBeingRepliedTo.id)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
         switch choice {
         case .image:
             viewModel.handleSendImage(media, withParentId: parentId)
@@ -100,7 +116,7 @@ struct MessageInputBarView: View {
 
         media = nil
         mediaType = nil
-        replyPreviewMetadata = nil
+        parentPreviewMetadata = nil
     }
 
     func openActionSheet() {
@@ -116,6 +132,37 @@ struct MessageInputBarView: View {
         self.modalView = .Canvas
         self.showingModal = true
     }
+
+    private func dismissPreview() {
+        guard let parentPreviewMetadata = parentPreviewMetadata else {
+            os_log("ParentPreviewMetadata was nil in dismissPreview")
+            return
+        }
+
+        switch parentPreviewMetadata.previewType {
+        case .reply:
+            // In this case, you don't want to lose what you have typed
+            break
+        case .edit:
+            // forget about what you wanted to edit the message to
+            typingMessage = ""
+        }
+        self.parentPreviewMetadata = nil
+    }
+
+    private func handleTextEditorChange() {
+        guard let parentPreviewMetadata = parentPreviewMetadata else {
+            os_log("ParentPreviewMetadata was nil in handleTextEditorChange")
+            return
+        }
+        switch parentPreviewMetadata.previewType {
+        case .edit:
+            // NOTE: This only works for text. When you try to edit image, you will see 'Image' instead
+            typingMessage = parentPreviewMetadata.parentMessage.previewContent()
+        default:
+            break
+        }
+    }
 }
 
 struct MessageInputBarView_Previews: PreviewProvider {
@@ -126,11 +173,12 @@ struct MessageInputBarView_Previews: PreviewProvider {
                                    name: "CS4269",
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
-                                   currentUserPermission: ChatRoomPermission.readWrite),
+                                   currentUserPermission: ChatRoomPermission.readWrite,
+                                   isStarred: false),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ),
-            isShowingReply: true,
-            replyPreviewMetadata: Binding.constant(nil))
+            isShowingParentPreview: true,
+            parentPreviewMetadata: Binding.constant(nil))
     }
 }
 

@@ -1,19 +1,25 @@
 class ThreadChatRoom: ChatRoom {
+    var mostPopularMessage: Message? {
+        messages.max { a, b in a.likers.count < b.likers.count }
+    }
+
     // This init is to create the function
     init(postId: Identifier<ChatRoom>, sender: User, forumMembers: [User]) {
         super.init(name: "Thread",
                    members: forumMembers,
                    currentUser: sender,
                    currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false,
                    givenChatRoomId: postId)
     }
 
     // This init is when the thread is already created
-    init(id: Identifier<ChatRoom>, ownerId: String, currentUser: User) {
+    init(id: Identifier<ChatRoom>, ownerId: Identifier<User>, currentUser: User) {
         super.init(id: id,
                    name: "Thread",
                    ownerId: ownerId,
                    currentUser: currentUser,
-                   currentUserPermission: ChatRoomPermission.readWrite)
+                   currentUserPermission: ChatRoomPermission.readWrite,
+                   isStarred: false)
     }
 }

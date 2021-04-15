@@ -10,9 +10,10 @@ class ChatRoomViewModel: ObservableObject {
     private var subscribers: [AnyCancellable] = []
     weak var delegate: ChatRoomViewModelDelegate?
 
-    @Published var editedMessageViewModel: MessageViewModel?
+    @Published var latestMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
+    @Published var areAllMessagesLoaded: Bool = false
 
     var permissions: ChatRoomViewModelType {
         ChatRoomViewModelType.convert(permission: chatRoom.currentUserPermission)
@@ -22,14 +23,15 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.messages.count
     }
 
-    var editedMessageContent: String {
-        editedMessageViewModel?.previewContent() ?? ""
+    var isStarred: Bool {
+        chatRoom.isStarred
     }
 
-    @Published var messages: [MessageViewModel] = []
     var id: String {
         chatRoom.id.val
     }
+
+    @Published var messages: [MessageViewModel] = []
 
     static func createUnavailableInstance() -> ChatRoomViewModel {
         ChatRoomViewModel(
@@ -37,6 +39,7 @@ class ChatRoomViewModel: ObservableObject {
             user: User.createUnavailableInstance()
         )
     }
+    @Published var earlyLoadedMessages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
@@ -49,39 +52,77 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            // TODO: This resets all messages everytime a message gets changed,
-            // might want to consider getting the new messages / deleted messages instead
-            self.messages = messages.compactMap {
-                let viewModel = MessageViewModelFactory
-                                    .makeViewModel(message: $0,
-                                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                                   delegate: self,
-                                                   currentUserId: self.user.id)
-                viewModel?.delegate = self
-                return viewModel
+            let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
+
+            // Deletion
+            self.messages = self.messages.filter({ allMessageIds.contains(Identifier<Message>(stringLiteral: $0.id)) })
+
+            // Insertion
+            let oldMessageIds = Set<Identifier<Message>>(self.messages.map {
+                Identifier<Message>(stringLiteral: $0.id)
+            })
+            let newMessageIds = allMessageIds.filter({ !oldMessageIds.contains($0) })
+            let newMessages = messages.filter({ newMessageIds.contains($0.id) })
+            let newMessageViewModels = self.generateViewModels(from: newMessages)
+            for newMessageViewModel in newMessageViewModels {
+                newMessageViewModel.delegate = self
             }
+            self.messages.append(contentsOf: newMessageViewModels)
+            self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
+            self.latestMessageViewModel = self.messages.last
+        }
+        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
+            self.earlyLoadedMessages = self.generateViewModels(from: messages)
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
             self.text = newName
         }
+        let allMessagesLoadedSubscriber = chatRoom.subscribeToAreAllMessagesLoaded { self.areAllMessagesLoaded = $0
+        }
+
+        let profilePictureSubscriber = chatRoom.subscribeToProfilePicture { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }
+
         subscribers.append(messagesSubscriber)
         subscribers.append(chatRoomNameSubscriber)
+        subscribers.append(earlyMessagesSubscriber)
+        subscribers.append(allMessagesLoadedSubscriber)
+        subscribers.append(profilePictureSubscriber)
     }
-
+    
     func handleChatRoomAppearance() {
         self.delegate?.terminateNotificationResponse()
     }
 
-    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
-        if let editedMessageViewModel = editedMessageViewModel {
-            editedMessageViewModel.message.content = text.toData()
-            self.chatRoom.storeMessage(message: editedMessageViewModel.message)
-            self.editedMessageViewModel = nil
-        } else {
-            let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
-                                  receiverId: ChatRoom.allUsersId, parentId: parentId)
-            self.chatRoom.storeMessage(message: message)
+    func loadMore() {
+        chatRoom.loadMore()
+    }
+
+    func loadUntil(messageViewModel: MessageViewModel) {
+        chatRoom.loadUntil(message: messageViewModel.message)
+    }
+
+    func getMessageViewModel(withId id: String?) -> MessageViewModel? {
+        guard let messageId = id else {
+            return nil
         }
+        if let message = messages.first(where: { $0.id == messageId }) {
+            return message
+        }
+        return earlyLoadedMessages.first { $0.id == messageId }
+    }
+
+    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
+        let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
+                              receiverId: ChatRoom.allUsersId, parentId: parentId)
+        self.chatRoom.storeMessage(message: message)
+    }
+
+    func handleEditMessage(_ text: String,
+                           withEditedMessageViewModel editedMessageViewModel: MessageViewModel) {
+        editedMessageViewModel.message.content = text.toData()
+        self.chatRoom.storeMessage(message: editedMessageViewModel.message)
     }
 
     func handleSendImage(_ wrappedImage: Any?, withParentId parentId: Identifier<Message>?) {
@@ -123,6 +164,18 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
     }
+
+    private func generateViewModels<S: Sequence>(from messages: S)
+            -> [MessageViewModel] where S.Iterator.Element == Message {
+        messages.compactMap {
+            MessageViewModelFactory
+                .makeViewModel(
+                    message: $0,
+                    sender: self.chatRoom.getUser(userId: $0.senderId),
+                    delegate: self,
+                    currentUserId: self.user.id)
+        }
+    }
 }
 
 // MARK: MediaMessageViewModelDelegate
@@ -142,10 +195,6 @@ extension ChatRoomViewModel: Identifiable {
 
 // MARK: MessageActionsViewModelDelegate
 extension ChatRoomViewModel: MessageActionsViewModelDelegate {
-    func edit(messageViewModel: MessageViewModel) {
-        editedMessageViewModel = messageViewModel
-    }
-
     func delete(messageViewModel: MessageViewModel) {
         chatRoom.delete(message: messageViewModel.message)
     }
