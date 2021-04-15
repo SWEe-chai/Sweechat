@@ -73,8 +73,6 @@ struct MessageInputBarView: View {
         }
     }
 
-    // TODO: Might want to combine sendTypedMessage with sendMedia. Some common logic
-    // like setting messageBeingRepliedTo to nil at the end
     private func sendTypedMessage() {
         let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
         if content.isEmpty {
