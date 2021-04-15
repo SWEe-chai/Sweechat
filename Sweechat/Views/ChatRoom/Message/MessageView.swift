@@ -29,7 +29,7 @@ struct MessageView: View {
                 }
                 MessageContentViewFactory.makeView(viewModel: viewModel)
                     .font(FontConstant.MessageText)
-                likeButton()
+                LikeButtonView(viewModel: viewModel)
                     .padding(.vertical, 1)
             }
             .padding(10)
@@ -58,16 +58,6 @@ struct MessageView: View {
             replyTo(message: viewModel)
         } label: {
             Label("Reply", systemImage: "arrowshape.turn.up.left")
-        }
-    }
-
-    private func likeButton() -> some View {
-        Button {
-            viewModel.toggleLike()
-        } label: {
-            let countLabel = "\(viewModel.likesCount)"
-            let systemImage = viewModel.isCurrentUserLiking ? "hand.thumbsup.fill" : "hand.thumbsup"
-            Label(countLabel, systemImage: systemImage)
         }
     }
 
