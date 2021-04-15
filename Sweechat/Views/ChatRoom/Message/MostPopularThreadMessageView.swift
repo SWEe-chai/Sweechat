@@ -4,9 +4,15 @@ struct MostPopularThreadMessageView: View {
     @ObservedObject var viewModel: MessageViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Image(systemName: "star.fill")
-            MessageContentViewFactory.makeView(viewModel: viewModel)
+        HStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Spacer()
+                    Image(systemName: "star.fill")
+                }
+                MessageContentViewFactory.makeView(viewModel: viewModel)
+            }
+            Spacer()
         }
         .padding(10)
         .background(ColorConstant.light)

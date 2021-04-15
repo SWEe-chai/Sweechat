@@ -5,6 +5,9 @@ struct ForumPostView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            MessageContentViewFactory.makeView(viewModel: viewModel.post)
+                .font(FontConstant.ForumPost)
+                .foregroundColor(ColorConstant.white)
             HStack {
                 ProfilePicture(url: viewModel.post.profilePictureUrl)
                 Text(viewModel.post.senderName)
@@ -16,9 +19,6 @@ struct ForumPostView: View {
             }
             Divider()
                 .background(ColorConstant.white)
-            MessageContentViewFactory.makeView(viewModel: viewModel.post)
-                .font(FontConstant.ForumPost)
-                .foregroundColor(ColorConstant.white)
             if let mostPopularMessage = viewModel.mostPopularMessage {
                 HStack {
                     Spacer()
