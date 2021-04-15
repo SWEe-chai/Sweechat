@@ -69,6 +69,7 @@ class ChatRoomViewModel: ObservableObject {
     }
 
     func resetNotificationMetadata() {
+        print("AAAAA NAPA SIH")
         self.delegate?.resetNotificationMetadata()
     }
 

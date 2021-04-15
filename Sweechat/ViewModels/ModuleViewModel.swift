@@ -36,7 +36,9 @@ class ModuleViewModel: ObservableObject {
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         self.chatRoomViewModels = module.chatRooms.map {
-            ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+            let chatRoomViewModel = ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+            chatRoomViewModel.delegate = self
+            return chatRoomViewModel
         }
         initialiseSubscriber()
     }
@@ -94,6 +96,7 @@ extension Array where Element: Comparable {
 
 extension ModuleViewModel: ChatRoomViewModelDelegate {
     func resetNotificationMetadata() {
+        print("JELAS GA SIh")
         self.notificationMetadata.reset()
     }
 }
