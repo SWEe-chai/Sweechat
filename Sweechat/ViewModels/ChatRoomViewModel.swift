@@ -47,7 +47,7 @@ class ChatRoomViewModel: ObservableObject {
 
             // Insertion
             let oldMessageIds = Set<Identifier<Message>>(self.messages.map {
-                                                            Identifier<Message>(stringLiteral: $0.id)
+                Identifier<Message>(stringLiteral: $0.id)
             })
             let newMessageIds = allMessageIds.filter({ !oldMessageIds.contains($0) })
             let newMessages = messages.filter({ newMessageIds.contains($0.id) })
@@ -55,7 +55,9 @@ class ChatRoomViewModel: ObservableObject {
             for newMessageViewModel in newMessageViewModels {
                 newMessageViewModel.delegate = self
             }
-            self.messages.append(contentsOf: newMessageViewModels)
+            self.messages.append(contentsOf: newMessageViewModels.sorted(by: {
+                $0.message.creationTime < $1.message.creationTime
+            }))
             self.latestMessageViewModel = self.messages.last
         }
         let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
