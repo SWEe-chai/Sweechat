@@ -14,6 +14,10 @@ class MessageViewModel: ObservableObject {
         sender.id == currentUserId
     }
 
+    var profilePictureUrl: String? {
+        sender.profilePictureUrl
+    }
+
     // MARK: IDs
     var id: String {
         message.id.val

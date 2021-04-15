@@ -1,4 +1,8 @@
 class ThreadChatRoom: ChatRoom {
+    var mostPopularMessage: Message? {
+        messages.max { a, b in a.likers.count < b.likers.count }
+    }
+
     // This init is to create the function
     init(postId: Identifier<ChatRoom>, sender: User, forumMembers: [User]) {
         super.init(name: "Thread",
