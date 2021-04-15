@@ -3,7 +3,7 @@ import SwiftUI
 import FirebaseStorage
 import os
 
-class ChatRoomViewModel: ObservableObject {
+class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     var chatRoom: ChatRoom
     var user: User
     private var chatRoomMediaCache: ChatRoomMediaCache
@@ -99,6 +99,7 @@ class ChatRoomViewModel: ObservableObject {
         return earlyLoadedMessages.first { $0.id == messageId }
     }
 
+    // MARK: SendMessageHandler
     func handleSendText(_ text: String,
                         withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)

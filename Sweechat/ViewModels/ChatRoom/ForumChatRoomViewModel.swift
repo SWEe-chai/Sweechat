@@ -43,6 +43,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         forumSubscribers.append(postsSubscriber)
     }
 
+    // MARK: SendMessageHandler
     override func handleSendText(_ text: String,
                                  withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)

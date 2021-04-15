@@ -2,7 +2,7 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    @ObservedObject var viewModel: ChatRoomViewModel
+    var sendMessageHandler: SendMessageHandler
     var isShowingParentPreview: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
@@ -89,11 +89,11 @@ struct MessageInputBarView: View {
         let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch parentPreviewMetadata?.previewType {
         case .edit:
-            viewModel.handleEditText(content,
-                                     withEditedMessageViewModel: parentMessageViewModel)
+            sendMessageHandler.handleEditText(content,
+                                              withEditedMessageViewModel: parentMessageViewModel)
         case .reply, nil:
-            viewModel.handleSendText(content,
-                                     withParentMessageViewModel: parentMessageViewModel)
+            sendMessageHandler.handleSendText(content,
+                                              withParentMessageViewModel: parentMessageViewModel)
         }
     }
 
@@ -107,11 +107,11 @@ struct MessageInputBarView: View {
         let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch choice {
         case .image:
-            viewModel.handleSendImage(media,
-                                      withParentMessageViewModel: parentMessageViewModel)
+            sendMessageHandler.handleSendImage(media,
+                                               withParentMessageViewModel: parentMessageViewModel)
         case .video:
-            viewModel.handleSendVideo(media,
-                                      withParentMessageViewModel: parentMessageViewModel)
+            sendMessageHandler.handleSendVideo(media,
+                                               withParentMessageViewModel: parentMessageViewModel)
         }
 
         media = nil
@@ -168,7 +168,7 @@ struct MessageInputBarView: View {
 struct MessageInputBarView_Previews: PreviewProvider {
     static var previews: some View {
         MessageInputBarView(
-            viewModel: ChatRoomViewModel(
+            sendMessageHandler: ChatRoomViewModel(
                 chatRoom: ChatRoom(id: "0",
                                    name: "CS4269",
                                    ownerId: "Me",
