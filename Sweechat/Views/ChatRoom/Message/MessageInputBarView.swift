@@ -2,7 +2,7 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    var sendMessageHandler: SendMessageHandler
+    let sendMessageHandler: SendMessageHandler
     var isShowingParentPreview: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
