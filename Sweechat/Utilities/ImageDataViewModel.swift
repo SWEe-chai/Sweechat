@@ -27,6 +27,9 @@ class ImageDataViewModel: ObservableObject {
     }
 
     func updateUrl(url: String) {
+        if url == self.urlString {
+            return
+        }
         self.urlString = url
         self.state = .loading
         fetchData()
