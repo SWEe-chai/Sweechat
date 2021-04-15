@@ -8,7 +8,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     @Published var profilePictureUrl: String?
     let ownerId: Identifier<User>
     var currentUser: User
+    @Published var earlyLoadedMessages: Set<Message> = []
     @Published var messages: [Message]
+    @Published var areAllMessagesLoaded: Bool = false
     private var chatRoomFacade: ChatRoomFacade?
     let currentUserPermission: ChatRoomPermissionBitmask
     var memberIdsToUsers: [Identifier<User>: User] = [:]
@@ -64,8 +66,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func setChatRoomConnection() {
-        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser)
-        chatRoomFacade?.delegate = self
+        self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser, delegate: self)
     }
 
     func storeMessage(message: Message) {
@@ -90,12 +91,32 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         memberIdsToUsers[userId] ?? User.createUnavailableUser()
     }
 
+    func loadMore() {
+        chatRoomFacade?.loadNextBlock { messages in
+            self.insertAll(messages: messages)
+        }
+    }
+
+    func loadUntil(message: Message) {
+        chatRoomFacade?.loadUntil(message.creationTime) {
+            self.insertAll(messages: $0)
+        }
+    }
+
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
         self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
     }
 
     func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
+    }
+
+    func subscribeToEarlyLoadedMessages(function: @escaping (Set<Message>) -> Void) -> AnyCancellable {
+        $earlyLoadedMessages.sink(receiveValue: function)
+    }
+
+    func subscribeToAreAllMessagesLoaded(function: @escaping (Bool) -> Void) -> AnyCancellable {
+        $areAllMessagesLoaded.sink(receiveValue: function)
     }
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
@@ -112,19 +133,52 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             return
         }
 
+        if let parentId = message.parentId {
+            loadParentMessage(parentId: parentId)
+        }
+        if earlyLoadedMessages.contains(message) {
+            earlyLoadedMessages.remove(message)
+        }
         processMessage(message)
         self.messages.append(message)
-        self.messages.sort(by: { $0.creationTime < $1.creationTime })
+        self.messages.sort()
     }
 
     func insertAll(messages: [Message]) {
-        let newMessages = messages.sorted(by: { $0.creationTime < $1.creationTime })
-
-        for message in newMessages {
-            processMessage(message)
+        if messages.isEmpty {
+            areAllMessagesLoaded = true
+            return
         }
 
-        self.messages = newMessages
+        let newMessages = messages
+            .filter { !self.messages.contains($0) }
+
+        for message in newMessages {
+            if earlyLoadedMessages.contains(message) {
+                earlyLoadedMessages.remove(message)
+            }
+            processMessage(message)
+            if let parentId = message.parentId {
+                loadParentMessage(parentId: parentId)
+            }
+        }
+
+        self.messages.append(contentsOf: newMessages)
+        self.messages.sort()
+    }
+
+    private func loadParentMessage(parentId: Identifier<Message>) {
+        chatRoomFacade?.loadMessage(withId: parentId.val) { message in
+            guard let message = message else {
+                os_log("Parent message does not exist \(parentId)")
+                return
+            }
+            if self.messages.contains(message) {
+                return
+            }
+            self.processMessage(message)
+            self.earlyLoadedMessages.insert(message)
+        }
     }
 
     private func processMessage(_ message: Message) {
@@ -142,12 +196,20 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func remove(message: Message) {
+        self.earlyLoadedMessages.remove(message)
         if let index = messages.firstIndex(of: message) {
             self.messages.remove(at: index)
         }
     }
 
     func update(message: Message) {
+        assert(!earlyLoadedMessages.contains(message) && messages.contains(message))
+        if earlyLoadedMessages.contains(message) {
+            self.earlyLoadedMessages.remove(message)
+            processMessage(message)
+            self.earlyLoadedMessages.insert(message)
+        }
+
         if let index = messages.firstIndex(of: message) {
             processMessage(message)
             self.messages[index].update(message: message)
@@ -194,7 +256,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
                         senderId: currentUser.id,
                         content: Data(),
                         type: .keyExchange,
-                        receiverId: currentUser.id, parentId: nil))
+                        receiverId: currentUser.id,
+                        parentId: nil))
             }
             return true
         }

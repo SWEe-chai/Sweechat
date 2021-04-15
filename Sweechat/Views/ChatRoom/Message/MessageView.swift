@@ -88,16 +88,6 @@ struct MessageView: View {
 }
 
 struct MessageView_Previews: PreviewProvider {
-    static var message = TextMessageViewModel(message: Message(id: "123",
-                                                               senderId: "123",
-                                                               creationTime: Date(),
-                                                               content: "The message I sent".toData(),
-                                                               type: MessageType.text, receiverId: "111",
-                                                               parentId: nil, likers: []),
-                                              sender: User(id: "123",
-                                                           name: "Christine Jane Welly"),
-                                              currentUserId: "1234")
-
     static var longMessage = """
     Hello this is a very long message. I hope you are able to bear with me for this one. I am just previewing afterall.
     Yeah man. I hope this gets truncated.
@@ -114,6 +104,15 @@ struct MessageView_Previews: PreviewProvider {
                                              sender: User(id: "123",
                                                           name: "Nguyen Chakra Bai"),
                                              currentUserId: "123")
+    static var message = TextMessageViewModel(message: Message(id: "123",
+                                                               senderId: "123",
+                                                               creationTime: Date(),
+                                                               content: "The message I sent".toData(),
+                                                               type: MessageType.text, receiverId: "111",
+                                                               parentId: nil, likers: []),
+                                              sender: User(id: "123",
+                                                           name: "Christine Jane Welly"),
+                                              currentUserId: "1234")
     static var previews: some View {
         MessageView(viewModel: message, parentViewModel: parent, parentPreviewMetadata: .constant(nil))
     }
