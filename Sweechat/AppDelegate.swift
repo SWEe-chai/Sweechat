@@ -79,12 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
 
         // Print message ID.
-        if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
-          print("Message ID 33: \(messageID)")
-        }
+        if application.applicationState != UIApplication.State.active {
+            if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
+              print("Message ID 33: \(messageID)")
+            }
 
-        // Print full message.
-        print(userInfo)
+            // Print full message.
+            print(userInfo)
+        }
     }
 
     // [START receive_message]
@@ -100,14 +102,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Messaging.messaging().appDidReceiveMessage(userInfo)
 
     // Print message ID.
-        if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
-          print("Message ID 11: \(messageID)")
+        if application.applicationState != UIApplication.State.active {
+            if let messageID = userInfo[NotificationConstant.gcmMessageIDKey] {
+              print("Message ID 11: \(messageID)")
+            }
+
+            // Print full message.
+            print(userInfo)
+
+            completionHandler(UIBackgroundFetchResult.newData)
         }
-
-        // Print full message.
-        print(userInfo)
-
-        completionHandler(UIBackgroundFetchResult.newData)
     }
     // [END receive_message]
 

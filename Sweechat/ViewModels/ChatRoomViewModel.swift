@@ -90,7 +90,7 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(allMessagesLoadedSubscriber)
         subscribers.append(profilePictureSubscriber)
     }
-    
+
     func handleChatRoomAppearance() {
         self.delegate?.terminateNotificationResponse()
     }
