@@ -14,8 +14,7 @@ struct ChatRoomView: View {
                                 replyPreviewMetadata: $replyPreviewMetadata)
         }
         .onAppear {
-            print("OI NAPA GA KESINI")
-            viewModel.resetNotificationMetadata()
+            viewModel.handleChatRoomAppearance()
             isNavigationBarHidden = false
         }
         .navigationBarHidden(isNavigationBarHidden)

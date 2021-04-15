@@ -6,5 +6,5 @@
 //
 
 protocol ModuleViewModelDelegate: AnyObject {
-    func resetNotificationMetadata()
+    func terminateNotificationResponse()
 }

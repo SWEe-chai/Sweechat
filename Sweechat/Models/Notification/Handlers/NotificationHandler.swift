@@ -56,7 +56,6 @@ class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
         }
         // [END_EXCLUDE]
         notificationMetadata.isFromNotif = true
-        print("KESINI DONG GUYSSSS \(notificationMetadata.isFromNotif)")
         notificationMetadata.directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
         notificationMetadata.directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
 

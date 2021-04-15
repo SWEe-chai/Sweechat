@@ -68,8 +68,8 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(chatRoomNameSubscriber)
     }
 
-    func resetNotificationMetadata() {
-        self.delegate?.resetNotificationMetadata()
+    func handleChatRoomAppearance() {
+        self.delegate?.terminateNotificationResponse()
     }
 
     func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {

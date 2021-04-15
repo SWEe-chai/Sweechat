@@ -33,9 +33,6 @@ struct FcmJsonStorageManager: FcmStorageManager {
         guard let token = try? jsonDecoder.decode(String.self, from: tokenData) else {
             return nil
         }
-        print("Im trying to get the token")
-        print(token)
-
         return token
     }
 }

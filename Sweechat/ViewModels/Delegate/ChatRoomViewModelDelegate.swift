@@ -6,5 +6,5 @@
 //
 
 protocol ChatRoomViewModelDelegate: AnyObject {
-    func resetNotificationMetadata()
+    func terminateNotificationResponse()
 }

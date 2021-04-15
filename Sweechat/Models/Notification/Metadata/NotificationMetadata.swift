@@ -29,7 +29,6 @@ class NotificationMetadata {
     }
 
     func reset() {
-        print("AM I CALED HEHEHE")
         self.isFromNotif = false
         self.directModuleId = ""
         self.directChatRoomId = ""

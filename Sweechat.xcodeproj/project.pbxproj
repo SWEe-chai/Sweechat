@@ -147,6 +147,7 @@
 		45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */; };
 		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
 		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
+		770C51F02628837600920C9F /* ModuleViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */; };
 		77237AE92625C3FC00FA57B9 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */; };
 		77237AEF2625C9EC00FA57B9 /* NotificationConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */; };
 		7724184C2623E27C00A5E422 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7724184B2623E27C00A5E422 /* NotificationService.swift */; };
@@ -391,6 +392,7 @@
 		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModelDelegate.swift; sourceTree = "<group>"; };
 		77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConstant.swift; sourceTree = "<group>"; };
 		772417632622E47900A5E422 /* Sweechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sweechat.entitlements; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */,
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
 				77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */,
+				770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1624,6 +1627,7 @@
 				4583D9992616055B0092AF87 /* P256SharedKey.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
+				770C51F02628837600920C9F /* ModuleViewModelDelegate.swift in Sources */,
 				77394BFE260D96440068B01F /* FirebaseModuleListFacade.swift in Sources */,
 				271CA0842612045300695F17 /* HomeView.swift in Sources */,
 				4583D9982616055B0092AF87 /* PrivateKey.swift in Sources */,

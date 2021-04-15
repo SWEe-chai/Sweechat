@@ -98,7 +98,7 @@ extension HomeViewModel: SettingsViewModelDelegate {
 }
 
 extension HomeViewModel: ModuleViewModelDelegate {
-    func resetNotificationMetadata() {
+    func terminateNotificationResponse() {
         self.isDirectModuleLoaded = false
         self.notificationMetadata.reset()
     }
