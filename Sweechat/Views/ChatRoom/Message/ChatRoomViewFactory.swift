@@ -1,39 +1,37 @@
 import SwiftUI
 
 struct ChatRoomViewFactory {
-    static func makeView(viewModel: ChatRoomViewModel) -> some View {
+    static func makeView(
+        viewModel: ChatRoomViewModel,
+        isNavigationBarHidden: Binding<Bool>) -> some View {
         switch viewModel {
         case let viewModel as PrivateChatRoomViewModel:
-            return AnyView(makeView(viewModel: viewModel))
+            return AnyView(makeView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         case let viewModel as GroupChatRoomViewModel:
-            return AnyView(makeView(viewModel: viewModel))
+            return AnyView(makeView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         case let viewModel as ForumChatRoomViewModel:
-            return AnyView(makeView(viewModel: viewModel))
+            return AnyView(makeView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         case let viewModel as ThreadChatRoomViewModel:
-            return AnyView(makeView(viewModel: viewModel))
+            return AnyView(makeView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         default:
             fatalError("Abstract ChatRoomViewModel was instantiated!")
         }
     }
 
-    static func makeView(viewModel: ThreadChatRoomViewModel) -> some View {
-        ChatRoomView(viewModel: viewModel)
+    static func makeView(viewModel: ThreadChatRoomViewModel, isNavigationBarHidden: Binding<Bool>) -> some View {
+        ChatRoomView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden)
     }
 
-    static func makeView(viewModel: PrivateChatRoomViewModel) -> some View {
-        ChatRoomView(viewModel: viewModel)
+    static func makeView(viewModel: PrivateChatRoomViewModel, isNavigationBarHidden: Binding<Bool>) -> some View {
+        ChatRoomView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden)
     }
 
-    static func makeView(viewModel: GroupChatRoomViewModel) -> some View {
+    static func makeView(viewModel: GroupChatRoomViewModel, isNavigationBarHidden: Binding<Bool>) -> some View {
         switch viewModel.permissions {
         case .readOnly:
             return AnyView(AnnouncementView(viewModel: viewModel))
         default:
-            return AnyView(ChatRoomView(viewModel: viewModel))
+            return AnyView(ChatRoomView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         }
-    }
-
-    static func makeView(viewModel: ForumChatRoomViewModel) -> some View {
-        ForumChatRoomView(viewModel: viewModel)
     }
 }

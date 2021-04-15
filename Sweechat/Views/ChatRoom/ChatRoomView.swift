@@ -3,6 +3,7 @@ import SwiftUI
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var replyPreviewMetadata: ReplyPreviewMetadata?
+    @Binding var isNavigationBarHidden: Bool
 
     var body: some View {
         VStack {
@@ -15,7 +16,9 @@ struct ChatRoomView: View {
         .onAppear {
             print("OI NAPA GA KESINI")
             viewModel.resetNotificationMetadata()
+            isNavigationBarHidden = false
         }
+        .navigationBarHidden(isNavigationBarHidden)
         .background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
@@ -38,6 +41,9 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
+            ), isNavigationBarHidden: Binding<Bool>(
+                get: { true },
+                set: { _ in }
             )
         )
     }

@@ -48,9 +48,13 @@ struct HomeView: View {
                         destination: LazyNavView(
                             ModuleView(viewModel: viewModel.directModuleViewModel)
                         ),
-                        isActive: $viewModel.isDirectModuleLoaded
+                        isActive: Binding<Bool>(
+                            get: { viewModel.isDirectModuleLoaded },
+                            set: { _ in viewModel.isDirectModuleLoaded = false }
+                        )
                     )
                     .hidden()
+
                     Spacer()
                 }
                 .frame(width: geometry.size.width)

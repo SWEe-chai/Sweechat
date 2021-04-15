@@ -12,6 +12,7 @@ struct ModuleView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showingCreateChatRoom = false
     @State private var isModuleSettingsOpened = false
+    @State var isNavigationBarHidden: Bool = true
 
     var body: some View {
         GeometryReader { _ in
@@ -65,7 +66,11 @@ struct ModuleView: View {
                                 destination:
                                     LazyNavView(
                                         ChatRoomViewFactory.makeView(
-                                                    viewModel: chatRoomViewModel))) {
+                                            viewModel: chatRoomViewModel,
+                                            isNavigationBarHidden: $isNavigationBarHidden
+                                        )
+                                    )
+                            ) {
                                 HStack {
                                     ChatRoomItemView(viewModel: chatRoomViewModel)
                                     Spacer()
@@ -85,18 +90,30 @@ struct ModuleView: View {
                 NavigationLink(
                     "",
                     destination: LazyNavView(
-                        ChatRoomViewFactory.makeView(viewModel: viewModel.directChatRoomViewModel)
+                        ChatRoomViewFactory.makeView(
+                            viewModel: viewModel.directChatRoomViewModel,
+                            isNavigationBarHidden: $isNavigationBarHidden
+                        )
                     ),
-                    isActive: $viewModel.isDirectChatRoomLoaded
+                    isActive: Binding<Bool>(
+                        get: { viewModel.isDirectChatRoomLoaded },
+                        set: { _ in viewModel.isDirectChatRoomLoaded = false }
+                    )
                 )
                 .navigationBarHidden(false)
 
                 NavigationLink("",
-                               destination: ModuleInformation(viewModel: viewModel),
+                               destination: ModuleInformation(
+                                viewModel: viewModel,
+                                isNavigationBarHidden: $isNavigationBarHidden
+                               ),
                                isActive: $isModuleSettingsOpened
                 )
                 .navigationBarHidden(false)
             }
+        }
+        .onAppear {
+            isNavigationBarHidden = true
         }
         .background(ColorConstant.primary)
         .sheet(isPresented: $showingCreateChatRoom) {
@@ -104,7 +121,7 @@ struct ModuleView: View {
                                isShowing: $showingCreateChatRoom)
         }
         .navigationBarTitle("")
-        .navigationBarHidden(true)
+        .navigationBarHidden(isNavigationBarHidden)
         .edgesIgnoringSafeArea(.all)
     }
 }
