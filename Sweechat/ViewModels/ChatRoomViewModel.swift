@@ -40,9 +40,7 @@ class ChatRoomViewModel: ObservableObject {
 
     func initialiseSubscriber() {
         let messagesSubscriber = chatRoom.subscribeToMessages { messages in
-            // TODO: This resets all messages everytime a message gets changed,
-            // might want to consider getting the new messages / deleted messages instead
-            self.messages = messages.compactMap {
+            var newMessagesSet = Set<MessageViewModel>(messages.compactMap {
                 let viewModel = MessageViewModelFactory
                                     .makeViewModel(
                                         message: $0,
@@ -51,7 +49,16 @@ class ChatRoomViewModel: ObservableObject {
                                         currentUserId: self.user.id)
                 viewModel?.delegate = self
                 return viewModel
-            }
+            })
+
+            // Deletion
+            self.messages = self.messages.filter({ newMessagesSet.contains($0) })
+
+            // Insertion
+            let oldMessagesSet = Set<MessageViewModel>(self.messages)
+            newMessagesSet = newMessagesSet.filter({ !oldMessagesSet.contains($0) })
+            self.messages.append(contentsOf: newMessagesSet)
+
             self.latestMessageViewModel = self.messages.last
         }
         let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
