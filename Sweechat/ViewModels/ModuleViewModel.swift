@@ -35,11 +35,9 @@ class ModuleViewModel: ObservableObject {
         self.text = module.name
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
-        self.chatRoomViewModels = module.chatRooms.map {
-            let chatRoomViewModel = ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
-            chatRoomViewModel.delegate = self
-            return chatRoomViewModel
-        }
+//        self.chatRoomViewModels = module.chatRooms.map {
+//            ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+//        }
         initialiseSubscriber()
     }
 
@@ -51,23 +49,24 @@ class ModuleViewModel: ObservableObject {
             self.text = newName
         }
         let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
-            // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
-            self.chatRoomViewModels = chatRooms.map {
-                ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
-            }
+//            // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
+//            self.chatRoomViewModels = chatRooms.map {
+//                ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+//            }
+            self.handleChatRoomsChange(chatRooms: chatRooms)
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-                if isFromNotif {
-                    AsyncHelper.checkAsync(interval: 0.1) {
-                        if self
-                            .getChatRoomViewModel(
-                                chatRoomId: self.notificationMetadata.directChatRoomId
-                            ) != nil {
-                            return false
-                        }
-                        return true
+            if isFromNotif {
+                AsyncHelper.checkAsync(interval: 0.1) {
+                    if self
+                        .getChatRoomViewModel(
+                            chatRoomId: self.notificationMetadata.directChatRoomId
+                        ) != nil {
+                        return false
                     }
+                    return true
                 }
+            }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)
@@ -76,11 +75,38 @@ class ModuleViewModel: ObservableObject {
 
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
+            print("INI Uda duluan \(unwrappedDirectChatRoomViewModel.chatRoom.id)")
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
             self.isDirectChatRoomLoaded = true
         }
         return self.directChatRoomViewModel
 
+    }
+
+    private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
+        // TODO: Shouldn't remap all chatrooms (it's okay but we'll reload the views every time)
+        let oldChatRoomIds = Set<Identifier<ChatRoom>>(self.chatRoomViewModels.map {
+            $0.chatRoom.id
+        })
+
+        let allChatRoomIds = Set<Identifier<ChatRoom>>(chatRooms.map {
+            $0.id
+        })
+
+        let newChatRoomIds = allChatRoomIds.filter({ !oldChatRoomIds.contains($0) })
+        let newChatRooms = chatRooms.filter({ newChatRoomIds.contains($0.id) })
+        print("this got changed")
+        for newChatRoom in newChatRooms {
+            print("SAVE ME FROM DEBug \(newChatRoom.id)")
+        }
+        print(newChatRooms)
+        let newChatRoomViewModels: [ChatRoomViewModel] = newChatRooms.map {
+            let newChatRoomViewModel = ChatRoomViewModelFactory.makeViewModel(chatRoom: $0, chatRoomCreator: self.createChatRoomViewModel)
+            newChatRoomViewModel.delegate = self
+            return newChatRoomViewModel
+        }
+
+        self.chatRoomViewModels.append(contentsOf: newChatRoomViewModels)
     }
 }
 
@@ -96,7 +122,7 @@ extension Array where Element: Comparable {
 
 extension ModuleViewModel: ChatRoomViewModelDelegate {
     func resetNotificationMetadata() {
-        print("JELAS GA SIh")
+        self.isDirectChatRoomLoaded = false
         self.notificationMetadata.reset()
     }
 }

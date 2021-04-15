@@ -5,4 +5,6 @@
 //  Created by Agnes Natasya on 15/4/21.
 //
 
-import Foundation
+protocol ModuleViewModelDelegate: AnyObject {
+    func resetNotificationMetadata()
+}

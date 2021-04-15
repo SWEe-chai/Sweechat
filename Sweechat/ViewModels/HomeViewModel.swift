@@ -96,3 +96,10 @@ extension HomeViewModel: SettingsViewModelDelegate {
         delegate?.signOut()
     }
 }
+
+extension HomeViewModel: ModuleViewModelDelegate {
+    func resetNotificationMetadata() {
+        self.isDirectModuleLoaded = false
+        self.notificationMetadata.reset()
+    }
+}
