@@ -55,9 +55,8 @@ class ChatRoomViewModel: ObservableObject {
             for newMessageViewModel in newMessageViewModels {
                 newMessageViewModel.delegate = self
             }
-            self.messages.append(contentsOf: newMessageViewModels.sorted(by: {
-                $0.message.creationTime < $1.message.creationTime
-            }))
+            self.messages.append(contentsOf: newMessageViewModels)
+            self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
             self.latestMessageViewModel = self.messages.last
         }
         let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
