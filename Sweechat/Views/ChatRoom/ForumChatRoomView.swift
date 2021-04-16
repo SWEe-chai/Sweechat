@@ -7,7 +7,7 @@ struct ForumChatRoomView: View {
     var body: some View {
         VStack {
             ForumPostsView(viewModel: viewModel)
-            MessageInputBarView(viewModel: viewModel,
+            MessageInputBarView(sendMessageHandler: viewModel,
                                 isShowingParentPreview: false,
                                 allowSendMedia: false,
                                 parentPreviewMetadata: $parentPreviewMetadata)

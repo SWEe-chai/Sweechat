@@ -9,7 +9,7 @@ struct ChatRoomView: View {
         VStack {
             MessagesScrollView(viewModel: viewModel,
                                parentPreviewMetadata: $parentPreviewMetadata)
-            MessageInputBarView(viewModel: viewModel,
+            MessageInputBarView(sendMessageHandler: viewModel,
                                 isShowingParentPreview: true,
                                 parentPreviewMetadata: $parentPreviewMetadata)
         }
