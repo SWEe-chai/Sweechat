@@ -50,7 +50,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     }
 
     func initialiseSubscriber() {
-        let messagesSubscriber = chatRoom.subscribeToMessages { messages in
+        let messagesSubscriber = chatRoom.subscribeToMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
             let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
 
             // Deletion
@@ -70,7 +71,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
             self.latestMessageViewModel = self.messages.last
         }
-        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
+        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
             self.earlyLoadedMessages = self.generateViewModels(from: messages)
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
