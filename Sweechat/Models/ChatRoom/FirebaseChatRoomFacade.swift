@@ -111,7 +111,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageAdapter.convert(document: $0)
                 })
-                self.delegate?.insertAll(messages: messages)
+                self.delegate?.insertOldMessages(messages)
                 onCompletion?()
             }
     }
@@ -300,7 +300,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
         switch change.type {
         case .added:
-            self.delegate?.insert(message: message)
+            self.delegate?.insertNewMessage(message)
         case .modified:
             self.delegate?.update(message: message)
         case .removed:
