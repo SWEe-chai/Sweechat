@@ -99,7 +99,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
         let id = randomString(length: 8)
         module.id = Identifier<Module>(val: id)
 
-        modulesReference?.document(module.id.val).setData(FirebaseModuleFacade.convert(module: module)) { error in
+        modulesReference?.document(module.id.val).setData(FirebaseModuleAdapter.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return

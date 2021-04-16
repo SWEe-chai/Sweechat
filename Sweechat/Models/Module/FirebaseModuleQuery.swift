@@ -50,7 +50,7 @@ class FirebaseModuleQuery {
                                    String(describing: document))
                             return nil
                         }
-                        return FirebaseModuleFacade.convert(document: document,
+                        return FirebaseModuleAdapter.convert(document: document,
                                                             user: user,
                                                             withPermissions: pair.permissions)
                     }

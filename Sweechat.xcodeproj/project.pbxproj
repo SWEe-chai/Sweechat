@@ -104,6 +104,7 @@
 		3EC8C19B261734F3008672C4 /* ParentPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC8C19A261734F3008672C4 /* ParentPreviewView.swift */; };
 		3ECDCBBE2629A60100B681B6 /* FirebaseMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECDCBBD2629A60100B681B6 /* FirebaseMessageAdapter.swift */; };
 		3ECDCBC92629A6CA00B681B6 /* FirebaseChatRoomAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECDCBC82629A6CA00B681B6 /* FirebaseChatRoomAdapter.swift */; };
+		3ECDCBCE2629A79D00B681B6 /* FirebaseModuleAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECDCBCD2629A79D00B681B6 /* FirebaseModuleAdapter.swift */; };
 		3ECE86262626004A00878514 /* ParentPreviewMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECE86252626004A00878514 /* ParentPreviewMetadata.swift */; };
 		3ED4FBBA2606260900ADA24A /* StateConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED4FBB92606260900ADA24A /* StateConstant.swift */; };
 		3EEF1EA92628321700FC0C86 /* SendMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEF1EA82628321700FC0C86 /* SendMessageHandler.swift */; };
@@ -347,6 +348,7 @@
 		3EC8C19A261734F3008672C4 /* ParentPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPreviewView.swift; sourceTree = "<group>"; };
 		3ECDCBBD2629A60100B681B6 /* FirebaseMessageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessageAdapter.swift; sourceTree = "<group>"; };
 		3ECDCBC82629A6CA00B681B6 /* FirebaseChatRoomAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseChatRoomAdapter.swift; sourceTree = "<group>"; };
+		3ECDCBCD2629A79D00B681B6 /* FirebaseModuleAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModuleAdapter.swift; sourceTree = "<group>"; };
 		3ECE86252626004A00878514 /* ParentPreviewMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPreviewMetadata.swift; sourceTree = "<group>"; };
 		3ED4FBB92606260900ADA24A /* StateConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateConstant.swift; sourceTree = "<group>"; };
 		3EEF1EA82628321700FC0C86 /* SendMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageHandler.swift; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 			children = (
 				3ECDCBBD2629A60100B681B6 /* FirebaseMessageAdapter.swift */,
 				3ECDCBC82629A6CA00B681B6 /* FirebaseChatRoomAdapter.swift */,
+				3ECDCBCD2629A79D00B681B6 /* FirebaseModuleAdapter.swift */,
 			);
 			path = FirebaseAdapter;
 			sourceTree = "<group>";
@@ -1444,6 +1447,7 @@
 				775B92322605006D0040B985 /* ChatRoomFacade.swift in Sources */,
 				27B5973E261449A900B69FEF /* UserPermissionPair.swift in Sources */,
 				4583D9972616055B0092AF87 /* PublicKey.swift in Sources */,
+				3ECDCBCE2629A79D00B681B6 /* FirebaseModuleAdapter.swift in Sources */,
 				45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */,
 				778F08B725FDDA420059C2A0 /* AppDelegate.swift in Sources */,
 				4583D9922616055B0092AF87 /* SignalProtocolError.swift in Sources */,
