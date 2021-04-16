@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 class ModuleViewModel: ObservableObject {
-    private var module: Module
+    var module: Module
     private var user: User
     private var subscribers: [AnyCancellable] = []
     var id: String {
@@ -94,37 +94,33 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(notificationMetadataSubscriber)
     }
 
+    private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
+        // Remove deleted chatrooms
+        let allChatRoomsIds: Set<Identifier<ChatRoom>> = Set(chatRooms.map { $0.id })
+        self.chatRoomViewModels = self.chatRoomViewModels.filter { allChatRoomsIds.contains($0.chatRoom.id) }
+
+        // Add new chatrooms
+        let oldChatRoomIds = Set(self.chatRoomViewModels.map { $0.chatRoom.id })
+        let newChatRoomVMs: [ChatRoomViewModel] = chatRooms
+            .filter { !oldChatRoomIds.contains($0.id) }
+            .map {
+                let newChatRoomViewModel = ChatRoomViewModelFactory
+                    .makeViewModel(
+                        chatRoom: $0,
+                        chatRoomCreator: self.createChatRoomViewModel
+                )
+                newChatRoomViewModel.delegate = self
+                return newChatRoomViewModel
+            }
+        self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
+    }
+
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
             self.isDirectChatRoomLoaded = true
         }
         return self.directChatRoomViewModel
-
-    }
-
-    private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
-        let oldChatRoomIds = Set<Identifier<ChatRoom>>(self.chatRoomViewModels.map {
-            $0.chatRoom.id
-        })
-
-        let allChatRoomIds = Set<Identifier<ChatRoom>>(chatRooms.map {
-            $0.id
-        })
-
-        let newChatRoomIds = allChatRoomIds.filter({ !oldChatRoomIds.contains($0) })
-        let newChatRooms = chatRooms.filter({ newChatRoomIds.contains($0.id) })
-        let newChatRoomViewModels: [ChatRoomViewModel] = newChatRooms.map {
-            let newChatRoomViewModel = ChatRoomViewModelFactory
-                .makeViewModel(
-                    chatRoom: $0,
-                    chatRoomCreator: self.createChatRoomViewModel
-            )
-            newChatRoomViewModel.delegate = self
-            return newChatRoomViewModel
-        }
-
-        self.chatRoomViewModels.append(contentsOf: newChatRoomViewModels)
     }
 }
 

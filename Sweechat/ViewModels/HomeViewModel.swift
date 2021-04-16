@@ -32,13 +32,7 @@ class HomeViewModel: ObservableObject {
             self.text = "Welcome, \(newName)!"
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
-            self.moduleViewModels = modules.map {
-                ModuleViewModel(
-                    module: $0,
-                    user: self.user,
-                    notificationMetadata: self.notificationMetadata
-                )
-            }
+            self.handleModulesChange(modules: modules)
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
                 if isFromNotif {
@@ -56,6 +50,19 @@ class HomeViewModel: ObservableObject {
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)
         subscribers.append(notificationMetadataSubscriber)
+    }
+
+    func handleModulesChange(modules: [Module]) {
+        // Remove deleted modules
+        let allModuleIds: Set<Identifier<Module>> = Set(modules.map { $0.id })
+        self.moduleViewModels = self.moduleViewModels.filter { allModuleIds.contains($0.module.id) }
+
+        // Add new modules
+        let oldModuleIds = Set(self.moduleViewModels.map { $0.module.id })
+        let newModuleVMs = modules
+            .filter { !oldModuleIds.contains($0.id) }
+            .map { ModuleViewModel(module: $0, user: user, notificationMetadata: notificationMetadata) }
+        self.moduleViewModels.append(contentsOf: newModuleVMs)
     }
 
     func handleCreateModule(name: String) {
