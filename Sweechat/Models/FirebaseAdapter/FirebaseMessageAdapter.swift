@@ -21,7 +21,7 @@ struct FirebaseMessageAdapter {
               let receiverIdStr = data?[DatabaseConstant.Message.receiverId] as? String,
               let messageTypeStr = data?[DatabaseConstant.Message.type] as? String,
               let parentIdStr = data?[DatabaseConstant.Message.parentId] as? String?,
-              let likers = data?[DatabaseConstant.Message.likers] as? [Identifier<User>] else {
+              let likers = data?[DatabaseConstant.Message.likers] as? [String] else {
             os_log("Error converting data for Message, data: %s", String(describing: data))
             return nil
         }
@@ -44,7 +44,7 @@ struct FirebaseMessageAdapter {
                 type: messageType,
                 receiverId: receiverId,
                 parentId: parentId,
-                likers: Set(likers)
+                likers: Set(likers.map({ Identifier<User>(val: $0) }))
             )
         }
         return nil
