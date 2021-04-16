@@ -141,7 +141,7 @@ extension Array where Element: Comparable {
 
 extension ModuleViewModel: ChatRoomViewModelDelegate {
     func terminateNotificationResponse() {
-        self.delegate?.terminateNotificationReponse()
+        self.delegate?.terminateNotificationResponse()
         self.isDirectChatRoomLoaded = false
         self.notificationMetadata.reset()
     }

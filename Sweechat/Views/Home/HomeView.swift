@@ -49,7 +49,7 @@ struct HomeView: View {
                         ),
                         isActive: $viewModel.isDirectModuleLoaded
                     )
-                    
+
                     .hidden()
 
                     Spacer()

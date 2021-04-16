@@ -14,7 +14,7 @@ class NotificationMetadata {
     private var defaultIsFromNotifValue = false
     private var defaultDirectModuleIdValue = ""
     private var defaultDirectChatRoomIdValue = ""
-    
+
     init(isFromNotif: Bool, directModuleId: String, directChatRoomId: String) {
         self.isFromNotif = isFromNotif
         self.directModuleId = directModuleId
