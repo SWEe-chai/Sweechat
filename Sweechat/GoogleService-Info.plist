@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>407051025653-nf0cl3pip3f5m3milei6fr97joq12bnk.apps.googleusercontent.com</string>
+	<string>703864432351-uthnpi9jhh8auj26bmk4tqdpphsb02ev.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.407051025653-nf0cl3pip3f5m3milei6fr97joq12bnk</string>
+	<string>com.googleusercontent.apps.703864432351-uthnpi9jhh8auj26bmk4tqdpphsb02ev</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAG40UyyNARfK7MhRYBfxDaVcsIK3t8Q6o</string>
+	<string>AIzaSyA3QJJuudSOOZxRaBOxtI72EHLDOalUOgM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>407051025653</string>
+	<string>703864432351</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>CS3217.Sweechat</string>
+	<string>CS3217.2021.Sweechat</string>
 	<key>PROJECT_ID</key>
-	<string>sweechat-60d41</string>
+	<string>sweechat-f2e46</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sweechat-60d41.appspot.com</string>
+	<string>sweechat-f2e46.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:407051025653:ios:2e40b511efdbb1278219bc</string>
+	<string>1:703864432351:ios:baf718876619370ccd2b6a</string>
 </dict>
 </plist>

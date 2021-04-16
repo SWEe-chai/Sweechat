@@ -43,7 +43,8 @@ struct HomeToolbarView: View {
     static var previews: some View {
         HomeToolbarView(
             viewModel: HomeViewModel(
-                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
+                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1"),
+                notificationMetadata: NotificationMetadata()
             ),
             isShowingCreateView: .constant(false))
     }

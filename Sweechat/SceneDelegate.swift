@@ -3,7 +3,7 @@
 //  Sweechat
 //
 //  Created by Agnes Natasya on 14/3/21.
-//
+//  swiftlint:disable force_cast
 
 import UIKit
 import SwiftUI
@@ -20,11 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
 
         // Get the managed object context from the shared persistent container.
-        // let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let contentView = ContentView().environmentObject(AppViewModel())
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Unable to create App Delegate")
+        }
+        let contentView = ContentView().environmentObject(appDelegate.appViewModel)
         // .environment(\.managedObjectContext, context)
 
         // Use a UIHostingController as window root view controller.

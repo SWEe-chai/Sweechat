@@ -1,7 +1,4 @@
 class ThreadChatRoomViewModel: ChatRoomViewModel {
-    var id: String {
-        threadChatRoom.id.val
-    }
     private var threadChatRoom: ThreadChatRoom
 
     var post: MessageViewModel

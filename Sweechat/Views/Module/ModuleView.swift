@@ -12,6 +12,7 @@ struct ModuleView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showingCreateChatRoom = false
     @State private var isModuleSettingsOpened = false
+    @State var isNavigationBarHidden: Bool = true
     @State private var chatRoomListType: ChatRoomListType = .groupChat
 
     var moduleSettingsToolbar: some View {
@@ -52,7 +53,10 @@ struct ModuleView: View {
 
     var hiddenSettingsNavLink: some View {
         NavigationLink("",
-                       destination: ModuleInformation(viewModel: viewModel),
+                       destination: ModuleInformation(
+                        viewModel: viewModel,
+                        isNavigationBarHidden: $isNavigationBarHidden
+                       ),
                        isActive: $isModuleSettingsOpened)
             .hidden()
     }
@@ -75,6 +79,8 @@ struct ModuleView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            Text("").lineLimit(nil)
+            Text("").lineLimit(nil)
             moduleHeader
             VStack(alignment: .leading) {
                 chatRoomListTypeToolbar
@@ -84,7 +90,11 @@ struct ModuleView: View {
                             destination:
                                 LazyNavView(
                                     ChatRoomViewFactory.makeView(
-                                                viewModel: chatRoomViewModel))) {
+                                        viewModel: chatRoomViewModel,
+                                        isNavigationBarHidden: $isNavigationBarHidden
+                                    )
+                                )
+                        ) {
                             HStack {
                                 ChatRoomItemView(viewModel: chatRoomViewModel)
                                 Spacer()
@@ -94,6 +104,30 @@ struct ModuleView: View {
                     }
                     Spacer()
                 }
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(ColorConstant.base)
+                )
+                NavigationLink(
+                    "",
+                    destination: LazyNavView(
+                        ChatRoomViewFactory.makeView(
+                            viewModel: viewModel.directChatRoomViewModel,
+                            isNavigationBarHidden: $isNavigationBarHidden
+                        )
+                    ),
+                    isActive: $viewModel.isDirectChatRoomLoaded
+                )
+                .navigationBarHidden(false)
+
+                NavigationLink("",
+                               destination: ModuleInformation(
+                                viewModel: viewModel,
+                                isNavigationBarHidden: $isNavigationBarHidden
+                               ),
+                               isActive: $isModuleSettingsOpened
+                )
+                .navigationBarHidden(false)
             }
             .background(
                 RoundedRectangle(cornerRadius: 20)
@@ -103,13 +137,16 @@ struct ModuleView: View {
 
             hiddenSettingsNavLink
         }
+        .onAppear {
+            isNavigationBarHidden = true
+        }
         .background(ColorConstant.primary.ignoresSafeArea())
         .sheet(isPresented: $showingCreateChatRoom) {
             CreateChatRoomView(viewModel: viewModel.createChatRoomViewModel,
                                isShowing: $showingCreateChatRoom)
         }
         .navigationBarTitle("")
-        .navigationBarHidden(true)
+        .navigationBarHidden(isNavigationBarHidden)
     }
 }
 
