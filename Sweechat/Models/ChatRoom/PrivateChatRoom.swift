@@ -4,6 +4,8 @@ class PrivateChatRoom: ChatRoom {
     var otherUser: User?
     var subscribers: [AnyCancellable] = []
 
+    // MARK: Initialization
+
     // Used by facade
     init(id: Identifier<ChatRoom>,
          ownerId: Identifier<User>,
@@ -26,28 +28,7 @@ class PrivateChatRoom: ChatRoom {
                    isStarred: false)
     }
 
-    private func setOtherUser(_ user: User) {
-        self.otherUser = user
-        self.name = user.name
-        self.profilePictureUrl = user.profilePictureUrl
-    }
-
-    private func setOtherUserConnection() {
-        otherUser?.setUserConnection()
-        if let nameSubscriber = otherUser?
-            .subscribeToName(function: { newName in
-            self.name = newName
-        }) {
-            subscribers.append(nameSubscriber)
-        }
-
-        if let profilePictureUrlSubscriber = otherUser?
-            .subscribeToProfilePicture(function: { profilePictureUrl in
-            self.profilePictureUrl = profilePictureUrl
-        }) {
-            subscribers.append(profilePictureUrlSubscriber)
-        }
-    }
+    // MARK: Overridden ChatRoomFacadeDelegate Methods
 
     override func insert(member: User) {
         if member != currentUser {
@@ -66,5 +47,29 @@ class PrivateChatRoom: ChatRoom {
 
     override func update(chatRoom: ChatRoom) {
         // Private chat does not update name and picture according to backend
+    }
+
+    // MARK: Private Helper Methods
+
+    private func setOtherUser(_ user: User) {
+        self.otherUser = user
+        self.name = user.name
+        self.profilePictureUrl = user.profilePictureUrl
+    }
+
+    private func setOtherUserConnection() {
+        otherUser?.setUserConnection()
+
+        if let nameSubscriber = otherUser?.subscribeToName(function: { newName in
+            self.name = newName
+        }) {
+            subscribers.append(nameSubscriber)
+        }
+
+        if let profilePictureUrlSubscriber = otherUser?.subscribeToProfilePicture(function: { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }) {
+            subscribers.append(profilePictureUrlSubscriber)
+        }
     }
 }
