@@ -160,7 +160,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.id)
         do {
             let data = try Data(contentsOf: url)
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
