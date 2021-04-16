@@ -25,7 +25,6 @@ struct ModuleInformation: View {
         }
         .onAppear { isNavigationBarHidden = false }
         .navigationBarHidden(isNavigationBarHidden)
-        .navigationBarHidden(false)
         .navigationTitle("Module Information")
     }
 }
