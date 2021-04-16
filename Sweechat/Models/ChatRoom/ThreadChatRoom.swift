@@ -1,6 +1,6 @@
 class ThreadChatRoom: ChatRoom {
     var mostPopularMessage: Message? {
-        messages.max { a, b in a.likers.count < b.likers.count }
+        messages.values.max { a, b in a.likers.count < b.likers.count }
     }
 
     // This init is to create the function
