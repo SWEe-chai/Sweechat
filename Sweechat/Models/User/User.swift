@@ -8,13 +8,16 @@ class User: ObservableObject {
     @Published var id: Identifier<User>
     @Published var name: String
     @Published var profilePictureUrl: String?
+
+    private let isLoggedInSubscribers: [((Bool) -> Void)] = []
+    private let groupCryptographyProvider: GroupCryptographyProvider
     private var userFacade: UserFacade?
-    private var isLoggedInSubscribers: [((Bool) -> Void)] = []
-    private var groupCryptographyProvider: GroupCryptographyProvider
 
     static func createUnavailableInstance() -> User {
         User(id: unvailableUserId, name: unvailableUserName)
     }
+
+    // MARK: Initialization
 
     init(id: Identifier<User>) {
         self.id = id
@@ -30,6 +33,8 @@ class User: ObservableObject {
         self.groupCryptographyProvider = SignalProtocol(userId: id.val)
     }
 
+    // MARK: Facade Connection
+
     func setUserConnection() {
         self.userFacade = FirebaseUserFacade(userId: id)
         userFacade?.delegate = self
@@ -42,21 +47,13 @@ class User: ObservableObject {
         )
     }
 
+    // MARK: Cryptography Public Key Bundle
+
     func getPublicKeyBundleData() -> Data? {
         try? groupCryptographyProvider.getPublicServerKeyBundleData()
     }
 
-//    func initiateListeningToUser() {
-//        let user = User(
-//            id: id,
-//            name: name,
-//            profilePictureUrl: profilePictureUrl
-//        )
-//        
-//
-//        userFacade.loginAndListenToUser(
-//        )
-//    }
+    // MARK: Subscriptions
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
@@ -80,7 +77,6 @@ extension User: Equatable, Comparable {
 
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
-
     func update(user: User) {
         self.id = user.id
         self.name = user.name
