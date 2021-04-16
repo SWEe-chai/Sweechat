@@ -118,16 +118,6 @@ struct ModuleView: View {
                     ),
                     isActive: $viewModel.isDirectChatRoomLoaded
                 )
-                .navigationBarHidden(false)
-
-                NavigationLink("",
-                               destination: ModuleInformation(
-                                viewModel: viewModel,
-                                isNavigationBarHidden: $isNavigationBarHidden
-                               ),
-                               isActive: $isModuleSettingsOpened
-                )
-                .navigationBarHidden(false)
             }
             .background(
                 RoundedRectangle(cornerRadius: 20)
