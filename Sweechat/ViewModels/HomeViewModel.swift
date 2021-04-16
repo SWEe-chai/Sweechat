@@ -33,13 +33,11 @@ class HomeViewModel: ObservableObject {
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
             self.moduleViewModels = modules.map {
-                let moduleViewModel = ModuleViewModel(
+                ModuleViewModel(
                     module: $0,
                     user: self.user,
                     notificationMetadata: self.notificationMetadata
                 )
-                moduleViewModel.delegate = self
-                return moduleViewModel
             }
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
@@ -96,12 +94,5 @@ class HomeViewModel: ObservableObject {
 extension HomeViewModel: SettingsViewModelDelegate {
     func signOut() {
         delegate?.signOut()
-    }
-}
-
-extension HomeViewModel: ModuleViewModelDelegate {
-    func terminateNotificationResponse() {
-        self.isDirectModuleLoaded = false
-        self.notificationMetadata.reset()
     }
 }

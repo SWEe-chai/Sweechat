@@ -13,7 +13,6 @@ class ModuleViewModel: ObservableObject {
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var isDirectChatRoomLoaded: Bool = false
-    weak var delegate: ModuleViewModelDelegate?
 
     static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
@@ -141,7 +140,6 @@ extension Array where Element: Comparable {
 
 extension ModuleViewModel: ChatRoomViewModelDelegate {
     func terminateNotificationResponse() {
-        self.delegate?.terminateNotificationResponse()
         self.isDirectChatRoomLoaded = false
         self.notificationMetadata.reset()
     }
