@@ -107,13 +107,13 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             if messages.isEmpty {
                 self.areAllMessagesLoaded = true
             }
-            self.insertAll(messages)
+            self.insertAll(messages: messages)
         }
     }
 
     func loadUntil(message: Message) {
         chatRoomFacade?.loadUntil(message.creationTime) {
-            self.insertAll($0)
+            self.insertAll(messages: $0)
         }
     }
 
@@ -142,7 +142,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: ChatRoomFacadeDelegate
 
-    func insert(_ message: Message) {
+    func insert(message: Message) {
         if self.messages[message.id] != nil {
             return
         }
@@ -159,8 +159,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.messages[message.id] = message
     }
 
-    func insertAll(_ messages: [Message]) {
-        messages.forEach { insert($0) }
+    func insertAll(messages: [Message]) {
+        messages.forEach { insert(message: $0) }
     }
 
     func handleKeyExchangeMessages(keyExchangeMessages: [Message]) -> Bool {
