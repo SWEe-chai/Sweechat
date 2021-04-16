@@ -68,8 +68,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         insertAll(members: members)
     }
 
-    static func createUnavailableInstance() -> ChatRoom {
-        ChatRoom(
+    static func createUnavailableInstance() -> GroupChatRoom {
+        GroupChatRoom(
             id: unavailableChatRoomId,
             name: unavailableChatRoomName,
             ownerId: unavailableOwnerId,

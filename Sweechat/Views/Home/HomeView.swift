@@ -2,7 +2,6 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @EnvironmentObject private var appViewModel: AppViewModel
     @State var isShowingCreateView: Bool = false
     @State var isDirectModuleLoaded = false
 
@@ -48,11 +47,9 @@ struct HomeView: View {
                         destination: LazyNavView(
                             ModuleView(viewModel: viewModel.directModuleViewModel)
                         ),
-                        isActive: Binding<Bool>(
-                            get: { viewModel.isDirectModuleLoaded },
-                            set: { _ in viewModel.isDirectModuleLoaded = false }
-                        )
+                        isActive: $viewModel.isDirectModuleLoaded
                     )
+                    
                     .hidden()
 
                     Spacer()

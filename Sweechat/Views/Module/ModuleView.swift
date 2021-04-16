@@ -116,10 +116,7 @@ struct ModuleView: View {
                             isNavigationBarHidden: $isNavigationBarHidden
                         )
                     ),
-                    isActive: Binding<Bool>(
-                        get: { viewModel.isDirectChatRoomLoaded },
-                        set: { _ in viewModel.isDirectChatRoomLoaded = false }
-                    )
+                    isActive: $viewModel.isDirectChatRoomLoaded
                 )
                 .navigationBarHidden(false)
 

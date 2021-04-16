@@ -65,7 +65,7 @@ class FirebaseUserFacade: UserFacade {
         }
         usersReference
             .document(userId.val)
-            .setData(["token": FcmJsonStorageManager.load() ?? ""], merge: true)
+            .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId.val)
         userListener = reference?.addSnapshotListener { querySnapshot, error in

@@ -31,8 +31,8 @@ class NotificationHandler: NSObject, UNUserNotificationCenterDelegate {
         }
         // [END_EXCLUDE]
         notificationMetadata.isFromNotif = true
-        notificationMetadata.directModuleId = userInfo["gcm.notification.moduleId"] as? String ?? ""
-        notificationMetadata.directChatRoomId = userInfo["gcm.notification.chatRoomId"] as? String ?? ""
+        notificationMetadata.directModuleId = userInfo[NotificationConstant.gcmModuleId] as? String ?? ""
+        notificationMetadata.directChatRoomId = userInfo[NotificationConstant.gcmChatRoomId] as? String ?? ""
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -53,8 +53,8 @@ extension NotificationHandler: MessagingDelegate {
     ) {
         print("Firebase registration token: \(String(describing: fcmToken))")
 
-        let dataDict: [String: String] = ["token": fcmToken]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        let dataDict: [String: String] = [DatabaseConstant.User.token: fcmToken]
+        NotificationCenter.default.post(name: Notification.Name(NotificationConstant.fcmToken), object: nil, userInfo: dataDict)
         FcmJsonStorageManager.save(token: fcmToken)
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.

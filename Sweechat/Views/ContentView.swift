@@ -11,7 +11,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-             LoginView(viewModel: appViewModel.loginViewModel)
+            LoginView(viewModel: appViewModel.loginViewModel)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
