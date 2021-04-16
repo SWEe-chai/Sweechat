@@ -3,7 +3,7 @@ import SwiftUI
 import FirebaseStorage
 import os
 
-class ChatRoomViewModel: ObservableObject {
+class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     var chatRoom: ChatRoom
     var user: User
     private var chatRoomMediaCache: ChatRoomMediaCache
@@ -112,19 +112,27 @@ class ChatRoomViewModel: ObservableObject {
         return earlyLoadedMessages.first { $0.id == messageId }
     }
 
-    func handleSendMessage(_ text: String, withParentId parentId: Identifier<Message>?) {
+    // MARK: SendMessageHandler
+    func handleSendText(_ text: String,
+                        withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
         let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
                               receiverId: ChatRoom.allUsersId, parentId: parentId)
         self.chatRoom.storeMessage(message: message)
     }
 
-    func handleEditMessage(_ text: String,
-                           withEditedMessageViewModel editedMessageViewModel: MessageViewModel) {
+    func handleEditText(_ text: String,
+                        withEditedMessageViewModel editedMessageViewModel: MessageViewModel?) {
+        guard let editedMessageViewModel = editedMessageViewModel else {
+            os_log("handleEditText called when MessageViewModel is nil")
+            return
+        }
         editedMessageViewModel.message.content = text.toData()
         self.chatRoom.storeMessage(message: editedMessageViewModel.message)
     }
 
-    func handleSendImage(_ wrappedImage: Any?, withParentId parentId: Identifier<Message>?) {
+    func handleSendImage(_ wrappedImage: Any?,
+                         withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         guard let image = wrappedImage as? UIImage else {
             os_log("wrappedImage is not UIImage")
             return
@@ -135,6 +143,7 @@ class ChatRoomViewModel: ObservableObject {
             return
         }
 
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
         self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
             let urlstring = url.absoluteString
             let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
@@ -143,13 +152,15 @@ class ChatRoomViewModel: ObservableObject {
         }
     }
 
-    func handleSendVideo(_ mediaURL: Any?, withParentId parentId: Identifier<Message>?) {
+    func handleSendVideo(_ mediaURL: Any?,
+                         withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         guard let url = mediaURL as? URL else {
             os_log("media url is not a url")
             print("media url: \(String(describing: mediaURL))")
             return
         }
 
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
         do {
             let data = try Data(contentsOf: url)
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in

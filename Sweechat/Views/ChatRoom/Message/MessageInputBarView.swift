@@ -2,7 +2,7 @@ import SwiftUI
 import os
 
 struct MessageInputBarView: View {
-    @ObservedObject var viewModel: ChatRoomViewModel
+    let sendMessageHandler: SendMessageHandler
     var isShowingParentPreview: Bool
     var allowSendMedia: Bool = true
     @State var typingMessage: String = ""
@@ -73,8 +73,6 @@ struct MessageInputBarView: View {
         }
     }
 
-    // TODO: Might want to combine sendTypedMessage with sendMedia. Some common logic
-    // like setting messageBeingRepliedTo to nil at the end
     private func sendTypedMessage() {
         let content = typingMessage.trimmingCharacters(in: .whitespacesAndNewlines)
         if content.isEmpty {
@@ -86,16 +84,14 @@ struct MessageInputBarView: View {
     }
 
     private func sendTypedMessage(withContent content: String) {
+        let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch parentPreviewMetadata?.previewType {
         case .edit:
-            guard let editedMessageViewModel = parentPreviewMetadata?.parentMessage else {
-                os_log("Unexpected Error: editedMessageViewModel does not exist despite having a non-nil preview type")
-                return
-            }
-            viewModel.handleEditMessage(content, withEditedMessageViewModel: editedMessageViewModel)
+            sendMessageHandler.handleEditText(content,
+                                              withEditedMessageViewModel: parentMessageViewModel)
         case .reply, nil:
-            let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
-            viewModel.handleSendMessage(content, withParentId: parentId)
+            sendMessageHandler.handleSendText(content,
+                                              withParentMessageViewModel: parentMessageViewModel)
         }
     }
 
@@ -106,12 +102,14 @@ struct MessageInputBarView: View {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentPreviewMetadata?.parentMessage.id)
+        let parentMessageViewModel = parentPreviewMetadata?.parentMessage
         switch choice {
         case .image:
-            viewModel.handleSendImage(media, withParentId: parentId)
+            sendMessageHandler.handleSendImage(media,
+                                               withParentMessageViewModel: parentMessageViewModel)
         case .video:
-            viewModel.handleSendVideo(media, withParentId: parentId)
+            sendMessageHandler.handleSendVideo(media,
+                                               withParentMessageViewModel: parentMessageViewModel)
         }
 
         media = nil
@@ -168,7 +166,7 @@ struct MessageInputBarView: View {
 struct MessageInputBarView_Previews: PreviewProvider {
     static var previews: some View {
         MessageInputBarView(
-            viewModel: ChatRoomViewModel(
+            sendMessageHandler: ChatRoomViewModel(
                 chatRoom: ChatRoom(id: "0",
                                    name: "CS4269",
                                    ownerId: "Me",
