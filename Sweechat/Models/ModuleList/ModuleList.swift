@@ -10,6 +10,7 @@ import Foundation
 
 class ModuleList: ObservableObject {
     @Published var modules: [Module]
+
     private var moduleListFacade: ModuleListFacade?
 
     static func of(_ user: User) -> ModuleList {
@@ -19,10 +20,14 @@ class ModuleList: ObservableObject {
         return moduleList
     }
 
+    // MARK: Initialization
+    
     private init() {
         self.modules = []
         self.moduleListFacade = nil
     }
+
+    // MARK: Facade Connection
 
     func store(module: Module, userModulePermissions: [UserModulePermissionPair]) {
         self.moduleListFacade?.save(module: module, userModulePermissions: userModulePermissions)
@@ -32,6 +37,8 @@ class ModuleList: ObservableObject {
         self.moduleListFacade?.joinModule(moduleId: moduleId)
     }
 
+    // MARK: Subscriptions
+
     func subscribeToModules(function: @escaping ([Module]) -> Void) -> AnyCancellable {
         $modules.sink(receiveValue: function)
     }
@@ -40,11 +47,10 @@ class ModuleList: ObservableObject {
 // MARK: ModuleListFacadeDelegate
 extension ModuleList: ModuleListFacadeDelegate {
     func insert(module: Module) {
-        guard !self.modules.contains(module) else {
-            return
+        if !self.modules.contains(module) {
+            module.setModuleConnection()
+            self.modules.append(module)
         }
-        module.setModuleConnection()
-        self.modules.append(module)
     }
 
     func insertAll(modules: [Module]) {
