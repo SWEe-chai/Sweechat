@@ -34,9 +34,8 @@ class ChatRoomViewModel: ObservableObject {
     @Published var messages: [MessageViewModel] = []
 
     static func createUnavailableInstance() -> ChatRoomViewModel {
-        ChatRoomViewModel(
-            chatRoom: ChatRoom.createUnavailableInstance(),
-            user: User.createUnavailableInstance()
+        GroupChatRoomViewModel(
+            groupChatRoom: ChatRoom.createUnavailableInstance()
         )
     }
     @Published var earlyLoadedMessages: [MessageViewModel] = []

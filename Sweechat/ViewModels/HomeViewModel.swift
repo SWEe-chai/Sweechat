@@ -33,11 +33,13 @@ class HomeViewModel: ObservableObject {
         }
         let moduleListSubscriber = moduleList.subscribeToModules { modules in
             self.moduleViewModels = modules.map {
-                ModuleViewModel(
+                let moduleViewModel = ModuleViewModel(
                     module: $0,
                     user: self.user,
                     notificationMetadata: self.notificationMetadata
                 )
+                moduleViewModel.delegate = self
+                return moduleViewModel
             }
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
