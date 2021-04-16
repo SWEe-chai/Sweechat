@@ -2,19 +2,20 @@ import Combine
 import Foundation
 import os
 
-typealias UserId = String // TODO: Make use of type-safe identifiers
-
 class Message: ObservableObject {
+    let id: Identifier<Message>
     let parentId: Identifier<Message>?
-    var id: Identifier<Message>
+    let senderId: Identifier<User>
+    let receiverId: Identifier<User>
+    let type: MessageType
+    let creationTime: Date
+
     @Published var content: Data
-    var creationTime: Date
-    var senderId: Identifier<User>
-    var type: MessageType
-    var receiverId: Identifier<User>
     @Published var likers: Set<Identifier<User>>
 
-    // This message init is for creating new messages in the front end
+    // MARK: Initialization
+
+    // For creating new messages in the frontend
     init(senderId: Identifier<User>,
          content: Data,
          type: MessageType,
@@ -31,7 +32,7 @@ class Message: ObservableObject {
         self.likers = []
     }
 
-    // This message init is for facade to translate
+    // For facade translation
     init(id: Identifier<Message>,
          senderId: Identifier<User>,
          creationTime: Date,
@@ -50,11 +51,15 @@ class Message: ObservableObject {
         self.likers = likers
     }
 
+    // MARK: Copying
+
     func copy() -> Message {
         Message(id: id, senderId: senderId, creationTime: creationTime,
                 content: content, type: type, receiverId: receiverId,
                 parentId: parentId, likers: likers)
     }
+
+    // MARK: Mutation
 
     func update(message: Message) {
         self.content = message.content
@@ -72,6 +77,7 @@ class Message: ObservableObject {
     }
 
     // MARK: Subscriptions
+
     func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
         $content.sink(receiveValue: function)
     }
