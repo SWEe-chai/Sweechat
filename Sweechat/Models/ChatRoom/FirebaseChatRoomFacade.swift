@@ -311,7 +311,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let pair = FirebaseUserChatRoomModulePairFacade.convert(document: change.document) else {
+        guard let pair = FirebaseUserChatRoomModulePairAdapter.convert(document: change.document) else {
             return
         }
         FirebaseUserQuery.getUser(withId: pair.userId) { user in

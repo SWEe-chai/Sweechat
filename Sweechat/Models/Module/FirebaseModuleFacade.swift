@@ -80,7 +80,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let pairs = documents.compactMap { FirebaseUserChatRoomModulePairFacade.convert(document: $0) }
+            let pairs = documents.compactMap { FirebaseUserChatRoomModulePairAdapter.convert(document: $0) }
             FirebaseChatRoomQuery.getChatRooms(pairs: pairs, user: self.user) { chatRooms in
                 self.delegate?.insertAll(chatRooms: chatRooms)
             }
@@ -138,7 +138,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 moduleId: moduleId,
                 permissions: userPermission.permissions)
             userChatRoomModulePairsReference?
-                .addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
+                .addDocument(data: FirebaseUserChatRoomModulePairAdapter.convert(pair: pair)) { error in
                     if let e = error {
                         os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
                         return
@@ -148,7 +148,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleUserChatRoomModulePairDocumentChange(_ change: DocumentChange) {
-        guard let pair = FirebaseUserChatRoomModulePairFacade
+        guard let pair = FirebaseUserChatRoomModulePairAdapter
                 .convert(document: change.document) else {
             return
         }
