@@ -11,7 +11,10 @@ class NotificationMetadata {
     @Published var isFromNotif: Bool
     var directChatRoomId: String
     var directModuleId: String
-
+    private var defaultIsFromNotifValue = false
+    private var defaultDirectModuleIdValue = ""
+    private var defaultDirectChatRoomIdValue = ""
+    
     init(isFromNotif: Bool, directModuleId: String, directChatRoomId: String) {
         self.isFromNotif = isFromNotif
         self.directModuleId = directModuleId
@@ -19,9 +22,9 @@ class NotificationMetadata {
     }
 
     init() {
-        self.isFromNotif = false
-        self.directModuleId = ""
-        self.directChatRoomId = ""
+        self.isFromNotif = defaultIsFromNotifValue
+        self.directModuleId = defaultDirectModuleIdValue
+        self.directChatRoomId = defaultDirectChatRoomIdValue
     }
 
     func subscribeToIsFromNotif(function: @escaping (Bool) -> Void) -> AnyCancellable {
@@ -29,8 +32,8 @@ class NotificationMetadata {
     }
 
     func reset() {
-        self.isFromNotif = false
-        self.directModuleId = ""
-        self.directChatRoomId = ""
+        self.isFromNotif = defaultIsFromNotifValue
+        self.directModuleId = defaultDirectModuleIdValue
+        self.directChatRoomId = defaultDirectChatRoomIdValue
     }
 }
