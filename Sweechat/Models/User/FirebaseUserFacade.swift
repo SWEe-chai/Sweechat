@@ -1,4 +1,5 @@
 import FirebaseFirestore
+import FirebaseInstanceID
 import os
 
 class FirebaseUserFacade: UserFacade {
@@ -59,6 +60,12 @@ class FirebaseUserFacade: UserFacade {
             os_log("Error loading user: User id is empty")
             return
         }
+        if (FcmJsonStorageManager.load()) == "" {
+            os_log("No FCM token")
+        }
+        usersReference
+            .document(userId.val)
+            .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId.val)
         userListener = reference?.addSnapshotListener { querySnapshot, error in
@@ -75,14 +82,14 @@ class FirebaseUserFacade: UserFacade {
     static func convert(document: DocumentSnapshot) -> User {
         if !document.exists {
             os_log("Error: Cannot convert user, user document does not exist")
-            return User.createUnavailableUser()
+            return User.createUnavailableInstance()
         }
         let data = document.data()
         guard let idStr = data?[DatabaseConstant.User.id] as? String,
               let name = data?[DatabaseConstant.User.name] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
             os_log("Error converting data for User, data: %s", String(describing: data))
-            return User.createUnavailableUser()
+            return User.createUnavailableInstance()
         }
 
         let id = Identifier<User>(val: idStr)

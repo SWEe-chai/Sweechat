@@ -13,7 +13,7 @@ struct DatabaseConstant {
         static let dev = "star-modules"
         // Change environmentDocument as needed when working on features
         // involving a schema change
-        static let environmentDocument = dev
+        static let environmentDocument = "media-cache"
 
         static let chatRooms = "chatRooms"
         static let messages = "messages"
@@ -56,6 +56,7 @@ struct DatabaseConstant {
         static let id = "id"
         static let name = "name"
         static let profilePictureUrl = "profilePictureUrl"
+        static let token = "token"
     }
 
     struct Message {

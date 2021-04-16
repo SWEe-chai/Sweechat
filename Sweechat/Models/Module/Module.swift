@@ -9,6 +9,9 @@ import Combine
 import Foundation
 
 class Module: ObservableObject {
+    static let unavailableModuleId = Identifier<Module>("")
+    static let unavailableModuleName = "Unavailable Module"
+
     var id: Identifier<Module>
     @Published var name: String
     var profilePictureUrl: String?
@@ -24,6 +27,15 @@ class Module: ObservableObject {
     private var moduleFacade: ModuleFacade?
     var userIdsToUsers: [Identifier<User>: User] = [:]
     let currentUserPermission: ModulePermissionBitmask
+
+    static func createUnavailableInstance() -> Module {
+        Module(
+            id: unavailableModuleId,
+            name: unavailableModuleName,
+            currentUser: User.createUnavailableInstance(),
+            currentUserPermission: ModulePermissionBitmask()
+        )
+    }
 
     init(id: Identifier<Module>,
          name: String,

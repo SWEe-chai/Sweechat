@@ -3,19 +3,21 @@ import Foundation
 class LoginViewModel: ObservableObject {
     private var auth: ALAuth
     private var user: User?
+    var notificationMetadata: NotificationMetadata
 
     @Published var isLoggedIn = false
     var loginButtonViewModels: [LoginButtonViewModel] {
         auth.authHandlers.map({ LoginButtonViewModel(authHandler: $0) })
     }
     var homeViewModel: HomeViewModel {
-        let viewModel = HomeViewModel(user: getUnwrappedUser())
+        let viewModel = HomeViewModel(user: getUnwrappedUser(), notificationMetadata: notificationMetadata)
         viewModel.delegate = self
         return viewModel
     }
 
-    init() {
+    init(notificationMetadata: NotificationMetadata) {
         self.auth = ALAuth()
+        self.notificationMetadata = notificationMetadata
         auth.delegate = self
         auth.signInWithPreviousSession()
     }

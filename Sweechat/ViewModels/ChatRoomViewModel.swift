@@ -8,6 +8,7 @@ class ChatRoomViewModel: ObservableObject {
     var user: User
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
+    weak var delegate: ChatRoomViewModelDelegate?
 
     @Published var latestMessageViewModel: MessageViewModel?
     @Published var text: String
@@ -26,7 +27,17 @@ class ChatRoomViewModel: ObservableObject {
         chatRoom.isStarred
     }
 
+    var id: String {
+        chatRoom.id.val
+    }
+
     @Published var messages: [MessageViewModel] = []
+
+    static func createUnavailableInstance() -> ChatRoomViewModel {
+        GroupChatRoomViewModel(
+            groupChatRoom: ChatRoom.createUnavailableInstance()
+        )
+    }
     @Published var earlyLoadedMessages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
@@ -77,6 +88,10 @@ class ChatRoomViewModel: ObservableObject {
         subscribers.append(earlyMessagesSubscriber)
         subscribers.append(allMessagesLoadedSubscriber)
         subscribers.append(profilePictureSubscriber)
+    }
+
+    func handleChatRoomAppearance() {
+        self.delegate?.terminateNotificationResponse()
     }
 
     func loadMore() {

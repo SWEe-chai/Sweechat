@@ -6,7 +6,7 @@ struct SignalProtocol: GroupCryptographyProvider {
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
     private let keyFactory: KeyFactory
-    private let storageManager: GroupCryptographyJSONStorageManager
+    private let storageManager: GroupCryptographyJsonStorageManager
     private var privateServerKeyBundle: [String: Data] = [:]
     private var publicServerKeyBundle: [String: Data] = [:]
 
@@ -21,7 +21,7 @@ struct SignalProtocol: GroupCryptographyProvider {
     init(userId: String) {
         self.userId = userId
         self.keyFactory = P256KeyFactory()
-        self.storageManager = GroupCryptographyJSONStorageManager()
+        self.storageManager = GroupCryptographyJsonStorageManager()
         initialiseServerKeyBundles()
     }
 

@@ -37,6 +37,11 @@ struct JoinModuleView: View {
 
  struct JoinModuleView_Previews: PreviewProvider {
     static var previews: some View {
-        JoinModuleView(viewModel: HomeViewModel(user: User(id: "123")))
+        JoinModuleView(
+            viewModel: HomeViewModel(
+                user: User(id: "123"),
+                notificationMetadata: NotificationMetadata()
+            )
+        )
     }
  }
