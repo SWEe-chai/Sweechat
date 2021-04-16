@@ -111,7 +111,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     func handleEditText(_ text: String,
                         withEditedMessageViewModel editedMessageViewModel: MessageViewModel?) {
         guard let editedMessageViewModel = editedMessageViewModel else {
-            os_log("handleEditMessage called when MessageViewModel is nil")
+            os_log("handleEditText called when MessageViewModel is nil")
             return
         }
         editedMessageViewModel.message.content = text.toData()
