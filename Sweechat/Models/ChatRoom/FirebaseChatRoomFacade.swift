@@ -87,7 +87,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     return
                 }
                 let messages = snapshot.documents.compactMap({
-                    FirebaseMessageFacade.convert(document: $0)
+                    FirebaseMessageAdapter.convert(document: $0)
                 })
                 if delegate.handleKeyExchangeMessages(keyExchangeMessages: messages) {
                     onCompletion?()
@@ -109,7 +109,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 }
                 self.oldestMessageDocument = snapshot.documents.first
                 let messages = snapshot.documents.compactMap({
-                    FirebaseMessageFacade.convert(document: $0)
+                    FirebaseMessageAdapter.convert(document: $0)
                 })
                 self.delegate?.insertAll(messages: messages)
                 onCompletion?()
@@ -178,7 +178,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 }
                 self.compareAndSetOldestMessageDocument(oldestMessageDocument)
                 let messages = snapshot.documents.compactMap({
-                    FirebaseMessageFacade.convert(document: $0)
+                    FirebaseMessageAdapter.convert(document: $0)
                 })
                 onCompletion(messages)
             }
@@ -193,7 +193,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                     onCompletion(nil)
                     return
                 }
-                onCompletion(FirebaseMessageFacade.convert(document: snapshot))
+                onCompletion(FirebaseMessageAdapter.convert(document: snapshot))
             }
     }
 
@@ -211,7 +211,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 }
                 self.compareAndSetOldestMessageDocument(oldestMessageDocument)
                 let messages = snapshot.documents.compactMap({
-                    FirebaseMessageFacade.convert(document: $0)
+                    FirebaseMessageAdapter.convert(document: $0)
                 })
                 onCompletion(messages)
             }
@@ -229,7 +229,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     func save(_ message: Message) {
         messagesReference?
             .document(message.id.val)
-            .setData(FirebaseMessageFacade.convert(message: message)) { error in
+            .setData(FirebaseMessageAdapter.convert(message: message)) { error in
                 if let e = error {
                     os_log("Error sending message: \(e.localizedDescription)")
                     return
@@ -291,7 +291,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {
-        guard let message = FirebaseMessageFacade.convert(document: change.document) else {
+        guard let message = FirebaseMessageAdapter.convert(document: change.document) else {
             return
         }
         guard !message.senderId.val.isEmpty else {
