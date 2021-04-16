@@ -26,7 +26,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private var userChatRoomModulePairsFilteredQuery: Query?
     private var userChatRoomModulePairsListener: ListenerRegistration?
     private var oldestMessageDocument: QueryDocumentSnapshot?
-    private var blockSize: Int = 20
+    private var blockSize: Int = 6
 
     init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
@@ -111,7 +111,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
                 let messages = snapshot.documents.compactMap({
                     FirebaseMessageAdapter.convert(document: $0)
                 })
-                self.delegate?.insertOldMessages(messages)
+                self.delegate?.insertAll(messages)
                 onCompletion?()
             }
     }
@@ -300,7 +300,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
         switch change.type {
         case .added:
-            self.delegate?.insertNewMessage(message)
+            self.delegate?.insert(message)
         case .modified:
             self.delegate?.update(message: message)
         case .removed:

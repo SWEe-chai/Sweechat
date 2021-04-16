@@ -50,7 +50,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     }
 
     func initialiseSubscriber() {
-        let messagesSubscriber = chatRoom.subscribeToMessages { messages in
+        let messagesSubscriber = chatRoom.subscribeToMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
             let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
 
             // Deletion
@@ -70,7 +71,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
             self.latestMessageViewModel = self.messages.last
         }
-        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messages in
+        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
             self.earlyLoadedMessages = self.generateViewModels(from: messages)
         }
         let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
@@ -115,7 +117,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     // MARK: SendMessageHandler
     func handleSendText(_ text: String,
                         withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.id)
         let message = Message(senderId: user.id, content: text.toData(), type: MessageType.text,
                               receiverId: ChatRoom.allUsersId, parentId: parentId)
         self.chatRoom.storeMessage(message: message)
@@ -143,7 +145,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.id)
         self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).jpg") { url in
             let urlstring = url.absoluteString
             let message = Message(senderId: self.user.id, content: urlstring.toData(), type: MessageType.image,
@@ -160,7 +162,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             return
         }
 
-        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
+        let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.id)
         do {
             let data = try Data(contentsOf: url)
             self.chatRoom.uploadToStorage(data: data, fileName: "\(UUID().uuidString).MOV") { url in
