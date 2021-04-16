@@ -80,7 +80,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 os_log("Error loading chatRooms: \(error?.localizedDescription ?? "No error")")
                 return
             }
-            let pairs = documents.compactMap { FirebaseUserChatRoomModulePairFacade.convert(document: $0) }
+            let pairs = documents.compactMap { FirebaseUserChatRoomModulePairAdapter.convert(document: $0) }
             FirebaseChatRoomQuery.getChatRooms(pairs: pairs, user: self.user) { chatRooms in
                 self.delegate?.insertAll(chatRooms: chatRooms)
             }
@@ -124,7 +124,7 @@ class FirebaseModuleFacade: ModuleFacade {
               onCompletion: (() -> Void)?) {
         chatRoomsReference?
             .document(chatRoom.id.val)
-            .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
+            .setData(FirebaseChatRoomAdapter.convert(chatRoom: chatRoom)) { error in
                 if let e = error {
                     os_log("Error sending chatRoom: \(e.localizedDescription)")
                     return
@@ -138,7 +138,7 @@ class FirebaseModuleFacade: ModuleFacade {
                 moduleId: moduleId,
                 permissions: userPermission.permissions)
             userChatRoomModulePairsReference?
-                .addDocument(data: FirebaseUserChatRoomModulePairFacade.convert(pair: pair)) { error in
+                .addDocument(data: FirebaseUserChatRoomModulePairAdapter.convert(pair: pair)) { error in
                     if let e = error {
                         os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
                         return
@@ -148,7 +148,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleUserChatRoomModulePairDocumentChange(_ change: DocumentChange) {
-        guard let pair = FirebaseUserChatRoomModulePairFacade
+        guard let pair = FirebaseUserChatRoomModulePairAdapter
                 .convert(document: change.document) else {
             return
         }
@@ -165,7 +165,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairAdapter.convert(document: change.document) else {
             return
         }
         FirebaseUserQuery.getUser(withId: userModulePair.userId) { user in
@@ -178,39 +178,5 @@ class FirebaseModuleFacade: ModuleFacade {
                 break
             }
         }
-    }
-
-    // Since modules need to have a user, to convert, we need to have the user
-    static func convert(document: DocumentSnapshot,
-                        user: User,
-                        withPermissions permissions: ModulePermissionBitmask) -> Module? {
-        if !document.exists {
-            os_log("Error: Cannot convert module, module document does not exist")
-            return nil
-        }
-        let data = document.data()
-        guard let idStr = data?[DatabaseConstant.Module.id] as? String,
-              let name = data?[DatabaseConstant.Module.name] as? String,
-              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            os_log("Error converting data for Module, data: %s", String(describing: data))
-            return nil
-        }
-
-        let id = Identifier<Module>(val: idStr)
-        return Module(
-            id: id,
-            name: name,
-            currentUser: user,
-            currentUserPermission: permissions,
-            profilePictureUrl: profilePictureUrl
-        )
-    }
-
-    static func convert(module: Module) -> [String: Any] {
-        [
-            DatabaseConstant.Module.id: module.id.val,
-            DatabaseConstant.Module.name: module.name,
-            DatabaseConstant.Module.profilePictureUrl: module.profilePictureUrl ?? ""
-        ]
     }
 }

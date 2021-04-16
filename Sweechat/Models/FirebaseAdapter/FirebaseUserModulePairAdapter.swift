@@ -1,13 +1,14 @@
 //
-//  FirebaseUserModuleFacade.swift
+//  FirebaseUserModulePairAdapter.swift
 //  Sweechat
 //
-//  Created by Agnes Natasya on 25/3/21.
+//  Created by Christian James Welly on 16/4/21.
 //
+
 import FirebaseFirestore
 import os
 
-class FirebaseUserModulePairFacade {
+struct FirebaseUserModulePairAdapter {
     static func convert(document: DocumentSnapshot) -> FirebaseUserModulePair? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")

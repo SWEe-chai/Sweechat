@@ -1,13 +1,14 @@
 //
-//  FirebaseMessageFacade.swift
+//  FirebaseMessageAdapter.swift
 //  Sweechat
 //
-//  Created by Agnes Natasya on 19/3/21.
+//  Created by Christian James Welly on 16/4/21.
 //
+
 import FirebaseFirestore
 import os
 
-class FirebaseMessageFacade {
+struct FirebaseMessageAdapter {
     static func convert(document: DocumentSnapshot) -> Message? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
