@@ -48,7 +48,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
                                               moduleId: moduleId,
                                               permissions: permissions)
             self.userModulePairsReference?.addDocument(
-                data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
+                data: FirebaseUserModulePairAdapter.convert(pair: pair)) { error in
                 if let e = error {
                     os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
                     return
@@ -73,7 +73,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
                 return
             }
             let modulePairs = documents.compactMap {
-                FirebaseUserModulePairFacade.convert(document: $0)
+                FirebaseUserModulePairAdapter.convert(document: $0)
             }
             FirebaseModuleQuery.getModules(pairs: modulePairs, user: self.user) { modules in
                 self.delegate?.insertAll(modules: modules)
@@ -99,7 +99,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
         let id = randomString(length: 8)
         module.id = Identifier<Module>(val: id)
 
-        modulesReference?.document(module.id.val).setData(FirebaseModuleFacade.convert(module: module)) { error in
+        modulesReference?.document(module.id.val).setData(FirebaseModuleAdapter.convert(module: module)) { error in
             if let e = error {
                 os_log("Error sending message: \(e.localizedDescription)")
                 return
@@ -110,7 +110,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
             let pair = FirebaseUserModulePair(userId: userModulePermission.userId,
                                               moduleId: module.id,
                                               permissions: userModulePermission.permissions)
-            userModulePairsReference?.addDocument(data: FirebaseUserModulePairFacade.convert(pair: pair)) { error in
+            userModulePairsReference?.addDocument(data: FirebaseUserModulePairAdapter.convert(pair: pair)) { error in
                 if let e = error {
                     os_log("Error sending userChatRoomPair: \(e.localizedDescription)")
                     return
@@ -125,7 +125,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairAdapter.convert(document: change.document) else {
             return
         }
         FirebaseModuleQuery.getModule(pair: userModulePair, user: user) { module in

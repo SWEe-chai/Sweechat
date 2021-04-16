@@ -51,7 +51,7 @@ class FirebaseChatRoomQuery {
                             os_log("ChatRoomQuery: Unable extract chatRoomId from \(document) or pair not in \(pairs)")
                             return nil
                         }
-                        return FirebaseChatRoomFacade.convert(
+                        return FirebaseChatRoomAdapter.convert(
                             document: document,
                             user: user,
                             withPermissions: pair.permissions)

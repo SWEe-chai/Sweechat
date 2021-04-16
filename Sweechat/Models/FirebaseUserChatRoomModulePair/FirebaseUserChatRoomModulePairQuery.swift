@@ -16,7 +16,7 @@ class FirebaseUserChatRoomModulePairQuery {
                     return
                 }
                 let pairs: [FirebaseUserChatRoomModulePair] = documents.compactMap {
-                    FirebaseUserChatRoomModulePairFacade
+                    FirebaseUserChatRoomModulePairAdapter
                         .convert(document: $0)
                 }
                 onCompletion(pairs)
@@ -35,7 +35,7 @@ class FirebaseUserChatRoomModulePairQuery {
                     os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                     return
                 }
-                let pair: FirebaseUserChatRoomModulePair? = FirebaseUserChatRoomModulePairFacade
+                let pair: FirebaseUserChatRoomModulePair? = FirebaseUserChatRoomModulePairAdapter
                     .convert(document: document)
                 onCompletion(pair)
             }
