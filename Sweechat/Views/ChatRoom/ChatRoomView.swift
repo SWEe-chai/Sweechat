@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChatRoomView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
+    @Binding var isNavigationBarHidden: Bool
     @State var parentPreviewMetadata: ParentPreviewMetadata?
 
     var body: some View {
@@ -12,6 +13,11 @@ struct ChatRoomView: View {
                                 isShowingParentPreview: true,
                                 parentPreviewMetadata: $parentPreviewMetadata)
         }
+        .onAppear {
+            viewModel.handleChatRoomAppearance()
+            isNavigationBarHidden = false
+        }
+        .navigationBarHidden(isNavigationBarHidden)
         .background(ColorConstant.base)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
@@ -30,6 +36,9 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    currentUserPermission: ChatRoomPermission.readWrite,
                                    isStarred: false),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
+            ), isNavigationBarHidden: Binding<Bool>(
+                get: { true },
+                set: { _ in }
             )
         )
     }

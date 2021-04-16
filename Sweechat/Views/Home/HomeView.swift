@@ -3,9 +3,11 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isShowingCreateView: Bool = false
+    @State var isDirectModuleLoaded = false
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
+        self.isDirectModuleLoaded = false
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
@@ -31,13 +33,24 @@ struct HomeView: View {
                                 .padding(.horizontal)
                         }
                         ScrollView(showsIndicators: false) {
-                            ForEach(Array(viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                            ForEach(
+                                Array(
+                                    viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
                                 ModuleItemView(viewModel: moduleViewModel, index: index)
                             }
                             .padding()
                         }
                         .padding(.top, 3)
                     }
+                    NavigationLink(
+                        "",
+                        destination: LazyNavView(
+                            ModuleView(viewModel: viewModel.directModuleViewModel)
+                        ),
+                        isActive: $viewModel.isDirectModuleLoaded
+                    )
+
+                    .hidden()
 
                     Spacer()
                 }
@@ -62,7 +75,8 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(
             viewModel: HomeViewModel(
-                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1")
+                user: User(id: "8S781SDacTRSBYFQICIHxOS4sin1"),
+                notificationMetadata: NotificationMetadata()
             )
         )
     }

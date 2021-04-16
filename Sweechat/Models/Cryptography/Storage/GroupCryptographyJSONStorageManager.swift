@@ -1,6 +1,6 @@
 import Foundation
 
-struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
+struct GroupCryptographyJsonStorageManager: GroupCryptographyStorageManager {
     private let jsonEncoder = JSONEncoder()
     private let jsonDecoder = JSONDecoder()
     private let serverKeyBundlesFileNameFormat = "%@_serverKeyBundles"
@@ -9,7 +9,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
 
     func save(userId: String, privateServerKeyBundle: [String: Data], publicServerKeyBundle: [String: Data]) throws {
         let bundleArray = [privateServerKeyBundle, publicServerKeyBundle]
-        let url = getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
 
         guard let bundleArrayData = try? jsonEncoder.encode(bundleArray) else {
             throw SignalProtocolError(message: "Unable to encode key bundle for saving")
@@ -23,7 +23,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
     }
 
     func loadServerKeyBundles(userId: String) throws -> ([String: Data], [String: Data])? {
-        let url = getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
 
         guard let bundleArrayData = try? Data(contentsOf: url) else {
             // Cannot find save file
@@ -38,7 +38,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
     }
 
     func save(chainKeyData: Data, userId: String, groupId: String) throws {
-        let url = getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
 
         do {
             try chainKeyData.write(to: url)
@@ -48,7 +48,7 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
     }
 
     func loadChainKeyData(userId: String, groupId: String) throws -> Data {
-        let url = getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
 
         guard let chainKeyData = try? Data(contentsOf: url) else {
             // Cannot find save file
@@ -56,10 +56,5 @@ struct GroupCryptographyJSONStorageManager: GroupCryptographyStorageManager {
         }
 
         return chainKeyData
-    }
-
-    private func getFileURL(from name: String, with fileExtension: String) -> URL {
-        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return directory.appendingPathComponent(name).appendingPathExtension(fileExtension)
     }
 }

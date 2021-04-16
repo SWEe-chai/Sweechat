@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		27061E09261780B600777AB3 /* CreateChatRoomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27061E08261780B600777AB3 /* CreateChatRoomToolbarView.swift */; };
-		2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */; };
 		271C3DE026020E6100E2BCAA /* ALLoginDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */; };
 		271CA0842612045300695F17 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CA0832612045300695F17 /* HomeView.swift */; };
 		2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726AF25261E058E00F22CC4 /* Persistence.swift */; };
@@ -142,7 +141,7 @@
 		45A255C02626E3D800D697A6 /* LikeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A255BF2626E3D800D697A6 /* LikeButtonView.swift */; };
 		45A255CD26275A0F00D697A6 /* MostPopularThreadMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A255CC26275A0F00D697A6 /* MostPopularThreadMessageView.swift */; };
 		45A5824F2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */; };
-		45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */; };
+		45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJsonStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJsonStorageManager.swift */; };
 		45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333225FDE3A900C94D4F /* AppViewModel.swift */; };
 		45D6333925FDE43F00C94D4F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6333825FDE43F00C94D4F /* AppState.swift */; };
 		45D6336025FDFF9500C94D4F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */; };
@@ -154,6 +153,13 @@
 		45D633B025FE151F00C94D4F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */; };
 		45D633B525FE154100C94D4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D633B425FE154100C94D4F /* SettingsView.swift */; };
 		76A5D4FC134E902BF469689E /* Pods_Sweechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */; };
+		770C51F02628837600920C9F /* ModuleViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */; };
+		77237AE92625C3FC00FA57B9 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */; };
+		77237AEF2625C9EC00FA57B9 /* NotificationConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */; };
+		7726FBC72621BF9B0076F9C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */; };
+		7726FBE62622C2B80076F9C1 /* FcmStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7726FBE52622C2B80076F9C1 /* FcmStorageManager.swift */; };
+		7726FBEB2622C2CF0076F9C1 /* FcmJsonStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7726FBEA2622C2CF0076F9C1 /* FcmJsonStorageManager.swift */; };
+		7726FBF42622C5CC0076F9C1 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7726FBF32622C5CC0076F9C1 /* StorageManager.swift */; };
 		772BCFBB2615D8CF00D172BF /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772BCFBA2615D8CF00D172BF /* CanvasView.swift */; };
 		77394B62260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394B61260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift */; };
 		77394B6D260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */; };
@@ -187,6 +193,9 @@
 		77C5D08626103403005D5504 /* MemberItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D08526103403005D5504 /* MemberItemViewModel.swift */; };
 		77C5D08B261034C3005D5504 /* MemberItemSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D08A261034C3005D5504 /* MemberItemSelectView.swift */; };
 		77C5D0BC26103BD9005D5504 /* ChatRoomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */; };
+		77D058952626EC9A00DE6AED /* NotificationMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058942626EC9A00DE6AED /* NotificationMetadata.swift */; };
+		77D058C52627609900DE6AED /* AsyncHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058C42627609900DE6AED /* AsyncHelper.swift */; };
+		77D058CB26276E1000DE6AED /* ChatRoomViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */; };
 		77F4F11726188129003CD601 /* ColorConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F11626188128003CD601 /* ColorConstant.swift */; };
 		77F4F14A26189E3C003CD601 /* ModuleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4F14926189E3C003CD601 /* ModuleItemView.swift */; };
 		77F4F1522618A727003CD601 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */; };
@@ -225,9 +234,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		772417CF2623E16E00A5E422 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		27061E08261780B600777AB3 /* CreateChatRoomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatRoomToolbarView.swift; sourceTree = "<group>"; };
-		2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		271C3DDF26020E6100E2BCAA /* ALLoginDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALLoginDetails.swift; sourceTree = "<group>"; };
 		271CA0832612045300695F17 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2726AF25261E058E00F22CC4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -361,7 +382,7 @@
 		45A255BF2626E3D800D697A6 /* LikeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButtonView.swift; sourceTree = "<group>"; };
 		45A255CC26275A0F00D697A6 /* MostPopularThreadMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostPopularThreadMessageView.swift; sourceTree = "<group>"; };
 		45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyStorageManager.swift; sourceTree = "<group>"; };
-		45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyJSONStorageManager.swift; sourceTree = "<group>"; };
+		45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJsonStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCryptographyJsonStorageManager.swift; sourceTree = "<group>"; };
 		45D6333225FDE3A900C94D4F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		45D6333825FDE43F00C94D4F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -372,6 +393,14 @@
 		45D6339025FE0B3400C94D4F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		45D633B425FE154100C94D4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewModelDelegate.swift; sourceTree = "<group>"; };
+		77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
+		77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConstant.swift; sourceTree = "<group>"; };
+		772417632622E47900A5E422 /* Sweechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sweechat.entitlements; sourceTree = "<group>"; };
+		7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7726FBE52622C2B80076F9C1 /* FcmStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FcmStorageManager.swift; sourceTree = "<group>"; };
+		7726FBEA2622C2CF0076F9C1 /* FcmJsonStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FcmJsonStorageManager.swift; sourceTree = "<group>"; };
+		7726FBF32622C5CC0076F9C1 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		772BCFBA2615D8CF00D172BF /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		77394B61260C44300068B01F /* FirebaseUserChatRoomModulePairFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserChatRoomModulePairFacade.swift; sourceTree = "<group>"; };
 		77394B6C260C44AC0068B01F /* FirebaseUserChatRoomModulePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserChatRoomModulePair.swift; sourceTree = "<group>"; };
@@ -411,6 +440,9 @@
 		77C5D08526103403005D5504 /* MemberItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemViewModel.swift; sourceTree = "<group>"; };
 		77C5D08A261034C3005D5504 /* MemberItemSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberItemSelectView.swift; sourceTree = "<group>"; };
 		77C5D0BB26103BD9005D5504 /* ChatRoomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomItemView.swift; sourceTree = "<group>"; };
+		77D058942626EC9A00DE6AED /* NotificationMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationMetadata.swift; sourceTree = "<group>"; };
+		77D058C42627609900DE6AED /* AsyncHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncHelper.swift; sourceTree = "<group>"; };
+		77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelDelegate.swift; sourceTree = "<group>"; };
 		77F4F11626188128003CD601 /* ColorConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstant.swift; sourceTree = "<group>"; };
 		77F4F14926189E3C003CD601 /* ModuleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleItemView.swift; sourceTree = "<group>"; };
 		77F4F14F2618A726003CD601 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -430,8 +462,11 @@
 		77F4F19F26196E0A003CD601 /* LemonMilk-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Bold.otf"; sourceTree = "<group>"; };
 		77F4F1A026196E0A003CD601 /* LemonMilk-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LemonMilk-Regular.otf"; sourceTree = "<group>"; };
 		77F4F1DB2619B333003CD601 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		8C74D97A485DC288A58E95FD /* Pods-NotificationServices.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServices.debug.xcconfig"; path = "Target Support Files/Pods-NotificationServices/Pods-NotificationServices.debug.xcconfig"; sourceTree = "<group>"; };
 		9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.debug.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.debug.xcconfig"; sourceTree = "<group>"; };
 		A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sweechat.release.xcconfig"; path = "Target Support Files/Pods-Sweechat/Pods-Sweechat.release.xcconfig"; sourceTree = "<group>"; };
+		A36942365482352E5F6B380F /* Pods_NotificationServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E81CB88C3453705DB5491C42 /* Pods-NotificationServices.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationServices.release.xcconfig"; path = "Target Support Files/Pods-NotificationServices/Pods-NotificationServices.release.xcconfig"; sourceTree = "<group>"; };
 		FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sweechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -480,6 +515,8 @@
 				272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */,
 				4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */,
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
+				77D058CA26276E1000DE6AED /* ChatRoomViewModelDelegate.swift */,
+				770C51EF2628837600920C9F /* ModuleViewModelDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -616,6 +653,7 @@
 				3ED4FBB92606260900ADA24A /* StateConstant.swift */,
 				77F4F11626188128003CD601 /* ColorConstant.swift */,
 				77F4F1582618A7C1003CD601 /* FontConstant.swift */,
+				77237AEE2625C9EC00FA57B9 /* NotificationConstant.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -683,6 +721,7 @@
 			isa = PBXGroup;
 			children = (
 				FA6DF6279507ACD2ACCA6657 /* Pods_Sweechat.framework */,
+				A36942365482352E5F6B380F /* Pods_NotificationServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -824,7 +863,7 @@
 			isa = PBXGroup;
 			children = (
 				45A5824E2616BCA900D5DDD7 /* GroupCryptographyStorageManager.swift */,
-				45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift */,
+				45A5825C2616BEEF00D5DDD7 /* GroupCryptographyJsonStorageManager.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -855,9 +894,9 @@
 				45D6333225FDE3A900C94D4F /* AppViewModel.swift */,
 				45D6335F25FDFF9500C94D4F /* RegistrationViewModel.swift */,
 				45D6338025FE07C200C94D4F /* ChatRoomViewModel.swift */,
-				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
-				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
 				45D633AF25FE151F00C94D4F /* SettingsViewModel.swift */,
+				45D6339025FE0B3400C94D4F /* HomeViewModel.swift */,
+				3E47F82125FE0E9E00861721 /* ModuleViewModel.swift */,
 				77C5D08526103403005D5504 /* MemberItemViewModel.swift */,
 				2777FAE0260C7C6700961FAF /* ChatRoomViewModelType.swift */,
 				279ECCE4261304D300CBFFEB /* CreateChatRoomViewModel.swift */,
@@ -869,6 +908,7 @@
 		45D6332425FDE2B100C94D4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7726FBCB2622C19B0076F9C1 /* Notification */,
 				276476B12622A44D0074786E /* Extensions */,
 				45834C3226106C8200B888B5 /* Cryptography */,
 				77394BF1260D95590068B01F /* ModuleList */,
@@ -892,6 +932,7 @@
 				27D2362026205F1E00116F13 /* LocalFileViewModel.swift */,
 				3E5989DC2622D974000DE14F /* Identifier.swift */,
 				3E598A9426240A42000DE14F /* IdentifierConverter.swift */,
+				77D058C42627609900DE6AED /* AsyncHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -901,8 +942,45 @@
 			children = (
 				9A558504DBAB8F6B215C51D4 /* Pods-Sweechat.debug.xcconfig */,
 				A3571C2B6EC039D6983CB31F /* Pods-Sweechat.release.xcconfig */,
+				8C74D97A485DC288A58E95FD /* Pods-NotificationServices.debug.xcconfig */,
+				E81CB88C3453705DB5491C42 /* Pods-NotificationServices.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		77237AE72625C3EE00FA57B9 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				77237AE82625C3FC00FA57B9 /* NotificationHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		7726FBCB2622C19B0076F9C1 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				77D058932626EC8B00DE6AED /* Metadata */,
+				77237AE72625C3EE00FA57B9 /* Handlers */,
+				7726FBCC2622C1A40076F9C1 /* Storage */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		7726FBCC2622C1A40076F9C1 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				7726FBE52622C2B80076F9C1 /* FcmStorageManager.swift */,
+				7726FBEA2622C2CF0076F9C1 /* FcmJsonStorageManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		7726FBF22622C5BE0076F9C1 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				7726FBF32622C5CC0076F9C1 /* StorageManager.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		77394BE1260D947D0068B01F /* FirebaseUserModulePair */ = {
@@ -975,6 +1053,8 @@
 		778F08B525FDDA420059C2A0 /* Sweechat */ = {
 			isa = PBXGroup;
 			children = (
+				772417632622E47900A5E422 /* Sweechat.entitlements */,
+				7726FBF22622C5BE0076F9C1 /* Storage */,
 				2726AF24261E056C00F22CC4 /* Persistence */,
 				77F4F14E2618A707003CD601 /* Fonts */,
 				3E591C4D26008B8200226DC2 /* Constants */,
@@ -987,7 +1067,7 @@
 				778F08BF25FDDA470059C2A0 /* Assets.xcassets */,
 				778F08C425FDDA470059C2A0 /* LaunchScreen.storyboard */,
 				778F08C725FDDA470059C2A0 /* Info.plist */,
-				2709F99325FE1AE30068D2C0 /* GoogleService-Info.plist */,
+				7726FBC62621BF9B0076F9C1 /* GoogleService-Info.plist */,
 				778F08BC25FDDA420059C2A0 /* Sweechat.xcdatamodeld */,
 				778F08C125FDDA470059C2A0 /* Preview Content */,
 			);
@@ -1069,6 +1149,14 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		77D058932626EC8B00DE6AED /* Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				77D058942626EC9A00DE6AED /* NotificationMetadata.swift */,
+			);
+			path = Metadata;
+			sourceTree = "<group>";
+		};
 		77F4F14E2618A707003CD601 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1104,6 +1192,7 @@
 				45D633A525FE0D1B00C94D4F /* ShellScript */,
 				A3448E1F0CEDA9C08DD14525 /* [CP] Embed Pods Frameworks */,
 				7FDD8C0D7E6143D8139C0A61 /* [CP] Copy Pods Resources */,
+				772417CF2623E16E00A5E422 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1208,9 +1297,9 @@
 				77F4F16F2618CA91003CD601 /* Inter-Regular.ttf in Resources */,
 				77F4F1642618C987003CD601 /* OpenSans-LightItalic.ttf in Resources */,
 				77F4F1702618CA91003CD601 /* Inter-Thin.ttf in Resources */,
+				7726FBC72621BF9B0076F9C1 /* GoogleService-Info.plist in Resources */,
 				77F4F1662618C987003CD601 /* OpenSans-Light.ttf in Resources */,
 				77F4F1712618CA91003CD601 /* Inter-Bold.ttf in Resources */,
-				2709F99425FE1AE30068D2C0 /* GoogleService-Info.plist in Resources */,
 				77F4F1A126196E0B003CD601 /* LemonMilk-Bold.otf in Resources */,
 				77F4F1632618C987003CD601 /* OpenSans-Bold.ttf in Resources */,
 				77F4F1622618C987003CD601 /* OpenSans-Regular.ttf in Resources */,
@@ -1321,6 +1410,7 @@
 				27A61A6426046ACF00226600 /* UserFacade.swift in Sources */,
 				27A2D936261EDF3F00267C7D /* ChatRoomMediaCache.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
+				7726FBE62622C2B80076F9C1 /* FcmStorageManager.swift in Sources */,
 				2781D0892624876700B9F5E9 /* ScrollViewOffset.swift in Sources */,
 				2777FAE1260C7C6700961FAF /* ChatRoomViewModelType.swift in Sources */,
 				3E74E0A826106F3400CB344E /* MessageContentType.swift in Sources */,
@@ -1354,6 +1444,7 @@
 				775B92372605007E0040B985 /* FirebaseChatRoomFacade.swift in Sources */,
 				3EC8C19B261734F3008672C4 /* ParentPreviewView.swift in Sources */,
 				3E74E09A2610591100CB344E /* MessageView.swift in Sources */,
+				7726FBEB2622C2CF0076F9C1 /* FcmJsonStorageManager.swift in Sources */,
 				45D6333325FDE3A900C94D4F /* AppViewModel.swift in Sources */,
 				279DD1DA26172293001E4B37 /* ForumChatRoomViewModel.swift in Sources */,
 				3EA4BD4726206A7D008C21C8 /* StoredImageData+CoreDataClass.swift in Sources */,
@@ -1366,6 +1457,7 @@
 				2777FADC260C771D00961FAF /* ChatRoomViewFactory.swift in Sources */,
 				27EADD492621F0AE00E4CC9C /* ThreadChatRoom.swift in Sources */,
 				3EB99D4625FDFD1100861D74 /* ChatRoom.swift in Sources */,
+				7726FBF42622C5CC0076F9C1 /* StorageManager.swift in Sources */,
 				775CA64A260B49D90012C420 /* Module.swift in Sources */,
 				278DBCA82612052800AA1018 /* ModuleView.swift in Sources */,
 				775CA65F260B4B0E0012C420 /* ModuleFacade.swift in Sources */,
@@ -1373,6 +1465,7 @@
 				77F4F11726188129003CD601 /* ColorConstant.swift in Sources */,
 				27598E3C2615C0AB00DF564F /* MessagesScrollView.swift in Sources */,
 				279DD1C726172124001E4B37 /* ChatRoomViewModelFactory.swift in Sources */,
+				77237AE92625C3FC00FA57B9 /* NotificationHandler.swift in Sources */,
 				272AA9682610D22700584D84 /* HomeViewModelDelegate.swift in Sources */,
 				279DD1BA26170A5F001E4B37 /* ForumChatRoom.swift in Sources */,
 				77F4F1842618D3DF003CD601 /* ModuleOperationToggleStyle.swift in Sources */,
@@ -1394,6 +1487,7 @@
 				775B923C260500880040B985 /* ChatRoomFacadeDelegate.swift in Sources */,
 				27A61A7E26047D5800226600 /* ALConstants.swift in Sources */,
 				3E20EAF4261CB18B0060E4C4 /* ModulePermission.swift in Sources */,
+				77237AEF2625C9EC00FA57B9 /* NotificationConstant.swift in Sources */,
 				3E20EAF9261CB8C70060E4C4 /* UserModulePermissionPair.swift in Sources */,
 				27A2D994261F65ED00267C7D /* ImageDataViewModel.swift in Sources */,
 				775B92172604F8710040B985 /* FirebaseMessageFacade.swift in Sources */,
@@ -1422,6 +1516,8 @@
 				4583D9942616055B0092AF87 /* GroupCryptographyProvider.swift in Sources */,
 				279DD1BF261718CE001E4B37 /* CreateForumView.swift in Sources */,
 				279CBAB6260A3248009A139C /* LoginButtonViewModel.swift in Sources */,
+				77D058C52627609900DE6AED /* AsyncHelper.swift in Sources */,
+				77D058952626EC9A00DE6AED /* NotificationMetadata.swift in Sources */,
 				3E7EBBAF2610418B00D276AE /* MessageContentViewFactory.swift in Sources */,
 				4583D9902616055B0092AF87 /* KeyFactory.swift in Sources */,
 				45D6338125FE07C200C94D4F /* ChatRoomViewModel.swift in Sources */,
@@ -1461,12 +1557,14 @@
 				4583D9992616055B0092AF87 /* P256SharedKey.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
 				279503DF2605D55D00D3B743 /* TextMessageContentView.swift in Sources */,
+				770C51F02628837600920C9F /* ModuleViewModelDelegate.swift in Sources */,
 				77394BFE260D96440068B01F /* FirebaseModuleListFacade.swift in Sources */,
 				271CA0842612045300695F17 /* HomeView.swift in Sources */,
 				4583D9982616055B0092AF87 /* PrivateKey.swift in Sources */,
 				2726AF26261E058E00F22CC4 /* Persistence.swift in Sources */,
 				4575A8292621D6D400B144A5 /* MessageActionsViewModelDelegate.swift in Sources */,
 				775CA65A260B4AF30012C420 /* FirebaseModuleFacade.swift in Sources */,
+				77D058CB26276E1000DE6AED /* ChatRoomViewModelDelegate.swift in Sources */,
 				45D6337425FE020000C94D4F /* LoginViewModel.swift in Sources */,
 				4583D9962616055B0092AF87 /* P256PublicKey.swift in Sources */,
 				279CBAB1260A321F009A139C /* LoginButtonView.swift in Sources */,
@@ -1476,7 +1574,7 @@
 				2787975A2601E24600124FA3 /* ALAuth.swift in Sources */,
 				3EC8C19326173243008672C4 /* View+Border.swift in Sources */,
 				278797582601E24600124FA3 /* ALAuthHandler.swift in Sources */,
-				45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJSONStorageManager.swift in Sources */,
+				45A5825D2616BEEF00D5DDD7 /* GroupCryptographyJsonStorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1664,18 +1762,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Sweechat/Preview Content\"";
-				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				DEVELOPMENT_TEAM = W76H98A34A;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sweechat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CS3217.Sweechat;
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.2021.Sweechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1687,18 +1788,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sweechat/Sweechat.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Sweechat/Preview Content\"";
-				DEVELOPMENT_TEAM = 54UB6V8Z9Y;
+				DEVELOPMENT_TEAM = W76H98A34A;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sweechat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = CS3217.Sweechat;
+				PRODUCT_BUNDLE_IDENTIFIER = CS3217.2021.Sweechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

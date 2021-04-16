@@ -3,6 +3,7 @@ import SwiftUI
 struct ModuleInformation: View {
     @ObservedObject var viewModel: ModuleViewModel
     @State var copied: Bool = false
+    @Binding var isNavigationBarHidden: Bool
 
     var body: some View {
         VStack {
@@ -22,6 +23,8 @@ struct ModuleInformation: View {
                 Text("Module Secret has been copied to clipboard!").font(.caption)
             }
         }
+        .onAppear { isNavigationBarHidden = false }
+        .navigationBarHidden(isNavigationBarHidden)
         .navigationBarHidden(false)
         .navigationTitle("Module Information")
     }
@@ -32,7 +35,15 @@ struct ModuleInformation_Previews: PreviewProvider {
         ModuleInformation(
             viewModel:
                 ModuleViewModel(
-                    module: Module(id: "1", name: "Name", currentUser: User(id: "1"), currentUserPermission: ModulePermission.moduleOwner),
-                    user: User(id: "2", name: "Name")))
+                    module: Module(
+                        id: "1",
+                        name: "Name",
+                        currentUser: User(id: "1"),
+                        currentUserPermission: ModulePermission.moduleOwner
+                    ),
+                    user: User(id: "2", name: "Name"),
+                    notificationMetadata: NotificationMetadata()
+                ), isNavigationBarHidden: .constant(false)
+        )
     }
 }

@@ -15,7 +15,9 @@ class ChatRoomMediaCache {
     private func fillImageCache() {
         do {
             let itemDatas = try Persistence.shared().context
-                .fetch(StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId.val, limitSize: cacheSizeLimitInBytes))
+                .fetch(
+                    StoredImageData.fetchItemsInChatRoom(chatRoomId: chatRoomId.val, limitSize: cacheSizeLimitInBytes)
+                )
             for itemData in itemDatas {
                 guard let urlString = itemData.urlString,
                       let data = itemData.data else {
