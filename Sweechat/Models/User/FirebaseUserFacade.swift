@@ -40,7 +40,7 @@ class FirebaseUserFacade: UserFacade {
         self.usersReference
             .document(user.id.val)
             .setData(
-                FirebaseUserFacade
+                FirebaseUserAdapter
                     .convert(user: user), completion: { _ in
                         self.setUpConnectionAsUser()
                     }
@@ -51,7 +51,7 @@ class FirebaseUserFacade: UserFacade {
         if let publicKeyBundleData = user.getPublicKeyBundleData() {
             self.publicKeyBundlesReference
                 .document(user.id.val)
-                .setData(FirebaseUserFacade.convert(userId: user.id, publicKeyBundleData: publicKeyBundleData))
+                .setData(FirebaseUserAdapter.convert(userId: user.id, publicKeyBundleData: publicKeyBundleData))
         }
     }
 
@@ -74,44 +74,8 @@ class FirebaseUserFacade: UserFacade {
                 return
             }
             self.delegate?.update(
-                user: FirebaseUserFacade.convert(document: snapshot)
+                user: FirebaseUserAdapter.convert(document: snapshot)
             )
         }
-    }
-
-    static func convert(document: DocumentSnapshot) -> User {
-        if !document.exists {
-            os_log("Error: Cannot convert user, user document does not exist")
-            return User.createUnavailableInstance()
-        }
-        let data = document.data()
-        guard let idStr = data?[DatabaseConstant.User.id] as? String,
-              let name = data?[DatabaseConstant.User.name] as? String,
-              let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String else {
-            os_log("Error converting data for User, data: %s", String(describing: data))
-            return User.createUnavailableInstance()
-        }
-
-        let id = Identifier<User>(val: idStr)
-        return User(
-            id: id,
-            name: name,
-            profilePictureUrl: profilePictureUrl
-        )
-    }
-
-    static func convert(user: User) -> [String: Any] {
-        [
-            DatabaseConstant.User.id: user.id.val,
-            DatabaseConstant.User.name: user.name,
-            DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
-        ]
-    }
-
-    static func convert(userId: Identifier<User>, publicKeyBundleData: Data) -> [String: Any] {
-        [
-            DatabaseConstant.PublicKeyBundle.userId: userId.val,
-            DatabaseConstant.PublicKeyBundle.bundleData: publicKeyBundleData
-        ]
     }
 }

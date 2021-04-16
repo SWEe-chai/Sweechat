@@ -30,7 +30,7 @@ class FirebaseUserQuery {
                         return
                     }
                     let users: [User] = documents.compactMap {
-                        FirebaseUserFacade.convert(document: $0)
+                        FirebaseUserAdapter.convert(document: $0)
                     }
                     onCompletion(users)
                 }
