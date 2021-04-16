@@ -124,7 +124,7 @@ class FirebaseModuleFacade: ModuleFacade {
               onCompletion: (() -> Void)?) {
         chatRoomsReference?
             .document(chatRoom.id.val)
-            .setData(FirebaseChatRoomFacade.convert(chatRoom: chatRoom)) { error in
+            .setData(FirebaseChatRoomAdapter.convert(chatRoom: chatRoom)) { error in
                 if let e = error {
                     os_log("Error sending chatRoom: \(e.localizedDescription)")
                     return
