@@ -165,7 +165,7 @@ class FirebaseModuleFacade: ModuleFacade {
     }
 
     private func handleUserModulePairDocumentChange(_ change: DocumentChange) {
-        guard let userModulePair = FirebaseUserModulePairFacade.convert(document: change.document) else {
+        guard let userModulePair = FirebaseUserModulePairAdapter.convert(document: change.document) else {
             return
         }
         FirebaseUserQuery.getUser(withId: userModulePair.userId) { user in

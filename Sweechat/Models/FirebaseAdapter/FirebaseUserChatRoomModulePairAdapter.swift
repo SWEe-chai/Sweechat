@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import os
 
-class FirebaseUserChatRoomModulePairAdapter {
+struct FirebaseUserChatRoomModulePairAdapter {
     static func convert(document: DocumentSnapshot) -> FirebaseUserChatRoomModulePair? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
