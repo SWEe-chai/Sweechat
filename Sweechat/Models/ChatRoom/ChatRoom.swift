@@ -8,8 +8,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     @Published var profilePictureUrl: String?
     let ownerId: Identifier<User>
     var currentUser: User
-    @Published var earlyLoadedMessages: Set<Message> = []
-    @Published var messages: [Message]
+    @Published var earlyLoadedMessages: [Identifier<Message>: Message] = [:]
+    @Published var messages: [Identifier<Message>: Message] = [:]
     @Published var areAllMessagesLoaded: Bool = false
     private var chatRoomFacade: ChatRoomFacade?
     let currentUserPermission: ChatRoomPermissionBitmask
@@ -41,7 +41,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.ownerId = ownerId
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
-        self.messages = []
         self.currentUserPermission = currentUserPermission
         self.isStarred = isStarred
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
@@ -61,7 +60,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.ownerId = currentUser.id
         self.currentUser = currentUser
         self.profilePictureUrl = profilePictureUrl
-        self.messages = []
         self.currentUserPermission = currentUserPermission
         self.isStarred = isStarred
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
@@ -107,6 +105,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     func loadMore() {
         chatRoomFacade?.loadNextBlock { messages in
+            if messages.isEmpty {
+                self.areAllMessagesLoaded = true
+            }
             self.insertAll(messages: messages)
         }
     }
@@ -121,11 +122,11 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
     }
 
-    func subscribeToMessages(function: @escaping ([Message]) -> Void) -> AnyCancellable {
+    func subscribeToMessages(function: @escaping ([Identifier<Message>: Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
     }
 
-    func subscribeToEarlyLoadedMessages(function: @escaping (Set<Message>) -> Void) -> AnyCancellable {
+    func subscribeToEarlyLoadedMessages(function: @escaping ([Identifier<Message>: Message]) -> Void) -> AnyCancellable {
         $earlyLoadedMessages.sink(receiveValue: function)
     }
 
@@ -143,42 +144,21 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: ChatRoomFacadeDelegate
     func insert(message: Message) {
-        if self.messages.contains(message) {
+        if self.messages[message.id] != nil {
             return
         }
-
-        if let parentId = message.parentId {
+        processMessage(message)
+        if let parentId = message.parentId,
+           self.messages[parentId] == nil,
+           self.earlyLoadedMessages[parentId] == nil {
             loadParentMessage(parentId: parentId)
         }
-        if earlyLoadedMessages.contains(message) {
-            earlyLoadedMessages.remove(message)
-        }
-        processMessage(message)
-        self.messages.append(message)
-        self.messages.sort()
+        self.earlyLoadedMessages.removeValue(forKey: message.id)
+        self.messages[message.id] = message
     }
 
     func insertAll(messages: [Message]) {
-        if messages.isEmpty {
-            areAllMessagesLoaded = true
-            return
-        }
-
-        let newMessages = messages
-            .filter { !self.messages.contains($0) }
-
-        for message in newMessages {
-            if earlyLoadedMessages.contains(message) {
-                earlyLoadedMessages.remove(message)
-            }
-            processMessage(message)
-            if let parentId = message.parentId {
-                loadParentMessage(parentId: parentId)
-            }
-        }
-
-        self.messages.append(contentsOf: newMessages)
-        self.messages.sort()
+        messages.forEach { insert(message: $0) }
     }
 
     private func loadParentMessage(parentId: Identifier<Message>) {
@@ -187,11 +167,12 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
                 os_log("Parent message does not exist \(parentId)")
                 return
             }
-            if self.messages.contains(message) {
+            if self.messages[message.id] != nil
+                || self.earlyLoadedMessages[message.id] != nil {
                 return
             }
             self.processMessage(message)
-            self.earlyLoadedMessages.insert(message)
+            self.earlyLoadedMessages[message.id] = message
         }
     }
 
@@ -210,24 +191,16 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func remove(message: Message) {
-        self.earlyLoadedMessages.remove(message)
-        if let index = messages.firstIndex(of: message) {
-            self.messages.remove(at: index)
-        }
+        self.earlyLoadedMessages.removeValue(forKey: message.id)
+        self.messages.removeValue(forKey: message.id)
     }
 
     func update(message: Message) {
-        assert(!earlyLoadedMessages.contains(message) && messages.contains(message))
-        if earlyLoadedMessages.contains(message) {
-            self.earlyLoadedMessages.remove(message)
-            processMessage(message)
-            self.earlyLoadedMessages.insert(message)
-        }
-
-        if let index = messages.firstIndex(of: message) {
-            processMessage(message)
-            self.messages[index].update(message: message)
-        }
+        assert(earlyLoadedMessages[message.id] == nil
+                || messages[message.id] == nil)
+        processMessage(message)
+        earlyLoadedMessages[message.id]?.update(message: message)
+        messages[message.id]?.update(message: message)
     }
 
     func insert(member: User) {

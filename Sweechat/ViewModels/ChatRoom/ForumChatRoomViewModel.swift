@@ -20,7 +20,8 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
     }
 
     private func initialiseForumSubscribers() {
-        let postsSubscriber = forumChatRoom.subscribeToMessages { posts in
+        let postsSubscriber = forumChatRoom.subscribeToMessages { postIdsToPosts in
+            let posts = postIdsToPosts.values
             let updatedPostIds = Set(posts.map({ $0.id.val }))
             self.postViewModels = self.postViewModels.filter({ updatedPostIds.contains($0.id) })
             let currentPostsIds = Set(self.postViewModels.map { $0.id })
