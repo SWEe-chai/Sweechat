@@ -194,20 +194,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         memberIdsToUsers[userId] ?? User.createUnavailableInstance()
     }
 
-    private func loadParentMessage(parentId: Identifier<Message>) {
-        chatRoomFacade?.loadMessage(withId: parentId.val) { message in
-            guard let message = message else {
-                os_log("Parent message does not exist \(parentId)")
-                return
-            }
-
-            if self.messages[message.id] == nil && self.earlyLoadedMessages[message.id] == nil {
-                self.decryptMessageIfNecessary(message)
-                self.earlyLoadedMessages[message.id] = message
-            }
-        }
-    }
-
     func remove(message: Message) {
         self.earlyLoadedMessages.removeValue(forKey: message.id)
         self.messages.removeValue(forKey: message.id)
@@ -275,6 +261,20 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
                 type: .keyExchange,
                 receiverId: currentUser.id,
                 parentId: nil))
+    }
+
+    private func loadParentMessage(parentId: Identifier<Message>) {
+        chatRoomFacade?.loadMessage(withId: parentId.val) { message in
+            guard let message = message else {
+                os_log("Parent message does not exist \(parentId)")
+                return
+            }
+
+            if self.messages[message.id] == nil && self.earlyLoadedMessages[message.id] == nil {
+                self.decryptMessageIfNecessary(message)
+                self.earlyLoadedMessages[message.id] = message
+            }
+        }
     }
 
     private func performKeyExchange(publicKeyBundles: [String: Data]) {
