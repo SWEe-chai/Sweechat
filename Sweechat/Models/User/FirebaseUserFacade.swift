@@ -66,6 +66,7 @@ class FirebaseUserFacade: UserFacade {
         if (FcmJsonStorageManager.load()) == "" {
             os_log("No FCM token")
         }
+        print("Who are these: \(userId.val)")
         usersReference
             .document(userId.val)
             .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
