@@ -10,7 +10,7 @@ struct ForumPostsView: View {
                 if !viewModel.areAllMessagesLoaded {
                     Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
                 }
-                ForEach(viewModel.threads, id: \.self) { threadChatRoomViewModel in
+                ForEach(viewModel.threadViewModels, id: \.self) { threadChatRoomViewModel in
                     ForumPostView(viewModel: threadChatRoomViewModel)
                         .onTapGesture(count: 1) {
                             viewModel.setThread(threadChatRoomViewModel.post)
