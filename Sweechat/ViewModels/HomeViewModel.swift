@@ -29,20 +29,24 @@ class HomeViewModel: ObservableObject {
 
     func handleViewAppearance() {
         if notificationMetadata.isFromNotif {
-            self.directModuleViewModel.getOut()
-            self.isDirectModuleLoaded = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                    if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                        self.directModuleViewModel
-                            .loadThisChatRoom(
-                                chatRoomId: self.notificationMetadata.directChatRoomId)
-                        }
-                        return false
+            self.handleRedirectionToModule()
+        }
+    }
+    
+    func handleRedirectionToModule() {
+        self.directModuleViewModel.getOut()
+        self.isDirectModuleLoaded = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+            AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                    self.directModuleViewModel
+                        .loadThisChatRoom(
+                            chatRoomId: self.notificationMetadata.directChatRoomId)
                     }
-                    return true
+                    return false
                 }
+                return true
             }
         }
     }
@@ -120,21 +124,7 @@ class HomeViewModel: ObservableObject {
     private func initialiseNotificationMetadataSubscriber() {
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
             if isFromNotif {
-                self.directModuleViewModel.getOut()
-                self.isDirectModuleLoaded = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                        if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                            self.directModuleViewModel
-                                .loadThisChatRoom(
-                                    chatRoomId: self.notificationMetadata.directChatRoomId)
-                            }
-                            return false
-                        }
-                        return true
-                    }
-                }
+                self.handleRedirectionToModule()
             }
         }
 
