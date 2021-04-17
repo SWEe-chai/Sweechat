@@ -2,16 +2,19 @@ import Combine
 import Foundation
 
 class HomeViewModel: ObservableObject {
-    var user: User
     weak var delegate: HomeViewModelDelegate?
-    var settingsViewModel: SettingsViewModel
-    var moduleList: ModuleList
+
+    let user: User
+    let settingsViewModel: SettingsViewModel
+    let moduleList: ModuleList
+    let notificationMetadata: NotificationMetadata
+    var directModuleViewModel: ModuleViewModel
+
     @Published var isDirectModuleLoaded: Bool = false
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
+
     private var subscribers: [AnyCancellable] = []
-    var directModuleViewModel: ModuleViewModel
-    var notificationMetadata: NotificationMetadata
 
     init(user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
@@ -22,40 +25,6 @@ class HomeViewModel: ObservableObject {
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
-    }
-
-    func initialiseSubscribers() {
-        if !subscribers.isEmpty {
-            return
-        }
-        let nameSubscriber = user.subscribeToName { newName in
-            self.text = "Welcome, \(newName)!"
-        }
-        let moduleListSubscriber = moduleList.subscribeToModules { modules in
-            self.handleModulesChange(modules: modules)
-        }
-        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-            if isFromNotif {
-                self.directModuleViewModel.getOut()
-                self.isDirectModuleLoaded = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                        if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                            self.directModuleViewModel
-                                .loadThisChatRoom(
-                                    chatRoomId: self.notificationMetadata.directChatRoomId)
-                            }
-                            return false
-                        }
-                        return true
-                    }
-                }
-            }
-        }
-        subscribers.append(nameSubscriber)
-        subscribers.append(moduleListSubscriber)
-        subscribers.append(notificationMetadataSubscriber)
     }
 
     func handleViewAppearance() {
@@ -120,6 +89,56 @@ class HomeViewModel: ObservableObject {
             self.isDirectModuleLoaded = true
         }
         return self.directModuleViewModel
+    }
+
+    // MARK: Subscriptions
+    private func initialiseSubscribers() {
+        if !subscribers.isEmpty {
+            return
+        }
+        initialiseNameSubscriber()
+        initialiseModuleListSubscriber()
+        initialiseNotificationMetadataSubscriber()
+    }
+
+    private func initialiseNameSubscriber() {
+        let nameSubscriber = user.subscribeToName { newName in
+            self.text = "Welcome, \(newName)!"
+        }
+
+        subscribers.append(nameSubscriber)
+    }
+
+    private func initialiseModuleListSubscriber() {
+        let moduleListSubscriber = moduleList.subscribeToModules { modules in
+            self.handleModulesChange(modules: modules)
+        }
+
+        subscribers.append(moduleListSubscriber)
+    }
+
+    private func initialiseNotificationMetadataSubscriber() {
+        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
+            if isFromNotif {
+                self.directModuleViewModel.getOut()
+                self.isDirectModuleLoaded = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                        if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                            self.directModuleViewModel
+                                .loadThisChatRoom(
+                                    chatRoomId: self.notificationMetadata.directChatRoomId)
+                            }
+                            return false
+                        }
+                        return true
+                    }
+                }
+            }
+        }
+
+        subscribers.append(notificationMetadataSubscriber)
     }
 }
 

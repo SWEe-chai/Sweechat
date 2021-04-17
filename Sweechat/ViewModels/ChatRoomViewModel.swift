@@ -4,15 +4,18 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject, SendMessageHandler {
-    var chatRoom: ChatRoom
-    var user: User
-    private var chatRoomMediaCache: ChatRoomMediaCache
-    private var subscribers: [AnyCancellable] = []
+    let chatRoom: ChatRoom
+    let user: User
 
     @Published var latestMessageViewModel: MessageViewModel?
     @Published var text: String
     @Published var profilePictureUrl: String?
     @Published var areAllMessagesLoaded: Bool = false
+    @Published var messages: [MessageViewModel] = []
+    @Published var earlyLoadedMessages: [MessageViewModel] = []
+
+    private var chatRoomMediaCache: ChatRoomMediaCache
+    private var subscribers: [AnyCancellable] = []
 
     var permissions: ChatRoomViewModelType {
         ChatRoomViewModelType.convert(permission: chatRoom.currentUserPermission)
@@ -30,14 +33,13 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         chatRoom.id.val
     }
 
-    @Published var messages: [MessageViewModel] = []
-
     static func createUnavailableInstance() -> ChatRoomViewModel {
         GroupChatRoomViewModel(
             groupChatRoom: ChatRoom.createUnavailableInstance()
         )
     }
-    @Published var earlyLoadedMessages: [MessageViewModel] = []
+
+    // MARK: Initialization
 
     init(chatRoom: ChatRoom, user: User) {
         self.chatRoom = chatRoom
@@ -46,49 +48,6 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         self.profilePictureUrl = chatRoom.profilePictureUrl
         self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
         initialiseSubscriber()
-    }
-
-    func initialiseSubscriber() {
-        let messagesSubscriber = chatRoom.subscribeToMessages { messageIdsToMessages in
-            let messages = messageIdsToMessages.values
-            let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
-
-            // Deletion
-            self.messages = self.messages.filter({ allMessageIds.contains(Identifier<Message>(stringLiteral: $0.id)) })
-
-            // Insertion
-            let oldMessageIds = Set<Identifier<Message>>(self.messages.map {
-                Identifier<Message>(stringLiteral: $0.id)
-            })
-            let newMessageIds = allMessageIds.filter({ !oldMessageIds.contains($0) })
-            let newMessages = messages.filter({ newMessageIds.contains($0.id) })
-            let newMessageViewModels = self.generateViewModels(from: newMessages)
-            for newMessageViewModel in newMessageViewModels {
-                newMessageViewModel.delegate = self
-            }
-            self.messages.append(contentsOf: newMessageViewModels)
-            self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
-            self.latestMessageViewModel = self.messages.last
-        }
-        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messageIdsToMessages in
-            let messages = messageIdsToMessages.values
-            self.earlyLoadedMessages = self.generateViewModels(from: messages)
-        }
-        let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
-            self.text = newName
-        }
-        let allMessagesLoadedSubscriber = chatRoom.subscribeToAreAllMessagesLoaded { self.areAllMessagesLoaded = $0
-        }
-
-        let profilePictureSubscriber = chatRoom.subscribeToProfilePicture { profilePictureUrl in
-            self.profilePictureUrl = profilePictureUrl
-        }
-
-        subscribers.append(messagesSubscriber)
-        subscribers.append(chatRoomNameSubscriber)
-        subscribers.append(earlyMessagesSubscriber)
-        subscribers.append(allMessagesLoadedSubscriber)
-        subscribers.append(profilePictureSubscriber)
     }
 
     func loadMore() {
@@ -110,6 +69,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     }
 
     // MARK: SendMessageHandler
+
     func handleSendText(_ text: String,
                         withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.id)
@@ -172,6 +132,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         }
     }
 
+    // MARK: Private Function Helpers
+
     private func generateViewModels<S: Sequence>(from messages: S)
             -> [MessageViewModel] where S.Iterator.Element == Message {
         messages.compactMap {
@@ -182,6 +144,75 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
                     delegate: self,
                     currentUserId: self.user.id)
         }
+    }
+
+    // MARK: Subscription
+
+    private func initialiseSubscriber() {
+        initialiseMessageSubscriber()
+        initialiseEarlyMessagesSubscriber()
+        initialiseChatRoomNameSubscriber()
+        initialiseAllMessagesLoadedSubscriber()
+        initialiseProfilePictureSubscriber()
+    }
+
+    private func initialiseMessageSubscriber() {
+        let messagesSubscriber = chatRoom.subscribeToMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
+            let allMessageIds = Set<Identifier<Message>>(messages.map({ $0.id }))
+
+            // Deletion
+            self.messages = self.messages.filter({ allMessageIds.contains(Identifier<Message>(stringLiteral: $0.id)) })
+
+            // Insertion
+            let oldMessageIds = Set<Identifier<Message>>(self.messages.map {
+                Identifier<Message>(stringLiteral: $0.id)
+            })
+            let newMessageIds = allMessageIds.filter({ !oldMessageIds.contains($0) })
+            let newMessages = messages.filter({ newMessageIds.contains($0.id) })
+            let newMessageViewModels = self.generateViewModels(from: newMessages)
+            for newMessageViewModel in newMessageViewModels {
+                newMessageViewModel.delegate = self
+            }
+            self.messages.append(contentsOf: newMessageViewModels)
+            self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
+            self.latestMessageViewModel = self.messages.last
+        }
+
+        subscribers.append(messagesSubscriber)
+    }
+
+    private func initialiseEarlyMessagesSubscriber() {
+        let earlyMessagesSubscriber = chatRoom.subscribeToEarlyLoadedMessages { messageIdsToMessages in
+            let messages = messageIdsToMessages.values
+            self.earlyLoadedMessages = self.generateViewModels(from: messages)
+        }
+
+        subscribers.append(earlyMessagesSubscriber)
+    }
+
+    private func initialiseChatRoomNameSubscriber() {
+        let chatRoomNameSubscriber = chatRoom.subscribeToName { newName in
+            self.text = newName
+        }
+
+        subscribers.append(chatRoomNameSubscriber)
+    }
+
+    private func initialiseAllMessagesLoadedSubscriber() {
+        let allMessagesLoadedSubscriber = chatRoom.subscribeToAreAllMessagesLoaded {
+            self.areAllMessagesLoaded = $0
+        }
+
+        subscribers.append(allMessagesLoadedSubscriber)
+    }
+
+    private func initialiseProfilePictureSubscriber() {
+        let profilePictureSubscriber = chatRoom.subscribeToProfilePicture { profilePictureUrl in
+            self.profilePictureUrl = profilePictureUrl
+        }
+
+        subscribers.append(profilePictureSubscriber)
     }
 }
 

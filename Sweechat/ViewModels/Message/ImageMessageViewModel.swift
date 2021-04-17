@@ -5,19 +5,17 @@
 //  Created by Christian James Welly on 28/3/21.
 //
 
-import Foundation
-import Combine
-
 class ImageMessageViewModel: MessageViewModel {
-    var mediaData: ImageDataViewModel
+    let mediaData: ImageDataViewModel
+
+    // MARK: Initialization
 
     init(message: Message,
          sender: User,
          delegate: MediaMessageViewModelDelegate,
          currentUserId: Identifier<User>) {
-        self.mediaData = ImageDataViewModel(
-            urlString: message.content.toString(),
-            delegate: delegate)
+        self.mediaData = ImageDataViewModel(urlString: message.content.toString(),
+                                            delegate: delegate)
         super.init(message: message, sender: sender, currentUserId: currentUserId, isEditable: false)
 
         subscribers.append(message.subscribeToContent { newContent in
@@ -25,7 +23,6 @@ class ImageMessageViewModel: MessageViewModel {
         })
     }
 
-    // MARK: Message Reply
     override func previewContent() -> String {
         "Image"
     }
