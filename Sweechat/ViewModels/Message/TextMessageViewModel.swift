@@ -5,10 +5,12 @@
 //  Created by Christian James Welly on 28/3/21.
 //
 
-import Foundation
+import Combine
 
 class TextMessageViewModel: MessageViewModel {
     @Published var text: String
+
+    // MARK: Initialization
 
     init(message: Message, sender: User, currentUserId: Identifier<User>) {
         self.text = message.content.toString()
@@ -20,9 +22,7 @@ class TextMessageViewModel: MessageViewModel {
         })
     }
 
-    // MARK: Message Reply
     override func previewContent() -> String {
-        // TODO: Might trim for long messages
         text
     }
 }
