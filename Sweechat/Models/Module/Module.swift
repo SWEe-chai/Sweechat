@@ -12,9 +12,13 @@ class Module: ObservableObject {
     static let unavailableModuleId = Identifier<Module>("")
     static let unavailableModuleName = "Unavailable Module"
 
+    let currentUser: User
+    let currentUserPermission: ModulePermissionBitmask
     var id: Identifier<Module>
-    @Published var name: String
     var profilePictureUrl: String?
+    var userIdsToUsers: [Identifier<User>: User] = [:]
+
+    @Published var name: String
     @Published var chatRooms: [ChatRoom]
     @Published var members: [User] {
         didSet {
@@ -23,10 +27,8 @@ class Module: ObservableObject {
             }
         }
     }
-    var currentUser: User
+
     private var moduleFacade: ModuleFacade?
-    var userIdsToUsers: [Identifier<User>: User] = [:]
-    let currentUserPermission: ModulePermissionBitmask
 
     static func createUnavailableInstance() -> Module {
         Module(
@@ -36,6 +38,8 @@ class Module: ObservableObject {
             currentUserPermission: ModulePermissionBitmask()
         )
     }
+
+    // MARK: Initialization
 
     init(id: Identifier<Module>,
          name: String,
@@ -69,6 +73,8 @@ class Module: ObservableObject {
         self.userIdsToUsers = [:]
     }
 
+    // MARK: Facade Connection
+
     func setModuleConnection() {
         self.moduleFacade = FirebaseModuleFacade(
             moduleId: self.id,
@@ -83,6 +89,8 @@ class Module: ObservableObject {
             userPermissions: userPermissions,
             onCompletion: onCompletion)
     }
+
+    // MARK: Subscriptions
 
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
@@ -100,12 +108,11 @@ class Module: ObservableObject {
 // MARK: ModuleFacadeDelegate
 extension Module: ModuleFacadeDelegate {
     func insert(chatRoom: ChatRoom) {
-        guard !self.chatRooms.contains(chatRoom),
-              chatRoom as? ThreadChatRoom == nil else {
-            return
+        if !self.chatRooms.contains(chatRoom),
+              chatRoom as? ThreadChatRoom == nil {
+            chatRoom.setChatRoomConnection()
+            self.chatRooms.append(chatRoom)
         }
-        chatRoom.setChatRoomConnection()
-        self.chatRooms.append(chatRoom)
     }
 
     func insertAll(chatRooms: [ChatRoom]) {
@@ -121,11 +128,10 @@ extension Module: ModuleFacadeDelegate {
     }
 
     func insert(user: User) {
-        guard !self.members.contains(user) else {
-            return
+        if !self.members.contains(user) {
+            user.setUserConnection()
+            self.members.append(user)
         }
-        user.setUserConnection()
-        self.members.append(user)
     }
 
     func remove(user: User) {

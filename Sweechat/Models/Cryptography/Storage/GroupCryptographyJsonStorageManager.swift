@@ -9,7 +9,8 @@ struct GroupCryptographyJsonStorageManager: GroupCryptographyStorageManager {
 
     func save(userId: String, privateServerKeyBundle: [String: Data], publicServerKeyBundle: [String: Data]) throws {
         let bundleArray = [privateServerKeyBundle, publicServerKeyBundle]
-        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId),
+                                            with: fileExtension)
 
         guard let bundleArrayData = try? jsonEncoder.encode(bundleArray) else {
             throw SignalProtocolError(message: "Unable to encode key bundle for saving")
@@ -23,7 +24,8 @@ struct GroupCryptographyJsonStorageManager: GroupCryptographyStorageManager {
     }
 
     func loadServerKeyBundles(userId: String) throws -> ([String: Data], [String: Data])? {
-        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: serverKeyBundlesFileNameFormat, userId),
+                                            with: fileExtension)
 
         guard let bundleArrayData = try? Data(contentsOf: url) else {
             // Cannot find save file
@@ -38,7 +40,8 @@ struct GroupCryptographyJsonStorageManager: GroupCryptographyStorageManager {
     }
 
     func save(chainKeyData: Data, userId: String, groupId: String) throws {
-        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId),
+                                            with: fileExtension)
 
         do {
             try chainKeyData.write(to: url)
@@ -48,7 +51,8 @@ struct GroupCryptographyJsonStorageManager: GroupCryptographyStorageManager {
     }
 
     func loadChainKeyData(userId: String, groupId: String) throws -> Data {
-        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId), with: fileExtension)
+        let url = StorageManager.getFileURL(from: String(format: chainKeyFileNameFormat, userId, groupId),
+                                            with: fileExtension)
 
         guard let chainKeyData = try? Data(contentsOf: url) else {
             // Cannot find save file
