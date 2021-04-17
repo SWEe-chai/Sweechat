@@ -3,46 +3,44 @@ import FirebaseStorage
 import os
 
 class FirebaseModuleQuery {
-    static func getModule(moduleId: Identifier<Module>,
-                          user: User,
-                          onCompletion: @escaping (Module) -> Void) {
-        FirebaseUserModulePairQuery
-            .getUserModulePair(moduleId: moduleId, userId: user.id) { pair in
-                guard let pair = pair else {
-                    return
-                }
+    static func getModule(moduleId: Identifier<Module>, user: User, onCompletion: @escaping (Module) -> Void) {
+        FirebaseUserModulePairQuery.getUserModulePair(moduleId: moduleId, userId: user.id) { pair in
+            if let pair = pair {
                 getModule(pair: pair, user: user) { module in
                     onCompletion(module)
                 }
             }
+        }
     }
 
     static func getModule(pair: FirebaseUserModulePair, user: User, onCompletion: @escaping (Module) -> Void) {
         getModules(pairs: [pair], user: user) { modules in
-            guard let module = modules.first else {
-                return
+            if let module = modules.first {
+                onCompletion(module)
             }
-            onCompletion(module)
         }
     }
 
     static func getModules(pairs: [FirebaseUserModulePair], user: User, onCompletion: @escaping ([Module]) -> Void) {
-        let moduleIdStrs = pairs.map { $0.moduleId.val }
-        if moduleIdStrs.isEmpty {
+        let moduleIdStrings = pairs.map { $0.moduleId.val }
+
+        if moduleIdStrings.isEmpty {
             onCompletion([])
             return
         }
-        for moduleIdStrChunk in moduleIdStrs.chunked(into: 10) {
+
+        for moduleIdStringsChunk in moduleIdStrings.chunked(into: FirebaseUtils.queryChunkSize) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.modules)
-                .whereField(DatabaseConstant.Module.id, in: moduleIdStrChunk)
+                .whereField(DatabaseConstant.Module.id, in: moduleIdStringsChunk)
                 .getDocuments { snapshots, error in
                     guard let documents = snapshots?.documents else {
-                        os_log("Error getting Modules from: \(pairs)")
-                        os_log("Error \(error?.localizedDescription ?? "No error")")
+                        os_log("Error getting modules from: \(pairs)")
+                        os_log("Error getting modules (\(error?.localizedDescription ?? ""))")
                         return
                     }
+
                     let modules: [Module] = documents.compactMap { document in
                         guard let moduleIdStr = document[DatabaseConstant.Module.id] as? String,
                               let pair = pairs.first(where: { $0.moduleId.val == moduleIdStr }) else {
@@ -50,10 +48,12 @@ class FirebaseModuleQuery {
                                    String(describing: document))
                             return nil
                         }
+
                         return FirebaseModuleAdapter.convert(document: document,
-                                                            user: user,
-                                                            withPermissions: pair.permissions)
+                                                             user: user,
+                                                             withPermissions: pair.permissions)
                     }
+
                     onCompletion(modules)
                 }
         }

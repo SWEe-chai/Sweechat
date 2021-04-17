@@ -138,7 +138,7 @@ class FirebaseModuleFacade: ModuleFacade {
         setUpUserChatRoomModulePairsListener() // Listen to new chatrooms belonging to this user in the module
         setUpUserModulePairsListener() // Listen to new users in the module
         setUpModuleListener() // Listen to changes in the module
-        
+
     }
 
     private func setUpUserChatRoomModulePairsListener() {
