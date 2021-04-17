@@ -35,26 +35,23 @@ class HomeViewModel: ObservableObject {
             self.handleModulesChange(modules: modules)
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-                if isFromNotif {
-                    self.directModuleViewModel.getOut()
-                    self.isDirectModuleLoaded = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                            if self
-                                .getModuleViewModel(
-                                    moduleId: self.notificationMetadata.directModuleId
-                                ) != nil {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                self.directModuleViewModel
-                                    .loadThisChatRoom(
-                                        chatRoomId: self.notificationMetadata.directChatRoomId)
-                                }
-                                return false
+            if isFromNotif {
+                self.directModuleViewModel.getOut()
+                self.isDirectModuleLoaded = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                        if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                            self.directModuleViewModel
+                                .loadThisChatRoom(
+                                    chatRoomId: self.notificationMetadata.directChatRoomId)
                             }
-                            return true
+                            return false
                         }
+                        return true
                     }
                 }
+            }
         }
         subscribers.append(nameSubscriber)
         subscribers.append(moduleListSubscriber)

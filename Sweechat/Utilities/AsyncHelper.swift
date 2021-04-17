@@ -10,6 +10,7 @@ import Foundation
 struct AsyncHelper {
     static let shortInterval = 0.01
     static let mediumInterval = 0.1
+    static let longInterval = 1.0
     static func checkAsync(interval: Double, repeatableFunction: @escaping () -> Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
             if repeatableFunction() {
