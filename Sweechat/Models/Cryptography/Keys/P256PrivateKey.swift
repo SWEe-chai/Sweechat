@@ -13,7 +13,9 @@ struct P256PrivateKey: PrivateKey {
             let privateKey = try P256.KeyAgreement.PrivateKey(rawRepresentation: rawRepresentation)
             let publicKey = try P256.KeyAgreement.PublicKey(rawRepresentation: publicKey.rawRepresentation)
             let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-            let symmetricKey = sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(),
+            let symmetricKey = sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self,
+                                                                    salt: salt,
+                                                                    sharedInfo: Data(),
                                                                     outputByteCount: outputKeyLength)
             var symmetricKeyBytes = Data()
             symmetricKey.withUnsafeBytes({ symmetricKeyBytes.append(contentsOf: $0) })
