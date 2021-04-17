@@ -34,4 +34,9 @@ struct ChatRoomViewFactory {
             return AnyView(ChatRoomView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         }
     }
+
+    static func makeView(viewModel: ForumChatRoomViewModel, isNavigationBarHidden: Binding<Bool>) -> some View {
+        ForumChatRoomView(viewModel: viewModel,
+                          isNavigationBarHidden: isNavigationBarHidden)
+    }
 }
