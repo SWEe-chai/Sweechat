@@ -14,7 +14,6 @@ struct ModuleView: View {
     @State private var isModuleSettingsOpened = false
     @State var isNavigationBarHidden: Bool = true
     @State private var chatRoomListType: ChatRoomListType = .groupChat
-    @State private var isDirectChatRoomOpen = false
 
     var moduleSettingsToolbar: some View {
         HStack {
@@ -128,9 +127,6 @@ struct ModuleView: View {
         }
         .onAppear {
             isNavigationBarHidden = true
-        }
-        .onChange(of: viewModel.isDirectChatRoomLoaded) {
-            isDirectChatRoomOpen = $0
         }
         .background(ColorConstant.primary.ignoresSafeArea())
         .sheet(isPresented: $showingCreateChatRoom) {
