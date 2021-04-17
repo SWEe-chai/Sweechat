@@ -3,14 +3,15 @@ import Foundation
 import os
 
 class ForumChatRoomViewModel: ChatRoomViewModel {
-    var forumChatRoom: ForumChatRoom
-    var forumSubscribers: [AnyCancellable] = []
-
-    @Published var postViewModels: [MessageViewModel] = []
-    @Published var threads: [ThreadChatRoomViewModel] = []
-    var threadId: ThreadViewModel!
+    private let forumChatRoom: ForumChatRoom
+    private var forumSubscribers: [AnyCancellable] = []
     private var prominentThreadId: String?
     private var threadCreator: ThreadCreator?
+
+    @Published var postViewModels: [MessageViewModel] = []
+    @Published var threadViewModels: [ThreadChatRoomViewModel] = []
+
+    // MARK: Initialization
 
     init(forumChatRoom: ForumChatRoom, creator: ThreadCreator) {
         self.forumChatRoom = forumChatRoom
@@ -19,56 +20,69 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         initialiseForumSubscribers()
     }
 
-    private func initialiseForumSubscribers() {
-        let postsSubscriber = forumChatRoom.subscribeToMessages { postIdsToPosts in
-            let posts = postIdsToPosts.values
-            let updatedPostIds = Set(posts.map({ $0.id.val }))
-            self.postViewModels = self.postViewModels.filter({ updatedPostIds.contains($0.id) })
-            let currentPostsIds = Set(self.postViewModels.map { $0.id })
-            let newPosts = posts.filter { !currentPostsIds.contains($0.id.val) }
-            self.threads.append(contentsOf: newPosts.compactMap {
-                let post = TextMessageViewModel(message: $0, sender: self.chatRoom.getUser(userId: $0.senderId),
-                                                currentUserId: self.user.id)
-                post.delegate = self
-                return ThreadChatRoomViewModel(post: post, user: self.forumChatRoom.currentUser)
-            })
-            self.postViewModels = posts.compactMap {
-                MessageViewModelFactory
-                    .makeViewModel(message: $0,
-                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                   delegate: self,
-                                   currentUserId: self.user.id)
-            }
-        }
-
-        forumSubscribers.append(postsSubscriber)
-    }
-
     // MARK: SendMessageHandler
+
     override func handleSendText(_ text: String,
                                  withParentMessageViewModel parentMessageViewModel: MessageViewModel?) {
         let parentId = IdentifierConverter.toOptionalMessageId(from: parentMessageViewModel?.parentId)
         let messageId = Identifier<Message>(val: UUID().uuidString)
         let chatRoomId = Identifier<ChatRoom>(val: messageId.val)
+
         threadCreator?.createThreadChatRoom(id: chatRoomId, currentUser: user, forumMembers: forumChatRoom.members) {
-            let message = Message(
-                senderId: self.user.id,
-                content: text.toData(),
-                type: MessageType.text,
-                receiverId: ChatRoom.allUsersId,
-                parentId: parentId, id: messageId)
-            self.chatRoom.storeMessage(message: message)
+            self.chatRoom.storeMessage(message: Message(
+                                        senderId: self.user.id,
+                                        content: text.toData(),
+                                        type: MessageType.text,
+                                        receiverId: ChatRoom.allUsersId,
+                                        parentId: parentId,
+                                        id: messageId))
         }
     }
+
+    // MARK: Threads
 
     func setThread(_ postViewModel: MessageViewModel) {
         prominentThreadId = postViewModel.id
     }
 
     func getSelectedThread() -> ThreadChatRoomViewModel {
-        guard let threadChatRoomVM = threads.first(where: { $0.id == prominentThreadId }) else {
+        guard let threadChatRoomVM = threadViewModels.first(where: { $0.id == prominentThreadId }) else {
             fatalError("Thread is selected but no thread is set as prominent thread. Please contact our dev team.")
         }
+
         return threadChatRoomVM
+    }
+
+    // MARK: Private Helper Methods
+
+    private func initialiseForumSubscribers() {
+        let postsSubscriber = forumChatRoom.subscribeToMessages { postIdsToPosts in
+            self.updateThreadViewModels(withPostIdsToPosts: postIdsToPosts)
+            self.updatePostViewModels(withPostIdsToPosts: postIdsToPosts)
+        }
+
+        forumSubscribers.append(postsSubscriber)
+    }
+
+    private func updateThreadViewModels(withPostIdsToPosts postIdsToPosts: [Identifier<Message>: Message]) {
+        let currentPostIds = Set(self.postViewModels.map { $0.id })
+        let newPosts = postIdsToPosts.values.filter { !currentPostIds.contains($0.id.val) }
+
+        self.threadViewModels.append(contentsOf: newPosts.compactMap {
+            let post = TextMessageViewModel(message: $0,
+                                            sender: self.chatRoom.getUser(userId: $0.senderId),
+                                            currentUserId: self.user.id)
+            post.delegate = self
+            return ThreadChatRoomViewModel(post: post, user: self.forumChatRoom.currentUser)
+        })
+    }
+
+    private func updatePostViewModels(withPostIdsToPosts postIdsToPosts: [Identifier<Message>: Message]) {
+        self.postViewModels = postIdsToPosts.values.compactMap {
+            MessageViewModelFactory.makeViewModel(message: $0,
+                                                  sender: self.chatRoom.getUser(userId: $0.senderId),
+                                                  delegate: self,
+                                                  currentUserId: self.user.id)
+        }
     }
 }
