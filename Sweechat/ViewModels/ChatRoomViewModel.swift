@@ -8,7 +8,6 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     var user: User
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
-    weak var delegate: ChatRoomViewModelDelegate?
 
     @Published var latestMessageViewModel: MessageViewModel?
     @Published var text: String
@@ -90,10 +89,6 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         subscribers.append(earlyMessagesSubscriber)
         subscribers.append(allMessagesLoadedSubscriber)
         subscribers.append(profilePictureSubscriber)
-    }
-
-    func handleChatRoomAppearance() {
-        self.delegate?.terminateNotificationResponse()
     }
 
     func loadMore() {
