@@ -12,6 +12,8 @@ class FirebaseUserFacade: UserFacade {
     private var userListener: ListenerRegistration?
     private var publicKeyBundlesReference: CollectionReference
 
+    // MARK: Initialization
+
     init(userId: Identifier<User>) {
         self.userId = userId
         self.usersReference = FirebaseUtils
@@ -21,6 +23,8 @@ class FirebaseUserFacade: UserFacade {
             .getEnvironmentReference(db)
             .collection(DatabaseConstant.Collection.publicKeyBundles)
     }
+
+    // MARK: UserFacade
 
     func loginAndListenToUser(_ user: User) {
         userId = user.id
@@ -33,6 +37,8 @@ class FirebaseUserFacade: UserFacade {
             }
         }
     }
+
+    // MARK: Private Helper Methods
 
     private func addUser(_ user: User) {
         self.usersReference
