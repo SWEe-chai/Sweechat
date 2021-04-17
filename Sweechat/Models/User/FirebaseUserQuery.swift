@@ -4,10 +4,9 @@ import os
 class FirebaseUserQuery {
     static func getUser(withId id: Identifier<User>, onCompletion: @escaping (User) -> Void) {
         getUsers(withIds: [id]) { users in
-            guard let user = users.first else {
-                return
+            if let user = users.first {
+                onCompletion(user)
             }
-            onCompletion(user)
         }
     }
 
@@ -18,15 +17,14 @@ class FirebaseUserQuery {
             return
         }
 
-        let idStrs = ids.map({ $0.val })
-        for idsStrChunk in idStrs.chunked(into: 10) {
+        for idStringsChunk in ids.map({ $0.val }).chunked(into: 10) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.users)
-                .whereField(DatabaseConstant.User.id, in: idsStrChunk)
+                .whereField(DatabaseConstant.User.id, in: idStringsChunk)
                 .getDocuments { snapshot, error in
                     guard let documents = snapshot?.documents else {
-                        os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                        os_log("Error listening for channel updates: \(error?.localizedDescription ?? "Unrecognized")")
                         return
                     }
                     let users: [User] = documents.compactMap {
