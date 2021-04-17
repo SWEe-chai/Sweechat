@@ -2,10 +2,9 @@ import SwiftUI
 import Combine
 
 class CreateChatRoomViewModel: ObservableObject {
-    var module: Module
-    var user: User
+    let module: Module
+    let user: User
     var memberListener: AnyCancellable?
-
     var otherUsersViewModels: [MemberItemViewModel]
 
     @Published var isWritable: Bool = true
@@ -23,6 +22,8 @@ class CreateChatRoomViewModel: ObservableObject {
     private var otherChosenMembers: [User] {
         otherUsersViewModels.filter { $0.isSelected }.map { $0.member }
     }
+
+    // MARK: Initialization
 
     init(module: Module, user: User, members: [User]) {
         self.module = module
