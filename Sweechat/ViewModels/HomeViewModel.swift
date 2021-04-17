@@ -21,7 +21,6 @@ class HomeViewModel: ObservableObject {
         self.directModuleViewModel = ModuleViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
-        print("init home view model")
         initialiseSubscribers()
     }
 
@@ -101,7 +100,6 @@ class HomeViewModel: ObservableObject {
     func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
         if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
             self.directModuleViewModel = unwrappedDirectModuleViewModel
-            print("set direct module = true")
             self.isDirectModuleLoaded = true
         }
         return self.directModuleViewModel

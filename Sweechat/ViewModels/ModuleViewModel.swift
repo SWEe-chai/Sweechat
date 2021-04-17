@@ -44,7 +44,6 @@ class ModuleViewModel: ObservableObject {
     }
 
     init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
-        print("init module view model \(module.id)")
         self.user = user
         self.module = module
         self.text = module.name
@@ -107,13 +106,11 @@ class ModuleViewModel: ObservableObject {
         let newChatRoomVMs: [ChatRoomViewModel] = chatRooms
             .filter { !oldChatRoomIds.contains($0.id) }
             .map {
-                let newChatRoomViewModel = ChatRoomViewModelFactory
+                ChatRoomViewModelFactory
                     .makeViewModel(
                         chatRoom: $0,
                         chatRoomCreator: self.createChatRoomViewModel
                 )
-                newChatRoomViewModel.delegate = self
-                return newChatRoomViewModel
             }
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
     }
@@ -121,7 +118,6 @@ class ModuleViewModel: ObservableObject {
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
-            print("set direct chatroom = true")
             self.isDirectChatRoomLoaded = true
         }
         return self.directChatRoomViewModel
@@ -135,12 +131,5 @@ extension ModuleViewModel: Identifiable {
 extension Array where Element: Comparable {
     func containsSameElements(as other: [Element]) -> Bool {
         self.count == other.count && self.sorted() == other.sorted()
-    }
-}
-
-extension ModuleViewModel: ChatRoomViewModelDelegate {
-    func terminateNotificationResponse() {
-//        self.isDirectChatRoomLoaded = false
-//        self.notificationMetadata.reset()
     }
 }
