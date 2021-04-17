@@ -9,7 +9,6 @@ class ModuleViewModel: ObservableObject {
         module.id.val
     }
     var directChatRoomViewModel: ChatRoomViewModel
-    var notificationMetadata: NotificationMetadata
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var isDirectChatRoomLoaded: Bool = false
@@ -17,8 +16,7 @@ class ModuleViewModel: ObservableObject {
     static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
             module: Module.createUnavailableInstance(),
-            user: User.createUnavailableInstance(),
-            notificationMetadata: NotificationMetadata()
+            user: User.createUnavailableInstance()
         )
     }
 
@@ -43,12 +41,11 @@ class ModuleViewModel: ObservableObject {
         )
     }
 
-    init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
+    init(module: Module, user: User) {
         self.user = user
         self.module = module
         self.text = module.name
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
-        self.notificationMetadata = NotificationMetadata()
         initialiseSubscriber()
     }
 

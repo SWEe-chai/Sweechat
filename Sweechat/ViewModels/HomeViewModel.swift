@@ -67,7 +67,7 @@ class HomeViewModel: ObservableObject {
         let oldModuleIds = Set(self.moduleViewModels.map { $0.module.id })
         let newModuleVMs = modules
             .filter { !oldModuleIds.contains($0.id) }
-            .map { ModuleViewModel(module: $0, user: user, notificationMetadata: notificationMetadata) }
+            .map { ModuleViewModel(module: $0, user: user) }
         self.moduleViewModels.append(contentsOf: newModuleVMs)
     }
 
