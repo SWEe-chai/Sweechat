@@ -34,7 +34,8 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
                                         content: text.toData(),
                                         type: MessageType.text,
                                         receiverId: ChatRoom.allUsersId,
-                                        parentId: parentId, id: messageId))
+                                        parentId: parentId,
+                                        id: messageId))
         }
     }
 

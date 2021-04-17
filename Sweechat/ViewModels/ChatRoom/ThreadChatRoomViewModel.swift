@@ -15,7 +15,6 @@ class ThreadChatRoomViewModel: ChatRoomViewModel {
     }
 
     init(post: MessageViewModel, user: User) {
-        // TODO: Use PostMessage ID as the ID of the ChatRoom
         let chatRoomId = Identifier<ChatRoom>(val: post.message.id.val)
         self.threadChatRoom = ThreadChatRoom(id: chatRoomId, ownerId: post.message.senderId, currentUser: user)
         self.post = post
