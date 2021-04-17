@@ -160,13 +160,13 @@ struct SignalProtocol: GroupCryptographyProvider {
             throw SignalProtocolError(message: "Unable to decode server key bundle data")
         }
 
-        guard let identityKeyData = serverKeyBundle["ik"] else {
+        guard let identityKeyData = serverKeyBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing identity key data from server key bundle")
         }
-        guard let signedPreKeyData = serverKeyBundle["spk"] else {
+        guard let signedPreKeyData = serverKeyBundle[SignalProtocol.signedPreKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing signed pre-key key data from server key bundle")
         }
-        guard let signature = serverKeyBundle["signature"] else {
+        guard let signature = serverKeyBundle[SignalProtocol.signatureDictionaryKey] else {
             throw SignalProtocolError(message: "Missing signature from server key bundle")
         }
 
