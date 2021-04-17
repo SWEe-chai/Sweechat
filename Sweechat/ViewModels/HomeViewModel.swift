@@ -21,6 +21,7 @@ class HomeViewModel: ObservableObject {
         self.directModuleViewModel = ModuleViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
+        print("init home view model")
         initialiseSubscribers()
     }
 
@@ -36,14 +37,23 @@ class HomeViewModel: ObservableObject {
         }
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
                 if isFromNotif {
-                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                        if self
-                            .getModuleViewModel(
-                                moduleId: self.notificationMetadata.directModuleId
-                            ) != nil {
-                            return false
+                    self.directModuleViewModel.getOut()
+                    self.isDirectModuleLoaded = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                            if self
+                                .getModuleViewModel(
+                                    moduleId: self.notificationMetadata.directModuleId
+                                ) != nil {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.directModuleViewModel
+                                    .loadThisChatRoom(
+                                        chatRoomId: self.notificationMetadata.directChatRoomId)
+                                }
+                                return false
+                            }
+                            return true
                         }
-                        return true
                     }
                 }
         }
@@ -91,6 +101,7 @@ class HomeViewModel: ObservableObject {
     func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
         if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
             self.directModuleViewModel = unwrappedDirectModuleViewModel
+            print("set direct module = true")
             self.isDirectModuleLoaded = true
         }
         return self.directModuleViewModel

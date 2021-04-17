@@ -3,11 +3,9 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isShowingCreateView: Bool = false
-    @State var isDirectModuleLoaded = false
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
-        self.isDirectModuleLoaded = false
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
@@ -18,44 +16,47 @@ struct HomeView: View {
     }
 
     var body: some View {
-            GeometryReader { geometry in
-                VStack {
-                    if isShowingCreateView {
-                        CreateModuleView(viewModel: viewModel)
-                    } else {
-                        JoinModuleView(viewModel: viewModel)
-                    }
-                    VStack(alignment: .leading, spacing: 0) {
-                        if !viewModel.moduleViewModels.isEmpty {
-                            Text("Modules")
-                                .font(FontConstant.Heading1)
-                                .foregroundColor(ColorConstant.dark)
-                                .padding(.horizontal)
+        VStack {
+            Button(action: {
+                print(viewModel.isDirectModuleLoaded)
+            }) {
+                Text("Sanity check")
+            }
+            if isShowingCreateView {
+                CreateModuleView(viewModel: viewModel)
+            } else {
+                JoinModuleView(viewModel: viewModel)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                if !viewModel.moduleViewModels.isEmpty {
+                    Text("Modules")
+                        .font(FontConstant.Heading1)
+                        .foregroundColor(ColorConstant.dark)
+                        .padding(.horizontal)
+                }
+                ScrollView(showsIndicators: false) {
+                    ForEach(
+                        Array(
+                            viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
+                        Button(action: {
+                            viewModel.directModuleViewModel = moduleViewModel
+                            viewModel.isDirectModuleLoaded = true
+                        }) {
+                            ModuleItemView(viewModel: moduleViewModel, index: index)
                         }
-                        ScrollView(showsIndicators: false) {
-                            ForEach(
-                                Array(
-                                    viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
-                                ModuleItemView(viewModel: moduleViewModel, index: index)
-                            }
-                            .padding()
-                        }
-                        .padding(.top, 3)
                     }
+                    .padding()
                     NavigationLink(
                         "",
                         destination: LazyNavView(
-                            ModuleView(viewModel: viewModel.directModuleViewModel)
-                        ),
+                            ModuleView(viewModel: viewModel.directModuleViewModel)),
                         isActive: $viewModel.isDirectModuleLoaded
                     )
-
-                    .hidden()
-
-                    Spacer()
                 }
-                .frame(width: geometry.size.width)
+                .padding(.top, 3)
             }
+            Spacer()
+        }
         .background(ColorConstant.base)
         .toolbar {
             HomeToolbarView(

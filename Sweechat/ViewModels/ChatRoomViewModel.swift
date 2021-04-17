@@ -41,6 +41,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     @Published var earlyLoadedMessages: [MessageViewModel] = []
 
     init(chatRoom: ChatRoom, user: User) {
+        print("init chatroom view model \(chatRoom.id)")
         self.chatRoom = chatRoom
         self.user = user
         self.text = chatRoom.name
@@ -93,7 +94,8 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     }
 
     func handleChatRoomAppearance() {
-        self.delegate?.terminateNotificationResponse()
+//        print()
+//        self.delegate?.terminateNotificationResponse()
     }
 
     func loadMore() {

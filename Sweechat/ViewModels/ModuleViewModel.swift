@@ -44,11 +44,12 @@ class ModuleViewModel: ObservableObject {
     }
 
     init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
+        print("init module view model \(module.id)")
         self.user = user
         self.module = module
         self.text = module.name
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
-        self.notificationMetadata = notificationMetadata
+        self.notificationMetadata = NotificationMetadata()
         initialiseSubscriber()
     }
 
@@ -76,22 +77,24 @@ class ModuleViewModel: ObservableObject {
         let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
             self.handleChatRoomsChange(chatRooms: chatRooms)
         }
-        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-            if isFromNotif {
-                AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                    if self
-                        .getChatRoomViewModel(
-                            chatRoomId: self.notificationMetadata.directChatRoomId
-                        ) != nil {
-                        return false
-                    }
-                    return true
-                }
-            }
-        }
         subscribers.append(nameSubscriber)
         subscribers.append(chatRoomsSubscriber)
-        subscribers.append(notificationMetadataSubscriber)
+    }
+
+    func loadThisChatRoom(chatRoomId: String) {
+        AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+            if self
+                .getChatRoomViewModel(
+                    chatRoomId: chatRoomId
+                ) != nil {
+                return false
+            }
+            return true
+        }
+    }
+
+    func getOut() {
+        self.isDirectChatRoomLoaded = false
     }
 
     private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
@@ -118,6 +121,7 @@ class ModuleViewModel: ObservableObject {
     func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
+            print("set direct chatroom = true")
             self.isDirectChatRoomLoaded = true
         }
         return self.directChatRoomViewModel
@@ -136,7 +140,7 @@ extension Array where Element: Comparable {
 
 extension ModuleViewModel: ChatRoomViewModelDelegate {
     func terminateNotificationResponse() {
-        self.isDirectChatRoomLoaded = false
-        self.notificationMetadata.reset()
+//        self.isDirectChatRoomLoaded = false
+//        self.notificationMetadata.reset()
     }
 }

@@ -14,6 +14,7 @@ struct ModuleView: View {
     @State private var isModuleSettingsOpened = false
     @State var isNavigationBarHidden: Bool = true
     @State private var chatRoomListType: ChatRoomListType = .groupChat
+    @State private var isDirectChatRoomOpen = false
 
     var moduleSettingsToolbar: some View {
         HStack {
@@ -81,26 +82,25 @@ struct ModuleView: View {
         VStack(alignment: .leading) {
             Text("").lineLimit(nil)
             Text("").lineLimit(nil)
+            Button(action: {
+                print(viewModel.isDirectChatRoomLoaded)
+            }) {
+                Text("Please say false")
+            }
             moduleHeader
             VStack(alignment: .leading) {
                 chatRoomListTypeToolbar
                 ScrollView {
                     ForEach(viewModel.getChatRoomList(type: chatRoomListType)) { chatRoomViewModel in
-                        NavigationLink(
-                            destination:
-                                LazyNavView(
-                                    ChatRoomViewFactory.makeView(
-                                        viewModel: chatRoomViewModel,
-                                        isNavigationBarHidden: $isNavigationBarHidden
-                                    )
-                                )
-                        ) {
+                        Button(action: {
+                            viewModel.directChatRoomViewModel = chatRoomViewModel
+                            viewModel.isDirectChatRoomLoaded = true
+                        }) {
                             HStack {
                                 ChatRoomItemView(viewModel: chatRoomViewModel)
                                 Spacer()
                             }
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        }.buttonStyle(PlainButtonStyle())
                     }
                     Spacer()
                 }
@@ -124,11 +124,13 @@ struct ModuleView: View {
                     .fill(ColorConstant.base)
                     .ignoresSafeArea(.all, edges: .bottom)
             )
-
             hiddenSettingsNavLink
         }
         .onAppear {
             isNavigationBarHidden = true
+        }
+        .onChange(of: viewModel.isDirectChatRoomLoaded) {
+            isDirectChatRoomOpen = $0
         }
         .background(ColorConstant.primary.ignoresSafeArea())
         .sheet(isPresented: $showingCreateChatRoom) {

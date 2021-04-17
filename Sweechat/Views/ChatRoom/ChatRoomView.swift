@@ -14,7 +14,7 @@ struct ChatRoomView: View {
                                 parentPreviewMetadata: $parentPreviewMetadata)
         }
         .onAppear {
-            viewModel.handleChatRoomAppearance()
+//            viewModel.handleChatRoomAppearance()
             isNavigationBarHidden = false
         }
         .navigationBarHidden(isNavigationBarHidden)
