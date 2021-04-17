@@ -3,6 +3,7 @@ import SwiftUI
 struct ForumChatRoomView: View {
     @ObservedObject var viewModel: ForumChatRoomViewModel
     @State var parentPreviewMetadata: ParentPreviewMetadata?
+    @Binding var isNavigationBarHidden: Bool
 
     var body: some View {
         VStack {
@@ -11,6 +12,10 @@ struct ForumChatRoomView: View {
                                 isShowingParentPreview: false,
                                 allowSendMedia: false,
                                 parentPreviewMetadata: $parentPreviewMetadata)
-        }.navigationTitle(viewModel.text)
+        }
+        .onAppear {
+            isNavigationBarHidden = false
+        }
+        .navigationTitle(viewModel.text)
     }
 }
