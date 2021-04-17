@@ -18,11 +18,6 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Button(action: {
-                    print(viewModel.isDirectModuleLoaded)
-                }) {
-                    Text("Sanity check")
-                }
                 if isShowingCreateView {
                     CreateModuleView(viewModel: viewModel)
                 } else {

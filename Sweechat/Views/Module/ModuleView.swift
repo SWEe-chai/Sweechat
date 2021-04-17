@@ -81,11 +81,6 @@ struct ModuleView: View {
         VStack(alignment: .leading) {
             Text("").lineLimit(nil)
             Text("").lineLimit(nil)
-            Button(action: {
-                print(viewModel.isDirectChatRoomLoaded)
-            }) {
-                Text("Please say false")
-            }
             moduleHeader
             VStack(alignment: .leading) {
                 chatRoomListTypeToolbar
