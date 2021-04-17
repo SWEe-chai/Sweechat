@@ -9,6 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 struct FirebaseUtils {
+    static let queryChunkSize = 10
+
     static func getEnvironmentReference(_ db: Firestore) -> DocumentReference {
         db.collection(DatabaseConstant.Collection.environmentCollection)
             .document(DatabaseConstant.Collection.environmentDocument)

@@ -17,7 +17,7 @@ class FirebaseUserQuery {
             return
         }
 
-        for idStringsChunk in ids.map({ $0.val }).chunked(into: 10) {
+        for idStringsChunk in ids.map({ $0.val }).chunked(into: FirebaseUtils.queryChunkSize) {
             FirebaseUtils
                 .getEnvironmentReference(Firestore.firestore())
                 .collection(DatabaseConstant.Collection.users)

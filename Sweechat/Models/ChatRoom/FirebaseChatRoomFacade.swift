@@ -15,8 +15,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private let user: User
     private let db = Firestore.firestore()
     private let storage = Storage.storage().reference()
-    private let blockSize: Int = 6
-    private let usersChunkSize = 9
+    private let messageBlockSize: Int = 6
     private var chatRoomId: Identifier<ChatRoom>
     private var publicKeyBundlesReference: CollectionReference?
     private var chatRoomReference: DocumentReference?
@@ -125,7 +124,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func loadMessages(onCompletion: (() -> Void)?) {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .limit(toLast: blockSize)
+            .limit(toLast: messageBlockSize)
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
                     os_log("Error loading messages (\(error?.localizedDescription ?? ""))")
@@ -206,7 +205,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
             .end(beforeDocument: oldestMessageDocument)
-            .limit(toLast: blockSize)
+            .limit(toLast: messageBlockSize)
             .getDocuments { querySnapshot, error in
                 guard let snapshot = querySnapshot,
                       let oldestMessageDocument = snapshot.documents.first else {
@@ -293,7 +292,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
-        for chunk in users.chunked(into: usersChunkSize) {
+        for chunk in users.chunked(into: FirebaseUtils.queryChunkSize) {
             self.publicKeyBundlesReference?
                 .whereField(DatabaseConstant.PublicKeyBundle.userId, in: chunk.map({ $0.id.val }))
                 .getDocuments { querySnapshot, err in
