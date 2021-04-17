@@ -1,20 +1,25 @@
-import Foundation
 import SwiftUI
 
 class LoginButtonViewModel {
     private var authHandler: ALAuthHandler
+
     var backgroundColor: Color {
         LoginButtonColor.getColor(type: authHandler.type)
     }
+
     var picture: String {
         authHandler.type.rawValue.lowercased()
     }
 
+    var text: String {
+        "\(authHandler.type.rawValue)"
+    }
+
+    // MARK: Initialization
+
     init(authHandler: ALAuthHandler) {
         self.authHandler = authHandler
     }
-
-    var text: String { "\(authHandler.type.rawValue)" }
 
     func tapped() {
         authHandler.initiateSignIn()
