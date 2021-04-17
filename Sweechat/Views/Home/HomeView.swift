@@ -59,6 +59,9 @@ struct HomeView: View {
                 isShowingCreateView: $isShowingCreateView
             )
         }
+        .onAppear {
+            viewModel.handleViewAppearance()
+        }
         .navigationBarItems(
             leading: Text(viewModel.text)
                 .foregroundColor(ColorConstant.dark)

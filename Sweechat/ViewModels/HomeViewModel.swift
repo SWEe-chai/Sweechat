@@ -58,6 +58,24 @@ class HomeViewModel: ObservableObject {
         subscribers.append(notificationMetadataSubscriber)
     }
 
+    func handleViewAppearance() {
+        self.directModuleViewModel.getOut()
+        self.isDirectModuleLoaded = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+            AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                    self.directModuleViewModel
+                        .loadThisChatRoom(
+                            chatRoomId: self.notificationMetadata.directChatRoomId)
+                    }
+                    return false
+                }
+                return true
+            }
+        }
+    }
+
     func handleModulesChange(modules: [Module]) {
         // Remove deleted modules
         let allModuleIds: Set<Identifier<Module>> = Set(modules.map { $0.id })
