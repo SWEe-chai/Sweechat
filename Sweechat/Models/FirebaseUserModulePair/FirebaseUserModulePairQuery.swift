@@ -15,7 +15,9 @@ class FirebaseUserModulePairQuery {
                     os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
                     return
                 }
+
                 let pair: FirebaseUserModulePair? = FirebaseUserModulePairAdapter.convert(document: document)
+
                 onCompletion(pair)
             }
     }

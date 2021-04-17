@@ -12,6 +12,8 @@ class FirebaseUserFacade: UserFacade {
     private var userListener: ListenerRegistration?
     private var publicKeyBundlesReference: CollectionReference
 
+    // MARK: Initialization
+
     init(userId: Identifier<User>) {
         self.userId = userId
         self.usersReference = FirebaseUtils
@@ -22,28 +24,29 @@ class FirebaseUserFacade: UserFacade {
             .collection(DatabaseConstant.Collection.publicKeyBundles)
     }
 
+    // MARK: UserFacade
+
     func loginAndListenToUser(_ user: User) {
         userId = user.id
         self.usersReference.document(userId.val).getDocument { document, _ in
-            guard let document = document,
-                  document.exists else {
-                // In this case user is a new user
+            if let document = document, document.exists {
+                self.setUpConnectionAsUser()
+            } else { // New user
                 self.addUser(user)
                 self.uploadPublicKeyBundleData(for: user)
-                return
             }
-            self.setUpConnectionAsUser()
         }
     }
+
+    // MARK: Private Helper Methods
 
     private func addUser(_ user: User) {
         self.usersReference
             .document(user.id.val)
             .setData(
-                FirebaseUserAdapter
-                    .convert(user: user), completion: { _ in
-                        self.setUpConnectionAsUser()
-                    }
+                FirebaseUserAdapter.convert(user: user), completion: { _ in
+                    self.setUpConnectionAsUser()
+                }
             )
     }
 
@@ -57,7 +60,7 @@ class FirebaseUserFacade: UserFacade {
 
     private func setUpConnectionAsUser() {
         if userId.val.isEmpty {
-            os_log("Error loading user: User id is empty")
+            os_log("Error loading user: User ID is empty")
             return
         }
         if (FcmJsonStorageManager.load()) == "" {
@@ -68,9 +71,13 @@ class FirebaseUserFacade: UserFacade {
             .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId.val)
-        userListener = reference?.addSnapshotListener { querySnapshot, error in
+        userListener = getUserListenerRegistration()
+    }
+
+    private func getUserListenerRegistration() -> ListenerRegistration? {
+        reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                os_log("Error listening for channel updates (\(error?.localizedDescription ?? ""))")
                 return
             }
             self.delegate?.update(
