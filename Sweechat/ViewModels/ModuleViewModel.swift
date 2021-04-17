@@ -2,35 +2,29 @@ import Combine
 import Foundation
 
 class ModuleViewModel: ObservableObject {
-    var module: Module
-    private var user: User
-    private var subscribers: [AnyCancellable] = []
-    var id: String {
-        module.id.val
-    }
+    let module: Module
+    let notificationMetadata: NotificationMetadata
     var directChatRoomViewModel: ChatRoomViewModel
-    var notificationMetadata: NotificationMetadata
+
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
     @Published var isDirectChatRoomLoaded: Bool = false
 
-    static func createUnavailableInstance() -> ModuleViewModel {
-        ModuleViewModel(
-            module: Module.createUnavailableInstance(),
-            user: User.createUnavailableInstance(),
-            notificationMetadata: NotificationMetadata()
-        )
-    }
+    private var user: User
+    private var subscribers: [AnyCancellable] = []
 
     var privateChatRoomVMs: [PrivateChatRoomViewModel] {
         chatRoomViewModels.compactMap { $0 as? PrivateChatRoomViewModel }
     }
+
     var groupChatRoomVMs: [GroupChatRoomViewModel] {
         chatRoomViewModels.compactMap { $0 as? GroupChatRoomViewModel }
     }
+
     var forumChatRoomVMs: [ForumChatRoomViewModel] {
         chatRoomViewModels.compactMap { $0 as? ForumChatRoomViewModel }
     }
+
     var starredModuleVMs: [ChatRoomViewModel] {
         chatRoomViewModels.filter { $0.isStarred }
     }
@@ -42,6 +36,20 @@ class ModuleViewModel: ObservableObject {
             members: module.members
         )
     }
+
+    var id: String {
+        module.id.val
+    }
+
+    static func createUnavailableInstance() -> ModuleViewModel {
+        ModuleViewModel(
+            module: Module.createUnavailableInstance(),
+            user: User.createUnavailableInstance(),
+            notificationMetadata: NotificationMetadata()
+        )
+    }
+
+    // MARK: Initialization
 
     init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
@@ -66,16 +74,34 @@ class ModuleViewModel: ObservableObject {
         }
     }
 
-    func initialiseSubscriber() {
+    // MARK: Subscriptions
+
+    private func initialiseSubscriber() {
         if !subscribers.isEmpty {
             return
         }
+        initialiseNameSubscriber()
+        initialiseChatRoomsSubscriber()
+        initialiseNotificationMetadataSubscriber()
+    }
+
+    private func initialiseNameSubscriber() {
         let nameSubscriber = module.subscribeToName { newName in
             self.text = newName
         }
+
+        subscribers.append(nameSubscriber)
+    }
+
+    private func initialiseChatRoomsSubscriber() {
         let chatRoomsSubscriber = module.subscribeToChatrooms { chatRooms in
             self.handleChatRoomsChange(chatRooms: chatRooms)
         }
+
+        subscribers.append(chatRoomsSubscriber)
+    }
+
+    private func initialiseNotificationMetadataSubscriber() {
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
             if isFromNotif {
                 AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
@@ -89,10 +115,11 @@ class ModuleViewModel: ObservableObject {
                 }
             }
         }
-        subscribers.append(nameSubscriber)
-        subscribers.append(chatRoomsSubscriber)
+
         subscribers.append(notificationMetadataSubscriber)
     }
+
+    // MARK: Private Function Helpers
 
     private func handleChatRoomsChange(chatRooms: [ChatRoom]) {
         // Remove deleted chatrooms
@@ -115,7 +142,7 @@ class ModuleViewModel: ObservableObject {
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
     }
 
-    func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
+    private func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
             self.isDirectChatRoomLoaded = true
