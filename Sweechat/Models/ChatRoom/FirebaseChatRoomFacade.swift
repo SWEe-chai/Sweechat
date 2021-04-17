@@ -166,7 +166,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     private func setUpConnectionToChatRoom() {
         if chatRoomId.val.isEmpty {
-            os_log("Error loading Chat Room: Chat Room id is empty")
+            os_log("Error loading chatroom: Chat Room ID is empty")
             return
         }
 
