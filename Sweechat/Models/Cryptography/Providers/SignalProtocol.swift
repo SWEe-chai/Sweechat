@@ -254,7 +254,6 @@ struct SignalProtocol: GroupCryptographyProvider {
         guard let keyExchangeBundle = try? jsonDecoder.decode([String: Data].self, from: keyExchangeBundleData) else {
             throw SignalProtocolError(message: "Unable to decode key exchange key bundle data")
         }
-
         guard let keyExchangeIdentityKeyData = keyExchangeBundle[SignalProtocol.identityKeyDictionaryKey] else {
             throw SignalProtocolError(message: "Missing identity key data from key exchange bundle")
         }
