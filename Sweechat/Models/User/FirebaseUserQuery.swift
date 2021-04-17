@@ -24,7 +24,7 @@ class FirebaseUserQuery {
                 .whereField(DatabaseConstant.User.id, in: idStringsChunk)
                 .getDocuments { snapshot, error in
                     guard let documents = snapshot?.documents else {
-                        os_log("Error listening for channel updates: \(error?.localizedDescription ?? "Unrecognized")")
+                        os_log("Error listening for channel updates (\(error?.localizedDescription ?? ""))")
                         return
                     }
                     let users: [User] = documents.compactMap {

@@ -71,7 +71,7 @@ class FirebaseUserFacade: UserFacade {
     private func getUserListenerRegistration() -> ListenerRegistration? {
         reference?.addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
-                os_log("Error listening for channel updates: \(error?.localizedDescription ?? "No error")")
+                os_log("Error listening for channel updates (\(error?.localizedDescription ?? ""))")
                 return
             }
             self.delegate?.update(
