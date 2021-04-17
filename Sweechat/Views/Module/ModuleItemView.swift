@@ -11,40 +11,36 @@ struct ModuleItemView: View {
     @ObservedObject var viewModel: ModuleViewModel
     var index: Int
     var body: some View {
-        NavigationLink(
-            destination:
-                LazyNavView(ModuleView(viewModel: viewModel))) {
-            HStack {
-                Circle()
-                    .fill(ColorConstant.placeholder)
-                    .frame(width: 70, height: 70)
+        HStack {
+            Circle()
+                .fill(ColorConstant.placeholder)
+                .frame(width: 70, height: 70)
 
-                Divider()
-                    .padding(.leading, 7)
-                    .padding(.trailing, 7)
-                    .foregroundColor(ColorConstant.dark)
-                    .frame(height: 50, alignment: .center)
+            Divider()
+                .padding(.leading, 7)
+                .padding(.trailing, 7)
+                .foregroundColor(ColorConstant.dark)
+                .frame(height: 50, alignment: .center)
 
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(viewModel.text)
-                            .lineLimit(1)
-                            .foregroundColor(Color.white)
-                            .font(FontConstant.ModuleTitle)
-                        Spacer()
-                    }
-                    Text("No module description")
-                        .foregroundColor(.white)
-                        .font(FontConstant.ModuleDescription)
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(viewModel.text)
+                        .lineLimit(1)
+                        .foregroundColor(Color.white)
+                        .font(FontConstant.ModuleTitle)
+                    Spacer()
                 }
+                Text("No module description")
+                    .foregroundColor(.white)
+                    .font(FontConstant.ModuleDescription)
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(ColorConstant.primary)
-                    .shadow(color: .gray, radius: 5, x: 1, y: 7)
-            )
-            .padding(.bottom)
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(ColorConstant.primary)
+                .shadow(color: .gray, radius: 5, x: 1, y: 7)
+        )
+        .padding(.bottom)
     }
 }

@@ -4,8 +4,6 @@ import FirebaseStorage
 import os
 
 class ChatRoomViewModel: ObservableObject, SendMessageHandler {
-    weak var delegate: ChatRoomViewModelDelegate?
-
     let chatRoom: ChatRoom
     let user: User
 
@@ -50,10 +48,6 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         self.profilePictureUrl = chatRoom.profilePictureUrl
         self.chatRoomMediaCache = ChatRoomMediaCache(chatRoomId: chatRoom.id)
         initialiseSubscriber()
-    }
-
-    func handleChatRoomAppearance() {
-        self.delegate?.terminateNotificationResponse()
     }
 
     func loadMore() {
@@ -184,6 +178,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
             self.messages.sort(by: { $0.message.creationTime < $1.message.creationTime })
             self.latestMessageViewModel = self.messages.last
         }
+
         subscribers.append(messagesSubscriber)
     }
 

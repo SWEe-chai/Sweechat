@@ -3,7 +3,6 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     let module: Module
-    let notificationMetadata: NotificationMetadata
     var directChatRoomViewModel: ChatRoomViewModel
 
     @Published var text: String
@@ -44,19 +43,17 @@ class ModuleViewModel: ObservableObject {
     static func createUnavailableInstance() -> ModuleViewModel {
         ModuleViewModel(
             module: Module.createUnavailableInstance(),
-            user: User.createUnavailableInstance(),
-            notificationMetadata: NotificationMetadata()
+            user: User.createUnavailableInstance()
         )
     }
 
     // MARK: Initialization
 
-    init(module: Module, user: User, notificationMetadata: NotificationMetadata) {
+    init(module: Module, user: User) {
         self.user = user
         self.module = module
         self.text = module.name
         self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
-        self.notificationMetadata = notificationMetadata
         initialiseSubscriber()
     }
 
@@ -82,7 +79,6 @@ class ModuleViewModel: ObservableObject {
         }
         initialiseNameSubscriber()
         initialiseChatRoomsSubscriber()
-        initialiseNotificationMetadataSubscriber()
     }
 
     private func initialiseNameSubscriber() {
@@ -101,22 +97,20 @@ class ModuleViewModel: ObservableObject {
         subscribers.append(chatRoomsSubscriber)
     }
 
-    private func initialiseNotificationMetadataSubscriber() {
-        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-            if isFromNotif {
-                AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                    if self
-                        .getChatRoomViewModel(
-                            chatRoomId: self.notificationMetadata.directChatRoomId
-                        ) != nil {
-                        return false
-                    }
-                    return true
-                }
+    func loadThisChatRoom(chatRoomId: String) {
+        AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+            if self
+                .getChatRoomViewModel(
+                    chatRoomId: chatRoomId
+                ) != nil {
+                return false
             }
+            return true
         }
+    }
 
-        subscribers.append(notificationMetadataSubscriber)
+    func getOut() {
+        self.isDirectChatRoomLoaded = false
     }
 
     // MARK: Private Function Helpers
@@ -131,13 +125,11 @@ class ModuleViewModel: ObservableObject {
         let newChatRoomVMs: [ChatRoomViewModel] = chatRooms
             .filter { !oldChatRoomIds.contains($0.id) }
             .map {
-                let newChatRoomViewModel = ChatRoomViewModelFactory
+                ChatRoomViewModelFactory
                     .makeViewModel(
                         chatRoom: $0,
                         chatRoomCreator: self.createChatRoomViewModel
                 )
-                newChatRoomViewModel.delegate = self
-                return newChatRoomViewModel
             }
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
     }
@@ -158,12 +150,5 @@ extension ModuleViewModel: Identifiable {
 extension Array where Element: Comparable {
     func containsSameElements(as other: [Element]) -> Bool {
         self.count == other.count && self.sorted() == other.sorted()
-    }
-}
-
-extension ModuleViewModel: ChatRoomViewModelDelegate {
-    func terminateNotificationResponse() {
-        self.isDirectChatRoomLoaded = false
-        self.notificationMetadata.reset()
     }
 }

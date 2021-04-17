@@ -86,21 +86,15 @@ struct ModuleView: View {
                 chatRoomListTypeToolbar
                 ScrollView {
                     ForEach(viewModel.getChatRoomList(type: chatRoomListType)) { chatRoomViewModel in
-                        NavigationLink(
-                            destination:
-                                LazyNavView(
-                                    ChatRoomViewFactory.makeView(
-                                        viewModel: chatRoomViewModel,
-                                        isNavigationBarHidden: $isNavigationBarHidden
-                                    )
-                                )
-                        ) {
+                        Button(action: {
+                            viewModel.directChatRoomViewModel = chatRoomViewModel
+                            viewModel.isDirectChatRoomLoaded = true
+                        }) {
                             HStack {
                                 ChatRoomItemView(viewModel: chatRoomViewModel)
                                 Spacer()
                             }
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        }.buttonStyle(PlainButtonStyle())
                     }
                     Spacer()
                 }
@@ -124,7 +118,6 @@ struct ModuleView: View {
                     .fill(ColorConstant.base)
                     .ignoresSafeArea(.all, edges: .bottom)
             )
-
             hiddenSettingsNavLink
         }
         .onAppear {

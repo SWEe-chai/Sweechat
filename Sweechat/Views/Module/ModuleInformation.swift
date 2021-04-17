@@ -40,8 +40,7 @@ struct ModuleInformation_Previews: PreviewProvider {
                         currentUser: User(id: "1"),
                         currentUserPermission: ModulePermission.moduleOwner
                     ),
-                    user: User(id: "2", name: "Name"),
-                    notificationMetadata: NotificationMetadata()
+                    user: User(id: "2", name: "Name")
                 ), isNavigationBarHidden: .constant(false)
         )
     }

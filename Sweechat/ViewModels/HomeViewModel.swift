@@ -36,7 +36,7 @@ class HomeViewModel: ObservableObject {
         let oldModuleIds = Set(self.moduleViewModels.map { $0.module.id })
         let newModuleVMs = modules
             .filter { !oldModuleIds.contains($0.id) }
-            .map { ModuleViewModel(module: $0, user: user, notificationMetadata: notificationMetadata) }
+            .map { ModuleViewModel(module: $0, user: user) }
         self.moduleViewModels.append(contentsOf: newModuleVMs)
     }
 
@@ -72,7 +72,6 @@ class HomeViewModel: ObservableObject {
     }
 
     // MARK: Subscriptions
-
     private func initialiseSubscribers() {
         if !subscribers.isEmpty {
             return
@@ -100,17 +99,23 @@ class HomeViewModel: ObservableObject {
 
     private func initialiseNotificationMetadataSubscriber() {
         let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-                if isFromNotif {
+            if isFromNotif {
+                self.directModuleViewModel.getOut()
+                self.isDirectModuleLoaded = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
                     AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                        if self
-                            .getModuleViewModel(
-                                moduleId: self.notificationMetadata.directModuleId
-                            ) != nil {
+                        if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                            self.directModuleViewModel
+                                .loadThisChatRoom(
+                                    chatRoomId: self.notificationMetadata.directChatRoomId)
+                            }
                             return false
                         }
                         return true
                     }
                 }
+            }
         }
 
         subscribers.append(notificationMetadataSubscriber)
