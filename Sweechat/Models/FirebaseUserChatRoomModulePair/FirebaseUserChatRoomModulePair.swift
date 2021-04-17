@@ -11,7 +11,8 @@ class FirebaseUserChatRoomModulePair {
     let moduleId: Identifier<Module>
     let permissions: UInt32
 
-    init(userId: Identifier<User>, chatRoomId: Identifier<ChatRoom>, moduleId: Identifier<Module>, permissions: UInt32) {
+    init(userId: Identifier<User>, chatRoomId: Identifier<ChatRoom>, moduleId: Identifier<Module>,
+         permissions: UInt32) {
         self.userId = userId
         self.chatRoomId = chatRoomId
         self.moduleId = moduleId
