@@ -217,7 +217,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     }
 
     private func loadMembers(onCompletion: (() -> Void)?) {
-        FirebaseUserChatRoomModulePairQuery.getUserChatRoomModulePairs(inChatRoomId: chatRoomId) { pairs in
+        FirebaseUserChatRoomModulePairQuery.getUserChatRoomModulePairs(chatRoomId: chatRoomId) { pairs in
             FirebaseUserQuery.getUsers(withIds: pairs.map { $0.userId }) { users in
                 self.delegate?.insertAll(members: users)
                 onCompletion?()
