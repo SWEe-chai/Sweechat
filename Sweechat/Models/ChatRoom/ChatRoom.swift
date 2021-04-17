@@ -103,7 +103,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     // MARK: Pagination
 
     func loadMore() {
-        chatRoomFacade?.loadNextBlock { messages in
+        chatRoomFacade?.loadNextBlockOfMessages { messages in
             if messages.isEmpty {
                 self.areAllMessagesLoaded = true
             }
@@ -112,7 +112,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     func loadUntil(message: Message) {
-        chatRoomFacade?.loadUntil(message.creationTime) {
+        chatRoomFacade?.loadMessagesUntil(message.creationTime) {
             self.insertAll(messages: $0)
         }
     }

@@ -39,6 +39,131 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     // MARK: ChatRoomFacade
 
+    func save(_ message: Message) {
+        messagesReference?
+            .document(message.id.val)
+            .setData(FirebaseMessageAdapter.convert(message: message)) { error in
+                if let e = error {
+                    os_log("Error sending message: \(e.localizedDescription)")
+                    return
+                }
+            }
+    }
+
+    func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
+        storage.child(fileName).putData(data, metadata: nil) { _, error in
+            guard error == nil else {
+                os_log("failed to upload data to firebase")
+                return
+            }
+
+            self.storage.child(fileName).downloadURL { url, _ in
+                guard let url = url else {
+                    os_log("failed to get download url")
+                    return
+                }
+
+                onCompletion?(url)
+            }
+        }
+    }
+
+    func loadNextBlockOfMessages(onCompletion: @escaping ([Message]) -> Void) {
+        guard let oldestMessageDocument = self.oldestMessageDocument else {
+            os_log("Trying to load next block but not available")
+            onCompletion([])
+            return
+        }
+        filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .end(beforeDocument: oldestMessageDocument)
+            .limit(toLast: messageBlockSize)
+            .getDocuments { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let oldestMessageDocument = snapshot.documents.first else {
+                    os_log("No more messages (\(error?.localizedDescription ?? ""))")
+                    onCompletion([])
+                    return
+                }
+                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageAdapter.convert(document: $0)
+                })
+                onCompletion(messages)
+            }
+    }
+
+    func loadMessage(withId id: String, onCompletion: @escaping (Message?) -> Void) {
+        messagesReference?
+            .document(id)
+            .getDocument { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    os_log("Error loading message (\(error?.localizedDescription ?? ""))")
+                    onCompletion(nil)
+                    return
+                }
+                onCompletion(FirebaseMessageAdapter.convert(document: snapshot))
+            }
+    }
+
+    func loadMessagesUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
+        let timestamp = Timestamp(date: time)
+        filteredMessagesReference?
+            .order(by: DatabaseConstant.Message.creationTime)
+            .start(at: [timestamp])
+            .getDocuments { querySnapshot, error in
+                guard let snapshot = querySnapshot,
+                      let oldestMessageDocument = snapshot.documents.first else {
+                    os_log("Error loading messages (\(error?.localizedDescription ?? ""))")
+                    onCompletion([])
+                    return
+                }
+                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
+                let messages = snapshot.documents.compactMap({
+                    FirebaseMessageAdapter.convert(document: $0)
+                })
+                onCompletion(messages)
+            }
+    }
+
+    func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
+        for chunk in users.chunked(into: FirebaseUtils.queryChunkSize) {
+            self.publicKeyBundlesReference?
+                .whereField(DatabaseConstant.PublicKeyBundle.userId, in: chunk.map({ $0.id.val }))
+                .getDocuments { querySnapshot, err in
+                    guard err == nil,
+                          let documents = querySnapshot?.documents else {
+                        os_log("Error fetching public key bundles")
+                        return
+                    }
+
+                    var publicKeyBundles: [String: Data] = [:]
+
+                    documents.forEach({
+                        let data = $0.data()
+                        if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
+                           let bundleData = data[DatabaseConstant.PublicKeyBundle.bundleData] as? Data {
+                            publicKeyBundles[userId] = bundleData
+                        }
+                    })
+
+                    onCompletion?(publicKeyBundles)
+                }
+        }
+    }
+
+    func delete(_ message: Message) {
+        self.messagesReference?
+            .document(message.id.val)
+            .delete { error in
+                if error != nil {
+                    os_log("Error deleting message")
+                }
+            }
+    }
+
+    // MARK: Private Helper Methods
+
     private func setUpConnectionToChatRoom() {
         if chatRoomId.val.isEmpty {
             os_log("Error loading Chat Room: Chat Room id is empty")
@@ -196,135 +321,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadNextBlock(onCompletion: @escaping ([Message]) -> Void) {
-        guard let oldestMessageDocument = self.oldestMessageDocument else {
-            os_log("Trying to load next block but not available")
-            onCompletion([])
-            return
-        }
-        filteredMessagesReference?
-            .order(by: DatabaseConstant.Message.creationTime)
-            .end(beforeDocument: oldestMessageDocument)
-            .limit(toLast: messageBlockSize)
-            .getDocuments { querySnapshot, error in
-                guard let snapshot = querySnapshot,
-                      let oldestMessageDocument = snapshot.documents.first else {
-                    os_log("No more messages (\(error?.localizedDescription ?? ""))")
-                    onCompletion([])
-                    return
-                }
-                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
-                let messages = snapshot.documents.compactMap({
-                    FirebaseMessageAdapter.convert(document: $0)
-                })
-                onCompletion(messages)
-            }
-    }
-
-    func loadMessage(withId id: String, onCompletion: @escaping (Message?) -> Void) {
-        messagesReference?
-            .document(id)
-            .getDocument { querySnapshot, error in
-                guard let snapshot = querySnapshot else {
-                    os_log("Error loading message (\(error?.localizedDescription ?? ""))")
-                    onCompletion(nil)
-                    return
-                }
-                onCompletion(FirebaseMessageAdapter.convert(document: snapshot))
-            }
-    }
-
-    func loadUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
-        let timestamp = Timestamp(date: time)
-        filteredMessagesReference?
-            .order(by: DatabaseConstant.Message.creationTime)
-            .start(at: [timestamp])
-            .getDocuments { querySnapshot, error in
-                guard let snapshot = querySnapshot,
-                      let oldestMessageDocument = snapshot.documents.first else {
-                    os_log("Error loading messages (\(error?.localizedDescription ?? ""))")
-                    onCompletion([])
-                    return
-                }
-                self.compareAndSetOldestMessageDocument(oldestMessageDocument)
-                let messages = snapshot.documents.compactMap({
-                    FirebaseMessageAdapter.convert(document: $0)
-                })
-                onCompletion(messages)
-            }
-    }
-
     private func compareAndSetOldestMessageDocument(_ oldestMessageDocument: QueryDocumentSnapshot) {
         if let previousTime = self.oldestMessageDocument?[DatabaseConstant.Message.creationTime] as? Timestamp,
            let newTime = oldestMessageDocument[DatabaseConstant.Message.creationTime] as? Timestamp,
            newTime.dateValue() < previousTime.dateValue() {
             self.oldestMessageDocument = oldestMessageDocument
         }
-    }
-
-    func save(_ message: Message) {
-        messagesReference?
-            .document(message.id.val)
-            .setData(FirebaseMessageAdapter.convert(message: message)) { error in
-                if let e = error {
-                    os_log("Error sending message: \(e.localizedDescription)")
-                    return
-                }
-            }
-    }
-
-    func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
-        storage.child(fileName).putData(data, metadata: nil) { _, error in
-            guard error == nil else {
-                os_log("failed to upload data to firebase")
-                return
-            }
-
-            self.storage.child(fileName).downloadURL { url, _ in
-                guard let url = url else {
-                    os_log("failed to get download url")
-                    return
-                }
-
-                onCompletion?(url)
-            }
-        }
-    }
-
-    func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
-        for chunk in users.chunked(into: FirebaseUtils.queryChunkSize) {
-            self.publicKeyBundlesReference?
-                .whereField(DatabaseConstant.PublicKeyBundle.userId, in: chunk.map({ $0.id.val }))
-                .getDocuments { querySnapshot, err in
-                    guard err == nil,
-                          let documents = querySnapshot?.documents else {
-                        os_log("Error fetching public key bundles")
-                        return
-                    }
-
-                    var publicKeyBundles: [String: Data] = [:]
-
-                    documents.forEach({
-                        let data = $0.data()
-                        if let userId = data[DatabaseConstant.PublicKeyBundle.userId] as? String,
-                           let bundleData = data[DatabaseConstant.PublicKeyBundle.bundleData] as? Data {
-                            publicKeyBundles[userId] = bundleData
-                        }
-                    })
-
-                    onCompletion?(publicKeyBundles)
-                }
-        }
-    }
-
-    func delete(_ message: Message) {
-        self.messagesReference?
-            .document(message.id.val)
-            .delete { error in
-                if error != nil {
-                    os_log("Error deleting message")
-                }
-            }
     }
 
     private func handleMessageDocumentChange(_ change: DocumentChange) {
