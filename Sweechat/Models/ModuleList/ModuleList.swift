@@ -21,7 +21,7 @@ class ModuleList: ObservableObject {
     }
 
     // MARK: Initialization
-    
+
     private init() {
         self.modules = []
         self.moduleListFacade = nil
