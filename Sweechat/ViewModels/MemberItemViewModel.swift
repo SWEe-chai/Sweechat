@@ -8,10 +8,13 @@
 import Combine
 
 class MemberItemViewModel: ObservableObject {
-    var member: User
+    let member: User
+
     @Published var isSelected: Bool
     @Published var memberName: String
     @Published var profilePictureUrl: String?
+
+    // MARK: Initialization
 
     init(member: User) {
         self.member = member
