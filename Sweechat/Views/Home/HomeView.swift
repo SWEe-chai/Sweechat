@@ -9,6 +9,7 @@ struct HomeView: View {
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = .clear
         UINavigationBar.appearance().backgroundColor = UIColor(ColorConstant.base)
+        UINavigationBar.appearance().tintColor = UIColor(ColorConstant.dark)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }

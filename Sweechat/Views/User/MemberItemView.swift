@@ -11,7 +11,7 @@ struct MemberItemView: View {
                     .font(FontConstant.Heading4)
                     .foregroundColor(ColorConstant.dark)
                 Text("Some information...")
-                    .font(FontConstant.ModuleDescription)
+                    .font(FontConstant.Description)
                     .foregroundColor(ColorConstant.dark)
             }
             .padding(.horizontal)
