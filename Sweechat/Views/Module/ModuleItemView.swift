@@ -44,6 +44,5 @@ struct ModuleItemView: View {
                 .fill(ColorConstant.primary)
                 .shadow(color: .gray, radius: 5, x: 1, y: 7)
         )
-        .padding(.bottom)
     }
 }
