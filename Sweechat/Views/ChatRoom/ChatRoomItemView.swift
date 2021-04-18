@@ -34,6 +34,7 @@ struct ChatRoomItemView: View {
                 .padding(.leading)
             }
             .padding()
+            .padding(.leading)
         }
     }
 }

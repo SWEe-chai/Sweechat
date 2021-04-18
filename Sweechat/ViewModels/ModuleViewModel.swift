@@ -71,6 +71,14 @@ class ModuleViewModel: ObservableObject {
         }
     }
 
+    func sortChatRooms() {
+        self.chatRoomViewModels.sort { lhs, rhs in
+            let lhsDate: Date = lhs.lastestMessageTime ?? lhs.creationTime
+            let rhsDate: Date = rhs.lastestMessageTime ?? rhs.creationTime
+            return lhsDate > rhsDate
+        }
+    }
+
     // MARK: Subscriptions
 
     private func initialiseSubscriber() {
@@ -132,11 +140,7 @@ class ModuleViewModel: ObservableObject {
                 )
             }
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
-        self.chatRoomViewModels.sort { lhs, rhs in
-            let lhsDate: Date = lhs.lastestMessageTime ?? lhs.creationTime
-            let rhsDate: Date = rhs.lastestMessageTime ?? rhs.creationTime
-            return lhsDate > rhsDate
-        }
+        self.sortChatRooms()
     }
 
     private func setChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
