@@ -1,6 +1,9 @@
 import Firebase
 import FacebookLogin
 
+/**
+ A representation of Facebook's authentication service.
+ */
 class ALFacebookAuthHandler: ALAuthHandler {
     weak var delegate: ALAuthHandlerDelegate?
     var type: ALAuthHandlerType {
@@ -8,6 +11,7 @@ class ALFacebookAuthHandler: ALAuthHandler {
     }
     private var manager = LoginManager()
 
+    /// Initiates Facebook sign in.
     func initiateSignIn() {
         manager.logIn(
             permissions:

@@ -1,15 +1,16 @@
-//
-//  FirebaseModuleAdapter.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 16/4/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ An adapter for translating between `Module` and its Firebase representation.
+ */
 struct FirebaseModuleAdapter {
-    // Since modules need to have a user, to convert, we need to have the user
+    /// Converts the specified Firebase document, `User`, and permissions into a `Module`.
+    /// - Parameters:
+    ///   - document: The specified Firebase document.
+    ///   - user: The specified `User`.
+    ///   - permissions: The specified permissions.
+    /// - Returns: A `Module` based on the specified Firebase document, or nil if the conversion fails.
     static func convert(document: DocumentSnapshot,
                         user: User,
                         withPermissions permissions: ModulePermissionBitmask) -> Module? {
@@ -35,6 +36,10 @@ struct FirebaseModuleAdapter {
         )
     }
 
+    /// Converts the specified `Module` into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - message: The specified `Module`.
+    /// - Returns: A Firebase compatible dictionary based on the specified `Module`.
     static func convert(module: Module) -> [String: Any] {
         [
             DatabaseConstant.Module.id: module.id.val,

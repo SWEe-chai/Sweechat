@@ -1,14 +1,16 @@
-//
-//  FirebaseChatRoomAdapter.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 16/4/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ An adapter for translating between `ChatRoom` and its Firebase representation.
+ */
 struct FirebaseChatRoomAdapter {
+    /// Converts the specified Firebase document, `User`, and permissions into a `ChatRoom`.
+    /// - Parameters:
+    ///   - document: The specified Firebase document.
+    ///   - user: The specified `User`.
+    ///   - permissions: The specified permissions.
+    /// - Returns: A `ChatRoom` based on the specified Firebase document, or nil if the conversion fails.
     static func convert(document: DocumentSnapshot,
                         user: User,
                         withPermissions permissions: ChatRoomPermissionBitmask) -> ChatRoom? {
@@ -66,6 +68,10 @@ struct FirebaseChatRoomAdapter {
         }
     }
 
+    /// Converts the specified `ChatRoom` into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - message: The specified `ChatRoom`.
+    /// - Returns: A Firebase compatible dictionary based on the specified `ChatRoom`.
     static func convert(chatRoom: ChatRoom) -> [String: Any] {
         var document: [String: Any] = [
             DatabaseConstant.ChatRoom.id: chatRoom.id.val,

@@ -1,13 +1,9 @@
-//
-//  FirebaseModuleFacade.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 24/3/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ A connection to the Firebase cloud service to handle `Module` related API calls.
+ */
 class FirebaseModuleFacade: ModuleFacade {
     weak var delegate: ModuleFacadeDelegate?
 
@@ -30,6 +26,7 @@ class FirebaseModuleFacade: ModuleFacade {
 
     // MARK: Initialization
 
+    /// Constructs a Firebase connection to listen to the module with the specified ID.
     init(moduleId: Identifier<Module>, user: User) {
         self.moduleId = moduleId
         self.user = user
@@ -38,7 +35,13 @@ class FirebaseModuleFacade: ModuleFacade {
 
     // MARK: ModuleFacade
 
-    func save(chatRoom: ChatRoom, userPermissions: [UserPermissionPair], onCompletion: (() -> Void)?) {
+    /// Saves the specified `ChatRoom` to Firebase and user permissions to Firebase,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - chatRoom: The specified `ChatRoom`.
+    ///   - userPermissions: The specified user permissions.
+    ///   - onCompletion: The function to execute on completion.
+    func save(chatRoom: ChatRoom, userPermissions: [UserChatRoomPermissionPair], onCompletion: (() -> Void)?) {
         saveChatRoom(chatRoom, onCompletion: onCompletion)
         saveUserPermissions(userPermissions, for: chatRoom)
     }
@@ -188,7 +191,7 @@ class FirebaseModuleFacade: ModuleFacade {
             }
     }
 
-    private func saveUserPermissions(_ userPermissions: [UserPermissionPair], for chatRoom: ChatRoom) {
+    private func saveUserPermissions(_ userPermissions: [UserChatRoomPermissionPair], for chatRoom: ChatRoom) {
         for userPermission in userPermissions {
             let pair = FirebaseUserChatRoomModulePair(
                 userId: userPermission.userId,

@@ -1,6 +1,9 @@
 import CryptoKit
 import Foundation
 
+/**
+ An interface for providing group-based cryptography.
+ */
 protocol GroupCryptographyProvider {
     func getPublicServerKeyBundleData() throws -> Data
     mutating func generateKeyExchangeDataFrom(serverKeyBundleData: Data, groupId: String) throws -> Data

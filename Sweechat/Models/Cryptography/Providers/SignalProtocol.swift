@@ -1,6 +1,9 @@
 import CryptoKit
 import Foundation
 
+/**
+ An implementation of the Signal protocol for group-based cryptography.
+ */
 struct SignalProtocol: GroupCryptographyProvider {
     private let userId: String
     private let jsonEncoder = JSONEncoder()
@@ -18,6 +21,7 @@ struct SignalProtocol: GroupCryptographyProvider {
     private static let chainKeyDictionaryKey = "ck"
     private static let signatureDictionaryKey = "signature"
 
+    /// Constructs a `SignalProtocol` cryptography provider for the specified user ID.
     init(userId: String) {
         self.userId = userId
         self.keyFactory = P256KeyFactory()
@@ -27,12 +31,21 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: getPublicServerKeyBundleData
 
+    /// Returns the user's public server key bundle data.
+    /// - Returns: The user's public server key bundle data.
+    /// - Throws: A `SignalProtocolError` if an error occurs while retrieving the data.
     func getPublicServerKeyBundleData() throws -> Data {
         try encode(keyBundle: publicServerKeyBundle)
     }
 
     // MARK: generateKeyExchangeDataFrom
 
+    /// Generates the user's key exchange data based on the specified server key bundle data and group ID.
+    /// - Parameters:
+    ///   - serverKeyBundleData: The specified server key bundle data.
+    ///   - groupId: The specified group ID.
+    /// - Returns: The user's key exchange data based on the result of the operation.
+    /// - Throws: A `SignalProtocolError` if an error occurs while generating the key exchange data.
     mutating func generateKeyExchangeDataFrom(serverKeyBundleData: Data, groupId: String) throws -> Data {
         // Generate server keys
         let (serverIdentityKey,
@@ -74,6 +87,11 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: process
 
+    /// Processes the specified key exchange data based on the specified group ID.
+    /// - Parameters:
+    ///   - keyExchangeBundleData: The specified key exchange data.
+    ///   - groupId: The specified group ID.
+    /// - Throws: A `SignalProtocolError` if an error occurs while processing the key exchange data.
     mutating func process(keyExchangeBundleData: Data, groupId: String) throws {
         // Generate key exchange keys
         let (keyExchangeIdentityKey,
@@ -102,6 +120,12 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: encrypt
 
+    /// Returns the ciphertext data from encrypting the specified plaintext data for the specified group ID.
+    /// - Parameters:
+    ///   - plaintextData: The specified plaintext data.
+    ///   - groupId: The specified group ID.
+    /// - Returns: The encrypted ciphertext data.
+    /// - Throws: A `SignalProtocolError` if an error occurs during encryption.
     func encrypt(plaintextData: Data, groupId: String) throws -> Data {
         let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.encrypt(plaintextData: plaintextData)
@@ -110,13 +134,19 @@ struct SignalProtocol: GroupCryptographyProvider {
 
     // MARK: decrypt
 
+    /// Returns the plaintext data from decrypting the specified ciphertext data for the specified group ID.
+    /// - Parameters:
+    ///   - ciphertextData: The specified ciphertext data.
+    ///   - groupId: The specified group ID.
+    /// - Returns: The decrypted plaintext data.
+    /// - Throws: A `SignalProtocolError` if an error occurs during decryption.
     func decrypt(ciphertextData: Data, groupId: String) throws -> Data {
         let chainKey = try getOrGenerateChainKey(groupId: groupId)
         let ciphertextData = try chainKey.decrypt(ciphertextData: ciphertextData)
         return ciphertextData
     }
 
-    // MARK: Helper functions
+    // MARK: Private Helper Methods
 
     private mutating func initialiseServerKeyBundles() {
         if let (privateServerKeyBundle,
@@ -336,6 +366,7 @@ struct SignalProtocol: GroupCryptographyProvider {
 }
 
 extension SymmetricKey {
+    /// A `SymmetricKey`'s raw representation (data).
     var rawRepresentation: Data {
         var data = Data()
         withUnsafeBytes({ data.append(contentsOf: $0) })

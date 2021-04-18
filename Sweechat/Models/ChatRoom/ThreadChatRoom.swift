@@ -1,11 +1,14 @@
 import Foundation
 
+/**
+ Represents a thread chat room in the application.
+ */
 class ThreadChatRoom: ChatRoom {
     var mostPopularMessage: Message? {
         messages.values.max { a, b in a.likers.count < b.likers.count }
     }
 
-    // This init is to create the function
+    /// Constructs a `ThreadChatRoom` for use in facade translation with the cloud service provider.
     init(postId: Identifier<ChatRoom>, sender: User, forumMembers: [User]) {
         super.init(name: "Thread",
                    members: forumMembers,
@@ -15,7 +18,7 @@ class ThreadChatRoom: ChatRoom {
                    givenChatRoomId: postId)
     }
 
-    // This init is when the thread is already created
+    /// Constructs a `ThreadChatRoom` to display on the screen.
     init(id: Identifier<ChatRoom>, ownerId: Identifier<User>, currentUser: User) {
         super.init(id: id,
                    name: "Thread",

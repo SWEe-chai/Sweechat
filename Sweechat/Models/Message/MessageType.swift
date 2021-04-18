@@ -1,10 +1,6 @@
-//
-//  MessageType.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 14/3/21.
-//
-
+/**
+ Represents the different `Message` types.
+ */
 public enum MessageType: String {
     case text
     case image

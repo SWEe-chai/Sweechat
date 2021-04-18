@@ -1,13 +1,16 @@
 import Combine
 import Foundation
 
+/**
+ Represents a private chat room in the application.
+ */
 class PrivateChatRoom: ChatRoom {
     var otherUser: User?
     var subscribers: [AnyCancellable] = []
 
     // MARK: Initialization
 
-    // Used by facade
+    /// Constructs a `PrivateChatRoom` for use in facade translation with the cloud service provider.
     init(id: Identifier<ChatRoom>,
          ownerId: Identifier<User>,
          currentUser: User,
@@ -21,6 +24,7 @@ class PrivateChatRoom: ChatRoom {
                    creationTime: creationTime)
     }
 
+    /// Constructs a `PrivateChatRoom` to display on the screen.
     init(currentUser: User,
          otherUser: User) {
         let members = [currentUser, otherUser]

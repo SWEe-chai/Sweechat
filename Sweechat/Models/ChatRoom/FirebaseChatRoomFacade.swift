@@ -1,14 +1,10 @@
-//
-//  FirebaseChatRoomFacade.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 19/3/21.
-//
-
 import FirebaseFirestore
 import FirebaseStorage
 import os
 
+/**
+ A connection to the Firebase cloud service to handle `ChatRoom` related API calls.
+ */
 class FirebaseChatRoomFacade: ChatRoomFacade {
     weak var delegate: ChatRoomFacadeDelegate?
 
@@ -30,6 +26,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     // MARK: Initialization
 
+    /// Constructs a Firebase connection to listen to the chatroom with the specified ID.
     init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
         self.user = user
@@ -39,6 +36,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     // MARK: ChatRoomFacade
 
+    /// Saves the specified `Message` to Firebase.
+    /// - Parameters:
+    ///   - message: The specified `Message`.
     func save(_ message: Message) {
         messagesReference?
             .document(message.id.val)
@@ -50,6 +50,11 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
+    /// Uploads the specified file data to Firebase and executes the specified function on completion.
+    /// - Parameters:
+    ///   - data: The specified file data.
+    ///   - fileName: The specified file name.
+    ///   - onCompletion: The function to execute on completion.
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
         storage.child(fileName).putData(data, metadata: nil) { _, error in
             guard error == nil else {
@@ -68,6 +73,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
+    /// Loads the next block of `Message`s from Firebase and runs the specified function on completion.
+    /// - Parameters:
+    ///   - onCompletion: The specified function to run on completion.
     func loadNextBlockOfMessages(onCompletion: @escaping ([Message]) -> Void) {
         guard let oldestMessageDocument = self.oldestMessageDocument else {
             os_log("Trying to load next block but not available")
@@ -93,6 +101,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
+    /// Loads the `Message` with the specified ID from Firebase and executes the specified function on completion.
+    /// - Parameters:
+    ///   - id: The specified ID.
+    ///   - onCompletion: The specified function to execute on completion.
     func loadMessage(withId id: String, onCompletion: @escaping (Message?) -> Void) {
         messagesReference?
             .document(id)
@@ -106,6 +118,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
+    /// Loads `Message`s until the specified time, and executes the specified function on completion.
+    /// - Parameters:
+    ///   - time: The specified time.
+    ///   - onCompletion: The specified function to execute on completion.
     func loadMessagesUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
         let timestamp = Timestamp(date: time)
         filteredMessagesReference?
@@ -126,7 +142,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
+    /// Loads the key bundles of the specified `User`s from Firebase,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - users: The specified `User`s.
+    ///   - onCompletion: The specified function to execute on completion.
+    func loadPublicKeyBundlesFromServer(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         for chunk in users.chunked(into: FirebaseUtils.queryChunkSize) {
             self.publicKeyBundlesReference?
                 .whereField(DatabaseConstant.PublicKeyBundle.userId, in: chunk.map({ $0.id.val }))
@@ -152,6 +173,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
+    /// Deletes the specified `Message` from Firebase.
+    /// - Parameters:
+    ///   - message: The specified `Message`.
     func delete(_ message: Message) {
         self.messagesReference?
             .document(message.id.val)

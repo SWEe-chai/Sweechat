@@ -1,7 +1,14 @@
 import FirebaseFirestore
 import os
 
+/**
+ A utility class that queries the Firebase connection for `UserChatRoomModulePair`s.
+ */
 class FirebaseUserChatRoomModulePairQuery {
+    /// Retrieves the `UserModuleChatroomPair` with the chatroom ID and executes the specified function on completion.
+    /// - Parameters:
+    ///   - chatRoomId: The specified chatroom ID.
+    ///   - onCompletion: The specified function to run on completion.
     static func getUserChatRoomModulePairs(chatRoomId: Identifier<ChatRoom>,
                                            onCompletion: @escaping ([FirebaseUserChatRoomModulePair]) -> Void) {
         FirebaseUtils
@@ -22,6 +29,12 @@ class FirebaseUserChatRoomModulePairQuery {
             }
     }
 
+    /// Retrieves the `UserModuleChatroomPair` with the chatroom ID and user ID,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - chatRoomId: The specified chatroom ID.
+    ///   - userId: The specified user ID.
+    ///   - onCompletion: The specified function to run on completion.
     static func getUserChatRoomModulePair(chatRoomId: Identifier<ChatRoom>,
                                           userId: Identifier<User>,
                                           onCompletion: @escaping (FirebaseUserChatRoomModulePair?) -> Void) {

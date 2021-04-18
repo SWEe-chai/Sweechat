@@ -1,14 +1,14 @@
-//
-//  FirebaseMessageAdapter.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 16/4/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ An adapter for translating between `Message` and its Firebase representation.
+ */
 struct FirebaseMessageAdapter {
+    /// Converts the specified Firebase document into a `Message`.
+    /// - Parameters:
+    ///   - document: The specified Firebase document.
+    /// - Returns: A `Message` based on the specified Firebase document, or nil if the conversion fails.
     static func convert(document: DocumentSnapshot) -> Message? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
@@ -50,6 +50,10 @@ struct FirebaseMessageAdapter {
         return nil
     }
 
+    /// Converts the specified `Message` into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - message: The specified `Message`.
+    /// - Returns: A Firebase compatible dictionary based on the specified `Message`.
     static func convert(message: Message) -> [String: Any] {
         var map: [String: Any] =
         [
@@ -70,5 +74,4 @@ struct FirebaseMessageAdapter {
 
         return map
     }
-
 }
