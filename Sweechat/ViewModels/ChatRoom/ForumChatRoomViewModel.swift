@@ -75,6 +75,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
             post.delegate = self
             return ThreadChatRoomViewModel(post: post, user: self.forumChatRoom.currentUser)
         })
+        self.threadViewModels.sort { $0.post.creationTime < $1.post.creationTime }
     }
 
     private func updatePostViewModels(withPostIdsToPosts postIdsToPosts: [Identifier<Message>: Message]) {
