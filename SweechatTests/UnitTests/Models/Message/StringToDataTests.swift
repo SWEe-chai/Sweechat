@@ -1,5 +1,5 @@
 //
-//  MessageTests.swift
+//  StringToDataTests.swift
 //  SweechatTests
 //
 //  Created by Kevin Lim on 18/4/21.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-class MessageTests: XCTestCase {
+class StringToDataTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
