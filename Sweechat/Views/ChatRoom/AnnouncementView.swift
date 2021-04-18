@@ -3,6 +3,7 @@ import SwiftUI
 struct AnnouncementView: View {
     @ObservedObject var viewModel: ChatRoomViewModel
     @State var parentPreviewMetadata: ParentPreviewMetadata?
+    @Binding var isNavigationBarHidden: Bool
 
     var body: some View {
         HStack {
@@ -12,9 +13,9 @@ struct AnnouncementView: View {
                 parentPreviewMetadata: .constant(nil))
             Spacer()
         }
+        .onAppear { isNavigationBarHidden = false }
         .background(ColorConstant.base)
-        .navigationBarHidden(false)
-        .navigationBarBackButtonHidden(false)
+        .navigationBarHidden(isNavigationBarHidden)
         .navigationTitle(Text(viewModel.text))
     }
 }
@@ -31,6 +32,6 @@ struct AnnouncementView_Previews: PreviewProvider {
                         currentUser: User(id: "Hello", name: "Happy boi"),
                         currentUserPermission: ChatRoomPermission.all,
                         isStarred: false),
-                    user: User(id: "Hello", name: "Happy boi")))
+                    user: User(id: "Hello", name: "Happy boi")), isNavigationBarHidden: .constant(false))
     }
 }

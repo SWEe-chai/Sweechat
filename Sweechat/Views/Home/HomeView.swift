@@ -39,8 +39,8 @@ struct HomeView: View {
                         }) {
                             ModuleItemView(viewModel: moduleViewModel, index: index)
                         }
+                        .padding([.horizontal, .bottom])
                     }
-                    .padding()
                     NavigationLink(
                         "",
                         destination: LazyNavView(
