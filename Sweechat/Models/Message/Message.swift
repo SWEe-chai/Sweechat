@@ -18,7 +18,7 @@ class Message: ObservableObject {
 
     // MARK: Initialization
 
-    /// Constructs a message to display on the screen.
+    /// Constructs a `Message` to display on the screen.
     init(senderId: Identifier<User>,
          content: Data,
          type: MessageType,
@@ -35,7 +35,7 @@ class Message: ObservableObject {
         self.likers = []
     }
 
-    /// Constructs a message for use in facade translation with the cloud service provider.
+    /// Constructs a `Message` for use in facade translation with the cloud service provider.
     init(id: Identifier<Message>,
          senderId: Identifier<User>,
          creationTime: Date,

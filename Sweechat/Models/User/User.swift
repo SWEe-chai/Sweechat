@@ -43,7 +43,7 @@ class User: ObservableObject {
 
     // MARK: Facade Connection
 
-    /// Sets up a connection to the srerver to listen to updates to this `User`.
+    /// Sets up a connection to the server to listen to updates to this `User`.
     func setUserConnection() {
         self.userFacade = FirebaseUserFacade(userId: id)
         userFacade?.delegate = self
@@ -74,7 +74,8 @@ class User: ObservableObject {
         $name.sink(receiveValue: function)
     }
 
-    /// Subscribes to the this `User`'s profile picture by executing the specified function on change to the profile picture.
+    /// Subscribes to the this `User`'s profile picture by executing the specified function
+    /// on change to the profile picture.
     /// - Parameters:
     ///   - function: The specified function to execute on change to the profile picture.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.

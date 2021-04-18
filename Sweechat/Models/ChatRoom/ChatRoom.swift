@@ -2,6 +2,9 @@ import Combine
 import Foundation
 import os
 
+/**
+ Represents a chat room in the application.
+ */
 class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     static let allUsersId: Identifier<User> = "all"
     static let failedEncryptionMessageContent = "This chat room message could not be encrypted"
@@ -30,6 +33,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         Array(memberIdsToUsers.values)
     }
 
+    /// Creates an instance of an unavailable `ChatRoom`.
+    /// This method should be called when there is an error retrieving chatroom information from the server.
+    /// - Returns: An instance of an unavailable `ChatRoom`.
     static func createUnavailableInstance() -> GroupChatRoom {
         GroupChatRoom(
             id: unavailableChatRoomId,
@@ -43,7 +49,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: Initialization
 
-    // For syncing with cloud service
+    /// Constructs a `ChatRoom` for use in facade translation with the cloud service provider.
     init(id: Identifier<ChatRoom>,
          name: String,
          ownerId: Identifier<User>,
@@ -61,7 +67,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
     }
 
-    // For creating new chatrooms in the frontend
+    /// Constructs a `ChatRoom` to display on the screen.
     init(name: String,
          members: [User],
          currentUser: User,
@@ -82,10 +88,14 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: Facade Connection
 
+    /// Sets up a connection to the server to listen to updates to this `ChatRoom`.
     func setChatRoomConnection() {
         self.chatRoomFacade = FirebaseChatRoomFacade(chatRoomId: id, user: currentUser, delegate: self)
     }
 
+    /// Stores the specified `Message` on the server.
+    /// - Parameters:
+    ///   - message: The specified `Message`.
     func storeMessage(message: Message) {
         let messageCopy = message.copy()
 
@@ -96,12 +106,18 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.chatRoomFacade?.save(messageCopy)
     }
 
+    /// Uploads the specified file data to the server and executes the specified function on completion.
+    /// - Parameters:
+    ///   - data: The specified file data.
+    ///   - fileName: The specified file name.
+    ///   - onCompletion: The function to execute on completion.
     func uploadToStorage(data: Data, fileName: String, onCompletion: ((URL) -> Void)?) {
         self.chatRoomFacade?.uploadToStorage(data: data, fileName: fileName, onCompletion: onCompletion)
     }
 
     // MARK: Pagination
 
+    /// Loads the next block of messages.
     func loadMore() {
         chatRoomFacade?.loadNextBlockOfMessages { messages in
             if messages.isEmpty {
@@ -111,6 +127,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         }
     }
 
+    /// Loads all messages until the specified message in chronological ordering
+    /// - Parameters:
+    ///   - message: The specified `Message`.
     func loadUntil(message: Message) {
         chatRoomFacade?.loadMessagesUntil(message.creationTime) {
             self.insertAll(messages: $0)
@@ -119,29 +138,53 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     // MARK: Subscriptions
 
+    /// Subscribes to the this `ChatRoom`'s messages by executing the specified function on change to the messages.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the messages
+    /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToMessages(function: @escaping ([Identifier<Message>: Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
     }
 
+    /// Subscribes to the this `ChatRoom`'s early loaded messages by executing the specified function
+    /// on change to the early loaded messages.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the early loaded messages.
+    /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToEarlyLoadedMessages(function: @escaping ([Identifier<Message>: Message]) -> Void)
             -> AnyCancellable {
         $earlyLoadedMessages.sink(receiveValue: function)
     }
 
+    /// Subscribes to the this `ChatRoom`'s message load by executing the specified function once all messages are loaded.
+    /// - Parameters:
+    ///   - function: The specified function to execute once all messages are loaded.
+    /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToAreAllMessagesLoaded(function: @escaping (Bool) -> Void) -> AnyCancellable {
         $areAllMessagesLoaded.sink(receiveValue: function)
     }
 
+    /// Subscribes to the this `ChatRoom`'s name load by executing the specified function on change to the name.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the name.
+    /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
     }
 
+    /// Subscribes to the this `ChatRoom`'s name load by executing the specified function on change to the profile picture.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the profile picture.
+    /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToProfilePicture(function: @escaping (String?) -> Void) -> AnyCancellable {
         $profilePictureUrl.sink(receiveValue: function)
     }
 
     // MARK: ChatRoomFacadeDelegate
 
+    /// Inserts the specified `Message` into this `ChatRoom`.
+    /// - Parameters:
+    ///  - message: The specified `Message`.
     func insert(message: Message) {
         if self.messages[message.id] != nil {
             return
@@ -159,10 +202,16 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.messages[message.id] = message
     }
 
+    /// Inserts the specified `Message`s into this `ChatRoom`.
+    /// - Parameters:
+    ///  - messages: The specified `Message`s.
     func insertAll(messages: [Message]) {
         messages.forEach { insert(message: $0) }
     }
 
+    /// Handles the specified key exchange messages based on whether the current `User` is this `ChatRoom`s creator.
+    /// - Parameters:
+    ///  - keyExchangeMessages: The specified key exchange messages.
     func handleKeyExchangeMessages(keyExchangeMessages: [Message]) -> Bool {
         // No key exchange messages and user is owner
         if currentUser.id == ownerId && keyExchangeMessages.isEmpty {
@@ -183,6 +232,9 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         return true
     }
 
+    /// Updates the specified `Message` in this `ChatRoom`.
+    /// - Parameters:
+    ///  - messages: The specified `Message`.
     func update(message: Message) {
         assert(earlyLoadedMessages[message.id] == nil || messages[message.id] == nil)
         decryptMessageIfNecessary(message)
@@ -190,38 +242,60 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         messages[message.id]?.update(message: message)
     }
 
+    /// Gets the `User` with the specified ID.
+    /// - Parameters:
+    ///  - userId: The specified ID.
+    /// - Returns: The `User` with the specified ID if exists in this `ChatRoom`, or an unavailable `User` otherwise.
     func getUser(userId: Identifier<User>) -> User {
         memberIdsToUsers[userId] ?? User.createUnavailableInstance()
     }
 
+    /// Removes the specified `Message` from this `ChatRoom`.
+    /// - Parameters:
+    ///  - messages: The specified `Message`.
     func remove(message: Message) {
         self.earlyLoadedMessages.removeValue(forKey: message.id)
         self.messages.removeValue(forKey: message.id)
     }
 
+    /// Inserts the specified `User` into this `ChatRoom`.
+    /// - Parameters:
+    ///  - member: The specified `User`.
     func insert(member: User) {
         if !self.members.contains(member) {
             memberIdsToUsers[member.id] = member
         }
     }
 
+    /// Removes the specified `User` from this `ChatRoom`.
+    /// - Parameters:
+    ///  - member: The specified `User`.
     func remove(member: User) {
         if memberIdsToUsers.keys.contains(member.id) {
             memberIdsToUsers.removeValue(forKey: member.id)
         }
     }
 
+    /// Inserts the specified `User`s into this `ChatRoom`.
+    /// - Parameters:
+    ///  - members: The specified `User`s.
     func insertAll(members: [User]) {
         for member in members {
             memberIdsToUsers[member.id] = member
         }
     }
 
+    /// Updates this `ChatRoom` with information from the specified `ChatRoom`.
+    /// - Parameters:
+    ///   - message: The specified `ChatRoom`.
     func update(chatRoom: ChatRoom) {
         self.name = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
     }
 
+    /// Deletes the specified `Message` from this `ChatRoom`.
+    /// - Parameters:
+    ///  - message: The specified `Message`.
     func delete(message: Message) {
         chatRoomFacade?.delete(message)
     }
@@ -308,6 +382,11 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 }
 
 extension ChatRoom: Equatable {
+    /// Whether two `ChatRoom`s are equal.
+    /// - Parameters:
+    ///   - lhs: The first `ChatRoom`.
+    ///   - rhs: The second `ChatRoom`.
+    /// - Returns: `true` if the two `ChatRoom`s are equal.
     static func == (lhs: ChatRoom, rhs: ChatRoom) -> Bool {
         lhs.id == rhs.id
     }
