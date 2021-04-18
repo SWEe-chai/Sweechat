@@ -100,7 +100,7 @@ class ModuleViewModel: ObservableObject {
     func loadThisChatRoom(chatRoomId: String) {
         AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
             if self
-                .getChatRoomViewModel(
+                .setChatRoomViewModel(
                     chatRoomId: chatRoomId
                 ) != nil {
                 return false
@@ -134,7 +134,7 @@ class ModuleViewModel: ObservableObject {
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
     }
 
-    private func getChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
+    private func setChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
             self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
             self.isDirectChatRoomLoaded = true

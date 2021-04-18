@@ -25,7 +25,9 @@ class HomeViewModel: ObservableObject {
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
-        handleRedirectionToModule()
+        if notificationMetadata.isFromNotif {
+            handleRedirectionToModule()
+        }
     }
 
     func handleRedirectionToModule() {
@@ -33,12 +35,13 @@ class HomeViewModel: ObservableObject {
         self.isDirectModuleLoaded = false
         DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
             AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                if self.getModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                if self.setModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
                     DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
                     self.directModuleViewModel
                         .loadThisChatRoom(
                             chatRoomId: self.notificationMetadata.directChatRoomId)
                     }
+                    self.notificationMetadata.isFromNotif = false
                     return false
                 }
                 return true
@@ -82,7 +85,7 @@ class HomeViewModel: ObservableObject {
         moduleList.joinModule(moduleId: id)
     }
 
-    func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
+    func setModuleViewModel(moduleId: String) -> ModuleViewModel? {
         if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
             self.directModuleViewModel = unwrappedDirectModuleViewModel
             self.isDirectModuleLoaded = true
