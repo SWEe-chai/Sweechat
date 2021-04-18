@@ -8,9 +8,6 @@ struct ForumPostView: View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading) {
-                    MessageContentViewFactory.makeView(viewModel: viewModel.post)
-                        .foregroundColor(ColorConstant.base)
-                        .font(FontConstant.ForumPost)
                     HStack {
                         ProfilePicture(url: viewModel.post.profilePictureUrl)
                         Text(viewModel.post.senderName)
@@ -19,14 +16,20 @@ struct ForumPostView: View {
                         Spacer()
                         LikeButtonView(viewModel: viewModel.post)
                             .foregroundColor(ColorConstant.base)
-                            .padding(.leading)
+                            .padding()
                     }
-                }
-                Spacer()
-                if clickable {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(ColorConstant.light)
-                        .padding(.leading)
+                    HStack {
+                        MessageContentViewFactory.makeView(viewModel: viewModel.post)
+                            .foregroundColor(ColorConstant.base)
+                            .font(FontConstant.ForumPost)
+
+                        Spacer()
+                        if clickable {
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(ColorConstant.white)
+                                .padding(.leading)
+                        }
+                    }
                 }
             }.padding(.leading).padding(.top, 5)
             Divider()
@@ -40,7 +43,7 @@ struct ForumPostView: View {
             }
         }
         .padding(10)
-        .background(ColorConstant.dark)
+        .background(ColorConstant.mediumDark)
         .contextMenu {
             if viewModel.post.isSenderCurrentUser {
                 contextMenuDeleteButton()
