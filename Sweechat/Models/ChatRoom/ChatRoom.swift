@@ -140,7 +140,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     /// Subscribes to the this `ChatRoom`'s messages by executing the specified function on change to the messages.
     /// - Parameters:
-    ///   - function: The specified function to execute on change to the messages
+    ///   - function: The specified function to execute on change to the messages.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToMessages(function: @escaping ([Identifier<Message>: Message]) -> Void) -> AnyCancellable {
         $messages.sink(receiveValue: function)
@@ -289,7 +289,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
 
     /// Updates this `ChatRoom` with information from the specified `ChatRoom`.
     /// - Parameters:
-    ///   - message: The specified `ChatRoom`.
+    ///   - chatRoom: The specified `ChatRoom`.
     func update(chatRoom: ChatRoom) {
         self.name = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
