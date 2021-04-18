@@ -127,7 +127,8 @@ struct ModuleView: View {
         .background(ColorConstant.primary.ignoresSafeArea())
         .sheet(isPresented: $showingCreateChatRoom) {
             CreateChatRoomView(viewModel: viewModel.createChatRoomViewModel,
-                               isShowing: $showingCreateChatRoom)
+                               isShowing: $showingCreateChatRoom,
+                               moduleName: viewModel.text)
         }
         .navigationBarTitle("")
         .navigationBarHidden(isNavigationBarHidden)

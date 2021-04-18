@@ -13,7 +13,7 @@ struct ProfilePicture: View {
                 .fill(ColorConstant.light)
                 .frame(width: 50, height: 50)
                 .overlay(
-                    Image(systemName: "person")
+                    Image(systemName: "person.3")
                 )
         }
     }
