@@ -164,6 +164,9 @@ class ChatRoomMediaCache {
     }
 
     private func getDestinationUrlFrom(onlineUrlString: String) -> URL? {
+        /*
+            https://<<domain>>/<<routes>>/0D2F9E68-4D18-47D9-9782-00C841B4F3CE.MOV?<<query param>>
+         */
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
               let hash = onlineUrlString.split(separator: "/").last,
               hash.split(separator: ".").count >= 2,
