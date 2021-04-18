@@ -1,13 +1,13 @@
+import Combine
 import XCTest
 @testable import Sweechat
 
 class UserTests: XCTestCase {
-    private var details = UserRepresentation(id: "1", name: "user", profilePictureUrl: "url")
     private var sut: User!
 
     override func setUp() {
         super.setUp()
-        sut = User(details: details)
+        sut = User(id: Identifier<User>(stringLiteral: "1"))
     }
 
     override func tearDown() {
@@ -15,23 +15,34 @@ class UserTests: XCTestCase {
         super.tearDown()
     }
 
-    func testUpdateUserData_allDetailsFilled_updatesUserDataWithDetails() {
-        let newDetails = UserRepresentation(id: "2", name: "name", profilePictureUrl: "pic")
+    func testCreateUnavailableInstance_returnsUserWithUnavailableDetails() {
+        let unavailableUser = User.createUnavailableInstance()
 
-        sut.updateUserData(withDetails: newDetails)
-
-        XCTAssertEqual(sut.id, newDetails.id)
-        XCTAssertEqual(sut.name, newDetails.name)
-        XCTAssertEqual(sut.profilePictureUrl, newDetails.profilePictureUrl)
+        XCTAssertEqual(unavailableUser.id, User.unvailableUserId)
+        XCTAssertEqual(unavailableUser.name, User.unvailableUserName)
     }
 
-    func testUpdateUserData_nilProfilePictureUrl_updatesUserDataWithDetailsAndNilProfilePictureUrl() {
-        let newDetails = UserRepresentation(id: "2", name: "name", profilePictureUrl: nil)
+    func testSubscribeToName_callsFunctionOnNameChange() {
+        var isFunctionCalled = false
+        let function: (String) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        sut.updateUserData(withDetails: newDetails)
+        let _: AnyCancellable = sut.subscribeToName(function: function)
+        sut.name = ""
 
-        XCTAssertEqual(sut.id, newDetails.id)
-        XCTAssertEqual(sut.name, newDetails.name)
-        XCTAssertEqual(sut.profilePictureUrl, newDetails.profilePictureUrl)
+        XCTAssertTrue(isFunctionCalled)
+    }
+
+    func testSubscribeToProfilePicture_callsFunctionOnProfilePictureUrlChange() {
+        var isFunctionCalled = false
+        let function: (String?) -> Void = { _ in
+            isFunctionCalled = true
+        }
+
+        let _: AnyCancellable = sut.subscribeToProfilePicture(function: function)
+        sut.profilePictureUrl = ""
+
+        XCTAssertTrue(isFunctionCalled)
     }
 }
