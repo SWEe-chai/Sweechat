@@ -6,6 +6,7 @@ class FirebaseUserModulePair {
     let moduleId: Identifier<Module>
     let permissions: ModulePermissionBitmask
 
+    /// Constructs a `FirebaseUserModulePair` with the specified information.
     init(userId: Identifier<User>, moduleId: Identifier<Module>, permissions: ModulePermissionBitmask) {
         self.userId = userId
         self.moduleId = moduleId
