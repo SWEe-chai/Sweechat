@@ -26,7 +26,7 @@ class FirebaseUserFacade: UserFacade {
 
     // MARK: UserFacade
 
-    func loginAndlistenToUser(_ user: User) {
+    func loginAndListenToUser(_ user: User) {
         userId = user.id
         self.usersReference.document(userId.val).getDocument { document, _ in
             if let document = document, document.exists {
