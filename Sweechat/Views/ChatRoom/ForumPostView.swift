@@ -9,31 +9,42 @@ struct ForumPostView: View {
             HStack {
                 VStack(alignment: .leading) {
                     HStack {
-                        ProfilePicture(url: viewModel.post.profilePictureUrl)
-                        Text(viewModel.post.senderName)
-                            .font(FontConstant.MessageSender)
-                            .foregroundColor(ColorConstant.base)
-                        Spacer()
-                        LikeButtonView(viewModel: viewModel.post)
-                            .foregroundColor(ColorConstant.base)
-                            .padding()
-                    }
-                    HStack {
-                        MessageContentViewFactory.makeView(viewModel: viewModel.post)
-                            .foregroundColor(ColorConstant.base)
-                            .font(FontConstant.ForumPost)
+                        HStack {
+                            MessageContentViewFactory.makeView(viewModel: viewModel.post)
+                                .foregroundColor(ColorConstant.dark)
+                                .font(FontConstant.ForumPost)
+
+                        }.padding(.leading)
+                            .overlay(
+                                Rectangle()
+                                    .fill(ColorConstant.primary)
+                                    .frame(width: 4)
+                                    .padding(.trailing),
+                                alignment: .leading
+                            )
 
                         Spacer()
                         if clickable {
                             Image(systemName: "chevron.right")
-                                .foregroundColor(ColorConstant.white)
-                                .padding(.leading)
+                                .foregroundColor(ColorConstant.dark)
+                                .padding()
                         }
+                    }
+
+                    HStack {
+                        ProfilePicture(url: viewModel.post.profilePictureUrl, size: 25)
+                        Text(viewModel.post.senderName)
+                            .font(FontConstant.MessageSender)
+                            .foregroundColor(ColorConstant.tertiary)
+                        Spacer()
+                        LikeButtonView(viewModel: viewModel.post)
+                            .foregroundColor(ColorConstant.tertiary)
+                            .padding(.horizontal)
                     }
                 }
             }.padding(.leading).padding(.top, 5)
             Divider()
-                .background(ColorConstant.white)
+                .background(ColorConstant.primary)
             if let mostPopularMessage = viewModel.mostPopularMessage, clickable {
                 HStack {
                     Spacer()
@@ -43,7 +54,7 @@ struct ForumPostView: View {
             }
         }
         .padding(10)
-        .background(ColorConstant.mediumDark)
+        .background(ColorConstant.tertiary2)
         .contextMenu {
             if viewModel.post.isSenderCurrentUser {
                 contextMenuDeleteButton()

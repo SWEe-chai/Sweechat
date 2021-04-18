@@ -7,13 +7,13 @@ struct MostPopularThreadMessageView: View {
         HStack {
             HStack {
                 Image(systemName: "arrow.turn.down.right")
-                    .foregroundColor(ColorConstant.light)
+                    .foregroundColor(ColorConstant.primary)
 
                 MessageContentViewFactory.makeView(viewModel: viewModel)
-                    .foregroundColor(ColorConstant.light)
+                    .foregroundColor(ColorConstant.primary)
                 Spacer()
                 Image(systemName: "star.fill")
-                    .foregroundColor(ColorConstant.light)
+                    .foregroundColor(ColorConstant.primary)
             }
         }
         .padding(10)
