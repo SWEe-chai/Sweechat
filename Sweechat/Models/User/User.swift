@@ -35,15 +35,16 @@ class User: ObservableObject {
 
     // MARK: Facade Connection
 
-    func setUserConnection() {
+    func setUserConnection(currentUser: Bool = false) {
         self.userFacade = FirebaseUserFacade(userId: id)
         userFacade?.delegate = self
-        userFacade?.loginAndListenToUser(
+        userFacade?.listenToUser(
             User(
                 id: id,
                 name: name,
                 profilePictureUrl: profilePictureUrl
-            )
+            ),
+            currentUser: currentUser
         )
     }
 
