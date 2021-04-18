@@ -1,14 +1,14 @@
-//
-//  FirebaseUserAdapter.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 16/4/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ An adapter for translating between `User` and its Firebase representation.
+ */
 struct FirebaseUserAdapter {
+    /// Converts the specified Firebase document into a `User`.
+    /// - Parameters:
+    ///   - document: The specified Firebase document.
+    /// - Returns: A `User` based on the specified Firebase document.
     static func convert(document: DocumentSnapshot) -> User {
         if !document.exists {
             os_log("Error: Cannot convert user, user document does not exist")
@@ -30,6 +30,10 @@ struct FirebaseUserAdapter {
         )
     }
 
+    /// Converts the specified `User` into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - user: The specified `User`.
+    /// - Returns: A Firebase compatible dictionary based on the specified `User`.
     static func convert(user: User) -> [String: Any] {
         [
             DatabaseConstant.User.id: user.id.val,
@@ -38,6 +42,11 @@ struct FirebaseUserAdapter {
         ]
     }
 
+    /// Converts the specified user ID and public key bundle data into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - userId: The specified user ID.
+    ///   - publicKeyBundleData: The specified public key bundle data.
+    /// - Returns: A Firebase compatible dictionary based on the specified user ID and key bundle data.
     static func convert(userId: Identifier<User>, publicKeyBundleData: Data) -> [String: Any] {
         [
             DatabaseConstant.PublicKeyBundle.userId: userId.val,
