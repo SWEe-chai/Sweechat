@@ -2,7 +2,15 @@ import FirebaseFirestore
 import FirebaseStorage
 import os
 
+/**
+ A utility class that queries the Firebase connection for `ChatRoom`s.
+ */
 class FirebaseChatRoomQuery {
+    /// Retrieves the `ChatRoom` with the specified ID and `User` and executes the specified function on completion.
+    /// - Parameters:
+    ///   - chatRoomId: The specified chatroom ID.
+    ///   - user: The specified `User`.
+    ///   - onCompletion: The specified function to run on completion.
     static func getChatRoom(chatRoomId: Identifier<ChatRoom>,
                             user: User,
                             onCompletion: @escaping (ChatRoom) -> Void) {
@@ -15,6 +23,12 @@ class FirebaseChatRoomQuery {
         }
     }
 
+    /// Retrieves the `ChatRoom` with the specified `FirebaseUserChatRoomModulePair` and `User`,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - pair: The specified `FirebaseUserChatRoomModulePair`.
+    ///   - user: The specified `User`.
+    ///   - onCompletion: The specified function to run on completion.
     static func getChatRoom(pair: FirebaseUserChatRoomModulePair,
                             user: User,
                             onCompletion: @escaping (ChatRoom) -> Void) {
@@ -25,6 +39,12 @@ class FirebaseChatRoomQuery {
         }
     }
 
+    /// Retrieves the `ChatRoom`s with the specified `FirebaseUserChatRoomModulePair`s and `User`,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - pairs: The specified `FirebaseUserChatRoomModulePair`s.
+    ///   - user: The specified `User`.
+    ///   - onCompletion: The specified function to run on completion.
     static func getChatRooms(pairs: [FirebaseUserChatRoomModulePair],
                              user: User,
                              onCompletion: @escaping ([ChatRoom]) -> Void) {
