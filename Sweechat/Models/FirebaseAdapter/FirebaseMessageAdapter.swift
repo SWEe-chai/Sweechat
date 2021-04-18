@@ -2,7 +2,7 @@ import FirebaseFirestore
 import os
 
 /**
- An adapater for translating between `Message` and its Firebase representation.
+ An adapter for translating between `Message` and its Firebase representation.
  */
 struct FirebaseMessageAdapter {
     /// Converts the specified Firebase document into a `Message`.

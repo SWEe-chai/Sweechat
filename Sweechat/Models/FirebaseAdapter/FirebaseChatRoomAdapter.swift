@@ -2,7 +2,7 @@ import FirebaseFirestore
 import os
 
 /**
- An adapater for translating between `ChatRoom` and its Firebase representation.
+ An adapter for translating between `ChatRoom` and its Firebase representation.
  */
 struct FirebaseChatRoomAdapter {
     /// Converts the specified Firebase document, `User`, and permissions into a `ChatRoom`.
@@ -10,7 +10,7 @@ struct FirebaseChatRoomAdapter {
     ///   - document: The specified Firebase document.
     ///   - user: The specified `User`.
     ///   - permissions: The specified permissions.
-    /// - Returns: A `Message` based on the specified Firebase document, or nil if the conversion fails.
+    /// - Returns: A `ChatRoom` based on the specified Firebase document, or nil if the conversion fails.
     static func convert(document: DocumentSnapshot,
                         user: User,
                         withPermissions permissions: ChatRoomPermissionBitmask) -> ChatRoom? {
