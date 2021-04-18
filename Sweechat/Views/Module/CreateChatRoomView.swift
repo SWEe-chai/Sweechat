@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateChatRoomView: View {
     var viewModel: CreateChatRoomViewModel
     @Binding var isShowing: Bool
+    let moduleName: String
 
     var body: some View {
         NavigationView {
@@ -19,7 +20,7 @@ struct CreateChatRoomView: View {
                         viewModel.createPrivateGroupChatWith(memberViewModel: memberItemViewModel)
                         isShowing = false
                     }, label: {
-                        MemberItemView(viewModel: memberItemViewModel)
+                        MemberItemView(viewModel: memberItemViewModel, moduleName: moduleName)
                             .padding()
                     })
                     .buttonStyle(PlainButtonStyle())
@@ -33,7 +34,7 @@ struct CreateChatRoomView: View {
             .navigationBarItems(leading: Text("New Message")
                 .foregroundColor(ColorConstant.dark))
             .toolbar {
-                CreateChatRoomToolbarView(viewModel: viewModel, isShowing: $isShowing)
+                CreateChatRoomToolbarView(viewModel: viewModel, isShowing: $isShowing, moduleName: moduleName)
             }
         }
     }
