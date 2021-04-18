@@ -9,7 +9,6 @@ class PrivateChatRoom: ChatRoom {
 
     // MARK: Initialization
 
-    
     /// Constructs a `PrivateChatRoom` for use in facade translation with the cloud service provider.
     init(id: Identifier<ChatRoom>,
          ownerId: Identifier<User>,

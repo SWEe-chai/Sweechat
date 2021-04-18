@@ -1,6 +1,10 @@
 import Combine
 
+/**
+ Represents a forum chat room in the application.
+ */
 class ForumChatRoom: ChatRoom {
+    /// Constructs a `ForumChatRoom` for use in facade translation with the cloud service provider.
     override init(id: Identifier<ChatRoom>,
                   name: String,
                   ownerId: Identifier<User>,
@@ -20,6 +24,7 @@ class ForumChatRoom: ChatRoom {
                    profilePictureUrl: profilePictureUrl)
     }
 
+    /// Constructs a `ForumChatRoom` to display on the screen.
     init(name: String,
          members: [User],
          currentUser: User,
