@@ -26,7 +26,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
 
     // MARK: Initialization
 
-    /// Constructs a `ChatRoom` with the specified information.
+    /// Constructs a Firebase connection to listen to the chatroom with the specified ID.
     init(chatRoomId: Identifier<ChatRoom>, user: User, delegate: ChatRoomFacadeDelegate) {
         self.chatRoomId = chatRoomId
         self.user = user
