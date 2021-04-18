@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MemberItemSelectView: View {
     @ObservedObject var viewModel: MemberItemViewModel
+    let moduleName: String
 
     var body: some View {
         HStack {
@@ -20,7 +21,7 @@ struct MemberItemSelectView: View {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(Color(white: 0, opacity: 0.5), lineWidth: 1))
                 .padding(.trailing)
-            MemberItemView(viewModel: viewModel)
+            MemberItemView(viewModel: viewModel, moduleName: moduleName)
             Spacer()
         }
         .onTapGesture {
@@ -41,6 +42,7 @@ struct MemberItemSelectView_Previews: PreviewProvider {
                             profilePictureUrl: """
                                         https://lh3.googleusercontent.com/
                                         a-/AOh14Gh7yXK1BE34ZK09UVtZHy_lGrGaqbUP2VGMmxsHzw=s96-c
-                                        """)))
+                                        """)),
+            moduleName: "CS3217")
     }
 }

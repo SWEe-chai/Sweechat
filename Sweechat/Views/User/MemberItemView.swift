@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MemberItemView: View {
     var viewModel: MemberItemViewModel
+    let moduleName: String
     var body: some View {
         HStack {
             ProfilePicture(url: viewModel.profilePictureUrl)
@@ -10,7 +11,7 @@ struct MemberItemView: View {
                 Text("\(viewModel.memberName)")
                     .font(FontConstant.Heading4)
                     .foregroundColor(ColorConstant.dark)
-                Text("Some information...")
+                Text("in \(moduleName)")
                     .font(FontConstant.ModuleDescription)
                     .foregroundColor(ColorConstant.dark)
             }
@@ -31,6 +32,7 @@ struct MemberItemView_Previews: PreviewProvider {
                         profilePictureUrl: """
                                     https://lh3.googleusercontent.com/
                                     a-/AOh14Gh7yXK1BE34ZK09UVtZHy_lGrGaqbUP2VGMmxsHzw=s96-c
-                                    """)))
+                                    """)),
+                       moduleName: "CS3217")
     }
 }

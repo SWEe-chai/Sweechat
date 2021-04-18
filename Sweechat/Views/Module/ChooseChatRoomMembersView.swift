@@ -4,11 +4,12 @@ struct ChooseChatRoomMembersView: View {
     var viewModel: CreateChatRoomViewModel
     var viewAfterChoosingMembers: AnyView
     @Binding var isShowing: Bool
+    let moduleName: String
 
     var body: some View {
         ScrollView {
             ForEach(viewModel.otherUsersViewModels) { memberItemViewModel in
-                MemberItemSelectView(viewModel: memberItemViewModel)
+                MemberItemSelectView(viewModel: memberItemViewModel, moduleName: moduleName)
                     .padding()
             }
         }
@@ -34,7 +35,8 @@ struct ChooseChatRoomMembersView: View {
                         User(id: "2", name: "Hai Nguyen")
                     ]),
                 viewAfterChoosingMembers: AnyView(Text("Hello")),
-                isShowing: .constant(true))
+                isShowing: .constant(true),
+                moduleName: "CS3217")
         }
     }
  }
