@@ -26,7 +26,7 @@ class FirebaseUserFacade: UserFacade {
 
     // MARK: UserFacade
 
-    func listenToUser(_ user: User, currentUser: Bool) {
+    func loginAndlistenToUser(_ user: User) {
         userId = user.id
         self.usersReference.document(userId.val).getDocument { document, _ in
             if let document = document, document.exists {
@@ -35,12 +35,6 @@ class FirebaseUserFacade: UserFacade {
                 self.addUser(user)
                 self.uploadPublicKeyBundleData(for: user)
             }
-        }
-        if currentUser {
-            print("Who are these: \(userId.val)")
-            usersReference
-                .document(userId.val)
-                .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         }
     }
 
@@ -68,9 +62,6 @@ class FirebaseUserFacade: UserFacade {
         if userId.val.isEmpty {
             os_log("Error loading user: User ID is empty")
             return
-        }
-        if (FcmJsonStorageManager.load()) == "" {
-            os_log("No FCM token")
         }
         reference = usersReference
             .document(userId.val)

@@ -43,7 +43,7 @@ extension LoginViewModel: ALAuthDelegate {
         user = User(id: id,
                     name: details.name,
                     profilePictureUrl: details.profilePictureUrl)
-        user?.setUserConnection(currentUser: true)
+        user?.setUserConnection()
         isLoggedIn = true
     }
 
