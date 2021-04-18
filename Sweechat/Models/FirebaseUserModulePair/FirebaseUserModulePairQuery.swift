@@ -1,7 +1,16 @@
 import FirebaseFirestore
 import os
 
+/**
+ A utility class that queries the Firebase connection for `UserModulePair`s.
+ */
 class FirebaseUserModulePairQuery {
+    /// Retrieves the `UserModulePair` with the specified module ID and user ID,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - moduleId: The specified module ID.
+    ///   - userId: The specified user ID.
+    ///   - onCompletion: The specified function to run on completion.
     static func getUserModulePair(moduleId: Identifier<Module>,
                                   userId: Identifier<User>,
                                   onCompletion: @escaping (FirebaseUserModulePair?) -> Void) {

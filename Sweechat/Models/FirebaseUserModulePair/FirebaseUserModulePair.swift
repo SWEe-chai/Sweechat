@@ -1,10 +1,6 @@
-//
-//  FirebaseUserModule.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 25/3/21.
-//
-
+/**
+ Represents a `User` and his/her associated `Module` permissions for Firebase storage.
+ */
 class FirebaseUserModulePair {
     let userId: Identifier<User>
     let moduleId: Identifier<Module>
