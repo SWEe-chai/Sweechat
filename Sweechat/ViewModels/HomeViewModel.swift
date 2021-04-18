@@ -8,9 +8,9 @@ class HomeViewModel: ObservableObject {
     let settingsViewModel: SettingsViewModel
     let moduleList: ModuleList
     let notificationMetadata: NotificationMetadata
-    var directModuleViewModel: ModuleViewModel
+    var currentModelViewModel: ModuleViewModel
 
-    @Published var isDirectModuleLoaded: Bool = false
+    @Published var isRedirectToModule: Bool = false
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
 
@@ -21,7 +21,7 @@ class HomeViewModel: ObservableObject {
         self.text = "Welcome, \(user.name)!"
         self.moduleList = ModuleList.of(user)
         self.settingsViewModel = SettingsViewModel()
-        self.directModuleViewModel = ModuleViewModel.createUnavailableInstance()
+        self.currentModelViewModel = ModuleViewModel.createUnavailableInstance()
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
@@ -31,13 +31,13 @@ class HomeViewModel: ObservableObject {
     }
 
     func handleRedirectionToModule() {
-        self.directModuleViewModel.getOut()
-        self.isDirectModuleLoaded = false
+        self.currentModelViewModel.getOut()
+        self.isRedirectToModule = false
         DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
             AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
                 if self.setModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
                     DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
-                    self.directModuleViewModel
+                    self.currentModelViewModel
                         .loadThisChatRoom(
                             chatRoomId: self.notificationMetadata.directChatRoomId)
                     }
@@ -87,10 +87,10 @@ class HomeViewModel: ObservableObject {
 
     func setModuleViewModel(moduleId: String) -> ModuleViewModel? {
         if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
-            self.directModuleViewModel = unwrappedDirectModuleViewModel
-            self.isDirectModuleLoaded = true
+            self.currentModelViewModel = unwrappedDirectModuleViewModel
+            self.isRedirectToModule = true
         }
-        return self.directModuleViewModel
+        return self.currentModelViewModel
     }
 
     // MARK: Subscriptions

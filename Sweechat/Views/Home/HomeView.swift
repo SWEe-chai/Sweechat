@@ -33,8 +33,8 @@ struct HomeView: View {
                         Array(
                             viewModel.moduleViewModels.enumerated()), id: \.offset) { index, moduleViewModel in
                         Button(action: {
-                            viewModel.directModuleViewModel = moduleViewModel
-                            viewModel.isDirectModuleLoaded = true
+                            viewModel.currentModelViewModel = moduleViewModel
+                            viewModel.isRedirectToModule = true
                         }) {
                             ModuleItemView(viewModel: moduleViewModel, index: index)
                         }
@@ -43,8 +43,8 @@ struct HomeView: View {
                     NavigationLink(
                         "",
                         destination: LazyNavView(
-                            ModuleView(viewModel: viewModel.directModuleViewModel)),
-                        isActive: $viewModel.isDirectModuleLoaded
+                            ModuleView(viewModel: viewModel.currentModelViewModel)),
+                        isActive: $viewModel.isRedirectToModule
                     )
                 }
                 .padding(.top, 3)
