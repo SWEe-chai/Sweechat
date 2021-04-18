@@ -44,7 +44,7 @@ class CreateChatRoomViewModel: ObservableObject {
         }
         let membersInPrivateChat = [user, memberViewModel.member]
         let memberPermissions = membersInPrivateChat
-            .map { UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite) }
+            .map { UserChatRoomPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite) }
 
         // This means that Chatroom does not exist
         let newPrivateChatRoom = PrivateChatRoom(
@@ -57,13 +57,13 @@ class CreateChatRoomViewModel: ObservableObject {
     func createForum(forumName: String) {
         var members: [User] = otherChosenMembers
         var memberPermissions = members.map {
-            UserPermissionPair(
+            UserChatRoomPermissionPair(
                 userId: $0.id,
                 permissions: ChatRoomPermission.readWrite)
         }
         members.append(user)
         // Creator gets all permissions
-        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
+        memberPermissions.append(UserChatRoomPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
         let newForumChat = ForumChatRoom(
             name: forumName,
             members: members,
@@ -76,13 +76,13 @@ class CreateChatRoomViewModel: ObservableObject {
     func createGroupChat(groupName: String) {
         var members: [User] = otherChosenMembers
         var memberPermissions = members.map {
-            UserPermissionPair(
+            UserChatRoomPermissionPair(
                 userId: $0.id,
                 permissions: getOtherUsersPermissions())
         }
         members.append(user)
         // Creator gets all permissions
-        memberPermissions.append(UserPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
+        memberPermissions.append(UserChatRoomPermissionPair(userId: user.id, permissions: ChatRoomPermission.all))
         let newGroupChatRoom = GroupChatRoom(
             name: groupName,
             members: members,
@@ -108,7 +108,7 @@ extension CreateChatRoomViewModel: ThreadCreator {
                               onCompletion: (() -> Void)? = nil) {
         let threadChatRoom = ThreadChatRoom(postId: id, sender: currentUser, forumMembers: forumMembers)
         let permissionPairs = forumMembers.map {
-            UserPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)
+            UserChatRoomPermissionPair(userId: $0.id, permissions: ChatRoomPermission.readWrite)
         }
         module.store(chatRoom: threadChatRoom, userPermissions: permissionPairs, onCompletion: onCompletion)
     }

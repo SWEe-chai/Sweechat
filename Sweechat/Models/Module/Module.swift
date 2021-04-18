@@ -91,7 +91,7 @@ class Module: ObservableObject {
     ///   - chatRoom: The specified `ChatRoom`.
     ///   - userPermissions: The specified user permissions.
     ///   - onCompletion: The function to execute on completion.
-    func store(chatRoom: ChatRoom, userPermissions: [UserPermissionPair], onCompletion: (() -> Void)? = nil) {
+    func store(chatRoom: ChatRoom, userPermissions: [UserChatRoomPermissionPair], onCompletion: (() -> Void)? = nil) {
         assert(chatRoom.members.count == userPermissions.count)
         self.moduleFacade?.save(
             chatRoom: chatRoom,

@@ -1,7 +1,7 @@
 /**
  Represents a `User` and his/her associated `ChatRoom` permissions.
  */
-struct UserPermissionPair {
+struct UserChatRoomPermissionPair {
     let userId: Identifier<User>
     let permissions: ChatRoomPermissionBitmask
 }

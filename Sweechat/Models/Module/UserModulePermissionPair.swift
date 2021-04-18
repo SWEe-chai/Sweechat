@@ -1,10 +1,6 @@
-//
-//  UserModulePermissionPair.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 6/4/21.
-//
-
+/**
+ Represents a `User` and his/her associated `Module` permissions.
+ */
 struct UserModulePermissionPair {
     let userId: Identifier<User>
     let permissions: ModulePermissionBitmask
