@@ -1,7 +1,14 @@
 import FirebaseFirestore
 import os
 
+/**
+ A utility class that queries the Firebase connection for `User`s.
+ */
 class FirebaseUserQuery {
+    /// Retrieves the `User` with the specified ID and executes the specified function on completion.
+    /// - Parameters:
+    ///   - id: The specified user ID.
+    ///   - onCompletion: The specified function to run on completion.
     static func getUser(withId id: Identifier<User>, onCompletion: @escaping (User) -> Void) {
         getUsers(withIds: [id]) { users in
             if let user = users.first {
@@ -10,6 +17,10 @@ class FirebaseUserQuery {
         }
     }
 
+    /// Retrieves the `User`s with the specified IDs and executes the specified function on completion.
+    /// - Parameters:
+    ///   - ids: The specified user IDs.
+    ///   - onCompletion: The specified function to run on completion.
     static func getUsers(withIds ids: [Identifier<User>],
                          onCompletion: @escaping ([User]) -> Void) {
         if ids.isEmpty {

@@ -1,13 +1,9 @@
-//
-//  FirebaseModuleListFacade.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 26/3/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ A connection to the Firebase cloud service to handle `ModuleList` related API calls.
+ */
 class FirebaseModuleListFacade: ModuleListFacade {
     weak var delegate: ModuleListFacadeDelegate?
 
@@ -26,6 +22,7 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
     // MARK: Initialization
 
+    /// Constructs a Firebase connection to listen to the module list belonging to the specified `User`.
     init(user: User) {
         self.user = user
         setUpConnectionToModuleList()
@@ -33,11 +30,18 @@ class FirebaseModuleListFacade: ModuleListFacade {
 
     // MARK: ModuleListFacade
 
+    /// Saves the specified `Module` to Firebase and user permissions to Firebase.
+    /// - Parameters:
+    ///   - module: The specified `Module`.
+    ///   - userModulePermissions: The specified user permissions.
     func save(module: Module, userModulePermissions: [UserModulePermissionPair]) {
         saveModule(module)
         saveUserModulePermissions(userModulePermissions, for: module)
     }
 
+    /// Joins the `Module` with the specified ID from Firebase.
+    /// - Parameters:
+    ///   - moduleId: The specified module ID.
     func joinModule(moduleId: Identifier<Module>) {
         runIfModuleExists(moduleId: moduleId) {
             let permissions = ModulePermission.student

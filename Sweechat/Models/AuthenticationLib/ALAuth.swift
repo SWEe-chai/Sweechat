@@ -2,6 +2,9 @@ import Firebase
 import SwiftUI
 import os
 
+/**
+ A library for connecting to third-party authentication providers.
+ */
 class ALAuth {
     var authHandlers: [ALAuthHandler] = [
         ALGoogleAuthHandler(),
@@ -9,13 +12,14 @@ class ALAuth {
     ]
     weak var delegate: ALAuthDelegate?
 
-    // Initiate all auth handlers on init
+    /// Constructs an `ALAuth` instance with all of the chosen third-party authentication providers.
     init() {
         for authHandler in authHandlers {
             authHandler.delegate = self
         }
     }
 
+    /// Signs in with information from the previous session.
     func signInWithPreviousSession() {
         guard let user = Auth.auth().currentUser else {
             return
@@ -34,6 +38,7 @@ class ALAuth {
                 profilePictureUrl: profilePictureUrl))
     }
 
+    /// Signs out of the current authentication provider.
     func signOut() {
         do {
             try Auth.auth().signOut()
@@ -45,6 +50,9 @@ class ALAuth {
 
 // MARK: ALAuthHandlerDelegate
 extension ALAuth: ALAuthHandlerDelegate {
+    /// Signs in with the specified `AuthCredential`.
+    /// - Parameters:
+    ///   - credential: The specified `AuthCredential`.
     func signIn(credential: AuthCredential) {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {

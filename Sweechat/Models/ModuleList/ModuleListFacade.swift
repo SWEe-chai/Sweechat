@@ -1,10 +1,6 @@
-//
-//  ModuleListFacade.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 26/3/21.
-//
-
+/**
+ An interface through which the `ModuleList` model comunicates with the server.
+ */
 protocol ModuleListFacade {
     var delegate: ModuleListFacadeDelegate? { get set }
     func save(module: Module, userModulePermissions: [UserModulePermissionPair])

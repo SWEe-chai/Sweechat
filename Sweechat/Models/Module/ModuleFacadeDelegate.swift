@@ -1,10 +1,6 @@
-//
-//  ModuleFacadeDelegate.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 24/3/21.
-//
-
+/**
+ An interface through which the server communicates with the calling `Module` instance.
+ */
 protocol ModuleFacadeDelegate: AnyObject {
     func insert(chatRoom: ChatRoom)
     func remove(chatRoom: ChatRoom)

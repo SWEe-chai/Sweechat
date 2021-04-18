@@ -1,10 +1,6 @@
-//
-//  ModuleListFacadeDelegate.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 26/3/21.
-//
-
+/**
+ An interface through which the server communicates with the calling `ModuleList` instance.
+ */
 protocol ModuleListFacadeDelegate: AnyObject {
     func insert(module: Module)
     func insertAll(modules: [Module])

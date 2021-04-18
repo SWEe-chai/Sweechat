@@ -1,5 +1,8 @@
 import Foundation
 
+/**
+ An interface for providing storage for the group cryptography library.
+ */
 protocol GroupCryptographyStorageManager {
     func save(userId: String, privateServerKeyBundle: [String: Data], publicServerKeyBundle: [String: Data]) throws
     func loadServerKeyBundles(userId: String) throws -> ([String: Data], [String: Data])?

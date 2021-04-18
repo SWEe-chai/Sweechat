@@ -1,25 +1,30 @@
 import Firebase
 import GoogleSignIn
 import UserNotifications
-import SwiftUI
 
+/**
+ A representation of Google's authentication service.
+ */
 class ALGoogleAuthHandler: NSObject, GIDSignInDelegate, ALAuthHandler {
     weak var delegate: ALAuthHandlerDelegate?
     var type: ALAuthHandlerType {
         .google
     }
 
+    /// Constructs an instance of `ALGoogleAuthHandler`.
     override init() {
         super.init()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
     }
 
+    /// Initiates Google sign in.
     func initiateSignIn() {
         GIDSignIn.sharedInstance()?.presentingViewController = UIApplication.shared.windows.first?.rootViewController
         GIDSignIn.sharedInstance()?.signIn()
     }
 
+    /// A helper method for Google API sign in.
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
               withError error: Error!) {
         if let error = error {
@@ -46,6 +51,7 @@ class ALGoogleAuthHandler: NSObject, GIDSignInDelegate, ALAuthHandler {
         delegate?.signIn(credential: credential)
     }
 
+    /// A helper method for Google API sign in.
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
               withError error: Error!) {
         NotificationCenter.default.post(

@@ -1,13 +1,9 @@
-//
-//  ModuleFacade.swift
-//  Sweechat
-//
-//  Created by Agnes Natasya on 24/3/21.
-//
-
+/**
+ An interface through which the `Module` model comunicates with the server.
+ */
 protocol ModuleFacade {
     var delegate: ModuleFacadeDelegate? { get set }
     func save(chatRoom: ChatRoom,
-              userPermissions: [UserPermissionPair],
+              userPermissions: [UserChatRoomPermissionPair],
               onCompletion: (() -> Void)?)
 }
