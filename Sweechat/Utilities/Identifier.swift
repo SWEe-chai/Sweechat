@@ -5,7 +5,7 @@
 //  Created by Christian James Welly on 11/4/21.
 //
 
-struct Identifier<Value>: Hashable {
+struct Identifier<Type>: Hashable {
     let val: String
 }
 
