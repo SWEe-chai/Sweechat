@@ -1,12 +1,18 @@
 import Foundation
 import os
 
+/**
+ A representation os a JSON-based storage manager for storing Firebase cloud messaging tokens.
+ */
 struct FcmJsonStorageManager: FcmStorageManager {
     static let jsonEncoder = JSONEncoder()
     static let jsonDecoder = JSONDecoder()
     static let tokenFileNameFormat = "token"
     static let fileExtension = ".json"
 
+    /// Saves the specified Firebase token
+    /// - Parameters:
+    ///   - token: The specified Firebase token, or nil if unavailable.
     static func save(token: String?) {
         if let token = token {
             let url = StorageManager.getFileURL(from: String(format: tokenFileNameFormat), with: fileExtension)
@@ -22,6 +28,8 @@ struct FcmJsonStorageManager: FcmStorageManager {
         }
     }
 
+    /// Loads and returns the Firebase cloud messaging token for this device.
+    /// - Returns: The Firebase cloud messaging token for this device.
     static func load() -> String? {
         let url = StorageManager.getFileURL(from: String(format: tokenFileNameFormat), with: fileExtension)
 
