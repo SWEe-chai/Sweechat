@@ -17,6 +17,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     let ownerId: Identifier<User>
     let currentUser: User
     let currentUserPermission: ChatRoomPermissionBitmask
+    let creationTime: Date
     var memberIdsToUsers: [Identifier<User>: User] = [:]
     var isStarred: Bool
 
@@ -43,7 +44,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
             ownerId: unavailableOwnerId,
             currentUser: User.createUnavailableInstance(),
             currentUserPermission: ChatRoomPermissionBitmask(),
-            isStarred: false
+            isStarred: false,
+            creationTime: Date()
         )
     }
 
@@ -56,6 +58,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
          currentUser: User,
          currentUserPermission: ChatRoomPermissionBitmask,
          isStarred: Bool,
+         creationTime: Date,
          profilePictureUrl: String? = nil) {
         self.id = id
         self.name = name
@@ -64,6 +67,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.profilePictureUrl = profilePictureUrl
         self.currentUserPermission = currentUserPermission
         self.isStarred = isStarred
+        self.creationTime = creationTime
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
     }
 
@@ -83,6 +87,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.currentUserPermission = currentUserPermission
         self.isStarred = isStarred
         self.groupCryptographyProvider = SignalProtocol(userId: currentUser.id.val)
+        self.creationTime = Date()
         insertAll(members: members)
     }
 

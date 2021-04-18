@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 /**
  Represents a forum chat room in the application.
@@ -11,6 +12,7 @@ class ForumChatRoom: ChatRoom {
                   currentUser: User,
                   currentUserPermission: ChatRoomPermissionBitmask,
                   isStarred: Bool,
+                  creationTime: Date,
                   profilePictureUrl: String? = nil) {
         assert(ChatRoomPermission.canRead(permission: currentUserPermission)
                 && ChatRoomPermission.canWrite(permission: currentUserPermission),
@@ -21,6 +23,7 @@ class ForumChatRoom: ChatRoom {
                    currentUser: currentUser,
                    currentUserPermission: currentUserPermission,
                    isStarred: isStarred,
+                   creationTime: creationTime,
                    profilePictureUrl: profilePictureUrl)
     }
 

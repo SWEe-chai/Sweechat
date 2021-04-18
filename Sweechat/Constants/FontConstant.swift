@@ -13,10 +13,11 @@ struct FontConstant {
     static let Inter_Light = "Inter-Light"
 
     static let ModuleTitle = Font.custom("LemonMilk-Regular", size: 38)
-    static let ModuleDescription = Font.custom("OpenSans-LightItalic", size: 15)
+    static let Description = Font.custom("OpenSans-LightItalic", size: 15)
     static let Heading1 = Font.custom("OpenSans-Bold", size: 27)
     static let Heading4 = Font.custom("OpenSans-Bold", size: 18)
     static let Heading5 = Font.custom("OpenSans-Bold", size: 15)
+    static let ChatRoomDescription = Font.custom("OpenSans-Regular", size: 15)
     static let MessageSender = Font.custom(OpenSans_Bold, size: 16)
     static let ChatRoomTypeButton = Font.custom(OpenSans_Bold, size: 14)
     static let ForumPost = Font.custom("Inter-Regular", size: 20)

@@ -10,12 +10,10 @@ struct ProfilePicture: View {
                 .clipShape(Circle())
         } else {
             Circle()
-                .fill(Color.random)
+                .fill(ColorConstant.light)
                 .frame(width: 50, height: 50)
-//                .clipShape(Circle())
                 .overlay(
-//                    Circle().fill(Color.random)
-                    Image(systemName: "person")
+                    Image(systemName: "person.3")
                 )
         }
     }

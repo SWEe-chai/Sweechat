@@ -14,7 +14,6 @@ struct ChatRoomView: View {
                                 parentPreviewMetadata: $parentPreviewMetadata)
         }
         .onAppear {
-            viewModel.handleChatRoomAppearance()
             isNavigationBarHidden = false
         }
         .navigationBarHidden(isNavigationBarHidden)
@@ -32,7 +31,8 @@ struct ChatRoomView_Previews: PreviewProvider {
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite,
-                                   isStarred: false),
+                                   isStarred: false,
+                                   creationTime: Date()),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ), isNavigationBarHidden: Binding<Bool>(
                 get: { true },

@@ -3,22 +3,19 @@ import Combine
 import os
 
 class MessageViewModel: ObservableObject {
-    private var sender: User
-    private var currentUserId: Identifier<User>
     weak var delegate: MessageActionsViewModelDelegate?
-    var isEditable: Bool
-    var message: Message
+
+    let isEditable: Bool
+    let message: Message
     var subscribers: [AnyCancellable] = []
 
-    var isSenderCurrentUser: Bool {
-        sender.id == currentUserId
-    }
+    @Published var likesCount: Int
 
-    var profilePictureUrl: String? {
-        sender.profilePictureUrl
-    }
+    private let sender: User
+    private let currentUserId: Identifier<User>
 
     // MARK: IDs
+
     var id: String {
         message.id.val
     }
@@ -28,25 +25,44 @@ class MessageViewModel: ObservableObject {
     }
 
     // MARK: Messsage Bubble Properties
+
     var foregroundColor: Color {
         isSenderCurrentUser ? .white : .black
     }
+
     var backgroundColor: Color {
         isSenderCurrentUser ? ColorConstant.primary : ColorConstant.light.opacity(0.25)
     }
+
     var isRightAlign: Bool {
         isSenderCurrentUser
     }
+
     var messageContentType: MessageContentType {
         MessageContentType.convert(messageType: message.type)
     }
+
     var senderName: String {
         sender.name
     }
-    @Published var likesCount: Int
+
     var isCurrentUserLiking: Bool {
         message.likers.contains(currentUserId)
     }
+
+    var isSenderCurrentUser: Bool {
+        sender.id == currentUserId
+    }
+
+    var profilePictureUrl: String? {
+        sender.profilePictureUrl
+    }
+
+    var creationTime: Date {
+        message.creationTime
+    }
+
+    // MARK: Initialization
 
     init(message: Message, sender: User, currentUserId: Identifier<User>, isEditable: Bool) {
         self.message = message
@@ -59,8 +75,7 @@ class MessageViewModel: ObservableObject {
         })
     }
 
-    // MARK: Message Reply
-    /// The content shown when replying to messages
+    /// The content shown when previewing messages
     func previewContent() -> String {
         os_log("previewContent() in MessageViewModel called. Did you forget to implement in a subclass?")
         return "Message"
@@ -80,6 +95,7 @@ extension MessageViewModel: Hashable {
     static func == (lhs: MessageViewModel, rhs: MessageViewModel) -> Bool {
         lhs.message.id == rhs.message.id
     }
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(message.id)
     }

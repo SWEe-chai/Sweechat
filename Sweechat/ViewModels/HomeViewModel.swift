@@ -2,16 +2,19 @@ import Combine
 import Foundation
 
 class HomeViewModel: ObservableObject {
-    var user: User
     weak var delegate: HomeViewModelDelegate?
-    var settingsViewModel: SettingsViewModel
-    var moduleList: ModuleList
+
+    let user: User
+    let settingsViewModel: SettingsViewModel
+    let moduleList: ModuleList
+    let notificationMetadata: NotificationMetadata
+    var directModuleViewModel: ModuleViewModel
+
     @Published var isDirectModuleLoaded: Bool = false
     @Published var text: String = ""
     @Published var moduleViewModels: [ModuleViewModel] = []
+
     private var subscribers: [AnyCancellable] = []
-    var directModuleViewModel: ModuleViewModel
-    var notificationMetadata: NotificationMetadata
 
     init(user: User, notificationMetadata: NotificationMetadata) {
         self.user = user
@@ -22,34 +25,28 @@ class HomeViewModel: ObservableObject {
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
+        if notificationMetadata.isFromNotif {
+            handleRedirectionToModule()
+        }
     }
 
-    func initialiseSubscribers() {
-        if !subscribers.isEmpty {
-            return
-        }
-        let nameSubscriber = user.subscribeToName { newName in
-            self.text = "Welcome, \(newName)!"
-        }
-        let moduleListSubscriber = moduleList.subscribeToModules { modules in
-            self.handleModulesChange(modules: modules)
-        }
-        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
-                if isFromNotif {
-                    AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
-                        if self
-                            .getModuleViewModel(
-                                moduleId: self.notificationMetadata.directModuleId
-                            ) != nil {
-                            return false
-                        }
-                        return true
+    func handleRedirectionToModule() {
+        self.directModuleViewModel.getOut()
+        self.isDirectModuleLoaded = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+            AsyncHelper.checkAsync(interval: AsyncHelper.shortInterval) {
+                if self.setModuleViewModel(moduleId: self.notificationMetadata.directModuleId) != nil {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + AsyncHelper.longInterval) {
+                    self.directModuleViewModel
+                        .loadThisChatRoom(
+                            chatRoomId: self.notificationMetadata.directChatRoomId)
                     }
+                    self.notificationMetadata.isFromNotif = false
+                    return false
                 }
+                return true
+            }
         }
-        subscribers.append(nameSubscriber)
-        subscribers.append(moduleListSubscriber)
-        subscribers.append(notificationMetadataSubscriber)
     }
 
     func handleModulesChange(modules: [Module]) {
@@ -61,7 +58,7 @@ class HomeViewModel: ObservableObject {
         let oldModuleIds = Set(self.moduleViewModels.map { $0.module.id })
         let newModuleVMs = modules
             .filter { !oldModuleIds.contains($0.id) }
-            .map { ModuleViewModel(module: $0, user: user, notificationMetadata: notificationMetadata) }
+            .map { ModuleViewModel(module: $0, user: user) }
         self.moduleViewModels.append(contentsOf: newModuleVMs)
     }
 
@@ -88,12 +85,48 @@ class HomeViewModel: ObservableObject {
         moduleList.joinModule(moduleId: id)
     }
 
-    func getModuleViewModel(moduleId: String) -> ModuleViewModel? {
+    func setModuleViewModel(moduleId: String) -> ModuleViewModel? {
         if let unwrappedDirectModuleViewModel = self.moduleViewModels.first(where: { $0.id == moduleId }) {
             self.directModuleViewModel = unwrappedDirectModuleViewModel
             self.isDirectModuleLoaded = true
         }
         return self.directModuleViewModel
+    }
+
+    // MARK: Subscriptions
+    private func initialiseSubscribers() {
+        if !subscribers.isEmpty {
+            return
+        }
+        initialiseNameSubscriber()
+        initialiseModuleListSubscriber()
+        initialiseNotificationMetadataSubscriber()
+    }
+
+    private func initialiseNameSubscriber() {
+        let nameSubscriber = user.subscribeToName { newName in
+            self.text = "Welcome, \(newName)!"
+        }
+
+        subscribers.append(nameSubscriber)
+    }
+
+    private func initialiseModuleListSubscriber() {
+        let moduleListSubscriber = moduleList.subscribeToModules { modules in
+            self.handleModulesChange(modules: modules)
+        }
+
+        subscribers.append(moduleListSubscriber)
+    }
+
+    private func initialiseNotificationMetadataSubscriber() {
+        let notificationMetadataSubscriber = self.notificationMetadata.subscribeToIsFromNotif { isFromNotif in
+            if isFromNotif {
+                self.handleRedirectionToModule()
+            }
+        }
+
+        subscribers.append(notificationMetadataSubscriber)
     }
 }
 

@@ -320,7 +320,7 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
     private func setUpMessagesInsertListener() {
         messagesInsertListener = filteredMessagesReference?
             .order(by: DatabaseConstant.Message.creationTime)
-            .limit(toLast: 1)
+            .limit(toLast: messageBlockSize)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
                     os_log("Error listening for new messages (\(error?.localizedDescription ?? ""))")

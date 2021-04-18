@@ -1,3 +1,5 @@
+import Foundation
+
 /**
  Represents a thread chat room in the application.
  */
@@ -23,6 +25,7 @@ class ThreadChatRoom: ChatRoom {
                    ownerId: ownerId,
                    currentUser: currentUser,
                    currentUserPermission: ChatRoomPermission.readWrite,
-                   isStarred: false)
+                   isStarred: false,
+                   creationTime: Date())
     }
 }

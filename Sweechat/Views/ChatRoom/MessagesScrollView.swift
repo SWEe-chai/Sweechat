@@ -12,9 +12,12 @@ struct MessagesScrollView: View {
     var body: some View {
         ScrollViewOffset(offset: $scrollOffset, height: $heightOffset) {
             ScrollViewReader { scrollView in
-                LazyVStack {
+                VStack {
                     if !viewModel.areAllMessagesLoaded {
                         Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
+                    } else {
+                        Text("All messages are loaded")
+                            .font(FontConstant.Description)
                     }
                     ForEach(viewModel.messages, id: \.self) { messageViewModel in
                         let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)
@@ -111,7 +114,8 @@ struct MessagesScrollView_Previews: PreviewProvider {
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite,
-                                   isStarred: false),
+                                   isStarred: false,
+                                   creationTime: Date()),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ), parentPreviewMetadata: Binding.constant(nil)
         )

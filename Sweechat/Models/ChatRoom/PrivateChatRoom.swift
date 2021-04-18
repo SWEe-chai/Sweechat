@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 /**
  Represents a private chat room in the application.
@@ -12,13 +13,15 @@ class PrivateChatRoom: ChatRoom {
     /// Constructs a `PrivateChatRoom` for use in facade translation with the cloud service provider.
     init(id: Identifier<ChatRoom>,
          ownerId: Identifier<User>,
-         currentUser: User) {
+         currentUser: User,
+         creationTime: Date) {
         super.init(id: id,
                    name: "",
                    ownerId: ownerId,
                    currentUser: currentUser,
                    currentUserPermission: ChatRoomPermission.readWrite,
-                   isStarred: false)
+                   isStarred: false,
+                   creationTime: creationTime)
     }
 
     /// Constructs a `PrivateChatRoom` to display on the screen.

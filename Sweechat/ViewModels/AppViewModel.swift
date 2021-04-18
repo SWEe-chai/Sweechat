@@ -1,12 +1,7 @@
 import Combine
-import os
 
 class AppViewModel: ObservableObject {
-    var notificationMetadata: NotificationMetadata
-
-    init(notificationMetadata: NotificationMetadata) {
-        self.notificationMetadata = notificationMetadata
-    }
+    let notificationMetadata: NotificationMetadata
 
     var loginViewModel: LoginViewModel {
         LoginViewModel(notificationMetadata: notificationMetadata)
@@ -14,5 +9,11 @@ class AppViewModel: ObservableObject {
 
     var registrationViewModel: RegistrationViewModel {
         RegistrationViewModel()
+    }
+
+    // MARK: Initialization
+
+    init(notificationMetadata: NotificationMetadata) {
+        self.notificationMetadata = notificationMetadata
     }
 }
