@@ -17,7 +17,6 @@ struct MostPopularThreadMessageView: View {
             }
         }
         .padding(10)
-//        .background(ColorConstant.light)
         .cornerRadius(10)
         .frame(maxWidth: .infinity)
     }

@@ -23,24 +23,11 @@ struct ModuleInformation: View {
                         .font(FontConstant.Heading5)
                         .foregroundColor(ColorConstant.medium)
                 }
-
-                Text("\(viewModel.id)")
-                    .font(FontConstant.Heading4)
-                    .foregroundColor(ColorConstant.medium)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(ColorConstant.light)
-                    )
-                    .onLongPressGesture(minimumDuration: 0.5) {
-                        UIPasteboard.general.string = viewModel.id
-                        copied = true
-                    }
-
+                moduleSecret
                 if copied {
                     Text("Module Secret has been copied to clipboard!").font(FontConstant.Description)
                 }
+
                 Spacer()
             }
             Spacer()
@@ -51,6 +38,22 @@ struct ModuleInformation: View {
         .onAppear { isNavigationBarHidden = false }
         .navigationBarHidden(isNavigationBarHidden)
         .navigationTitle(viewModel.text)
+    }
+    
+    var moduleSecret: some View {
+        Text("\(viewModel.id)")
+            .font(FontConstant.Heading4)
+            .foregroundColor(ColorConstant.medium)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(ColorConstant.light)
+            )
+            .onLongPressGesture(minimumDuration: 0.5) {
+                UIPasteboard.general.string = viewModel.id
+                copied = true
+            }
     }
 }
 

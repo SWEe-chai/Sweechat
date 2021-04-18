@@ -4,32 +4,36 @@ struct ForumPostView: View {
     @ObservedObject var viewModel: ThreadChatRoomViewModel
     var clickable: Bool
 
+    var forumContent: some View {
+        HStack {
+            HStack {
+                MessageContentViewFactory.makeView(viewModel: viewModel.post)
+                    .foregroundColor(ColorConstant.dark)
+                    .font(FontConstant.ForumPost)
+
+            }
+            .padding(.leading)
+            .overlay(
+                Rectangle()
+                    .fill(ColorConstant.primary)
+                    .frame(width: 4)
+                    .padding(.trailing),
+                alignment: .leading
+            )
+            Spacer()
+            if clickable {
+                Image(systemName: "chevron.right")
+                    .foregroundColor(ColorConstant.dark)
+                    .padding()
+            }
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading) {
-                    HStack {
-                        HStack {
-                            MessageContentViewFactory.makeView(viewModel: viewModel.post)
-                                .foregroundColor(ColorConstant.dark)
-                                .font(FontConstant.ForumPost)
-
-                        }.padding(.leading)
-                            .overlay(
-                                Rectangle()
-                                    .fill(ColorConstant.primary)
-                                    .frame(width: 4)
-                                    .padding(.trailing),
-                                alignment: .leading
-                            )
-
-                        Spacer()
-                        if clickable {
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(ColorConstant.dark)
-                                .padding()
-                        }
-                    }
+                    forumContent
 
                     HStack {
                         ProfilePicture(url: viewModel.post.profilePictureUrl, size: 25)
@@ -42,7 +46,8 @@ struct ForumPostView: View {
                             .padding(.horizontal)
                     }
                 }
-            }.padding(.leading).padding(.top, 5)
+            }
+            .padding(.leading).padding(.top, 5)
             Divider()
                 .background(ColorConstant.primary)
             if let mostPopularMessage = viewModel.mostPopularMessage, clickable {
