@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ColorConstant {
     static let base = Color(red: 247 / 255, green: 244 / 255, blue: 240 / 255)
-//    static let superLight = Color(red: 250 / 255, green: 208 / 255, blue: 180 / 255)
     static let light = Color(red: 219 / 255, green: 184 / 255, blue: 160 / 255)
     static let medium = Color(red: 150 / 255, green: 123 / 255, blue: 110 / 255)
     static let dark = Color(red: 99 / 255, green: 38 / 255, blue: 10 / 255)
