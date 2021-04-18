@@ -12,7 +12,7 @@ struct MessagesScrollView: View {
     var body: some View {
         ScrollViewOffset(offset: $scrollOffset, height: $heightOffset) {
             ScrollViewReader { scrollView in
-                LazyVStack {
+                VStack {
                     if !viewModel.areAllMessagesLoaded {
                         Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
                     } else {
