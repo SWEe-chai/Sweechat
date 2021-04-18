@@ -143,7 +143,7 @@ class ChatRoomTests: XCTestCase {
         XCTAssertTrue(sut.memberIdsToUsers.keys.contains(where: { $0 == member2.id }))
     }
 
-    func update_updatesChatRoom() {
+    func testUpdate_updatesChatRoom() {
         let chatRoom = ChatRoom(id: Identifier<ChatRoom>(stringLiteral: "2"),
                                 name: "Test2",
                                 ownerId: Identifier<User>(stringLiteral: "2"),

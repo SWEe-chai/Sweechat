@@ -121,6 +121,8 @@
 		450B60C8262C6E0D00A02DD7 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B60C7262C6E0D00A02DD7 /* UserTests.swift */; };
 		450B60D9262C712C00A02DD7 /* ChatRoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B60D8262C712C00A02DD7 /* ChatRoomTests.swift */; };
 		450B60E1262C7DE200A02DD7 /* ChatRoomPermissionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B60E0262C7DE200A02DD7 /* ChatRoomPermissionTests.swift */; };
+		450B60E7262C809800A02DD7 /* ModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B60E6262C809800A02DD7 /* ModuleTests.swift */; };
+		450B60EF262C831200A02DD7 /* ModulePermissionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B60EE262C831200A02DD7 /* ModulePermissionTests.swift */; };
 		4575A8292621D6D400B144A5 /* MessageActionsViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */; };
 		4583D9902616055B0092AF87 /* KeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4583D9812616055B0092AF87 /* KeyFactory.swift */; };
 		4583D9912616055B0092AF87 /* P256KeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4583D9822616055B0092AF87 /* P256KeyFactory.swift */; };
@@ -354,6 +356,8 @@
 		450B60C7262C6E0D00A02DD7 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		450B60D8262C712C00A02DD7 /* ChatRoomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTests.swift; sourceTree = "<group>"; };
 		450B60E0262C7DE200A02DD7 /* ChatRoomPermissionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomPermissionTests.swift; sourceTree = "<group>"; };
+		450B60E6262C809800A02DD7 /* ModuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleTests.swift; sourceTree = "<group>"; };
+		450B60EE262C831200A02DD7 /* ModulePermissionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulePermissionTests.swift; sourceTree = "<group>"; };
 		4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionsViewModelDelegate.swift; sourceTree = "<group>"; };
 		4583D9812616055B0092AF87 /* KeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyFactory.swift; sourceTree = "<group>"; };
 		4583D9822616055B0092AF87 /* P256KeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P256KeyFactory.swift; sourceTree = "<group>"; };
@@ -747,6 +751,7 @@
 		450B60AE262C680D00A02DD7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				450B60E5262C7F9A00A02DD7 /* Module */,
 				450B60D7262C711D00A02DD7 /* ChatRoom */,
 				450B60C6262C6E0100A02DD7 /* User */,
 				450B60AF262C681100A02DD7 /* Message */,
@@ -779,6 +784,15 @@
 				450B60E0262C7DE200A02DD7 /* ChatRoomPermissionTests.swift */,
 			);
 			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		450B60E5262C7F9A00A02DD7 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				450B60E6262C809800A02DD7 /* ModuleTests.swift */,
+				450B60EE262C831200A02DD7 /* ModulePermissionTests.swift */,
+			);
+			path = Module;
 			sourceTree = "<group>";
 		};
 		45834C3226106C8200B888B5 /* Cryptography */ = {
@@ -1366,12 +1380,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				450B60EF262C831200A02DD7 /* ModulePermissionTests.swift in Sources */,
 				450B60D9262C712C00A02DD7 /* ChatRoomTests.swift in Sources */,
 				450B60C8262C6E0D00A02DD7 /* UserTests.swift in Sources */,
 				450B60B1262C681D00A02DD7 /* MessageTests.swift in Sources */,
 				450B60E1262C7DE200A02DD7 /* ChatRoomPermissionTests.swift in Sources */,
 				450B60C1262C6C7300A02DD7 /* DataToStringTests.swift in Sources */,
 				450B60BC262C6C6800A02DD7 /* StringToDataTests.swift in Sources */,
+				450B60E7262C809800A02DD7 /* ModuleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
