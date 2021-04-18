@@ -122,6 +122,7 @@ struct ModuleView: View {
         }
         .onAppear {
             isNavigationBarHidden = true
+            viewModel.sortChatRooms()
         }
         .background(ColorConstant.primary.ignoresSafeArea())
         .sheet(isPresented: $showingCreateChatRoom) {

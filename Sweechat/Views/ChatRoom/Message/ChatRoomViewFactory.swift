@@ -29,7 +29,7 @@ struct ChatRoomViewFactory {
     static func makeView(viewModel: GroupChatRoomViewModel, isNavigationBarHidden: Binding<Bool>) -> some View {
         switch viewModel.permissions {
         case .readOnly:
-            return AnyView(AnnouncementView(viewModel: viewModel))
+            return AnyView(AnnouncementView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         default:
             return AnyView(ChatRoomView(viewModel: viewModel, isNavigationBarHidden: isNavigationBarHidden))
         }

@@ -111,7 +111,8 @@ struct MessagesScrollView_Previews: PreviewProvider {
                                    ownerId: "Me",
                                    currentUser: User(id: "", name: "Hello", profilePictureUrl: ""),
                                    currentUserPermission: ChatRoomPermission.readWrite,
-                                   isStarred: false),
+                                   isStarred: false,
+                                   creationTime: Date()),
                 user: User(id: "", name: "Hello", profilePictureUrl: "")
             ), parentPreviewMetadata: Binding.constant(nil)
         )

@@ -58,6 +58,10 @@ class MessageViewModel: ObservableObject {
         sender.profilePictureUrl
     }
 
+    var creationTime: Date {
+        message.creationTime
+    }
+
     // MARK: Initialization
 
     init(message: Message, sender: User, currentUserId: Identifier<User>, isEditable: Bool) {

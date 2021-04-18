@@ -125,13 +125,16 @@ class ModuleViewModel: ObservableObject {
         let newChatRoomVMs: [ChatRoomViewModel] = chatRooms
             .filter { !oldChatRoomIds.contains($0.id) }
             .map {
-                ChatRoomViewModelFactory
+                let viewModel = ChatRoomViewModelFactory
                     .makeViewModel(
                         chatRoom: $0,
                         chatRoomCreator: self.createChatRoomViewModel
                 )
+                viewModel.delegate = self
+                return viewModel
             }
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
+        self.sortChatRooms()
     }
 
     private func setChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
@@ -140,6 +143,17 @@ class ModuleViewModel: ObservableObject {
             self.isDirectChatRoomLoaded = true
         }
         return self.directChatRoomViewModel
+    }
+}
+
+// MARK
+extension ModuleViewModel: ChatRoomViewModelDelegate {
+    func sortChatRooms() {
+        self.chatRoomViewModels.sort { lhs, rhs in
+            let lhsDate: Date = lhs.lastestMessageTime ?? lhs.creationTime
+            let rhsDate: Date = rhs.lastestMessageTime ?? rhs.creationTime
+            return lhsDate > rhsDate
+        }
     }
 }
 
