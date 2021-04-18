@@ -166,11 +166,13 @@ class ChatRoomMediaCache {
     private func getDestinationUrlFrom(onlineUrlString: String) -> URL? {
         guard let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
               let hash = onlineUrlString.split(separator: "/").last,
-              let url = hash.split(separator: ".").first else {
+              hash.split(separator: ".").count >= 2,
+              let url = hash.split(separator: ".").first,
+              let ext = hash.split(separator: ".")[1].split(separator: "?").first else {
             os_log("Unexpected online url, please check with developers. url: \(onlineUrlString)")
             return nil
         }
-        return docsUrl.appendingPathComponent("\(url).MOV")
+        return docsUrl.appendingPathComponent("\(url).\(ext)")
     }
 }
 
@@ -184,5 +186,16 @@ extension ChatRoomMediaCache {
         } catch {
             os_log("Failed to delete all: \(error.localizedDescription)")
         }
+    }
+}
+
+// MARK: MediaMessageViewModelDelegate
+extension ChatRoomMediaCache: MediaMessageViewModelDelegate {
+    func fetchLocalUrl(fromUrlString urlString: String, onCompletion: @escaping (URL?) -> Void) {
+        getLocalUrl(fromOnlineUrlString: urlString, onCompletion: onCompletion)
+    }
+
+    func fetchImageData(fromUrlString urlString: String, onCompletion: @escaping (Data?) -> Void) {
+        getData(urlString: urlString, onCompletion: onCompletion)
     }
 }

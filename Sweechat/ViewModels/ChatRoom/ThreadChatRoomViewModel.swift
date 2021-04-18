@@ -10,7 +10,7 @@ class ThreadChatRoomViewModel: ChatRoomViewModel {
 
         return MessageViewModelFactory.makeViewModel(message: mostPopularMessage,
                                                      sender: self.chatRoom.getUser(userId: mostPopularMessage.senderId),
-                                                     delegate: self,
+                                                     delegate: chatRoomMediaCache,
                                                      currentUserId: self.user.id)
     }
 
