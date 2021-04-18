@@ -3,11 +3,11 @@ import Foundation
 
 class ModuleViewModel: ObservableObject {
     let module: Module
-    var directChatRoomViewModel: ChatRoomViewModel
+    var currentChatRoomViewModel: ChatRoomViewModel
 
     @Published var text: String
     @Published var chatRoomViewModels: [ChatRoomViewModel] = []
-    @Published var isDirectChatRoomLoaded: Bool = false
+    @Published var isRedirectToChatRoom: Bool = false
 
     private var user: User
     private var subscribers: [AnyCancellable] = []
@@ -53,7 +53,7 @@ class ModuleViewModel: ObservableObject {
         self.user = user
         self.module = module
         self.text = module.name
-        self.directChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
+        self.currentChatRoomViewModel = ChatRoomViewModel.createUnavailableInstance()
         initialiseSubscriber()
     }
 
@@ -110,7 +110,7 @@ class ModuleViewModel: ObservableObject {
     }
 
     func getOut() {
-        self.isDirectChatRoomLoaded = false
+        self.isRedirectToChatRoom = false
     }
 
     // MARK: Private Function Helpers
@@ -139,10 +139,10 @@ class ModuleViewModel: ObservableObject {
 
     private func setChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
         if let unwrappedDirectChatRoomViewModel = self.chatRoomViewModels.first(where: { $0.id == chatRoomId }) {
-            self.directChatRoomViewModel = unwrappedDirectChatRoomViewModel
-            self.isDirectChatRoomLoaded = true
+            self.currentChatRoomViewModel = unwrappedDirectChatRoomViewModel
+            self.isRedirectToChatRoom = true
         }
-        return self.directChatRoomViewModel
+        return self.currentChatRoomViewModel
     }
 }
 
