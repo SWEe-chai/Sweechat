@@ -17,7 +17,7 @@ struct MessagesScrollView: View {
                         Button(action: viewModel.loadMore) { Text("older messages...") }.padding()
                     } else {
                         Text("All messages are loaded")
-                            .font(FontConstant.ModuleDescription)
+                            .font(FontConstant.Description)
                     }
                     ForEach(viewModel.messages, id: \.self) { messageViewModel in
                         let parentMessage = viewModel.getMessageViewModel(withId: messageViewModel.parentId)

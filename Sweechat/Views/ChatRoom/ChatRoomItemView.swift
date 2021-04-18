@@ -26,13 +26,14 @@ struct ChatRoomItemView: View {
                             .padding(.trailing)
                         Spacer()
                         Text(viewModel.lastestMessageTime?.timeAgoDisplay() ?? "")
-                            .font(FontConstant.ModuleDescription)
+                            .font(FontConstant.Description)
                             .foregroundColor(ColorConstant.dark)
                             .lineLimit(1)
                     }
                 }
                 .padding(.leading)
             }
+            .contentShape(Rectangle())
             .padding()
             .padding(.horizontal)
         }
