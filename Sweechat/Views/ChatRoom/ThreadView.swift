@@ -5,7 +5,7 @@ struct ThreadView: View {
     @State var parentPreviewMetadata: ParentPreviewMetadata?
     var body: some View {
         VStack {
-            ForumPostView(viewModel: viewModel).padding()
+            ForumPostView(viewModel: viewModel, clickable: false).padding()
             MessagesScrollView(viewModel: viewModel,
                                parentPreviewMetadata: $parentPreviewMetadata)
             MessageInputBarView(sendMessageHandler: viewModel,

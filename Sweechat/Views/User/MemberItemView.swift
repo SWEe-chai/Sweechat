@@ -12,7 +12,7 @@ struct MemberItemView: View {
                     .font(FontConstant.Heading4)
                     .foregroundColor(ColorConstant.dark)
                 Text("in \(moduleName)")
-                    .font(FontConstant.ModuleDescription)
+                    .font(FontConstant.Description)
                     .foregroundColor(ColorConstant.dark)
                     .lineLimit(1)
             }

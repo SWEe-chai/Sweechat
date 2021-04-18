@@ -35,7 +35,7 @@ struct ModuleItemView: View {
                 }
                 Text("No module description")
                     .foregroundColor(.white)
-                    .font(FontConstant.ModuleDescription)
+                    .font(FontConstant.Description)
             }
         }
         .padding()
