@@ -13,8 +13,11 @@ struct ModuleItemView: View {
     var body: some View {
         HStack {
             Circle()
-                .fill(ColorConstant.placeholder)
+                .fill(ColorConstant.light)
                 .frame(width: 70, height: 70)
+                .overlay(
+                    Image(systemName: "person.3").foregroundColor(ColorConstant.white)
+                )
 
             Divider()
                 .padding(.leading, 7)
