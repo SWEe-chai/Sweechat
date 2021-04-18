@@ -2,6 +2,9 @@ import FirebaseFirestore
 import FirebaseInstanceID
 import os
 
+/**
+ A connection to the Firebase cloud service to handle `User` related API calls.
+ */
 class FirebaseUserFacade: UserFacade {
     weak var delegate: UserFacadeDelegate?
     private var userId: Identifier<User>
@@ -14,6 +17,7 @@ class FirebaseUserFacade: UserFacade {
 
     // MARK: Initialization
 
+    /// Constructs a Firebase connection to listen to the user with the specified ID.
     init(userId: Identifier<User>) {
         self.userId = userId
         self.usersReference = FirebaseUtils
@@ -26,6 +30,7 @@ class FirebaseUserFacade: UserFacade {
 
     // MARK: UserFacade
 
+    /// Logs into the Firebase server and listens to changes to the specified `User`.
     func loginAndListenToUser(_ user: User) {
         userId = user.id
         self.usersReference.document(userId.val).getDocument { document, _ in
