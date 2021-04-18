@@ -14,6 +14,7 @@ struct MemberItemView: View {
                 Text("in \(moduleName)")
                     .font(FontConstant.ModuleDescription)
                     .foregroundColor(ColorConstant.dark)
+                    .lineLimit(1)
             }
             .padding(.horizontal)
             Spacer()
