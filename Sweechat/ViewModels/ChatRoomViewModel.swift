@@ -7,12 +7,18 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     let chatRoom: ChatRoom
     let user: User
 
-    @Published var latestMessageViewModel: MessageViewModel?
+    @Published var latestMessageViewModel: MessageViewModel? {
+        didSet {
+            delegate?.sortChatRooms()
+        }
+    }
     @Published var text: String
     @Published var profilePictureUrl: String?
     @Published var areAllMessagesLoaded: Bool = false
     @Published var messages: [MessageViewModel] = []
     @Published var earlyLoadedMessages: [MessageViewModel] = []
+
+    weak var delegate: ChatRoomViewModelDelegate?
 
     private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []

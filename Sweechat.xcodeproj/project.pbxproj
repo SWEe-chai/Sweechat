@@ -54,6 +54,7 @@
 		279ECCF22613197800CBFFEB /* ChooseChatRoomMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279ECCF12613197800CBFFEB /* ChooseChatRoomMembersView.swift */; };
 		279ECD2026136A1000CBFFEB /* CreateGroupChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279ECD1F26136A1000CBFFEB /* CreateGroupChatView.swift */; };
 		279F67C3262C161C0057F3A9 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F67C2262C161B0057F3A9 /* Date+TimeAgo.swift */; };
+		279F67C8262C209C0057F3A9 /* ChatRoomViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F67C7262C209B0057F3A9 /* ChatRoomViewModelDelegate.swift */; };
 		27A2D936261EDF3F00267C7D /* ChatRoomMediaCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D935261EDF3F00267C7D /* ChatRoomMediaCache.swift */; };
 		27A2D93B261EE2DB00267C7D /* MediaFetchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */; };
 		27A2D940261EE58000267C7D /* MediaMessageViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D93F261EE58000267C7D /* MediaMessageViewModelDelegate.swift */; };
@@ -298,6 +299,7 @@
 		279ECCF12613197800CBFFEB /* ChooseChatRoomMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseChatRoomMembersView.swift; sourceTree = "<group>"; };
 		279ECD1F26136A1000CBFFEB /* CreateGroupChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupChatView.swift; sourceTree = "<group>"; };
 		279F67C2262C161B0057F3A9 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
+		279F67C7262C209B0057F3A9 /* ChatRoomViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelDelegate.swift; sourceTree = "<group>"; };
 		27A2D935261EDF3F00267C7D /* ChatRoomMediaCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomMediaCache.swift; sourceTree = "<group>"; };
 		27A2D93A261EE2DB00267C7D /* MediaFetchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFetchState.swift; sourceTree = "<group>"; };
 		27A2D93F261EE58000267C7D /* MediaMessageViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaMessageViewModelDelegate.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				272AA96F2610D2F900584D84 /* SettingsViewModelDelegate.swift */,
 				4575A8282621D6D300B144A5 /* MessageActionsViewModelDelegate.swift */,
 				27EADD4D2621F90200E4CC9C /* ThreadCreator.swift */,
+				279F67C7262C209B0057F3A9 /* ChatRoomViewModelDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -1460,6 +1463,7 @@
 				77394BBB260D0BE50068B01F /* FirebaseUserModulePair.swift in Sources */,
 				278797572601E24600124FA3 /* ALFacebookAuthHandler.swift in Sources */,
 				4583D9952616055B0092AF87 /* P256PrivateKey.swift in Sources */,
+				279F67C8262C209C0057F3A9 /* ChatRoomViewModelDelegate.swift in Sources */,
 				77394C03260D97C10068B01F /* ModuleListFacade.swift in Sources */,
 				77F4F1DC2619B333003CD601 /* Color.swift in Sources */,
 				2726AF2E261E05C700F22CC4 /* PersistenceType.swift in Sources */,
