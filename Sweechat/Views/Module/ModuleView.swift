@@ -87,8 +87,8 @@ struct ModuleView: View {
                 ScrollView {
                     ForEach(viewModel.getChatRoomList(type: chatRoomListType)) { chatRoomViewModel in
                         Button(action: {
-                            viewModel.directChatRoomViewModel = chatRoomViewModel
-                            viewModel.isDirectChatRoomLoaded = true
+                            viewModel.currentChatRoomViewModel = chatRoomViewModel
+                            viewModel.isRedirectToChatRoom = true
                         }) {
                             HStack {
                                 ChatRoomItemView(viewModel: chatRoomViewModel)
@@ -106,11 +106,11 @@ struct ModuleView: View {
                     "",
                     destination: LazyNavView(
                         ChatRoomViewFactory.makeView(
-                            viewModel: viewModel.directChatRoomViewModel,
+                            viewModel: viewModel.currentChatRoomViewModel,
                             isNavigationBarHidden: $isNavigationBarHidden
                         )
                     ),
-                    isActive: $viewModel.isDirectChatRoomLoaded
+                    isActive: $viewModel.isRedirectToChatRoom
                 )
             }
             .background(
