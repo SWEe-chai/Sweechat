@@ -4,33 +4,52 @@ struct ForumPostView: View {
     @ObservedObject var viewModel: ThreadChatRoomViewModel
     var clickable: Bool
 
+    var forumContent: some View {
+        HStack {
+            HStack {
+                MessageContentViewFactory.makeView(viewModel: viewModel.post)
+                    .foregroundColor(ColorConstant.dark)
+                    .font(FontConstant.ForumPost)
+
+            }
+            .padding(.leading)
+            .overlay(
+                Rectangle()
+                    .fill(ColorConstant.primary)
+                    .frame(width: 4)
+                    .padding(.trailing),
+                alignment: .leading
+            )
+            Spacer()
+            if clickable {
+                Image(systemName: "chevron.right")
+                    .foregroundColor(ColorConstant.dark)
+                    .padding()
+            }
+        }
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading) {
-                    MessageContentViewFactory.makeView(viewModel: viewModel.post)
-                        .foregroundColor(ColorConstant.base)
-                        .font(FontConstant.ForumPost)
+                    forumContent
+
                     HStack {
-                        ProfilePicture(url: viewModel.post.profilePictureUrl)
+                        ProfilePicture(url: viewModel.post.profilePictureUrl, size: 25)
                         Text(viewModel.post.senderName)
                             .font(FontConstant.MessageSender)
-                            .foregroundColor(ColorConstant.base)
+                            .foregroundColor(ColorConstant.tertiary)
                         Spacer()
                         LikeButtonView(viewModel: viewModel.post)
-                            .foregroundColor(ColorConstant.base)
-                            .padding(.leading)
+                            .foregroundColor(ColorConstant.tertiary)
+                            .padding(.horizontal)
                     }
                 }
-                Spacer()
-                if clickable {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(ColorConstant.light)
-                        .padding(.leading)
-                }
-            }.padding(.leading).padding(.top, 5)
+            }
+            .padding(.leading).padding(.top, 5)
             Divider()
-                .background(ColorConstant.white)
+                .background(ColorConstant.primary)
             if let mostPopularMessage = viewModel.mostPopularMessage, clickable {
                 HStack {
                     Spacer()
@@ -40,7 +59,7 @@ struct ForumPostView: View {
             }
         }
         .padding(10)
-        .background(ColorConstant.dark)
+        .background(ColorConstant.tertiary2)
         .contextMenu {
             if viewModel.post.isSenderCurrentUser {
                 contextMenuDeleteButton()
