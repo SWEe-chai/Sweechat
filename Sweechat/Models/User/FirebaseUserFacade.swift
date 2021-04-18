@@ -63,12 +63,6 @@ class FirebaseUserFacade: UserFacade {
             os_log("Error loading user: User ID is empty")
             return
         }
-        if (FcmJsonStorageManager.load()) == "" {
-            os_log("No FCM token")
-        }
-        usersReference
-            .document(userId.val)
-            .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId.val)
         userListener = getUserListenerRegistration()
