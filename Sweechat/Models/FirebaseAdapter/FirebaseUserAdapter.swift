@@ -34,7 +34,8 @@ struct FirebaseUserAdapter {
         [
             DatabaseConstant.User.id: user.id.val,
             DatabaseConstant.User.name: user.name,
-            DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? ""
+            DatabaseConstant.User.profilePictureUrl: user.profilePictureUrl ?? "",
+            DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""
         ]
     }
 
