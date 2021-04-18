@@ -7,8 +7,8 @@ protocol UserFacade {
     /// An abstraction through which the server communicates with the calling object instance.
     var delegate: UserFacadeDelegate? { get set }
 
-    /// Logs into the server and listens to changes to the specified `User`.
+    /// Listens to changes to the specified `User`.
     /// - Parameters:
     ///   - user: The specified `User`.
-    func loginAndListenToUser(_ user: User)
+    func listenToUser(_ user: User)
 }

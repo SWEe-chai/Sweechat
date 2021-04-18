@@ -47,7 +47,7 @@ class User: ObservableObject {
     func setUserConnection() {
         self.userFacade = FirebaseUserFacade(userId: id)
         userFacade?.delegate = self
-        userFacade?.loginAndListenToUser(
+        userFacade?.listenToUser(
             User(
                 id: id,
                 name: name,
