@@ -18,7 +18,7 @@ struct ChatRoomItemView: View {
                         .font(FontConstant.Heading4)
                         .foregroundColor(ColorConstant.dark)
                     Text("Last message...")
-                        .font(FontConstant.ModuleDescription)
+                        .font(FontConstant.Description)
                         .foregroundColor(ColorConstant.dark)
                 }
                 .padding(.horizontal)
