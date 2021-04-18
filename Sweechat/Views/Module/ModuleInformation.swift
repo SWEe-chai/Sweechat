@@ -6,52 +6,47 @@ struct ModuleInformation: View {
     @Binding var isNavigationBarHidden: Bool
 
     var body: some View {
-        VStack {
+        HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text("Module secret")
                     .font(FontConstant.Heading1)
                     .foregroundColor(ColorConstant.dark)
                     .padding(.top)
-                Text("* Other users can join this module by entering this Module secret")
+                    .padding(.bottom, 3)
+
+                Text("● Other users can join this module by entering this Module secret")
                     .font(FontConstant.Heading5)
                     .foregroundColor(ColorConstant.medium)
-                Text("* Press and hold the secret to copy to clipboard:")
-                    .font(FontConstant.Heading5)
-                    .foregroundColor(ColorConstant.medium)
+
+                HStack(alignment: .center) {
+                    Text("● Press and hold the secret to copy to clipboard:")
+                        .font(FontConstant.Heading5)
+                        .foregroundColor(ColorConstant.medium)
+                }
 
                 Text("\(viewModel.id)")
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color(white: 0, opacity: 0.5), lineWidth: 1)
-                    )
-                    .cornerRadius(5)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color(white: 0, opacity: 0.5), lineWidth: 1))
-                    .padding(.trailing)
-                Text("Hello World")
-                    .fontWeight(.bold)
-                    .font(.title)
-                    .foregroundColor(.purple)
+                    .font(FontConstant.Heading4)
+                    .foregroundColor(ColorConstant.medium)
                     .padding()
-                    .overlay(
+                    .frame(maxWidth: .infinity)
+                    .background(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.purple, lineWidth: 5)
+                            .fill(ColorConstant.light)
                     )
+                    .onLongPressGesture(minimumDuration: 0.5) {
+                        UIPasteboard.general.string = viewModel.id
+                        copied = true
+                    }
 
-    //            Text("\(viewModel.id)")
-    //                .font(.title3)
-    //                .padding()
-    //                .onLongPressGesture(minimumDuration: 0.5) {
-    //                    UIPasteboard.general.string = viewModel.id
-    //                    copied = true
-    //                }
                 if copied {
-                    Text("Module Secret has been copied to clipboard!").font(.caption)
+                    Text("Module Secret has been copied to clipboard!").font(FontConstant.Description)
                 }
+                Spacer()
             }
             Spacer()
         }
+        .padding(.horizontal)
+        .padding(.top, 3)
         .background(ColorConstant.base)
         .onAppear { isNavigationBarHidden = false }
         .navigationBarHidden(isNavigationBarHidden)
