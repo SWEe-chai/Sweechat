@@ -14,7 +14,7 @@ class LocalFileViewModel: ObservableObject {
     }
 
     private func getLocalUrl() {
-        delegate?.fetchVideoLocalUrl(fromUrlString: onlineUrlString) { localUrl in
+        delegate?.fetchLocalUrl(fromUrlString: onlineUrlString) { localUrl in
             guard let localUrl = localUrl else {
                 self.state = .failed
                 return
