@@ -66,7 +66,7 @@ class Message: ObservableObject {
 
     // MARK: Mutation
 
-    /// Updates this message with information from the specified message.
+    /// Updates this `Message` with information from the specified `Message`.
     func update(message: Message) {
         self.content = message.content
         self.likers = message.likers
@@ -85,13 +85,13 @@ class Message: ObservableObject {
 
     // MARK: Subscriptions
 
-    /// Subscribes to the content in this message
+    /// Subscribes to the content in this message.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToContent(function: @escaping (Data) -> Void) -> AnyCancellable {
         $content.sink(receiveValue: function)
     }
 
-    /// Subscribes to the likers in this message
+    /// Subscribes to the likers in this message.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToLikers(function: @escaping (Set<Identifier<User>>) -> Void) -> AnyCancellable {
         $likers.sink(receiveValue: function)
