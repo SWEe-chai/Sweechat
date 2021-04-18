@@ -1,14 +1,15 @@
-//
-//  FirebaseUserModulePairAdapter.swift
-//  Sweechat
-//
-//  Created by Christian James Welly on 16/4/21.
-//
-
 import FirebaseFirestore
 import os
 
+/**
+ An adapter for translating between `FirebaseUserModulePair` and its Firebase representation.
+ */
 struct FirebaseUserModulePairAdapter {
+    /// Converts the specified Firebase document into a `FirebaseUserModulePair`.
+    /// - Parameters:
+    ///   - document: The specified Firebase document.
+    /// - Returns: A `FirebaseUserModulePair` based on the specified Firebase document,
+    ///            or nil if the conversion fails.
     static func convert(document: DocumentSnapshot) -> FirebaseUserModulePair? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
@@ -28,6 +29,10 @@ struct FirebaseUserModulePairAdapter {
         return FirebaseUserModulePair(userId: userId, moduleId: moduleId, permissions: permissions)
     }
 
+    /// Converts the specified `FirebaseUserModulePair` into a Firebase compatible dictionary.
+    /// - Parameters:
+    ///   - pair: The specified `FirebaseUserModulePair`.
+    /// - Returns: A Firebase compatible dictionary based on the specified `FirebaseUserModulePair`.
     static func convert(pair: FirebaseUserModulePair) -> [String: Any] {
         [
             DatabaseConstant.UserModulePair.userId: pair.userId.val,
