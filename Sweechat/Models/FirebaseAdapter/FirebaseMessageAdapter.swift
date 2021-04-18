@@ -2,13 +2,13 @@ import FirebaseFirestore
 import os
 
 /**
- An adapater for translating `Message` between model and Firebase representations.
+ An adapater for translating between `Message` and its Firebase representation.
  */
 struct FirebaseMessageAdapter {
-    /// Converts the specified Firebase document into a model `Message`.
+    /// Converts the specified Firebase document into a `Message`.
     /// - Parameters:
     ///   - document: The specified Firebase document.
-    /// - Returns: A model `Message`, or nil if the conversion fails.
+    /// - Returns: A `Message` based on the specified Firebase document, or nil if the conversion fails.
     static func convert(document: DocumentSnapshot) -> Message? {
         if !document.exists {
             os_log("Error: Cannot convert message, message document does not exist")
@@ -74,5 +74,4 @@ struct FirebaseMessageAdapter {
 
         return map
     }
-
 }
