@@ -1,24 +1,19 @@
+import Combine
 import XCTest
 @testable import Sweechat
 
 class ChatRoomTests: XCTestCase {
-    private class UserStub: User {
-        init() {
-            super.init(details: UserRepresentation(
-                        id: "",
-                        name: "",
-                        profilePictureUrl: nil))
-        }
-    }
-
-    private let messageStub1 = Message(sender: UserStub(), content: "1")
-    private let messageStub2 = Message(sender: UserStub(), content: "2")
-    private let messageStub3 = Message(sender: UserStub(), content: "3")
     private var sut: ChatRoom!
 
     override func setUp() {
         super.setUp()
-        sut = ChatRoom()
+        sut = ChatRoom(id: Identifier<ChatRoom>(stringLiteral: "1"),
+                       name: "Test",
+                       ownerId: Identifier<User>(stringLiteral: "1"),
+                       currentUser: User(id: Identifier<User>(stringLiteral: "1")),
+                       currentUserPermission: ChatRoomPermission.all,
+                       isStarred: true,
+                       creationTime: Date())
     }
 
     override func tearDown() {
@@ -26,64 +21,167 @@ class ChatRoomTests: XCTestCase {
         super.tearDown()
     }
 
-    func testInsert_emptyMessagesArray_appendsMessageToArray() {
-        sut.insert(message: messageStub1)
+    func testCreateUnavailableInstance_returnsUserWithUnavailableDetails() {
+        let unavailableChatRoom = ChatRoom.createUnavailableInstance()
 
-        XCTAssertTrue(sut.messages.count == 1)
-        XCTAssertTrue(sut.messages[0] == messageStub1)
+        XCTAssertEqual(unavailableChatRoom.ownerId, ChatRoom.unavailableOwnerId)
+        XCTAssertEqual(unavailableChatRoom.id, ChatRoom.unavailableChatRoomId)
+        XCTAssertEqual(unavailableChatRoom.name, ChatRoom.unavailableChatRoomName)
     }
 
-    func testInsert_messagesArrayWithOneMessage_appendsMessageToArray() {
-        sut = ChatRoom(id: "1", messages: [messageStub1])
-        sut.insert(message: messageStub2)
+    func testSubscribeToMessages_callsFunctionOnMessagesChange() {
+        var isFunctionCalled = false
+        let function: ([Identifier<Message>: Message]) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        XCTAssertTrue(sut.messages.count == 2)
-        XCTAssertTrue(sut.messages[1] == messageStub2)
+        let _: AnyCancellable = sut.subscribeToMessages(function: function)
+        sut.messages = [:]
+
+        XCTAssertTrue(isFunctionCalled)
     }
 
-    func testInsert_messagesArrayWithMultipleMessages_appendsMessageToArray() {
-        sut = ChatRoom(id: "1", messages: [messageStub1, messageStub2])
-        sut.insert(message: messageStub3)
+    func testSubscribeToEarlyLoadedMessages_callsFunctionOnEarlyLoadedMessagesChange() {
+        var isFunctionCalled = false
+        let function: ([Identifier<Message>: Message]) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        XCTAssertTrue(sut.messages.count == 3)
-        XCTAssertTrue(sut.messages[2] == messageStub3)
+        let _: AnyCancellable = sut.subscribeToEarlyLoadedMessages(function: function)
+        sut.earlyLoadedMessages = [:]
+
+        XCTAssertTrue(isFunctionCalled)
     }
 
-    func testInsert_multipleCalls_appendsMessagesToArrayInOrder() {
-        sut.insert(message: messageStub1)
-        sut.insert(message: messageStub2)
-        sut.insert(message: messageStub3)
+    func testSubscribeToAreAllMessagesLoaded_callsFunctionAreAllMessagesLoadedChange() {
+        var isFunctionCalled = false
+        let function: (Bool) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        XCTAssertTrue(sut.messages.count == 3)
-        XCTAssertTrue(sut.messages[0] == messageStub1)
-        XCTAssertTrue(sut.messages[1] == messageStub2)
-        XCTAssertTrue(sut.messages[2] == messageStub3)
+        let _: AnyCancellable = sut.subscribeToAreAllMessagesLoaded(function: function)
+        sut.areAllMessagesLoaded = false
+
+        XCTAssertTrue(isFunctionCalled)
     }
 
-    func testInsertAll_singleMessage_appendsMessageToArrayInOrder() {
-        let messages = [messageStub1]
+    func testSubscribeToName_callsFunctionOnNameChange() {
+        var isFunctionCalled = false
+        let function: (String) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        sut.insertAll(messages: messages)
+        let _: AnyCancellable = sut.subscribeToName(function: function)
+        sut.name = ""
 
-        XCTAssertEqual(sut.messages, messages)
+        XCTAssertTrue(isFunctionCalled)
     }
 
-    func testInsertAll_multipleMessages_appendsMessagesToArrayInOrder() {
-        let messages = [messageStub1, messageStub2, messageStub3]
+    func testSubscribeToProfilePicture_callsFunctionOnProfilePictureUrlChange() {
+        var isFunctionCalled = false
+        let function: (String?) -> Void = { _ in
+            isFunctionCalled = true
+        }
 
-        sut.insertAll(messages: messages)
+        let _: AnyCancellable = sut.subscribeToProfilePicture(function: function)
+        sut.profilePictureUrl = ""
 
-        XCTAssertEqual(sut.messages, messages)
+        XCTAssertTrue(isFunctionCalled)
     }
 
-    func testInsertAll_multipleOutOfOrderMessages_appendsMessagesToArrayInOrder() {
-        let messages = [messageStub3, messageStub2, messageStub1]
+    func testGetUser_userInChatRoom_returnsUser() {
+        let member = User(id: Identifier<User>(stringLiteral: "2"))
+        sut.memberIdsToUsers[member.id] = member
 
-        sut.insertAll(messages: messages)
+        XCTAssertEqual(sut.getUser(userId: member.id), member)
+    }
 
-        XCTAssertTrue(sut.messages.count == 3)
-        XCTAssertTrue(sut.messages[0] == messageStub1)
-        XCTAssertTrue(sut.messages[1] == messageStub2)
-        XCTAssertTrue(sut.messages[2] == messageStub3)
+    func testGetUser_userNotInChatRoom_returnsUnavailableUser() {
+        XCTAssertEqual(sut.getUser(userId: Identifier<User>(stringLiteral: "2")), User.createUnavailableInstance())
+    }
+
+    func testRemoveMessage_removesMessage() {
+        let message = Message(id: Identifier<Message>(stringLiteral: "1"),
+                              senderId: Identifier<User>(stringLiteral: "1"),
+                              creationTime: Date(),
+                              content: Data(),
+                              type: MessageType.text,
+                              receiverId: Identifier<User>(stringLiteral: "2"),
+                              parentId: nil,
+                              likers: Set<Identifier<User>>())
+        sut.messages[message.id] = message
+
+        sut.remove(message: message)
+
+        XCTAssertFalse(sut.messages.keys.contains(where: { $0 == message.id }))
+    }
+
+    func testInsertMember_insertsMember() {
+        let member = User(id: Identifier<User>(stringLiteral: "2"))
+
+        sut.insert(member: member)
+
+        XCTAssertTrue(sut.memberIdsToUsers.keys.contains(where: { $0 == member.id }))
+    }
+
+    func testRemoveMember_removesMember() {
+        let member = User(id: Identifier<User>(stringLiteral: "2"))
+        sut.memberIdsToUsers[member.id] = member
+
+        sut.remove(member: member)
+
+        XCTAssertFalse(sut.memberIdsToUsers.keys.contains(where: { $0 == member.id }))
+    }
+
+    func insertAllMembers_insertsAllMembers() {
+        let member1 = User(id: Identifier<User>(stringLiteral: "2"))
+        let member2 = User(id: Identifier<User>(stringLiteral: "3"))
+
+        sut.insertAll(members: [member1, member2])
+
+        XCTAssertTrue(sut.memberIdsToUsers.keys.contains(where: { $0 == member1.id }))
+        XCTAssertTrue(sut.memberIdsToUsers.keys.contains(where: { $0 == member2.id }))
+    }
+
+    func testUpdate_updatesChatRoom() {
+        let chatRoom = ChatRoom(id: Identifier<ChatRoom>(stringLiteral: "2"),
+                                name: "Test2",
+                                ownerId: Identifier<User>(stringLiteral: "2"),
+                                currentUser: User(id: Identifier<User>(stringLiteral: "2")),
+                                currentUserPermission: ChatRoomPermission.all,
+                                isStarred: true,
+                                creationTime: Date(),
+                                profilePictureUrl: "Test")
+
+        sut.update(chatRoom: chatRoom)
+
+        XCTAssertEqual(sut.name, chatRoom.name)
+        XCTAssertEqual(sut.profilePictureUrl, chatRoom.profilePictureUrl)
+    }
+
+    func testEquals_sameId_returnsTrue() {
+        let chatRoom = ChatRoom(id: Identifier<ChatRoom>(stringLiteral: "1"),
+                                name: "Test2",
+                                ownerId: Identifier<User>(stringLiteral: "2"),
+                                currentUser: User(id: Identifier<User>(stringLiteral: "2")),
+                                currentUserPermission: ChatRoomPermission.all,
+                                isStarred: true,
+                                creationTime: Date(),
+                                profilePictureUrl: "Test")
+
+        XCTAssertEqual(sut, chatRoom)
+    }
+
+    func testEquals_differentId_returnsFalse() {
+        let chatRoom = ChatRoom(id: Identifier<ChatRoom>(stringLiteral: "2"),
+                                name: "Test2",
+                                ownerId: Identifier<User>(stringLiteral: "2"),
+                                currentUser: User(id: Identifier<User>(stringLiteral: "2")),
+                                currentUserPermission: ChatRoomPermission.all,
+                                isStarred: true,
+                                creationTime: Date(),
+                                profilePictureUrl: "Test")
+
+        XCTAssertNotEqual(sut, chatRoom)
     }
 }
