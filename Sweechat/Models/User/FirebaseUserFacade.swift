@@ -68,7 +68,7 @@ class FirebaseUserFacade: UserFacade {
             os_log("No FCM token")
         }
         usersReference
-            .document(userId.val) 
+            .document(userId.val)
             .setData([DatabaseConstant.User.token: FcmJsonStorageManager.load() ?? ""], merge: true)
         reference = usersReference
             .document(userId.val)

@@ -25,14 +25,9 @@ class HomeViewModel: ObservableObject {
         self.notificationMetadata = notificationMetadata
         settingsViewModel.delegate = self
         initialiseSubscribers()
+        handleRedirectionToModule()
     }
 
-    func handleViewAppearance() {
-        if notificationMetadata.isFromNotif {
-            self.handleRedirectionToModule()
-        }
-    }
-    
     func handleRedirectionToModule() {
         self.directModuleViewModel.getOut()
         self.isDirectModuleLoaded = false
