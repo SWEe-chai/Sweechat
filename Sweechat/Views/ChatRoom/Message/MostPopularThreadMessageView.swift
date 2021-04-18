@@ -5,17 +5,18 @@ struct MostPopularThreadMessageView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                HStack {
-                    Spacer()
-                    Image(systemName: "star.fill")
-                }
+            HStack {
+                Image(systemName: "arrow.turn.down.right")
+                    .foregroundColor(ColorConstant.primary)
+
                 MessageContentViewFactory.makeView(viewModel: viewModel)
+                    .foregroundColor(ColorConstant.primary)
+                Spacer()
+                Image(systemName: "star.fill")
+                    .foregroundColor(ColorConstant.primary)
             }
-            Spacer()
         }
         .padding(10)
-        .background(ColorConstant.light)
         .cornerRadius(10)
         .frame(maxWidth: .infinity)
     }

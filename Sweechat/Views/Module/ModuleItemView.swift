@@ -20,9 +20,9 @@ struct ModuleItemView: View {
                 )
 
             Divider()
+                .background(ColorConstant.white)
                 .padding(.leading, 7)
                 .padding(.trailing, 7)
-                .foregroundColor(ColorConstant.dark)
                 .frame(height: 50, alignment: .center)
 
             VStack(alignment: .leading) {
