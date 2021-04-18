@@ -31,7 +31,8 @@ struct AnnouncementView_Previews: PreviewProvider {
                         ownerId: "Me",
                         currentUser: User(id: "Hello", name: "Happy boi"),
                         currentUserPermission: ChatRoomPermission.all,
-                        isStarred: false),
+                        isStarred: false,
+                        creationTime: Date()),
                     user: User(id: "Hello", name: "Happy boi")), isNavigationBarHidden: .constant(false))
     }
 }

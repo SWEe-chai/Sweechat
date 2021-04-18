@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 class PrivateChatRoom: ChatRoom {
     var otherUser: User?
@@ -9,13 +10,15 @@ class PrivateChatRoom: ChatRoom {
     // Used by facade
     init(id: Identifier<ChatRoom>,
          ownerId: Identifier<User>,
-         currentUser: User) {
+         currentUser: User,
+         creationTime: Date) {
         super.init(id: id,
                    name: "",
                    ownerId: ownerId,
                    currentUser: currentUser,
                    currentUserPermission: ChatRoomPermission.readWrite,
-                   isStarred: false)
+                   isStarred: false,
+                   creationTime: creationTime)
     }
 
     init(currentUser: User,

@@ -33,6 +33,18 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         chatRoom.id.val
     }
 
+    var latestMessagePreview: String {
+        latestMessageViewModel?.previewContent() ?? ""
+    }
+
+    var lastestMessageTime: Date? {
+        latestMessageViewModel?.creationTime
+    }
+
+    var creationTime: Date {
+        chatRoom.creationTime
+    }
+
     static func createUnavailableInstance() -> ChatRoomViewModel {
         GroupChatRoomViewModel(
             groupChatRoom: ChatRoom.createUnavailableInstance()

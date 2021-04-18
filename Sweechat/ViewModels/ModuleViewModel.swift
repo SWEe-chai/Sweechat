@@ -132,6 +132,11 @@ class ModuleViewModel: ObservableObject {
                 )
             }
         self.chatRoomViewModels.append(contentsOf: newChatRoomVMs)
+        self.chatRoomViewModels.sort { lhs, rhs in
+            let lhsDate: Date = lhs.lastestMessageTime ?? lhs.creationTime
+            let rhsDate: Date = rhs.lastestMessageTime ?? rhs.creationTime
+            return lhsDate > rhsDate
+        }
     }
 
     private func setChatRoomViewModel(chatRoomId: String) -> ChatRoomViewModel? {
