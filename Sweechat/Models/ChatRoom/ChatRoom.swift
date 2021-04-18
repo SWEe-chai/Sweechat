@@ -329,7 +329,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     }
 
     private func sendKeyExchangeBundles() {
-        chatRoomFacade?.loadPublicKeyBundlesFromStorage(of: members, onCompletion: performKeyExchange)
+        chatRoomFacade?.loadPublicKeyBundlesFromServer(of: members, onCompletion: performKeyExchange)
         storeMessage(
             message: Message(
                 senderId: currentUser.id,

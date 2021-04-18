@@ -10,6 +10,6 @@ protocol ChatRoomFacade {
     func loadNextBlockOfMessages(onCompletion: @escaping ([Message]) -> Void)
     func loadMessage(withId id: String, onCompletion: @escaping (Message?) -> Void)
     func loadMessagesUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void)
-    func loadPublicKeyBundlesFromStorage(of: [User], onCompletion: ((([String: Data]) -> Void))?)
+    func loadPublicKeyBundlesFromServer(of: [User], onCompletion: ((([String: Data]) -> Void))?)
     func delete(_ message: Message)
 }

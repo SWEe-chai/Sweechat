@@ -118,7 +118,10 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    /// Loads the 
+    /// Loads `Message`s until the specified time, and executes the specified function on completion.
+    /// - Parameters:
+    ///   - time: The specified time.
+    ///   - onCompletion: The specified function to execute on completion.
     func loadMessagesUntil(_ time: Date, onCompletion: @escaping ([Message]) -> Void) {
         let timestamp = Timestamp(date: time)
         filteredMessagesReference?
@@ -139,7 +142,12 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
             }
     }
 
-    func loadPublicKeyBundlesFromStorage(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
+    /// Loads the key bundles of the specified `User`s from Firebase,
+    /// and executes the specified function on completion.
+    /// - Parameters:
+    ///   - users: The specified `User`s.
+    ///   - onCompletion: The specified function to execute on completion.
+    func loadPublicKeyBundlesFromServer(of users: [User], onCompletion: (([String: Data]) -> Void)?) {
         for chunk in users.chunked(into: FirebaseUtils.queryChunkSize) {
             self.publicKeyBundlesReference?
                 .whereField(DatabaseConstant.PublicKeyBundle.userId, in: chunk.map({ $0.id.val }))
@@ -165,6 +173,9 @@ class FirebaseChatRoomFacade: ChatRoomFacade {
         }
     }
 
+    /// Deletes the specified `Message` from Firebase.
+    /// - Parameters:
+    ///   - message: The specified `Message`.
     func delete(_ message: Message) {
         self.messagesReference?
             .document(message.id.val)
