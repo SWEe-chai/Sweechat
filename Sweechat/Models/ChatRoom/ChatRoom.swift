@@ -156,7 +156,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         $earlyLoadedMessages.sink(receiveValue: function)
     }
 
-    /// Subscribes to the this `ChatRoom`'s message load by executing the specified function once all messages are loaded.
+    /// Subscribes to the this `ChatRoom`'s message load by executing the specified function
+    /// once all messages are loaded.
     /// - Parameters:
     ///   - function: The specified function to execute once all messages are loaded.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
@@ -172,7 +173,8 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         $name.sink(receiveValue: function)
     }
 
-    /// Subscribes to the this `ChatRoom`'s name load by executing the specified function on change to the profile picture.
+    /// Subscribes to the this `ChatRoom`'s name load by executing the specified function
+    /// on change to the profile picture.
     /// - Parameters:
     ///   - function: The specified function to execute on change to the profile picture.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
