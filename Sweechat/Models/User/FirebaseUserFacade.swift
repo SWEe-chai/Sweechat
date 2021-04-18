@@ -31,6 +31,8 @@ class FirebaseUserFacade: UserFacade {
     // MARK: UserFacade
 
     /// Logs into the Firebase server and listens to changes to the specified `User`.
+    /// - Parameters:
+    ///   - user: The specified `User`.
     func loginAndListenToUser(_ user: User) {
         userId = user.id
         self.usersReference.document(userId.val).getDocument { document, _ in

@@ -8,5 +8,7 @@ protocol UserFacade {
     var delegate: UserFacadeDelegate? { get set }
 
     /// Logs into the server and listens to changes to the specified `User`.
+    /// - Parameters:
+    ///   - user: The specified `User`.
     func loginAndListenToUser(_ user: User)
 }

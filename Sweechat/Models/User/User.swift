@@ -59,20 +59,24 @@ class User: ObservableObject {
     // MARK: Cryptography Public Key Bundle
 
     /// Gets this `User`'s public key bundle data to upload to the server.
-    /// - Returns: This `User`'s public key bundle data.
+    /// - Returns: This `User`'s public key bundle data, or `nil` if the data cannot be retrieved.
     func getPublicKeyBundleData() -> Data? {
         try? groupCryptographyProvider.getPublicServerKeyBundleData()
     }
 
     // MARK: Subscriptions
 
-    /// Subscribes to the this user's name.
+    /// Subscribes to the this `User`'s name by executing the specified function on change to the name.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the name.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToName(function: @escaping (String) -> Void) -> AnyCancellable {
         $name.sink(receiveValue: function)
     }
 
-    /// Subscribes to the this user's profile picture.
+    /// Subscribes to the this `User`'s profile picture by executing the specified function on change to the profile picture.
+    /// - Parameters:
+    ///   - function: The specified function to execute on change to the profile picture.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToProfilePicture(function: @escaping (String?) -> Void) -> AnyCancellable {
         $profilePictureUrl.sink(receiveValue: function)
@@ -82,12 +86,18 @@ class User: ObservableObject {
 // MARK: Equatable
 extension User: Equatable, Comparable {
     /// Whether two `User`s are equal.
+    /// - Parameters:
+    ///   - lhs: The first `User`.
+    ///   - rhs: The second `User`.
     /// - Returns: `true` if the two `User`s are equal.
     static func == (lhs: User, rhs: User) -> Bool {
         lhs.id == rhs.id
     }
 
     /// Whether the first `User` is less than the second.
+    /// - Parameters:
+    ///   - lhs: The first `User`.
+    ///   - rhs: The second `User`.
     /// - Returns: `true` if the first `User` is less than the second.
     static func < (lhs: User, rhs: User) -> Bool {
         lhs.id.val < rhs.id.val
@@ -97,6 +107,8 @@ extension User: Equatable, Comparable {
 // MARK: UserFacadeDelegate
 extension User: UserFacadeDelegate {
     /// Updates this`User` with information from the specified `User`.
+    /// - Parameters:
+    ///   - user: The specified `User`.
     func update(user: User) {
         self.id = user.id
         self.name = user.name
