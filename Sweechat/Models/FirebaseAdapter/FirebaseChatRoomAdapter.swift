@@ -22,7 +22,9 @@ struct FirebaseChatRoomAdapter {
               let ownerIdStr = data?[DatabaseConstant.ChatRoom.ownerId] as? String,
               let profilePictureUrl = data?[DatabaseConstant.User.profilePictureUrl] as? String,
               let type = ChatRoomType(rawValue: data?[DatabaseConstant.ChatRoom.type] as? String ?? ""),
-              let isStarred = data?[DatabaseConstant.ChatRoom.isStarred] as? Bool else {
+              let isStarred = data?[DatabaseConstant.ChatRoom.isStarred] as? Bool,
+              let creationTime = data?[DatabaseConstant.ChatRoom.creationTime] as? Timestamp
+              else {
             os_log("Error converting data for ChatRoom, data: %s", String(describing: data))
             return nil
         }
@@ -38,12 +40,14 @@ struct FirebaseChatRoomAdapter {
                 currentUser: user,
                 currentUserPermission: permissions,
                 isStarred: isStarred,
+                creationTime: creationTime.dateValue(),
                 profilePictureUrl: profilePictureUrl)
         case .privateChat:
             return PrivateChatRoom(
                 id: id,
                 ownerId: ownerId,
-                currentUser: user)
+                currentUser: user,
+                creationTime: creationTime.dateValue())
         case .forum:
             return ForumChatRoom(
                 id: id,
@@ -52,6 +56,7 @@ struct FirebaseChatRoomAdapter {
                 currentUser: user,
                 currentUserPermission: permissions,
                 isStarred: isStarred,
+                creationTime: creationTime.dateValue(),
                 profilePictureUrl: profilePictureUrl)
         case .thread:
             return ThreadChatRoom(
@@ -67,7 +72,8 @@ struct FirebaseChatRoomAdapter {
             DatabaseConstant.ChatRoom.name: chatRoom.name,
             DatabaseConstant.ChatRoom.ownerId: chatRoom.ownerId.val,
             DatabaseConstant.ChatRoom.isStarred: chatRoom.isStarred,
-            DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? ""
+            DatabaseConstant.ChatRoom.profilePictureUrl: chatRoom.profilePictureUrl ?? "",
+            DatabaseConstant.ChatRoom.creationTime: chatRoom.creationTime
         ]
         switch chatRoom {
         case chatRoom as PrivateChatRoom:

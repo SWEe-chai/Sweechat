@@ -17,11 +17,21 @@ struct ChatRoomItemView: View {
                     Text("\(viewModel.text)")
                         .font(FontConstant.Heading4)
                         .foregroundColor(ColorConstant.dark)
-                    Text("Last message...")
-                        .font(FontConstant.ModuleDescription)
-                        .foregroundColor(ColorConstant.dark)
+                        .lineLimit(1)
+                    HStack {
+                        Text(viewModel.latestMessagePreview)
+                            .font(FontConstant.ChatRoomDescription)
+                            .foregroundColor(ColorConstant.dark)
+                            .lineLimit(1)
+                            .padding(.trailing)
+                        Spacer()
+                        Text(viewModel.lastestMessageTime?.timeAgoDisplay() ?? "")
+                            .font(FontConstant.ModuleDescription)
+                            .foregroundColor(ColorConstant.dark)
+                            .lineLimit(1)
+                    }
                 }
-                .padding(.horizontal)
+                .padding(.leading)
             }
             .padding()
             .padding(.horizontal)

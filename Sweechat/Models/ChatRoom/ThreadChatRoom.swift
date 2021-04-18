@@ -1,3 +1,5 @@
+import Foundation
+
 class ThreadChatRoom: ChatRoom {
     var mostPopularMessage: Message? {
         messages.values.max { a, b in a.likers.count < b.likers.count }
@@ -20,6 +22,7 @@ class ThreadChatRoom: ChatRoom {
                    ownerId: ownerId,
                    currentUser: currentUser,
                    currentUserPermission: ChatRoomPermission.readWrite,
-                   isStarred: false)
+                   isStarred: false,
+                   creationTime: Date())
     }
 }
