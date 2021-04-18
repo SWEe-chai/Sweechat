@@ -41,7 +41,6 @@ class FirebaseUserFacade: UserFacade {
     // MARK: Private Helper Methods
 
     private func addUser(_ user: User) {
-        print(user.id)
         self.usersReference
             .document(user.id.val)
             .setData(
