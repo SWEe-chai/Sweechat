@@ -13,10 +13,10 @@ struct ForumPostsView: View {
                     }.padding()
                 } else {
                     Text("All posts are loaded")
-                        .font(FontConstant.ModuleDescription)
+                        .font(FontConstant.Description)
                 }
                 ForEach(viewModel.threadViewModels, id: \.self) { threadChatRoomViewModel in
-                    ForumPostView(viewModel: threadChatRoomViewModel)
+                    ForumPostView(viewModel: threadChatRoomViewModel, clickable: true)
                         .onTapGesture(count: 1) {
                             viewModel.setThread(threadChatRoomViewModel.post)
                             isThreadOpen = true
@@ -31,5 +31,6 @@ struct ForumPostsView: View {
                 isActive: $isThreadOpen
             ).hidden()
         }
+        .background(ColorConstant.base)
     }
 }
