@@ -58,7 +58,7 @@ class FirebaseUserFacade: UserFacade {
         }
     }
 
-    private func setUpConnectionAsUser(currentUser: Bool = false) {
+    private func setUpConnectionAsUser() {
         if userId.val.isEmpty {
             os_log("Error loading user: User ID is empty")
             return
