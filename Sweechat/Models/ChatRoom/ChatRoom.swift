@@ -157,7 +157,7 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
     ///   - function: The specified function to execute on change to the early loaded messages.
     /// - Returns: An `AnyCancellable` that executes the specified closure when cancelled.
     func subscribeToEarlyLoadedMessages(function: @escaping ([Identifier<Message>: Message]) -> Void)
-            -> AnyCancellable {
+        -> AnyCancellable {
         $earlyLoadedMessages.sink(receiveValue: function)
     }
 
