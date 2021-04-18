@@ -22,7 +22,7 @@ struct ModuleItemView: View {
             Divider()
                 .padding(.leading, 7)
                 .padding(.trailing, 7)
-                .foregroundColor(ColorConstant.dark)
+                .foregroundColor(ColorConstant.white)
                 .frame(height: 50, alignment: .center)
 
             VStack(alignment: .leading) {

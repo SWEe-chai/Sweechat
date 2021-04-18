@@ -39,7 +39,7 @@ struct ModuleInformation: View {
         .navigationBarHidden(isNavigationBarHidden)
         .navigationTitle(viewModel.text)
     }
-    
+
     var moduleSecret: some View {
         Text("\(viewModel.id)")
             .font(FontConstant.Heading4)
