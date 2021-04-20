@@ -17,10 +17,10 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
     @Published var areAllMessagesLoaded: Bool = false
     @Published var messages: [MessageViewModel] = []
     @Published var earlyLoadedMessages: [MessageViewModel] = []
+    var chatRoomMediaCache: ChatRoomMediaCache
 
     weak var delegate: ChatRoomViewModelDelegate?
 
-    private var chatRoomMediaCache: ChatRoomMediaCache
     private var subscribers: [AnyCancellable] = []
 
     var permissions: ChatRoomViewModelType {
@@ -159,7 +159,7 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
                 .makeViewModel(
                     message: $0,
                     sender: self.chatRoom.getUser(userId: $0.senderId),
-                    delegate: self,
+                    delegate: chatRoomMediaCache,
                     currentUserId: self.user.id)
         }
     }
@@ -231,17 +231,6 @@ class ChatRoomViewModel: ObservableObject, SendMessageHandler {
         }
 
         subscribers.append(profilePictureSubscriber)
-    }
-}
-
-// MARK: MediaMessageViewModelDelegate
-extension ChatRoomViewModel: MediaMessageViewModelDelegate {
-    func fetchVideoLocalUrl(fromUrlString urlString: String, onCompletion: @escaping (URL?) -> Void) {
-        chatRoomMediaCache.getLocalUrl(fromOnlineUrlString: urlString, onCompletion: onCompletion)
-    }
-
-    func fetchImageData(fromUrlString urlString: String, onCompletion: @escaping (Data?) -> Void) {
-        chatRoomMediaCache.getData(urlString: urlString, onCompletion: onCompletion)
     }
 }
 

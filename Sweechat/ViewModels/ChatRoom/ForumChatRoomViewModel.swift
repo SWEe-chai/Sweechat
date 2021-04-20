@@ -82,7 +82,7 @@ class ForumChatRoomViewModel: ChatRoomViewModel {
         self.postViewModels = postIdsToPosts.values.compactMap {
             MessageViewModelFactory.makeViewModel(message: $0,
                                                   sender: self.chatRoom.getUser(userId: $0.senderId),
-                                                  delegate: self,
+                                                  delegate: chatRoomMediaCache,
                                                   currentUserId: self.user.id)
         }
     }
