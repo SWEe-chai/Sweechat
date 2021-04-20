@@ -1,5 +1,5 @@
 # Sweechat
-![Screenshot](assets/screenshot.png)
+![Screenshot](assets/Sweechat.png)
 
 Sweechat is an iOS messaging app that aims to foster the development of encouraging education communities. We were given the freedom to build anything we wanted and decided to create a messaging app from scratch. This was a great learning experience for us
 
