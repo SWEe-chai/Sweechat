@@ -54,16 +54,6 @@ class Message: ObservableObject {
         self.likers = likers
     }
 
-    // MARK: Copying
-
-    /// Creates a copy of this message.
-    /// - Returns: A copy of this message.
-    func copy() -> Message {
-        Message(id: id, senderId: senderId, creationTime: creationTime,
-                content: content, type: type, receiverId: receiverId,
-                parentId: parentId, likers: likers)
-    }
-
     // MARK: Mutation
 
     /// Updates this `Message` with information from the specified `Message`.
@@ -148,5 +138,17 @@ extension Data {
     /// - Returns: The `String` representation of this `Data`.
     func toString() -> String {
         String(decoding: self, as: UTF8.self)
+    }
+}
+
+extension Message {
+    // MARK: Copying
+
+    /// Creates a copy of this message.
+    /// - Returns: A copy of this message.
+    func copy() -> Message {
+        Message(id: id, senderId: senderId, creationTime: creationTime,
+                content: content, type: type, receiverId: receiverId,
+                parentId: parentId, likers: likers)
     }
 }
