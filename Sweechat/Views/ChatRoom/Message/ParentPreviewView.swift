@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ParentPreviewView: View {
-    var message: MessageViewModel
+    @ObservedObject var message: MessageViewModel
     var borderColor: Color
     var isEditPreview: Bool = false
 
