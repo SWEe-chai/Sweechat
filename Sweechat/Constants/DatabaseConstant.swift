@@ -12,7 +12,7 @@ struct DatabaseConstant {
         static let environmentCollection = "environment"
         // Change environmentDocument as needed when working on features
         // involving a schema change
-        static let environmentDocument = "dev-creationTime"
+        static let environmentDocument = "final-demo"
 
         static let chatRooms = "chatRooms"
         static let messages = "messages"
