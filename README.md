@@ -9,3 +9,7 @@ SweeChat was built on the Model-View-ViewModel (MVVM) software architectural pat
 ## Setup
 
 You will need to set up a Firebase environment with notifications enabled and add a suitable to the `GoogleService-Info.plist` file to the Sweechat folder before being able to build and run the app. An Apple developer account is required to turn on push notifications.
+
+## Documentation
+
+The architectural design and considerations are documented [here](SweeChat_Final_Sprint_Report.pdf).
