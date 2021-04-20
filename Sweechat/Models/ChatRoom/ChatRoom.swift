@@ -111,6 +111,21 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.chatRoomFacade?.save(messageCopy)
     }
 
+    /// Deletes the specified `Message` from this `ChatRoom`.
+    /// - Parameters:
+    ///  - message: The specified `Message`.
+    func delete(message: Message) {
+        chatRoomFacade?.delete(message)
+    }
+
+    /// Gets the `User` with the specified ID.
+    /// - Parameters:
+    ///  - userId: The specified ID.
+    /// - Returns: The `User` with the specified ID if exists in this `ChatRoom`, or an unavailable `User` otherwise.
+    func getUser(userId: Identifier<User>) -> User {
+        memberIdsToUsers[userId] ?? User.createUnavailableInstance()
+    }
+
     /// Uploads the specified file data to the server and executes the specified function on completion.
     /// - Parameters:
     ///   - data: The specified file data.
@@ -249,14 +264,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         messages[message.id]?.update(message: message)
     }
 
-    /// Gets the `User` with the specified ID.
-    /// - Parameters:
-    ///  - userId: The specified ID.
-    /// - Returns: The `User` with the specified ID if exists in this `ChatRoom`, or an unavailable `User` otherwise.
-    func getUser(userId: Identifier<User>) -> User {
-        memberIdsToUsers[userId] ?? User.createUnavailableInstance()
-    }
-
     /// Removes the specified `Message` from this `ChatRoom`.
     /// - Parameters:
     ///  - messages: The specified `Message`.
@@ -299,14 +306,6 @@ class ChatRoom: ObservableObject, ChatRoomFacadeDelegate {
         self.name = chatRoom.name
         self.profilePictureUrl = chatRoom.profilePictureUrl
     }
-
-    /// Deletes the specified `Message` from this `ChatRoom`.
-    /// - Parameters:
-    ///  - message: The specified `Message`.
-    func delete(message: Message) {
-        chatRoomFacade?.delete(message)
-    }
-
     // MARK: Private Helper Methods
 
     private func encryptMessageContent(message: Message) -> Data {
